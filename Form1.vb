@@ -6,8 +6,7 @@ Imports mshtml
 Imports OpenQA.Selenium.Firefox
 Imports System.Threading
 Imports System.ComponentModel
-Imports SpeechLib
-Imports Microsoft.ProjectOxford.SpeechRecognition
+
 
 Public Class Form1
     <DllImport("User32.dll")>
@@ -153,7 +152,6 @@ Public Class Form1
     Dim theMonth As String
     Dim theYear As String
     Dim writtenMonth As String
-    Dim srf As SpeechRecognitionServiceFactory
     Dim Au As New AutoItX3Lib.AutoItX3
     Dim vars() As String
     Dim dde As New DdeClient("Firefox", "WWW_GetWindowInfo")
@@ -168,7 +166,7 @@ Public Class Form1
     Dim WithEvents waveOut As New NAudio.Wave.WaveOut()
     Dim WithEvents waveOut2 As New NAudio.Wave.WaveOut()
     Dim SECONDARIES As Boolean
-    Dim CURRENTQUESTION(27) As String
+    Dim CURRENTQUESTION(31) As String
     Dim HOMEOWNER As Boolean = False
     Dim isplaying As Boolean
     Dim INSCO As String
@@ -209,7 +207,6 @@ Public Class Form1
     Dim secondPass As Boolean = False
     Dim PRIMARY_KEY As String = "ce43e8a4d7a844b1be7950b260d6b8bd"
     Dim timeout As Integer = 30000
-    Dim WithEvents m As Microsoft.ProjectOxford.SpeechRecognition.MicrophoneRecognitionClient
     Dim numRepeats As Integer = 0
     Dim Newvar As String = ""
     Dim ParsedInsurance As String
@@ -222,8 +219,8 @@ Public Class Form1
     Dim byear1 As String
     Dim AutoClip As String
     Dim stringArray() As String
-    Dim Years() As String = {"81", "82", "83", "84", "85", "86", "87", "88", "89", "90", "91", "92", "93", "94", "95", "96", "97", "98", "99", "2000", "01",
-                               "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17"}
+    Dim Years() As String = {"81", "82", "83", "84", "85", "86", "87", "88", "89", "90", "91", "92", "93", "94", "95", "96", "97", "98", "99", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007",
+        "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17"}
     Dim whatGotSaid As String = ""
     Dim s As String
     Dim NEWEMAIL As String
@@ -258,7 +255,7 @@ Public Class Form1
 
 
 
-    End Sub
+    End Sub 'Attempts to get Model from Speech returned 
     Public Sub verifyBDay()
 
 
@@ -289,7 +286,7 @@ Public Class Form1
                 txtDOB.Text = bmonth1 & "/" & bday1 & "/" & byear1.Substring(2)
                 Playlist(0) = "C:/Soundboard/Cheryl/Birthday/" & bmonth1 & bday1 & ".mp3"
                 Playlist(1) = "C:/Soundboard/Cheryl/Birthday/" & byear1 & ".mp3"
-
+                isQuestion = True
                 Return True
             Else
                 Return False
@@ -300,7 +297,7 @@ Public Class Form1
         End Try
 
 
-    End Function
+    End Function 'Checks to see if the birthday exists in the autoform so it can verify, if not it returns false to ask
     Function getBDayValues(text As String) As String()
         Dim tempArray() As String = text.Split("/")
         Select Case tempArray(0)
@@ -339,80 +336,74 @@ Public Class Form1
         Return tempArray
     End Function
 
-    Public Sub onChange(sender As Object, e As Microsoft.ProjectOxford.SpeechRecognition.MicrophoneEventArgs) Handles m.OnMicrophoneStatus
-        Recording_status = e.Recording
-        Console.WriteLine("RECORDING: " & e.Recording)
-        Me.BeginInvoke(New Action(AddressOf updateLabel))
 
-    End Sub
     Dim Recording_status As Boolean
     Sub updateLabel()
         lblRecording.Text = "RECORDING: " & Recording_status
     End Sub
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim i As Integer = 0
-        cmbDispo.Text = "Not Available"
-        CURRENTQUESTION(0) = ""
-        CURRENTQUESTION(1) = "Hello"
-        CURRENTQUESTION(2) = CustomerName
-        CURRENTQUESTION(3) = "THIS Is CHERYL"
-        CURRENTQUESTION(4) = "INTRO"
-        CURRENTQUESTION(6) = "Insurance Provider"
-        CURRENTQUESTION(7) = "Insurance Expiration"
-        CURRENTQUESTION(8) = "Insurance Start"
-        CURRENTQUESTION(9) = "Vehicle Year"
-        CURRENTQUESTION(10) = "Vehicle Make"
-        CURRENTQUESTION(11) = "Vehicle Model"
-        CURRENTQUESTION(12) = "Any other vehicles?"
-        CURRENTQUESTION(13) = "DOB"
-        CURRENTQUESTION(14) = "Marital Status"
-        CURRENTQUESTION(15) = "Spouse Name"
-        CURRENTQUESTION(16) = "Spouse DOB"
-        CURRENTQUESTION(17) = "Own/Rent"
-        CURRENTQUESTION(18) = "Home Type"
-        CURRENTQUESTION(19) = "Address"
-        CURRENTQUESTION(20) = "Email"
-        CURRENTQUESTION(21) = "Credit"
-        CURRENTQUESTION(22) = "Phone Type"
-        CURRENTQUESTION(23) = "Spelling of Last Name"
-        CURRENTQUESTION(24) = "Secondaries"
-        CURRENTQUESTION(25) = "YEAR BUILT"
-        CURRENTQUESTION(26) = "SQARE FEET"
-        CURRENTQUESTION(27) = "TCPA"
-        Me.Width = 1378
-        Me.Height = 905
-        Dim DeviceCount As Integer = NAudio.Wave.WaveOut.DeviceCount()
-        Dim SDevice As String = Nothing
-        Dim RDevice As String = Nothing
-        cmbMoreVehicles.SelectedIndex = 0
-        CurrentQ = 1
-        For i = 0 To DeviceCount - 1
-            SDevice = NAudio.Wave.WaveOut.GetCapabilities(i).ProductName
-            Primary.Items.Add(SDevice)
-            Secondary.Items.Add(SDevice)
-        Next
-        Primary.SelectedIndex() = 0
-        deviceNum1 = 0
-        Secondary.SelectedIndex() = 0
-        DeviceNum2 = 0
-        Register()
-        UserList(0) = 11837
-        UserList(1) = 22878
-        UserList(2) = 64539
-        UserList(3) = 15975
-        LoadSpouseNames()
+        Try
+            Dim i As Integer = 0
+            cmbDispo.Text = "Not Available"
+            CURRENTQUESTION(0) = "Hello"
+            CURRENTQUESTION(1) = "Hello"
+            CURRENTQUESTION(2) = CustomerName
+            CURRENTQUESTION(3) = "INTRO/INSURANCE PROVIDER"
+            CURRENTQUESTION(4) = "Insurance Expiration"
+            CURRENTQUESTION(5) = "Insurance Start"
+            CURRENTQUESTION(6) = "How Many Vehicles"
+            CURRENTQUESTION(7) = "Vehicle Year/Make/Model"
+            CURRENTQUESTION(8) = "DOB"
+            CURRENTQUESTION(9) = "Marital Status"
+            CURRENTQUESTION(10) = "Spouse Name"
+            CURRENTQUESTION(13) = "Spouse DOB"
+            CURRENTQUESTION(14) = "Own/Rent"
+            CURRENTQUESTION(15) = "Home Type"
+            CURRENTQUESTION(16) = "Address"
+            CURRENTQUESTION(17) = "Email"
+            CURRENTQUESTION(18) = "Credit"
+            CURRENTQUESTION(19) = "Phone Type"
+            CURRENTQUESTION(20) = "Spelling of Last Name"
+            CURRENTQUESTION(21) = "Secondaries"
+            CURRENTQUESTION(22) = "YEAR BUILT"
+            CURRENTQUESTION(23) = "SQARE FEET"
+            CURRENTQUESTION(24) = "TCPA"
+            CURRENTQUESTION(25) = "TCPA"
+            CURRENTQUESTION(26) = ""
+            CURRENTQUESTION(27) = ""
+            CURRENTQUESTION(28) = ""
+            CURRENTQUESTION(29) = "TCPA"
+            CURRENTQUESTION(30) = "TCPA"
+            CURRENTQUESTION(31) = "DISPO"
 
-        m = SpeechRecognitionServiceFactory.CreateMicrophoneClient(SpeechRecognitionMode.LongDictation, "en-us", "ce43e8a4d7a844b1be7950b260d6b8bd", "0d2797650c8648d18474399744512f17")
+            Me.Width = 1378
+            Me.Height = 905
+            Dim DeviceCount As Integer = NAudio.Wave.WaveOut.DeviceCount()              'Gets The number of audio devices on the machine
+            Dim SDevice As String = Nothing
+            Dim RDevice As String = Nothing
+            cmbMoreVehicles.SelectedIndex = 0
+            CurrentQ = 1
+            For i = 0 To DeviceCount - 1                                            'This loop fills the audiodevices into the primary and secondary audio comboboxes
+                SDevice = NAudio.Wave.WaveOut.GetCapabilities(i).ProductName
+                Primary.Items.Add(SDevice)
+                Secondary.Items.Add(SDevice)
+            Next
+            Primary.SelectedIndex() = 0
+            deviceNum1 = 0
+            Secondary.SelectedIndex() = 0
+            DeviceNum2 = 0
+            Register()
 
+        Catch ex As Exception
+            MsgBox(ex)
+        End Try
 
-
+        tmrAgentStatus.Enabled = True
 
 
     End Sub
-    Dim adm As New AdmRecoOnlyPreferences
-    Public Sub handleError(sender As Object, e As SpeechErrorEventArgs) Handles m.OnConversationError
-        Console.WriteLine("ERROR: " & e.SpeechErrorText)
-    End Sub
+
+
     Public Sub Unregister()
 
         UnregisterHotKey(Me.Handle, 101)
@@ -446,10 +437,9 @@ Public Class Form1
         UnregisterHotKey(Me.Handle, 172)
         UnregisterHotKey(Me.Handle, 173)
 
-    End Sub
+    End Sub                      'Unregisters global hotkeys
     Public Sub RollTheClip(Clip As String)
-        m.EndMicAndRecognition()
-        TmrSilence.Enabled = False
+
         If Clip <> "NULL" Then
 
             waitCheck = 0
@@ -479,7 +469,7 @@ Public Class Form1
             End If
         End If
 
-    End Sub
+    End Sub        'Plays sound clips through whatever audio outs are selected
     Sub SpeechtoVar(speech As String) 'to break up month/year'
         Select Case speech
             Case "January", "Next January", "This January"
@@ -1065,16 +1055,16 @@ Public Class Form1
         Dim X As Integer
         For X = 1 To Years.Length - 1
             If s.Contains(Years(X)) Then
-                If CStr(Years(X)) > 80 And CStr(Years(X)) < 2000 Then
+                If CStr(Years(X)) > 80 And CStr(Years(X)) < 100 Then
                     VYear(VehicleNum) = "19" & Years(X)
                     Exit For
-                ElseIf CStr(Years(X)) = 2000 Then
-                    VYear(VehicleNum) = "2000"
-                    Exit For
-                Else
-
+                ElseIf CStr(Years(X)) > 6 And CStr(Years(X)) < 17 Then
                     VYear(VehicleNum) = "20" & Years(X)
                     Exit For
+                ElseIf CStr(Years(X)) > 1980 And CStr(Years(X)) < 2017 Then
+                    VYear(VehicleNum) = Years(X)
+                    Exit For
+
                 End If
             End If
         Next
@@ -1082,182 +1072,27 @@ Public Class Form1
             If VehicleNum = 1 Then
                 LeadForm.Document.GetElementById("vehicle-year").SetAttribute("value", VYear(VehicleNum))
                 LeadForm.Document.GetElementById("vehicle-year").RaiseEvent("onchange")
+                CurrentQ += 1
 
             Else
                 LeadForm.Document.GetElementById("vehicle" & VehicleNum & "-year").SetAttribute("value", VYear(VehicleNum))
                 LeadForm.Document.GetElementById("vehicle" & VehicleNum & "-year").RaiseEvent("onchange")
-
+                CurrentQ += 1
             End If
         Else
-            RollTheClip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE YEAR.mp3")
             isQuestion = True
-            CurrentQ -= 1
+
         End If
 
 
 
     End Sub 'GETS THE VEHICLE YEAR
     Dim BADINFOCOUNTER As Integer = 0
-    Public Sub getMake(vehiclenum As Integer) 'currentq for this is 8
-        Timer2.Enabled = False
-        speechSkip = True
-        Dim X As Integer
-        Console.WriteLine(s)
-        For X = 1 To MAKELIST.Length - 1
-            If s.Contains(LCase(MAKELIST(X))) Then
-                vMake(vehiclenum) = UCase(MAKELIST(X).Replace(" ", "%20"))
-                Console.WriteLine(vMake(vehiclenum))
-                Exit For
-            End If
-        Next
-        If s.Contains("chevy") Then
-            vMake(vehiclenum) = "CHEVROLET"
-            Console.WriteLine("It's a Chevy")
-        End If
 
-        If vMake(vehiclenum) <> "" Then
 
-            If vehiclenum = 1 Then
-                LeadForm.Document.GetElementById("vehicle-make").SetAttribute("value", vMake(vehiclenum))
-                LeadForm.Document.GetElementById("vehicle-make").RaiseEvent("onchange")
-                speechSkip = True
-                CurrentQ = 9
-                Timer2.Enabled = True
-            Else
-                LeadForm.Document.GetElementById("vehicle" & vehiclenum & "-make").SetAttribute("value", vMake(vehiclenum))
-                LeadForm.Document.GetElementById("vehicle" & vehiclenum & "-make").RaiseEvent("onchange")
-                speechSkip = True
-                CurrentQ = 9
-                Timer2.Enabled = True
-            End If
-
-        Else
-            Console.WriteLine("-----MAKE NOT FOUND-----")
-            Timer2.Enabled = False
-            CurrentQ = 8
-            ModelHolder = s
-            RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\WHO MAKES THAT VEHICLE.MP3")
-            speechSkip = False
-        End If
-
-    End Sub 'GETS THE MAKE OF THE VEHICLE
     Dim ModelHolder As String = ""
-    Public Function getModel(ByRef VehicleNum As Integer) As Boolean
-
-        Timer2.Enabled = False
-        speechSkip = True
-        Dim y As Integer = 0
-        Dim vnumber As String
 
 
-        Select Case VehicleNum
-            Case 1
-                vnumber = "vehicle-model"
-            Case Else
-                vnumber = "vehicle" & VehicleNum & "-model"
-        End Select
-
-        Console.WriteLine(vnumber)
-        Dim modelist(LeadForm.Document.GetElementById(vnumber).GetAttribute("length") - 1) As String
-        Dim x As Integer = 0
-        Console.WriteLine(s)
-        Dim str() As String = temperstring.Split()
-        Dim TEMP As String
-        TEMP = str(str.Length - 1).Substring(0, str(str.Length - 1).Length - 1)
-        str(str.Length - 1) = TEMP
-        Console.WriteLine(str(str.Length - 1))
-        Console.WriteLine(LeadForm.Document.GetElementById(vnumber).GetAttribute("length") - 1)
-        For x = 0 To LeadForm.Document.GetElementById(vnumber).GetAttribute("length") - 1
-            LeadForm.Document.GetElementById(vnumber).SetAttribute("selectedIndex", x)
-            modelist(x) = LCase(LeadForm.Document.GetElementById(vnumber).GetAttribute("value")).Replace("%20", "") 'Creates array of models for that year and make
-            Console.WriteLine(modelist(x))
-
-        Next
-        If str.Length > 1 Then
-            Console.WriteLine("OPTION 1")
-            For x = 0 To modelist.Length - 1
-                Console.WriteLine(x)
-                For y = 0 To str.Length - 1
-                    Console.WriteLine(y)
-                    Console.WriteLine("DOES " & modelist(x) & " CONTAIN:   " & str(y) & "?")
-                    If str(y).Length > 2 Then
-
-                        If modelist(x).Contains(str(y)) Then
-                            LeadForm.Document.GetElementById(vnumber).SetAttribute("selectedIndex", x)
-                            vmodel(VehicleNum) = LeadForm.Document.GetElementById(vnumber).GetAttribute("value")
-                            Console.WriteLine("CAR Is: " & vmodel(VehicleNum))
-                            Exit For
-                        End If
-                    End If
-
-                Next
-                If vmodel(VehicleNum) <> "" Then
-                    Exit For
-                End If
-            Next
-
-        Else
-            Console.WriteLine("OPTION 2")
-            For x = 0 To modelist.Length - 1
-                Console.WriteLine("DOES " & modelist(x) & " CONTAIN:  " & str(0) & "?")
-
-                If modelist(x).Contains(str(0)) Then
-                    LeadForm.Document.GetElementById(vnumber).SetAttribute("selectedIndex", x)
-                    vmodel(VehicleNum) = LeadForm.Document.GetElementById(vnumber).GetAttribute("value")
-
-                    Console.WriteLine("CAR Is: " & vmodel(VehicleNum))
-                    Exit For
-                End If
-            Next
-
-        End If
-        If vmodel(VehicleNum) <> "" Then
-
-            If VehicleNum = 1 Then
-                LeadForm.Document.GetElementById("vehicle-model").SetAttribute("value", vmodel(VehicleNum))
-                LeadForm.Document.GetElementById("vehicle-model").RaiseEvent("onchange")
-                VehicleNum += 1
-                If VehicleNum <= NumberOfVehicles Then
-
-                    Console.WriteLine("on vehicle: " & VehicleNum)
-                    CurrentQ = 7
-                    Timer2.Enabled = True
-                Else
-                    CurrentQ = 10
-                    Timer2.Enabled = True
-                End If
-                Return True
-            Else
-                LeadForm.Document.GetElementById("vehicle" & VehicleNum & "-model").SetAttribute("value", vmodel(VehicleNum))
-                LeadForm.Document.GetElementById("vehicle" & VehicleNum & "-model").RaiseEvent("onchange")
-                VehicleNum += 1
-                If VehicleNum <= NumberOfVehicles Then
-                    CurrentQ = 7
-                    speechSkip = False
-                    Timer2.Enabled = True
-
-                Else
-                    CurrentQ = 10
-                    speechSkip = False
-                    Timer2.Enabled = True
-                End If
-            End If
-            Return True
-        Else
-            Console.WriteLine("-----MODEL NOT FOUND-----")
-            Timer2.Enabled = False
-            CurrentQ = 9
-            ModelHolder = s
-            RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\What is the model of the Car 1.MP3")
-            speechSkip = False
-            m.StartMicAndRecognition()
-            Return False
-        End If
-
-
-
-
-    End Function  'GETS THE MODEL OF THE VEHICLE
 
     Public Sub repeatPlease()
         Console.WriteLine("ASKING TO REPEAT")
@@ -1269,7 +1104,7 @@ Public Class Form1
             Case 1
                 RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\repeatagain.mp3")
                 numRepeats += 1
-            Case 2
+            Case Else
                 CurrentQ += 1
                 numRepeats = 0
         End Select
@@ -1279,7 +1114,7 @@ Public Class Form1
 
     Public Function isMachine()
         Select Case True
-            Case s.Contains("please leave a message"), s.Contains("unable to take your call"), s.Contains("after the beep"), s.Contains("after the tone"), s.Contains("at the tone"), s.Contains("leave your Name")
+            Case s.Contains("leave a message"), s.Contains("unable to take your call"), s.Contains("after the beep"), s.Contains("after the tone"), s.Contains("at the tone"), s.Contains("leave your Name"), s.Contains("mailbox is full")
                 cmbDispo.Text = "Not Available"
                 CurrentQ = 31
                 DispositionCall()
@@ -1289,12 +1124,12 @@ Public Class Form1
 
         End Select
 
-    End Function
+    End Function                       'checks to see if the initial speech received can confirm an answering machine
     Public Function HandlePartObjection() As Boolean
         isQuestion = True
         Part = LCase(Part)
         If Part <> "" Then
-            TmrSilence.Enabled = False
+
             Console.WriteLine("CHECKING AGAINST PARTIAL OBJECTIONS")
             Console.WriteLine(Part)
 
@@ -1306,135 +1141,141 @@ Public Class Form1
                         Timer2.Enabled = True
                         NICount += 1
                         Return True
-                    Case Part.Contains("no vehicle"), Part.Contains("sold the car"), Part.Contains("sold my car"), Part.Contains("no car"), Part.Contains("don't have a vehicle"), Part.Contains("don't") And Part.Contains("have a car"), Part.Contains("don't have an automobile"), Part.Contains("dont't have my own car")
-                                newobjection = False
+                    Case Part.Contains("no vehicle"), Part.Contains("sold the car"), Part.Contains("sold my car"), Part.Contains("no car"), Part.Contains("don't have a vehicle"), Part.Contains("don't") And Part.Contains("have a car"), Part.Contains("don't have an automobile"), Part.Contains("dont't have my own car"), Part.Contains("doesn't have a car"),
+                        newobjection = False
 
-                                Console.WriteLine("THEY DON'T HAVE A CAR")
-                                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/HaveAGoodDay.mp3")
-                                m.EndMicAndRecognition()
-                                cmbDispo.Text = "No Car"
-                                CurrentQ = 31
-                                Timer2.Enabled = True
-                                counter2 = 0
+                        Console.WriteLine("THEY DON'T HAVE A CAR")
+                        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                        cmbDispo.Text = "No Car"
+                        CurrentQ = 31
+                        Timer2.Enabled = True
+                        counter2 = 0
                         Return True
 
 
 
-                    Case Part.Contains("not interested"), Part.Contains("don't need a quote"), Part.Contains("i'm fine"), Part.Contains("not really interested"), Part.Contains("not in arrested"), Part.Contains("that's okay thank you"), Part.Contains("no interest"), Part.Contains("stop calling"), Part.Contains("i'm good"), Part.Contains("all set"), Part.Contains("don't want it"), Part.Contains("not changing"), Part.Contains("i'm happy with"), Part.Contains("very happy"), Part.Contains("no thank you"), Part.Contains("not looking"), Part.Contains("don't wanna change") 'NI
-                        speechSkip = True
+                    Case Part.Contains("not interested"), Part.Contains("don't need a quote"), Part.Contains("i'm fine"), Part.Contains("not really interested"), Part.Contains("not in arrested"), Part.Contains("that's okay thank you"), Part.Contains("no interest"), Part.Contains("stop calling"), Part.Contains("i'm good"), Part.Contains("all set"), Part.Contains("don't want it"), Part.Contains("not changing"), Part.Contains("i'm happy with"), Part.Contains("very happy"), Part.Contains("no thank you"), Part.Contains("not looking"), Part.Contains("don't wanna change"), Part.Contains("no thank you"), Part.Contains("don't need insurance") 'NI
+
                         newobjection = False
                         Console.WriteLine("NOT INTERESTED")
-                                If CurrentQ = 3 Then
-                                    CurrentQ = 0
+                        If CurrentQ = 3 Then
+                            CurrentQ = 0
+                        End If
+
+                        Select Case NICount
+                            Case 0
+                                If counter2 < 2 Then
+                                    Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I COMPLETELY UNDERSTAND.mp3"
+                                    Playlist(1) = ("C:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
+                                    NICount += 1
+                                    counter2 += 1
+                                    If CurrentQ = 3 Then
+                                        CurrentQ = 0
+                                    End If
+                                    tmrObj.Enabled = True
+                                    Return True
+                                Else
+                                    RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                                    cmbDispo.Text = "Not Interested"
+                                    CurrentQ = 31
+                                    Timer2.Enabled = True
                                 End If
 
-                                Select Case NICount
-                                    Case 0
-                                        If counter2 < 2 Then
-                                            Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I COMPLETELY UNDERSTAND.mp3"
-                                            Playlist(1) = ("C:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
-                                            NICount += 1
-                                            counter2 += 1
-                                            If CurrentQ = 3 Then
-                                                CurrentQ = 0
-                                            End If
-                                            tmrObj.Enabled = True
-                                            Return True
-                                        Else
-                                            RollTheClip("C:/Soundboard/Cheryl/WRAPUP/HaveAGoodDay.mp3")
-                                            cmbDispo.Text = "Not Interested"
-                                            CurrentQ = 31
-                                            Timer2.Enabled = True
-                                        End If
+                            Case 1
 
-                                    Case 1
+                                If counter2 < 2 Then
 
-                                        If counter2 < 2 Then
+                                    Playlist(0) = ("C:\SoundBoard\Cheryl\reactions\I get that 3.mp3 ")
+                                    Playlist(1) = ("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL1.mp3")
+                                    numbreps += 1
+                                    If CurrentQ = 3 Then
+                                        CurrentQ = 0
+                                    End If
+                                    counter2 += 1
+                                    tmrObj.Enabled = True
 
-                                            Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I COMPLETELY UNDERSTAND.mp3"
-                                            Playlist(1) = ("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL1.mp3")
-                                            numbreps += 1
-                                            If CurrentQ = 3 Then
-                                                CurrentQ = 0
-                                            End If
-                                            counter2 += 1
-                                            tmrObj.Enabled = True
-
-                                            Return True
-                                        Else
-                                            RollTheClip("C:/Soundboard/Cheryl/WRAPUP/HaveAGoodDay.mp3")
-                                            cmbDispo.Text = "Not Interested"
-                                            CurrentQ = 31
-                                            Timer2.Enabled = True
-                                            counter2 = 0
-                                        End If
-                                    Case Else
-                                        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/HaveAGoodDay.mp3")
-                                        cmbDispo.Text = "Not Interested"
-                                        CurrentQ = 31
-                                        Timer2.Enabled = True
-                                        counter2 = 0
-                                End Select
-
-                            Case Part.Contains("busy"), Part.Contains("at work"), Part.Contains("driving"), Part.Contains("can't talk")
-                                newobjection = False
-
-                                If CurrentQ = 3 Then
-                                    CurrentQ = 0
+                                    Return True
+                                Else
+                                    RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                                    cmbDispo.Text = "Not Interested"
+                                    CurrentQ = 31
+                                    Timer2.Enabled = True
+                                    counter2 = 0
                                 End If
-                                speechSkip = True
-                                Select Case counter
-                                    Case 0
-                                        RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
-                                        Timer2.Enabled = True
-                                        NICount += 1
-                                        Return True
-                                    Case Else
-                                        RollTheClip("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\Im busy.MP3")
-                                        Timer2.Enabled = True
-                                        NICount += 1
-                                        counter = 0
-                                        Return True
-
-                                End Select
-                            Case Part.Contains("wrong number"), Part.Contains("by that name"), Part.Contains("wrong phone number")
-                                newobjection = False
-                        speechSkip = True
-                        RollTheClip("c:\soundboard\cheryl\Rebuttals\SORRY.mp3")
-                                cmbDispo.Text = "Wrong Number"
+                            Case Else
+                                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                                cmbDispo.Text = "Not Interested"
                                 CurrentQ = 31
                                 Timer2.Enabled = True
+                                counter2 = 0
+                        End Select
+
+                    Case Part.Contains("busy"), Part.Contains("at work"), Part.Contains("driving"), Part.Contains("can't talk"), Part.Contains("call me back"), Part.Contains("could you call back"), Part.Contains("call back another time"), Part.Contains("call later"), Part.Contains("working right now")
+                        newobjection = False
+
+                        If CurrentQ = 3 Then
+                            CurrentQ = 0
+                        End If
+
+                        Select Case counter
+                            Case 0
+                                RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
+                                Timer2.Enabled = True
+                                NICount += 1
+                                Return True
+                            Case Else
+                                RollTheClip("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\Im busy.MP3")
+                                Timer2.Enabled = True
+                                NICount += 1
+                                counter = 0
                                 Return True
 
-                            Case Part.Contains("already have"), Part.Contains("have insurance"), Part.Contains("got insurance"), Part.Contains("happy with")
+                        End Select
+                    Case Part.Contains("wrong number"), Part.Contains("by that name"), Part.Contains("wrong phone number")
+                        newobjection = False
+
+                        RollTheClip("c:\soundboard\cheryl\Rebuttals\SORRY.mp3")
+                        cmbDispo.Text = "Wrong Number"
+                        CurrentQ = 31
+                        Timer2.Enabled = True
+                        Return True
+
+                    Case Part.Contains("already have"), Part.Contains("already have insurance"), Part.Contains("already got insurance"), Part.Contains("happy with"), Part.Contains("i have insurance"), Part.Contains("i got insurance")
 
                         RollTheClip("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\i have insurance.mp3")
                         Timer2.Enabled = True
-                                        NICount += 1
-                                        Return True
+                        NICount += 1
+                        Return True
 
 
-                    Case Part.Contains("take me off your list"), Part.Contains("name off your list"), Part.Contains("number off your list"), Part.Contains("take me off"), Part.Contains("take me off your call list"), Part.Contains("no call list"), Part.Contains("take this number off the list"), Part.Contains("do not call list"), Part.Contains("remove me from the list"), Part.Contains("taken off his collar"), Part.Contains("remove me from your calling list")
+                    Case Part.Contains("take me off your list"), Part.Contains("name off your list"), Part.Contains("number off your list"), Part.Contains("take me off"), Part.Contains("take me off your call list"), Part.Contains("no call list"), Part.Contains("take this number off the list"), Part.Contains("do not call list"), Part.Contains("remove me from the list"), Part.Contains("taken off his collar"), Part.Contains("remove me from your calling list"), Part.Contains("call list"), Part.Contains("calling list")
                         newobjection = False
-                        speechSkip = True
+
                         RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\DNC.mp3")
-                                cmbDispo.Text = "Do Not Call"
-                                CurrentQ = 31
-                                Timer2.Enabled = True
-                            Case Else
+                        cmbDispo.Text = "Do Not Call"
+                        CurrentQ = 31
+                        Timer2.Enabled = True
+                    Case Else
 
 
 
-                        End Select
+                End Select
 
+                If CurrentQ = 2 Then
+                    If CheckWhoseTalking2() Then
+                        CurrentQ = 3
 
+                        Timer2.Enabled = True
+                    End If
+                End If
 
             Catch EX As Exception
-                Console.WriteLine(EX)
+                Console.WriteLine("error with objection")
 
             End Try
         End If
-    End Function  'Handles Objection
+        Return False
+    End Function  'Handles Objection from the partial returned speech
     Dim dontKnowCount As Integer = 0
     Public Function HandleObjection(obj As String, ByRef numReps As Integer) As Boolean
         Console.WriteLine("CHECKING AGAINST OBJECTIONS")
@@ -1445,7 +1286,7 @@ Public Class Form1
             Case obj.Contains("no vehicle"), obj.Contains("no car"), obj.Contains("don't have a vehicle"), obj.Contains("don't have a car")
 
                 Console.WriteLine("THEY DON'T HAVE A CAR")
-                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/HaveAGoodDay.mp3")
+                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                 cmbDispo.Text = "No Car"
                 Return True
                 CurrentQ = 31
@@ -1470,9 +1311,10 @@ Public Class Form1
                                 CurrentQ = 0
                             End If
                             tmrObj.Enabled = True
+
                             Return True
                         Else
-                            RollTheClip("C:/Soundboard/Cheryl/WRAPUP/HaveAGoodDay.mp3")
+                            RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                             cmbDispo.Text = "Not Interested"
                             CurrentQ = 31
                             Timer2.Enabled = True
@@ -1482,7 +1324,7 @@ Public Class Form1
 
                         If counter2 < 2 Then
 
-                            Playlist(0) = ("C:\Users\Insurance Express\Downloads\Cheryl Multiple Tones\Cheryl Multiple Tones\If GetType that 1.mp3")
+                            Playlist(0) = ("C:\soundboard\cheryl\reactions\I Get that 1.mp3")
                             Playlist(1) = ("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL1.mp3")
                             numReps += 1
                             If CurrentQ = 3 Then
@@ -1493,14 +1335,14 @@ Public Class Form1
 
                             Return True
                         Else
-                            RollTheClip("C:/Soundboard/Cheryl/WRAPUP/HaveAGoodDay.mp3")
+                            RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                             cmbDispo.Text = "Not Interested"
                             CurrentQ = 31
                             Timer2.Enabled = True
                             counter2 = 0
                         End If
                     Case Else
-                        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/HaveAGoodDay.mp3")
+                        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                         cmbDispo.Text = "Not Interested"
                         CurrentQ = 31
                         Timer2.Enabled = True
@@ -1552,8 +1394,8 @@ Public Class Form1
                 Return False
 
         End Select
-
-    End Function  'Handles Objection
+        Return False
+    End Function  'Handles Objection based on full returned result
     Dim quest As Integer = 1
     Public Function HandleQuestion(obj As String) As Boolean
         Console.WriteLine("CHECKING AGAINST QUESTIONS")
@@ -1608,20 +1450,37 @@ Public Class Form1
     End Function 'Handles Question
     Public Function CheckWhoseTalking() As Boolean
         Select Case True
-            Case s.Contains("this is"), s.Contains("speaking"), s.Contains("you've got him"), s.Contains("you've got her"), s.Contains("yes"), s.Contains("yeah"), s.Contains("what's up?"), s.Contains("how can i help you"), s.Contains("hey"), s.Contains("what do you want"), s.Contains("hello"), s.Contains("hi")
+            Case s.Contains("this is"), s.Contains("speaking"), s.Contains("you've got him"), s.Contains("you've got her"), s.Contains("yes"), s.Contains("yeah"), s.Contains("what's up?"), s.Contains("how can i help you"), s.Contains("hey"), s.Contains("what do you want"), s.Contains("hello"), s.Contains("hi"), s.Contains("his spouse"), s.Contains("her spouse"), s.Contains("his wife"), s.Contains("her husband")
                 Return True
+
             Case s.Contains("not home"), s.Contains("he isn't"), s.Contains("not available"), s.Contains("he's not"), s.Contains(" a message"), s.Contains("he's working"), s.Contains("not here"), s.Contains("not right now")
-                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/HaveAGoodDay.mp3")
+                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                CurrentQ = 31
+                Timer2.Enabled = True
+                Return False
+
+            Case Else
+
+                Return False
+        End Select
+    End Function
+
+
+    Public Function CheckWhoseTalking2() As Boolean
+        Select Case True
+            Case Part.Contains("this is"), Part.Contains("speaking"), Part.Contains("you've got him"), Part.Contains("you've got her"), Part.Contains("yes"), Part.Contains("yeah"), Part.Contains("what's up?"), Part.Contains("how can i help you"), Part.Contains("hey"), Part.Contains("what do you want"), Part.Contains("hello"), Part.Contains("hi")
+                Return True
+            Case Part.Contains("not home"), Part.Contains("he isn't"), Part.Contains("not available"), Part.Contains("he's not"), Part.Contains(" a message"), Part.Contains("he's working"), Part.Contains("not here"), Part.Contains("not right now")
+                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                 CurrentQ = 31
 
                 Timer2.Enabled = True
                 Return False
             Case Else
-                m.StartMicAndRecognition()
+
                 Return False
         End Select
     End Function
-
     Public Function GetBirthday()
         Select Case True
             Case s.Contains("true"), s.Contains("correct"), s.Contains("yes"), s.Contains("you got it"), s.Contains("that's right")
@@ -1631,6 +1490,8 @@ Public Class Form1
         End Select
     End Function
     Dim NumberOfVehicles As Integer = 0
+
+
     Function checkForNumVehicles() As Boolean
         Select Case True
             Case s.Contains("one"), s.Contains("1"), s.Contains("won"), s = "1", s = "1.", s.Contains("just one"), s.Contains("want")
@@ -1656,245 +1517,7 @@ Public Class Form1
 
     End Function
 
-    Public Sub handleResponse()
-        SilenceReps = 0
-        stillthere = 0
-        speechSkip = True
-        dontKnowCount = 0
-        isQuestion = False
-        TmrSilence.Enabled = False
-        stillthere = 0
-        txtSpeech.Text += "STEP: " & CurrentQ & ": " & s & vbNewLine 'ADDS RECEIVED SPEECH TO CUSTOMER SPEECH PANEL
-        Select Case True
-            Case s.Contains("could you repeat that"), s.Contains("what was that"), s.Contains("excuse me")
-                Timer2.Enabled = True
-        End Select
-        Select Case CurrentQ
-            Case 1                                                                                          'STEP 1 - INTRODUCTION
-                If Not isMachine() Then
-                    If My.Computer.FileSystem.FileExists(globalFile2) Then
 
-                        CurrentQ += 1
-                        Timer2.Enabled = True
-                    Else
-                        CurrentQ += 2
-                        Timer2.Enabled = True
-                    End If
-                End If
-
-            Case 2                                                                                          'STEP 2 - IS IT WHO WE ARE LOOKING FOR?
-
-                If CheckWhoseTalking() = True Then
-                    counter = 0
-                    counter2 = 0
-                    CurrentQ += 1
-                    Timer2.Enabled = True
-                Else
-
-                End If
-
-            Case 3                                                                              'STEP 3 INTRO->INSURANCE CARRIER
-                CheckForCompany()
-                If CurrentQ = 4 Then
-                    Console.WriteLine("company is good")
-                    counter = 0
-                    counter2 = 0
-                    RandomHumanism()
-                ElseIf CurrentQ = 6 Then
-                    Console.WriteLine("NO INSURANCE")
-                    counter = 0
-                    counter2 = 0
-                    RollTheClip("c:\soundboard\cheryl\REBUTTALS\That's okay.mp3")
-                    Timer2.Enabled = True
-                End If
-            Case 4 'POLICY EXPIRATION
-
-                checkExpiration()
-                If CurrentQ = 5 Then
-                    counter = 0
-                    counter2 = 0
-                    RandomHumanism()
-                End If
-
-            Case 5 'HOW LONG
-                CheckHowLong()
-                CurrentQ += 1
-                If CurrentQ > 5 Then
-                    counter = 0
-                    counter2 = 0
-                    RandomHumanism()
-                End If
-            Case 6
-                If checkForNumVehicles() Then
-                    CurrentQ += 1
-                    RandomHumanism()
-                Else
-                    RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\only4spots.mp3")
-                    CurrentQ += 1
-                    Timer2.Enabled = True
-                End If
-                Console.WriteLine("HAS " & NumberOfVehicles & " VEHICLES")
-            Case 7 'VEHICLE YEAR
-
-                getYear(VehicleNum)
-                CurrentQ += 1
-                If CurrentQ > 6 Then
-                    counter = 0
-                    counter2 = 0
-                    RandomHumanism()
-                End If
-            Case 8 'VEHICLE MAKE
-                Console.WriteLine("HAS " & NumberOfVehicles & " VEHICLES")
-                getMake(VehicleNum)
-                If CurrentQ > 7 Then
-                    counter = 0
-                End If
-            Case 9 'VEHICLE MODEL
-                Console.WriteLine("HAS " & NumberOfVehicles & " VEHICLES")
-                Console.WriteLine("STEP 8: " & s)
-
-                If getModel(VehicleNum) Then
-                    CurrentQ += 1
-                    If CurrentQ > 8 Then
-                        counter = 0
-                    End If
-                End If
-            Case 10
-
-                If getBirthdaWAV() Then
-                    If GetBirthday() Then
-                        CurrentQ = 11
-                        RandomHumanism()
-                    Else
-                        repeatPlease()
-                    End If
-                Else
-                    spouseBDAY = getSpouseBDAY(False)
-                    RandomHumanism()
-                End If
-
-
-            Case 11
-                If HandleQuestion(s) = False And HandleObjection(s, NICount) = False Then
-                    checkMaritalStatus()
-                    Select Case maritalStatus
-                        Case "Married"
-                            CurrentQ = 12
-                            RandomHumanism()
-                        Case "Widowed"
-                            CurrentQ = 15
-                            RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\Sorry to hear that 2.mp3")
-                            Timer2.Enabled = True
-                        Case "Single"
-                            CurrentQ = 15
-                            RollTheClip("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\ready to mingle.mp3")
-                            Timer2.Enabled = True
-                        Case "Divorced", "Separated", "Domestic Partner"
-                            CurrentQ = 15
-                            Timer2.Enabled = True
-                        Case Else
-                            repeatPlease()
-                    End Select
-                Else
-
-                End If
-
-            Case 12
-                If HandleQuestion(s) = False And HandleObjection(s, NICount) = False Then
-                    If checkForSpouseName() Then
-                        CurrentQ = 13
-                        RandomHumanism()
-                    End If
-                End If
-            Case 13
-                If HandleQuestion(s) = False And HandleObjection(s, NICount) = False Then
-                    spouseBDAY = getSpouseBDAY(True)
-                    RandomHumanism()
-                End If
-
-            Case 14
-                If HandleQuestion(s) = False And HandleObjection(s, NICount) = False Then
-                    If custBday Then
-                        If finalizeSpouseBDay(False) Then
-                            RandomHumanism()
-                        Else
-                            CurrentQ = 10
-                            repeatPlease()
-                            Timer2.Enabled = True
-                        End If
-                        custBday = False
-
-                    Else
-                        If finalizeSpouseBDay(True) Then
-                            CurrentQ = 15
-                            RandomHumanism()
-                        Else
-                            CurrentQ = 13
-                            repeatPlease()
-                            Timer2.Enabled = True
-                        End If
-                    End If
-                End If
-            Case 15
-                If HandleQuestion(s) = False And HandleObjection(s, NICount) = False Then
-                    If getHomeType() Then
-                        CurrentQ += 1
-                        RandomHumanism()
-                    End If
-                End If
-            Case 16
-                If HandleQuestion(s) = False And HandleObjection(s, NICount) = False Then
-                    If getResType() Then
-                        CurrentQ += 1
-                        RandomHumanism()
-                    End If
-                End If
-            Case 17
-                If HandleQuestion(s) = False And HandleObjection(s, NICount) = False Then
-                    getAddressNum()
-                    CurrentQ += 1
-                    RandomHumanism()
-
-                End If
-            Case 18
-                If HandleQuestion(s) = False And HandleObjection(s, NICount) = False Then
-                    finalizeAddress()
-                    CurrentQ += 1
-                    RandomHumanism()
-                End If
-            Case 19
-                If HandleQuestion(s) = False And HandleObjection(s, NICount) = False Then
-                    getEmail()
-                    CurrentQ += 2
-                    RandomHumanism()
-                End If
-
-            Case 21
-                If HandleQuestion(s) = False And HandleObjection(s, NICount) = False Then
-                    HandleCredit()
-                    CurrentQ += 1
-                    RandomHumanism()
-                End If
-            Case 22
-                If HandleQuestion(s) = False And HandleObjection(s, NICount) = False Then
-                    HandlePhoneType()
-                    CurrentQ += 1
-                    RandomHumanism()
-                End If
-            Case 23
-                If HandleQuestion(s) = False And HandleObjection(s, NICount) = False Then
-                    HandleLastName()
-                    CurrentQ += 6
-                    RandomHumanism()
-                End If
-            Case 29
-                handleTCPA()
-
-
-        End Select
-
-
-    End Sub  'MAIN SPEECH DECISION SUBROUTINE (PASSES OFF BASED ON CONTEXT) 
     Public Sub handleTCPA()
         Select Case True
             Case s.Contains("yes"), s.Contains("sure"), s.Contains("okay"), s.Contains("ok"), s.Contains("sounds good"), s.Contains("affirmative"), s.Contains("alright")
@@ -1903,7 +1526,7 @@ Public Class Form1
                 RollTheClip("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
                 Timer2.Enabled = True
             Case Else
-                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/HaveAGoodDay.mp3")
+                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                 cmbDispo.Text = "Lost On Wrap Up"
                 CurrentQ = 31
                 RollTheClip("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
@@ -1965,7 +1588,7 @@ Public Class Form1
                 x = x + 1
             Loop
         Catch ex As Exception
-            Console.WriteLine(ex)
+            Console.WriteLine("Problem with address")
         End Try
         If NewAddress <> "" Then
             Return True
@@ -2035,7 +1658,7 @@ Public Class Form1
         Next
         Console.WriteLine(str)
         If Not isspouse Then
-            custBDay = True
+            custBday = True
         End If
         CurrentQ = 14
         Return str
@@ -2131,22 +1754,29 @@ Public Class Form1
     End Function
 
     Sub LoadSpouseNames()
-        Dim x As Integer = 1
+        Try
+            Dim x As Integer = 1
 
-        Dim LastName As String = ""
-        Dim tempName As String = ""
-        For Each foundFile As String In My.Computer.FileSystem.GetFiles("C:/SoundBoard/Cheryl/Names/")
-            tempName = LCase(foundFile.Replace(".mp3", ""))
-            tempName = tempName.Replace("c:\soundboard\cheryl\names\", "")
-            tempName = tempName.Replace(" 1", "")
-            tempName = tempName.Replace(" 2", "")
-            tempName = tempName.Replace(" 3", "")
-            If Not Names.Contains(tempName) Then
-                Names.Add(tempName)
-                Console.WriteLine(x & ": " & tempName)
-                x += 1
-            End If
-        Next
+            Dim LastName As String = ""
+            Dim tempName As String = ""
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles("C:/SoundBoard/Cheryl/Names/")
+                tempName = LCase(foundFile.Replace(".mp3", ""))
+                tempName = tempName.Replace("c:\soundboard\cheryl\names\", "")
+                tempName = tempName.Replace(" 1", "")
+                tempName = tempName.Replace(" 2", "")
+                tempName = tempName.Replace(" 3", "")
+                If Not Names.Contains(tempName) Then
+                    Names.Add(tempName)
+                    Console.WriteLine(x & ": " & tempName)
+
+                    x += 1
+                End If
+            Next
+        Catch ex As Exception
+
+        End Try
+
+
     End Sub
 
     Public Function checkForSpouseName()
@@ -2213,7 +1843,7 @@ Public Class Form1
         End If
 
         Select Case True
-            Case s.Contains("none"), s.Contains("don't have insurance"), s.Contains("don't got insurance"), s.Contains("got no insurance"), s.Contains("nobody"), s.Contains("no one")
+            Case s.Contains("none"), s.Contains("don't have insurance"), s.Contains("don't got insurance"), s.Contains("got no insurance"), s.Contains("nobody"), s.Contains("no one"), s.Contains("don't have an insurance company")
                 IProvider = "None"
                 LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
                 LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
@@ -2577,7 +2207,7 @@ Public Class Form1
                 End If
 
         End Select
-
+        HandleObjection(s, NICount)
     End Sub
     Public Sub RandomHumanism()
         isQuestion = False
@@ -2950,10 +2580,10 @@ Public Class Form1
                     numRepeats += 1
                     isQuestion = True
                 Else
+                    isQuestion = True
 
-                    LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", Now.Month + 6)
-                    LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", Now.Year)
-                    CurrentQ = 5
+
+
                 End If
         End Select
         If theYear <> "" Then
@@ -3012,47 +2642,16 @@ Public Class Form1
             Case Else
 
                 repeatPlease()
+
         End Select
 
         LeadForm.Document.GetElementById("frmPolicyStart_Month").SetAttribute("value", CStr(theMonth))
         LeadForm.Document.GetElementById("frmPolicyStart_Year").SetAttribute("value", CStr(theYear))
     End Sub
 
-    Dim speechSkip As Boolean = False
-
-    Public Sub GotSpeech(ByVal sender As Object, ByVal e As Microsoft.ProjectOxford.SpeechRecognition.SpeechResponseEventArgs) Handles m.OnResponseReceived
-        Console.WriteLine(speechSkip)
-        If Not speechSkip Then
-            If e.PhraseResponse.Results.Length > 0 Then
-
-                s = LCase(e.PhraseResponse.Results(0).DisplayText)
-                Part = ""
-                Console.WriteLine(s)
-                Me.BeginInvoke(New Action(AddressOf handleResponse))
-            Else
-
-            End If
-        Else
-
-        End If
-
-
-
-    End Sub
-
     Dim newobjection As Boolean = False
     Dim Part As String = ""
-    Public Sub SomeSpeech(ByVal sender As Object, ByVal e As Microsoft.ProjectOxford.SpeechRecognition.PartialSpeechResponseEventArgs) Handles m.OnPartialResponseReceived
-        stillthere = 0
-        Part = e.PartialResult
-        If Part <> "" Then
-            If NewObjection = True Then
-                Me.BeginInvoke(New Action(AddressOf HandlePartObjection))
-                Me.BeginInvoke(New Action(AddressOf handlepartquestion))
-            End If
-        End If
-        Console.WriteLine(e.PartialResult)
-    End Sub
+
     Sub handlepartquestion()
         Console.WriteLine("CHECKING AGAINST PARTIAL QUESTIONS")
         Console.WriteLine("reps: " & quest)
@@ -3069,7 +2668,7 @@ Public Class Form1
                             Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
                             quest = 1
                     End Select
-                    speechSkip = True
+
                     If CurrentQ = 3 Then
                         CurrentQ = 0
                     End If
@@ -3096,7 +2695,7 @@ Public Class Form1
                             Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
                             quest = 1
                     End Select
-                    speechSkip = True
+
                     If CurrentQ = 3 Then
                         CurrentQ = 0
                     End If
@@ -3112,7 +2711,7 @@ Public Class Form1
                             Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
                             quest = 1
                     End Select
-                    speechSkip = True
+
                     If CurrentQ = 3 Then
                         CurrentQ = 0
                     End If
@@ -3130,7 +2729,7 @@ Public Class Form1
                             quest = 1
                     End Select
                     Playlist(1) = "c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3"
-                    speechSkip = True
+
                     tmrObj.Enabled = True
 
                 Case Part.Contains("how did you get my info"), Part.Contains("where did you get my info")
@@ -3143,17 +2742,17 @@ Public Class Form1
                             quest = 1
                     End Select
                     Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3"
-                    speechSkip = True
+
                     tmrObj.Enabled = True
 
 
             End Select
         Catch ex As Exception
-            Console.WriteLine(ex)
+            Console.WriteLine("problem with part question")
         End Try
 
 
-    End Sub
+    End Sub 'Checks for questions in the partial speech variable (part) handles them if found
 
     Sub ParseAddress(speech As String)
         NewAddress = ""
@@ -3174,8 +2773,8 @@ Public Class Form1
         waveOut.Dispose()
         waveOut2.Dispose()
         newobjection = True
-        m.StartMicAndRecognition()
-    End Sub
+
+    End Sub 'Stops clip and listens
 
     <DllImport("User32")> Private Shared Function ShowWindow(ByVal hwnd As Integer, ByVal nCmdShow As Integer) As Integer
 
@@ -3221,7 +2820,7 @@ Public Class Form1
         RegisterHotKey(Me.Handle, 173, MOD_CONTROL, Keys.E)
 
 
-    End Sub
+    End Sub      'Registers hotkeys
     Public Sub AgeFromProg()
         Try
 
@@ -3354,514 +2953,10 @@ Public Class Form1
                 Case "169"
                     StopThatClip()
                 Case "170"                   'RIGHT ARROW
-                    Reset()
 
-redo:
-                    Select Case CurrentQ
-                        Case 1
+                    CurrentQ += 1
+                    AskQuestion(CurrentQ, counter)
 
-                            cmbDispo.Text = "Not Available"
-                            tbCallOrder.SelectedTab = tbIntro
-                            If My.Computer.FileSystem.FileExists(globalFile2) Then
-                                lblQuestion.Text = CustName(0)
-                            Else
-                                lblQuestion.Text = "This is..."
-                            End If
-                            RollTheClip("c:\soundboard\cheryl\INTRO\HELLO.mp3")
-                            CurrentQ = CurrentQ + 1
-                        Case 2
-                            cmbDispo.Text = "Not Available"
-                            tbCallOrder.SelectedTab = tbIntro
-                            Try
-                                RollTheClip(globalFile2)
-                                CurrentQ = CurrentQ + 2
-                                lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                            Catch
-                                RollTheClip("c:\soundboard\cheryl\INTRO\Opener 2.mp3")
-                                CurrentQ = CurrentQ + 3
-                                lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                            End Try
-
-                        Case 3
-                            cmbDispo.Text = "Not Available"
-                            tbCallOrder.SelectedTab = tbIntro
-                            RollTheClip("c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3")
-                            CurrentQ = CurrentQ + 1
-                            lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-
-                        Case 4
-                            cmbDispo.Text = "Not Available"
-                            tbCallOrder.SelectedTab = tbIntro
-                            RollTheClip("c:\soundboard\cheryl\INTRO\Opener 2.mp3")
-                            CurrentQ = CurrentQ + 1
-                            lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                        Case 5
-                            cmbDispo.Text = "Not Interested"
-                            tbCallOrder.SelectedTab = tbInsuranceInfo
-
-                            CurrentQ = CurrentQ + 1
-                            If AUTOASSIST.Checked = True Then
-
-                            End If
-                            If introBday = False Then
-                                If getBirthdaWAV() = True Then
-                                    tbCallOrder.SelectedTab = tbDriverInfo
-                                    LeadForm.Document.GetElementById("frmDOB_Month").Focus()
-                                    CurrentQ = 12
-                                    introBday = True
-                                    Timer6.Enabled = True
-                                Else
-                                    RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\WHO Is THE CURRENT AUTO INSURANCE COMPANY THAT YOU'RE WITH.mp3")
-                                    lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                                    Try
-                                        LeadForm.Document.GetElementById("frmInsuranceCarrier").Focus()
-                                    Catch
-                                    End Try
-
-                                End If
-                            Else
-
-                                RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\WHO Is THE CURRENT AUTO INSURANCE COMPANY THAT YOU'RE WITH.mp3")
-                                lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                                Try
-                                    LeadForm.Document.GetElementById("frmInsuranceCarrier").Focus()
-                                Catch
-                                End Try
-                            End If
-
-                        Case 6
-                            insurancePass = True
-                            cmbDispo.Text = "Not Interested"
-                            Try
-                                If LeadForm.Document.GetElementById("frmInsuranceCarrier").GetAttribute("value") <> "None" Then
-                                    InsuranceCarrier = txtInsuranceProvider.Text
-                                    Console.WriteLine(" ThenHAS: " & InsuranceCarrier)
-                                    CurrentQ = CurrentQ + 1
-                                    RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\EXPIRATION.mp3")
-                                    If AUTOASSIST.Checked = True Then
-
-                                    End If
-                                    lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                                    LeadForm.Document.GetElementById("frmPolicyExpires_Month").Focus()
-
-                                Else
-                                    cmbDispo.Text = "Not Interested"
-                                    CurrentQ = CurrentQ + 3
-                                    If AUTOASSIST.Checked = True Then
-
-                                    End If
-
-                                    results.Text = results.Text & vbNewLine & " HAS NO INSURANCE"
-                                    InsuranceCarrier = "No Current Insurance"
-                                    RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\YMMYV.mp3")
-                                    tbCallOrder.SelectedTab = tbVehicleInfo
-                                    LeadForm.Document.GetElementById("vehicle-year").Focus()
-                                    CurrentQ = 10
-
-
-
-                                    lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                                    txtAddress.Text = LeadForm.Document.GetElementById("frmAddress").GetAttribute("value") & " " & LeadForm.Document.GetElementById("frmPostalCode").GetAttribute("value")
-                                    txtEmail.Text = LeadForm.Document.GetElementById("frmEmailAddress").GetAttribute("value")
-                                End If
-                            Catch
-                            End Try
-                        Case 7
-                            cmbDispo.Text = "Not Interested"
-                            CurrentQ = CurrentQ + 1
-                            If AUTOASSIST.Checked = True Then
-
-                            End If
-                            results.Text += vbNewLine & CustName(0) & " " & CustName(1)
-                            results.Text += vbNewLine & "INSURANCE PROVIDER " & txtInsuranceProvider.Text
-                            results.Text += vbNewLine & "------EXPIRING " & txtPolicyExpiration.Text
-                            If txtPolicyExpiration.Text.Split().Length > 1 Then
-                                Expiration = txtPolicyExpiration.Text.Split
-                                Console.WriteLine(" POLICY EXPIRES " & Expiration(0) & " " & Expiration(1))
-                            Else
-                                Expiration(0) = txtPolicyExpiration.Text
-                                Expiration(1) = CStr(Today.Year)
-                                Console.WriteLine(" POLICY EXPIRES " & Expiration(0) & " " & Expiration(1))
-                            End If
-                            RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\HOW MANY YEARS HAVE YOU BEEN WITH THEM 2.mp3")
-
-                            LeadForm.Document.GetElementById("frmPolicyStart_Month").Focus()
-                            lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-
-                        Case 8
-                            cmbDispo.Text = "Not Interested"
-                            results.Text += vbNewLine & "------BEEN WITH THEM " & txtPolicyStart.Text
-                            Start(0) = Expiration(0)
-                            Try
-                                Start(1) = CStr(Today.Year - CInt(txtPolicyStart.Text))
-                                Console.WriteLine(" POLICY STARTED " & Start(0) & " " & Start(1))
-                            Catch
-                            End Try
-
-                            tbCallOrder.SelectedTab = tbVehicleInfo
-                            CurrentQ = CurrentQ + 2
-                            If AUTOASSIST.Checked = True Then
-
-                            End If
-                            txtYMM.Focus()
-
-                            lblQuestion.Text = "Are there any other vehicles?"
-                            tbCallOrder.SelectedTab = tbVehicleInfo
-                            RollTheClip("c:\SoundBoard\Cheryl\VEHICLE INFO\YMMYV.mp3")
-                            LeadForm.Document.GetElementById("vehicle-year").Focus()
-                            CurrentQ = 10
-                            Try
-                                txtAddress.Text = LeadForm.Document.GetElementById("frmAddress").GetAttribute("value") & " " & LeadForm.Document.GetElementById("frmPostalCode").GetAttribute("value")
-                                txtEmail.Text = LeadForm.Document.GetElementById("frmEmailAddress").GetAttribute("value")
-
-                            Catch
-                            End Try
-
-
-                        Case 9
-                            cmbDispo.Text = "Not Interested"
-                            CurrentQ += 1
-                            tbCallOrder.SelectedTab = tbVehicleInfo
-
-                            If AUTOASSIST.Checked = True Then
-
-                            End If
-                            txtYMM.Focus()
-                            lblQuestion.Text = "Are there any other vehicles?"
-
-                            RollTheClip("c:\SoundBoard\Cheryl\VEHICLE INFO\YMMTV.mp3")
-                            Try
-                                LeadForm.Document.GetElementById("vehicle" & VehicleNum & "-year").Focus()
-                            Catch
-                            End Try
-
-                        Case 10
-                            cmbDispo.Text = "Not Interested"
-                            CurrentQ = CurrentQ + 1
-                            If AUTOASSIST.Checked = True Then
-
-                            End If
-                            results.Text += vbNewLine & "VEHICLE " & txtYMM.Text
-                            RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\OTHER VEHICLES ON THAT POLICY.mp3")
-                            cmbMoreVehicles.Focus()
-                            lblQuestion.Text = "Year/Make/model Or DOB"
-                            cmbMoreVehicles.SelectedIndex = 0
-                            lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                        Case 11
-                            cmbDispo.Text = "Not Interested"
-                            CurrentQ = CurrentQ + 1
-                            If AUTOASSIST.Checked = True Then
-
-                            End If
-                            lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                            If cmbMoreVehicles.Text = "YES" Then
-                                CurrentQ = 9
-                                VehicleNum += 1
-                                GoTo redo
-                            Else
-                                CurrentQ = 12
-                                insurancePass = True
-                                GoTo redo
-                            End If
-                        Case 12
-                            cmbDispo.Text = "Not Interested"
-                            CurrentQ = CurrentQ + 1
-                            tbCallOrder.SelectedTab = tbDriverInfo
-                            If AUTOASSIST.Checked = True Then
-
-                            End If
-                            If introBday = False Then
-
-                                If getBirthdaWAV() = True Then
-                                    introBday = True
-                                    Timer6.Enabled = True
-
-                                Else
-
-                                    RollTheClip("c:\soundboard\cheryl\DRIVER INFO\JUST ABOUT DONE DOB.mp3")
-                                    LeadForm.Document.GetElementById("frmDOB_Month").Focus()
-
-                                End If
-
-
-                            Else
-                                If insurancePass = False Then
-                                    CurrentQ = 5
-                                    GoTo redo
-                                Else
-                                    CurrentQ = 13
-                                    GoTo redo
-                                End If
-                            End If
-
-
-                            lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                        Case 13
-                            cmbDispo.Text = "Not Interested"
-                            tbCallOrder.SelectedTab = tbDriverInfo
-                            CurrentQ = CurrentQ + 1
-                            If AUTOASSIST.Checked = True Then
-
-                            End If
-
-                            RollTheClip("c:\soundboard\cheryl\DRIVER INFO\MARITAL STATUS.mp3")
-
-                            LeadForm.Document.GetElementById("frmMaritalStatus").Focus()
-
-                            lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                        Case 14
-                            cmbDispo.Text = "Not Interested"
-                            tbCallOrder.SelectedTab = tbDriverInfo
-                            If LeadForm.Document.GetElementById("frmMaritalStatus").GetAttribute("value") <> "Married" Then
-                                CurrentQ = CurrentQ + 3
-                                results.Text += vbNewLine & "DOB " & txtDOB.Text & vbNewLine & "MARITAL STATUS: " & cmbMaritalStatus.Text
-                                stringArray = getBDayValues(txtDOB.Text)
-                                RollTheClip("c:\soundboard\cheryl\PERSONAL INFO\DO YOU OWN Or RENT THE HOME.mp3")
-                                tbCallOrder.SelectedTab = tbPersonalInfo
-                                LeadForm.Document.GetElementById("frmResidenceType").Focus()
-                                lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                            Else
-                                cmbDispo.Text = "Not Interested"
-                                results.Text += vbNewLine & "DOB " & txtDOB.Text & vbNewLine & "MARITAL STATUS: " & cmbMaritalStatus.Text
-                                stringArray = getBDayValues(txtDOB.Text)
-                                CurrentQ = CurrentQ + 1
-                                If AUTOASSIST.Checked = True Then
-
-                                End If
-                                RollTheClip("c:\soundboard\cheryl\DRIVER INFO\SPOUSES FIRST NAME.mp3")
-                                LeadForm.Document.GetElementById("frmSpouseFirstName").Focus()
-                                lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                            End If
-                        Case 15
-                            cmbDispo.Text = "Not Interested"
-                            results.Text += vbNewLine & "SPOUSES NAME " & txtSPOUSENAME.Text
-                            tbCallOrder.SelectedTab = tbDriverInfo
-                            CurrentQ = CurrentQ + 1
-                            If AUTOASSIST.Checked = True Then
-
-                            End If
-                            RollTheClip("c:\soundboard\cheryl\DRIVER INFO\SPOUSES DATE OF BIRTH.mp3")
-                            LeadForm.Document.GetElementById("frmSpouseDOB_Month").Focus()
-                            lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-
-                        Case 16
-                            cmbDispo.Text = "Not Interested"
-                            If cmbMaritalStatus.Text = "MARRIED" Then
-                                results.Text += vbNewLine & "SPOUSES DOB " & txtSPOUSEDOB.Text
-                                stringarray2 = getBDayValues(txtSPOUSEDOB.Text)
-
-                            End If
-                            CurrentQ = CurrentQ + 1
-                            If AUTOASSIST.Checked = True Then
-
-                            End If
-                            tbCallOrder.SelectedTab = tbPersonalInfo
-
-                            RollTheClip("c:\soundboard\cheryl\PERSONAL INFO\DO YOU OWN Or RENT THE HOME.mp3")
-                            LeadForm.Document.GetElementById("frmResidenceType").Focus()
-                            lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-
-
-                        Case 17
-                            cmbDispo.Text = "Not Interested"
-                            tbCallOrder.SelectedTab = tbPersonalInfo
-                            If LeadForm.Document.GetElementById("frmResidenceType").GetAttribute("value") = "Own" Or LeadForm.Document.GetElementById("frmResidenceType").GetAttribute("value") = "Rent" Then
-                                CurrentQ = CurrentQ + 1
-                                If AUTOASSIST.Checked = True Then
-
-                                End If
-                                RollTheClip("c:\soundboard\cheryl\PERSONAL INFO\HOMETYPE.mp3")
-                                LeadForm.Document.GetElementById("frmDwellingType").Focus()
-                                lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                                results.Text = results.Text & vbNewLine & "OWNS HOME"
-                            Else
-                                CurrentQ = CurrentQ + 2
-                                If AUTOASSIST.Checked = True Then
-
-                                End If
-                                RollTheClip("c:\SoundBoard\Cheryl\REACTIONS\could you please verify your address.mp3")
-                                results.Text = results.Text & vbNewLine & "RENTS HOME"
-                                lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                                LeadForm.Document.GetElementById("frmAddress").Focus()
-                                lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                            End If
-
-
-                        Case 18
-                            cmbDispo.Text = "Not Interested"
-                            tbCallOrder.SelectedTab = tbPersonalInfo
-                            CurrentQ = CurrentQ + 1
-                            If AUTOASSIST.Checked = True Then
-
-                            End If
-                            RollTheClip("c:\SoundBoard\Cheryl\REACTIONS\Could you please verify your address.mp3")
-                            LeadForm.Document.GetElementById("frmAddress").Focus()
-                            lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-
-                        Case 19
-                            cmbDispo.Text = "Not Interested"
-                            CurrentQ = CurrentQ + 1
-                            If AUTOASSIST.Checked = True Then
-
-                            End If
-                            RollTheClip("c:\SoundBoard\Cheryl\PERSONAL INFO\email.mp3")
-                            LeadForm.Document.GetElementById("frmEmailAddress").Focus()
-                            lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-
-
-                        Case 20
-                            cmbDispo.Text = "Not Interested"
-                            tbCallOrder.SelectedTab = tbPersonalInfo
-                            CurrentQ = CurrentQ + 1
-                            If AUTOASSIST.Checked = True Then
-
-                            End If
-                            cmbCredit.Focus()
-                            RollTheClip("c:\soundboard\cheryl\PERSONAL INFO\Credit.mp3")
-                            LeadForm.Document.GetElementById("frmCreditRating").Focus()
-
-                            lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                        Case 21
-                            cmbDispo.Text = "Not Interested"
-                            tbCallOrder.SelectedTab = tbPersonalInfo
-                            CurrentQ = CurrentQ + 1
-                            If AUTOASSIST.Checked = True Then
-
-                            End If
-                            RollTheClip("c:\soundboard\cheryl\PERSONAL INFO\PhoneType.mp3")
-                            LeadForm.Document.GetElementById("frmPhoneType1").Focus()
-                            lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                        Case 22
-                            cmbDispo.Text = "Not Interested"
-                            tbCallOrder.SelectedTab = tbPersonalInfo
-                            CurrentQ = CurrentQ + 1
-                            If AUTOASSIST.Checked = True Then
-
-                            End If
-                            RollTheClip("c:\soundboard\cheryl\PERSONAL INFO\LAST NAME.mp3")
-                            LeadForm.Document.GetElementById("frmLastName").Focus()
-                            lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                            AgeFromProg()
-                        Case 23
-
-                            CurrentQ = CurrentQ + 1
-                            tbCallOrder.SelectedTab = tbWrapup
-                            If LeadForm.Document.GetElementById("frmResidenceType").GetAttribute("value") = "Own" Then
-                                HomeCheck.Visible = True
-                                RenterCheck.Visible = False
-
-                            ElseIf LeadForm.Document.GetElementById("frmResidenceType").GetAttribute("value") = "Rent" Then
-                                RenterCheck.Visible = True
-                                HomeCheck.Visible = False
-                            End If
-                            If LifeCheck.Visible = True And HomeCheck.Visible = True And MedicareCheck.Visible = True Then
-                                RollTheClip("c:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Home life medicare.mp3")
-                            ElseIf LifeCheck.Visible = True And HomeCheck.Visible = True And HealthCheck.Visible = True Then
-                                RollTheClip("c:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Home Life And Health.mp3")
-                            ElseIf LifeCheck.Visible = False And HomeCheck.Visible = True And MedicareCheck.Visible = True Then
-                                RollTheClip("c:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Life And Medicare.mp3")
-                            ElseIf LifeCheck.Visible = False And HomeCheck.Visible = True And HealthCheck.Visible = True Then
-                                RollTheClip("c:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Life And Health.mp3")
-                            ElseIf LifeCheck.Visible = True And RenterCheck.Visible = True And MedicareCheck.Visible = True Then
-                                RollTheClip("c:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Rental Life Medicare.mp3")
-                            ElseIf LifeCheck.Enabled = True And RenterCheck.Visible = True And HealthCheck.Visible = True Then
-                                RollTheClip("c:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Renters Health And Life.mp3")
-                            ElseIf LifeCheck.Enabled = False And RenterCheck.Visible = True And MedicareCheck.Visible = True Then
-                                RollTheClip("c:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Rental And Medicare.mp3")
-                            ElseIf LifeCheck.Enabled = False And RenterCheck.Visible = True And HealthCheck.Visible = True Then
-                                RollTheClip("c:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Renters Health.mp3")
-                            ElseIf LifeCheck.Visible = True And HomeCheck.Visible = False And RenterCheck.Visible = False And MedicareCheck.Visible = True Then
-                                RollTheClip("c:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Life And Medicare.mp3")
-                            ElseIf LifeCheck.Visible = True And HomeCheck.Visible = False And RenterCheck.Visible = False And HealthCheck.Visible = True Then
-                                RollTheClip("c:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Life And Health.mp3")
-                            ElseIf LifeCheck.Visible = False And RenterCheck.Visible = False And HomeCheck.Visible = False And MedicareCheck.Visible = True Then
-                                RollTheClip("c:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Medicare.mp3")
-                            ElseIf LifeCheck.Visible = False And RenterCheck.Visible = False And HomeCheck.Visible = False And HealthCheck.Visible = True Then
-                                RollTheClip("c:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Health.mp3")
-                            End If
-                            lblQuestion.Text = "TCPA"
-                            cmbSecondaries.Focus()
-
-                        Case 24
-                            tbCallOrder.SelectedTab = tbWrapup
-
-
-                            If cmbSecondaries.Text = "YES" Then
-                                If HealthCheck.Checked Then
-                                    results.Text += "HOMEOWNERS INSURANCE"
-                                ElseIf MedicareCheck.Checked = True Then
-                                    results.Text += "MEDICARE INSURANCE"
-                                End If
-                                If LifeCheck.Checked Then
-                                    results.Text += "MEDICARE INSURANCE"
-                                End If
-
-                                If HomeCheck.Checked = True Then
-                                    YEARBUILT.Visible = True
-                                    txtYearBuilt.Visible = True
-                                    SQFT.Visible = True
-                                    SQFT.Text = "SQFT"
-                                    RollTheClip("c:\soundboard\cheryl\WRAPUP\YEARBUILT.mp3")
-                                    txtYearBuilt.Focus()
-                                    CurrentQ = CurrentQ + 1
-
-                                    results.Text += "HOMEOWNERS INSURANCE"
-
-                                ElseIf RenterCheck.Checked = True Then
-                                    YEARBUILT.Visible = True
-                                    SQFT.Visible = True
-                                    txtYearBuilt.Visible = True
-                                    SQFT.Text = "PP COV."
-                                    RollTheClip("c:\soundboard\cheryl\WRAPUP\YEARBUILT.mp3")
-                                    txtYearBuilt.Focus()
-                                    CurrentQ = CurrentQ + 1
-
-                                Else
-                                    cmbTCPA.Focus()
-                                    RollTheClip("c:\soundboard\cheryl\WRAPUP\TCPA.mp3")
-                                    CurrentQ = CurrentQ + 4
-                                End If
-                            Else
-                                cmbTCPA.Focus()
-                                RollTheClip("c:\soundboard\cheryl\WRAPUP\TCPA.mp3")
-                                CurrentQ = CurrentQ + 4
-                            End If
-                        Case 25
-
-                            tbCallOrder.SelectedTab = tbWrapup
-                            tbCallOrder.SelectedTab = tbWrapup
-                            If HomeCheck.Checked = True Then
-
-                                RollTheClip("c:\soundboard\cheryl\WRAPUP\SQUARE FOOTAGE.mp3")
-                                txtSqFt.Focus()
-                                CurrentQ = CurrentQ + 2
-                                lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                            ElseIf RenterCheck.Checked = True Then
-                                RollTheClip("c:\soundboard\cheryl\WRAPUP\PPCoverage.mp3")
-                                txtSqFt.Focus()
-                                lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-                                CurrentQ += 2
-                            Else
-                                RollTheClip("c:\soundboard\cheryl\WRAPUP\TCPA.mp3")
-                                CurrentQ = CurrentQ + 3
-
-                            End If
-                        Case 26
-
-
-                        Case 27
-                            tbCallOrder.SelectedTab = tbWrapup
-                            RollTheClip("c:\soundboard\cheryl\WRAPUP\TCPA.mp3")
-                            CurrentQ += 1
-                            cmbDispo.Text = "Entering Lead/Low"
-                        Case 28
-                            tbCallOrder.SelectedTab = tbWrapup
-                            cmbDispo.Text = "Entering Lead/Low"
-
-
-
-
-                    End Select
                 Case "171" 'right arrow key SKIP
                     CurrentQ = CurrentQ + 1
                     Reset()
@@ -3882,8 +2977,6 @@ redo:
                 Case "173"
                     EnterLead()
             End Select
-
-
         End If
         MyBase.WndProc(m)
     End Sub
@@ -4063,10 +3156,17 @@ redo:
 
     End Sub
     Private Sub Button12_Click(sender As Object, e As EventArgs) Handles HOMETYPE.Click
+        isQuestion = True
+
         RollTheClip("c:\soundboard\cheryl\PERSONAL INFO\HOMETYPE.mp3")
     End Sub
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
+        StopThatClip()
         RollTheClip("c:\soundboard\cheryl\PERSONAL INFO\DO YOU OWN Or RENT THE HOME.mp3")
+        CurrentQ = 15
+        isQuestion = True
+
+
     End Sub
     Private Sub Form1_Click(sender As Object, e As EventArgs) Handles MyBase.Click
         Dim PATH As String
@@ -4129,6 +3229,8 @@ redo:
     End Function
     Private Sub HelloButton_Click(sender As Object, e As EventArgs) Handles btnHello.Click
         RollTheClip("c:\soundboard\cheryl\INTRO\HELLO.mp3")
+        isQuestion = True
+
     End Sub
     Private Sub Label1_Click_1(sender As Object, e As EventArgs) Handles Label1.Click
 
@@ -4149,7 +3251,6 @@ redo:
         Secondary.Items.Clear()
         Dim DeviceCount As Integer = NAudio.Wave.WaveOut.DeviceCount()
         Dim SDevice As String = Nothing
-        Dim RDevice As String = Nothing
         For i As Integer = 0 To DeviceCount - 1
             SDevice = NAudio.Wave.WaveOut.GetCapabilities(i).ProductName
             Primary.Items.Add(SDevice)
@@ -4158,10 +3259,25 @@ redo:
 
     End Sub
     Private Sub Button17_Click(sender As Object, e As EventArgs) Handles SpouseDOB.Click
+        StopThatClip()
         RollTheClip("c:\soundboard\cheryl\DRIVER INFO\SPOUSES DATE OF BIRTH.mp3")
+        isQuestion = True
+
+
     End Sub
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
-        RollTheClip("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
+        isQuestion = True
+
+        If getBirthdaWAV() = True Then
+            tbCallOrder.SelectedTab = tbDriverInfo
+            LeadForm.Document.GetElementById("frmDOB_Month").Focus()
+            CurrentQ = 10
+            tmrBirthday.Enabled = True
+
+        Else
+            RollTheClip("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
+
+        End If
     End Sub
     Private Sub Button26_Click(sender As Object, e As EventArgs)
         RollTheClip("C:/Soundboard/Cheryl/WRAPUP/additionalquotes.mp3")
@@ -4169,6 +3285,8 @@ redo:
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles btnTheirName.Click
         Try
             RollTheClip(globalFile2)
+            isQuestion = True
+
         Catch
         End Try
     End Sub
@@ -4182,18 +3300,32 @@ redo:
         RollTheClip("C:/Soundboard/Cheryl/OtherCar.mp3")
     End Sub
     Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+        StopThatClip()
         RollTheClip("c:\soundboard\cheryl\DRIVER INFO\MaritalStatus2.mp3")
+        CurrentQ = 11
+        isQuestion = True
+
     End Sub
     Private Sub Button20_Click(sender As Object, e As EventArgs) Handles Button20.Click
+        isQuestion = True
+
         RollTheClip("C:/Soundboard/Cheryl/PERSONAL INFO/phoneType.mp3")
     End Sub
     Private Sub Button21_Click(sender As Object, e As EventArgs) Handles Button21.Click
-        RollTheClip("C:/Soundboard/Cheryl/PERSONAL INFO/First And Last Name.mp3")
+        isQuestion = True
+
+        RollTheClip("C:/Soundboard/Cheryl/PERSONAL INFO/Last Name.mp3")
     End Sub
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles SpouseName.Click
+        StopThatClip()
         RollTheClip("c:\soundboard\cheryl\DRIVER INFO\SPOUSES FIRST NAME.mp3")
+        isQuestion = True
+
+        CurrentQ = 12
     End Sub
     Private Sub Button23_Click(sender As Object, e As EventArgs) Handles Button23.Click
+        isQuestion = True
+
         If clipnum(0) = 0 Then
             RollTheClip("C:\Soundboard\Cheryl\REACTIONS\OK.mp3")
             clipnum(0) += 1
@@ -4226,6 +3358,8 @@ redo:
         RollTheClip("C:/Soundboard/Cheryl/REbuttal3.mp3")
     End Sub
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+        isQuestion = True
+
         RollTheClip("c:\soundboard\cheryl\REACTIONS\Could you please verify your address.mp3")
     End Sub
     Private Sub Button14_Click(sender As Object, e As EventArgs)
@@ -4281,7 +3415,7 @@ redo:
         cmbMoreVehicles.SelectedIndex = 0
         theurl = ""
         NICount = 0
-        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/HaveAGoodDay.mp3")
+        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
         cmbDispo.Text = "Not Available"
         totalCalls = totalCalls + 1
         lblCalls.Text = totalCalls
@@ -4296,10 +3430,14 @@ redo:
 
     End Sub
     Private Sub Button33_Click(sender As Object, e As EventArgs) Handles Button33.Click
+        isQuestion = True
+
         RollTheClip("C:/Soundboard/Cheryl/PERSONAL INFO/Credit.mp3")
     End Sub
     Private Sub Button35_Click(sender As Object, e As EventArgs) Handles btnIntro.Click
         RollTheClip("c:\soundboard\cheryl\INTRO\Opener 2.MP3")
+        isQuestion = True
+
     End Sub
     Private Sub Button38_Click(sender As Object, e As EventArgs)
         RollTheClip("c:\soundboard\cheryl\TIE INS\Okay What's Your Best Guess.mp3")
@@ -4345,30 +3483,47 @@ redo:
         RollTheClip("c:\soundboard\cheryl\Rebuttals\Rebuttal3.mp3")
     End Sub
     Private Sub Button63_Click(sender As Object, e As EventArgs) Handles Button63.Click
-        Select Case cmbMoreVehicles.SelectedIndex
-            Case 0
-                RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\year of the vehicle.mp3")
+        Select Case VehicleNum
             Case 1
-                RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\YEAR OF THE SECOND VEHICLE.mp3")
+                Select Case NumberOfVehicles
+                    Case 1
+                        RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\YMMYV.mp3")
+                    Case Else
+                        RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\First Vehicle.mp3")
+                End Select
             Case 2
-                RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\YEAR OF THE THIRD VEHICLE.mp3")
+                RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\2nd Vehicle.mp3")
             Case 3
-                RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\YEAR OF THE FOURTH VEHICLE.mp3")
-
+                RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\Third Vehicle.mp3")
+            Case 4
+                RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\Fourth Vehicle.mp3")
         End Select
     End Sub
     Private Sub Button64_Click(sender As Object, e As EventArgs) Handles Button64.Click
-        RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\OTHER VEHICLES ON THAT POLICY.mp3")
+        RollTheClip("C:/SOUNDBOARD/CHERYL/VEHICLE INFO/HOW MANY VEHICLES DO YOU HAVE.MP3")
+        isQuestion = True
+
     End Sub
     Private Sub Button50_Click(sender As Object, e As EventArgs) Handles btnWhoDoYouHave.Click
         StopThatClip()
         RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\Who Is The Current Auto INsurance Company that you're with.mp3")
+        CurrentQ = 3
+        isQuestion = True
+
     End Sub
     Private Sub Button51_Click(sender As Object, e As EventArgs) Handles btnPolicyStart.Click
+        StopThatClip()
         RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\HOW MANY YEARS HAVE YOU BEEN WITH THEM 2.mp3")
+        CurrentQ = 5
+        isQuestion = True
+
     End Sub
     Private Sub Button49_Click(sender As Object, e As EventArgs) Handles btnExpiration.Click
+        StopThatClip()
         RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\EXPIRATION.mp3")
+        CurrentQ = 4
+        isQuestion = True
+
     End Sub
     Private Sub Button62_Click(sender As Object, e As EventArgs)
         Select Case cmbMoreVehicles.SelectedIndex
@@ -4713,7 +3868,11 @@ redo:
         Console.WriteLine("version:" & numReps)
         isQuestion = True
         Try
+            s = ""
+            Part = ""
+
             newobjection = False
+            lblQuestion.Text = CURRENTQUESTION(Pos)
             Select Case Pos
                 Case 0
                     Select Case numReps
@@ -4926,19 +4085,25 @@ redo:
         isQuestion = True
         counter += 1
     End Sub     'ASKS THE NEXT QUESTION TO KEEP THE CALL MOVING
+    Dim NATotal As Integer
+    Dim NITotal As Integer
+    Dim DNCTotal As Integer
+    Dim WrongNumTotal As Integer
+    Dim noCarTotal As Integer
+
 
     Public Sub DispositionCall()
         NumberOfVehicles = 1
         VehicleNum = 1
         For i As Integer = 0 To 3
+            VYear(i) = ""
             vMake(i) = ""
             vmodel(i) = ""
         Next
-       
+
         numRepeats = 0
-        m.EndMicAndRecognition()
         Timer2.Enabled = False
-        TmrSilence.Enabled = False
+
         introHello = True
         Timer2.Enabled = False
         stillthere = 0
@@ -4963,19 +4128,26 @@ redo:
         Select Case cmbDispo.Text
             Case "Not Available"
                 wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
+                NATotal += 1
             Case "Not Interested"
                 wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
+                NITotal += 1
             Case "Do Not Call"
                 wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
+                DNCTotal += 1
             Case "Wrong Number"
                 wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
+                WrongNumTotal += 1
             Case "No Car"
                 wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
+                noCarTotal += 1
+
             Case "Auto Lead"
                 cmbDispo.Text = "Entering Lead/Low"
                 wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
             Case "No English"
                 wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
+
             Case "Lost On Wrap Up"
                 cmbDispo.Text = "Entering Lead/Low"
                 wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
@@ -4999,7 +4171,7 @@ redo:
                         Exit Sub
                     Case True
                         Console.WriteLine("checking make")
-                        getMake(VehicleNum)
+
                         switch = False
                 End Select
             End If
@@ -5011,7 +4183,7 @@ redo:
                         Exit Sub
                     Case True
                         Console.WriteLine("checking models")
-                        getModel(VehicleNum)
+
                         switch = False
                         Exit Sub
                 End Select
@@ -5021,7 +4193,6 @@ redo:
                 AskQuestion(CurrentQ, counter)
                 Timer2.Enabled = False
             Else
-                m.EndMicAndRecognition()
                 DispositionCall()
             End If
         Else
@@ -5083,6 +4254,8 @@ redo:
     End Sub
 
     Private Sub Button53_Click_2(sender As Object, e As EventArgs) Handles Button53.Click
+        isQuestion = True
+
         RollTheClip("C:/Soundboard/Cheryl/PERSONAL INFO/email.mp3")
     End Sub
 
@@ -5317,7 +4490,7 @@ redo:
         cmbMoreVehicles.SelectedIndex = 0
         theurl = ""
         NICount = 0
-        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/HaveAGoodDay.mp3")
+        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
         cmbDispo.Text = "Not Interested"
         totalCalls = totalCalls + 1
         lblCalls.Text = totalCalls
@@ -5340,7 +4513,7 @@ redo:
         cmbMoreVehicles.SelectedIndex = 0
         theurl = ""
         NICount = 0
-        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/HaveAGoodDay.mp3")
+        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
         cmbDispo.Text = "Wrong Number"
         totalCalls = totalCalls + 1
         lblCalls.Text = totalCalls
@@ -5356,12 +4529,11 @@ redo:
     End Sub
 
     Private Sub Button10_Click_1(sender As Object, e As EventArgs) Handles Button10.Click
-        m.EndMicAndRecognition()
         Reset()
         cmbMoreVehicles.SelectedIndex = 0
         theurl = ""
         NICount = 0
-        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/HaveAGoodDay.mp3")
+        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
         cmbDispo.Text = "No Car"
         CurrentQ = 31
         Timer2.Enabled = True
@@ -5373,7 +4545,7 @@ redo:
         cmbMoreVehicles.SelectedIndex = 0
         theurl = ""
         NICount = 0
-        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/HaveAGoodDay.mp3")
+        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 
         cmbDispo.Text = "No English"
         CurrentQ = 31
@@ -5611,7 +4783,7 @@ redo:
             theurl = ""
             NICount = 0
             cmbDispo.Text = "Entering Lead/Low"
-            RollTheClip("C:/Soundboard/Cheryl/WRAPUP/HaveAGoodDay.mp3")
+            RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
             CurrentQ = 31
             resetBot()
             Timer2.Enabled = True
@@ -5692,7 +4864,9 @@ redo:
     End Sub
 
     Private Sub tmrAgentStatus_Tick(sender As Object, e As EventArgs) Handles tmrAgentStatus.Tick
-
+        Label3.Text = CurrentQ
+        lblQuestion.Text = CURRENTQUESTION(CurrentQ)
+        wbAgentStatus.Navigate("http://loudcloud9.ytel.com/x5/api/non_agent.php?source=test&user=101&pass=API101IEpost&function=agent_status&agent_user=" & txtVerifierNum.Text & "&stage=csv&header=YES")
         Try
             If CustName(0) <> LeadForm.Document.GetElementById("frmFirstName").GetAttribute("value") Then
                 CustName(0) = LeadForm.Document.GetElementById("frmFirstName").GetAttribute("value")
@@ -5705,9 +4879,8 @@ redo:
         Catch ex As Exception
 
         End Try
-        Label3.Text = CurrentQ
-        wbAgentStatus.Navigate("http://loudcloud9.ytel.com/x5/api/non_agent.php?source=test&user=101&pass=API101IEpost&function=agent_status&agent_user=" & txtVerifierNum.Text & "&stage=csv&header=YES")
-    End Sub
+
+    End Sub 'Sends API Call to get agent report
 
     Private Sub wbAgentStatus_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles wbAgentStatus.DocumentCompleted
         Dim iSpan As TimeSpan = TimeSpan.FromSeconds(isecond)
@@ -5723,19 +4896,21 @@ redo:
                 If newcall = True Then
                     lblStatus.Text = "STATUS: " & "INCALL"
                     Me.BackColor = Color.Green
-                    getLeadForm()
+                    introHello = True
 
-                Else
+                    wbLeadInfo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "Function=pause_code&value=MGMT")
+                    getLeadForm()
 
                 End If
             End If
             If STATS.Contains("DISPO") Then
+
+                introHello = False
                 lblStatus.Text = "STATUS: " & "DISPO"
             ElseIf STATS.Contains("READY") Then
                 lblStatus.Text = "STATUS: " & "READY"
                 Me.BackColor = Color.Yellow
                 If Recording_status = True Then
-                    m.EndMicAndRecognition()
                 End If
                 btnPause.Text = "Pause"
                 btnPause.BackColor = Color.Red
@@ -5750,6 +4925,7 @@ redo:
 
             ElseIf STATS.Contains("DEAD") Then
 
+                introHello = False
                 StopThatClip()
                 CurrentQ = 31
                 Timer2.Enabled = True
@@ -5762,11 +4938,12 @@ redo:
                 lblCalls.Text = tempStr(11)
                 lblCalls2.Text = tempStr(11)
             End If
-        Catch
+        Catch ex As Exception
+            MsgBox(ex)
         End Try
 
 
-    End Sub
+    End Sub 'Gets the status of the Agent based on YTEL API call then splits string and handles 
     Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles wbDispo.DocumentCompleted
 
         Select Case cmbDispo.Text
@@ -5794,39 +4971,42 @@ redo:
                 cmbDispo.SelectedIndex = -1
             Case "Entering Lead/Low"
         End Select
-    End Sub
+    End Sub 'WebBrowser Object reserved for Dispositioning calls
     Private Sub LeadForm_DocumentCompleted_1(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles LeadForm.DocumentCompleted
         Try
-            If e.Url.AbsolutePath = CType(sender, WebBrowser).Url.AbsolutePath Then
-                CustName(0) = LeadForm.Document.GetElementById("frmFirstName").GetAttribute("value")
-                CustName(1) = LeadForm.Document.GetElementById("frmLastName").GetAttribute("value")
-                btnTheirName.Text = CustName(0)
-                globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
-                globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
-                globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
-                tbCallOrder.SelectedTab = tbIntro
-                CurrentQ = 1
-                m.StartMicAndRecognition()
-                TmrSilence.Enabled = True
+            If LeadForm.Document.Body.InnerHtml.Contains("cannot not be found") Then
+                LeadForm.Navigate("https://forms.lead.co/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
+            Else
+
+                If e.Url.AbsolutePath = CType(sender, WebBrowser).Url.AbsolutePath Then
+                    CustName(0) = LeadForm.Document.GetElementById("frmFirstName").GetAttribute("value")
+                    CustName(1) = LeadForm.Document.GetElementById("frmLastName").GetAttribute("value")
+                    btnTheirName.Text = CustName(0)
+                    globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
+                    globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
+                    globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+                    tbCallOrder.SelectedTab = tbIntro
+                    CurrentQ = 1
+
+
+
+                End If
             End If
+
         Catch ex As Exception
-            Console.WriteLine(ex)
+            Console.WriteLine("load error")
         End Try
 
-    End Sub
+    End Sub 'When the Lead has been loaded
 
-    Sub introClip()
-        RollTheClip("c:\soundboard\cheryl\INTRO\HELLO.mp3")
-    End Sub
+
     Private Sub Form1_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         Unregister()
-        m.EndMicAndRecognition()
-        m.Dispose()
+
 
     End Sub
 
     Private Sub Button1_Click_4(sender As Object, e As EventArgs) Handles btnPause.Click
-
         If btnPause.Text = "Pause" Then
             wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_pause&value=" & "PAUSE")
             btnPause.Text = "Resume"
@@ -5834,78 +5014,31 @@ redo:
             wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_pause&value=" & "RESUME")
             btnPause.Text = "Pause"
         End If
-
-    End Sub
+    End Sub 'pause button
 
     Private Sub Button1_Click_5(sender As Object, e As EventArgs) Handles Button1.Click
         getLeadForm()
     End Sub
-
-    Private Sub Button30_Click_5(sender As Object, e As EventArgs) Handles Button30.Click
-    End Sub
     Dim SilenceReps As Integer = 0
     Dim introHello As Boolean = True
-    Private Sub TmrSilence_Tick(sender As Object, e As EventArgs) Handles TmrSilence.Tick
 
-        If Me.BackColor = Color.Green Then
-            stillthere += 1
-            If introHello = True Then
-                RollTheClip("c:\soundboard\cheryl\INTRO\HELLO 1.mp3")
-                SilenceReps += 1
-                introHello = False
-                isQuestion = True
-
-            End If
-            If stillthere = 3 Then
-                Console.WriteLine("has been " & stillthere & " seconds without response.")
-                RollTheClip("c:\soundboard\cheryl\INTRO\HELLO 2.mp3")
-                SilenceReps += 1
-                isQuestion = True
-            ElseIf stillthere = 6 Then
-                Console.WriteLine("has been " & stillthere & " seconds without response.")
-                RollTheClip("c:\soundboard\cheryl\INTRO\HELLO 3.mp3")
-                SilenceReps += 1
-                isQuestion = True
-            End If
-            If SilenceReps >= 3 Then
-                Console.WriteLine("has been " & stillthere & " seconds without response. Hanging up.")
-                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/HaveAGoodDay.mp3")
-                cmbDispo.Text = "Not Available"
-                stillthere = 0
-                SilenceReps = 0
-                CurrentQ = 31
-                Timer2.Enabled = True
-                TmrSilence.Enabled = False
-            End If
-        End If
-
-    End Sub ' CHECKS FOR NOBODY RESPONDING
     Dim micStatus As Boolean
     Dim isQuestion As Boolean = True
 
     Public Sub isStopped(sender As Object, e As NAudio.Wave.StoppedEventArgs) Handles waveOut.PlaybackStopped
 
-        speechSkip = False
+
         newobjection = True
         If isQuestion Then
-            m.StartMicAndRecognition()
-
             isQuestion = False
             introHello = False
-            TmrSilence.Enabled = True
+
         Else
 
         End If
 
-    End Sub
+    End Sub 'checks to see if clip is stopped 
 
-
-
-
-    Private Sub tmrcheck_Tick(sender As Object, e As EventArgs)
-
-
-    End Sub
 
     Private Sub tmrObj_Tick(sender As Object, e As EventArgs) Handles tmrObj.Tick
 
@@ -5934,11 +5067,9 @@ redo:
             End If
         End If
 
-    End Sub
+    End Sub 'handles objection through 3 step rebuttal (attention, benefit, close)
 
-    Private Sub tmrQuest_Tick(sender As Object, e As EventArgs)
 
-    End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles tmrBirthday.Tick
         If waveOut.PlaybackState = 0 Then
@@ -5963,9 +5094,10 @@ redo:
                 Playlist(1) = "NULL"
             End If
         End If
-    End Sub
+    End Sub   'Plays the birthday clips (day month clip, and year clip)
 
-    Private Sub tmrSpeech_Tick(sender As Object, e As EventArgs) Handles tmrSpeech.Tick
 
+    Private Sub cmbMoreVehicles_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbMoreVehicles.SelectedIndexChanged
+        VehicleNum = cmbMoreVehicles.Text
     End Sub
 End Class

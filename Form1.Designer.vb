@@ -114,10 +114,7 @@ Partial Class Form1
         Me.Button81 = New System.Windows.Forms.Button()
         Me.results = New System.Windows.Forms.TextBox()
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
-        Me.AUTOASSIST = New System.Windows.Forms.CheckBox()
-        Me.Label8 = New System.Windows.Forms.Label()
         Me.Timer5 = New System.Windows.Forms.Timer(Me.components)
-        Me.Label9 = New System.Windows.Forms.Label()
         Me.Timer6 = New System.Windows.Forms.Timer(Me.components)
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.tbQuestions = New System.Windows.Forms.TabPage()
@@ -202,11 +199,12 @@ Partial Class Form1
         Me.LeadForm = New System.Windows.Forms.WebBrowser()
         Me.btnPause = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
-        Me.Button30 = New System.Windows.Forms.Button()
         Me.TmrSilence = New System.Windows.Forms.Timer(Me.components)
         Me.tmrObj = New System.Windows.Forms.Timer(Me.components)
         Me.tmrBirthday = New System.Windows.Forms.Timer(Me.components)
         Me.tmrSpeech = New System.Windows.Forms.Timer(Me.components)
+        Me.lblLeadInfo = New System.Windows.Forms.Label()
+        Me.wbLeadInfo = New System.Windows.Forms.WebBrowser()
         Me.frReactions.SuspendLayout()
         Me.GroupBox9.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -1093,10 +1091,10 @@ Partial Class Form1
         Me.cmbMoreVehicles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbMoreVehicles.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmbMoreVehicles.FormattingEnabled = True
-        Me.cmbMoreVehicles.Items.AddRange(New Object() {"NO", "YES"})
-        Me.cmbMoreVehicles.Location = New System.Drawing.Point(327, 73)
+        Me.cmbMoreVehicles.Items.AddRange(New Object() {"1", "2", "3", "4"})
+        Me.cmbMoreVehicles.Location = New System.Drawing.Point(38, 76)
         Me.cmbMoreVehicles.Name = "cmbMoreVehicles"
-        Me.cmbMoreVehicles.Size = New System.Drawing.Size(133, 24)
+        Me.cmbMoreVehicles.Size = New System.Drawing.Size(209, 24)
         Me.cmbMoreVehicles.TabIndex = 36
         '
         'Button63
@@ -1104,7 +1102,7 @@ Partial Class Form1
         Me.Button63.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Button63.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button63.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button63.Location = New System.Drawing.Point(34, 9)
+        Me.Button63.Location = New System.Drawing.Point(310, 3)
         Me.Button63.Name = "Button63"
         Me.Button63.Size = New System.Drawing.Size(195, 58)
         Me.Button63.TabIndex = 0
@@ -1116,11 +1114,11 @@ Partial Class Form1
         Me.Button64.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Button64.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button64.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button64.Location = New System.Drawing.Point(297, 9)
+        Me.Button64.Location = New System.Drawing.Point(34, 3)
         Me.Button64.Name = "Button64"
         Me.Button64.Size = New System.Drawing.Size(210, 58)
         Me.Button64.TabIndex = 2
-        Me.Button64.Text = "OTHER?"
+        Me.Button64.Text = "How many Vehicles"
         Me.Button64.UseVisualStyleBackColor = True
         '
         'Button67
@@ -1140,7 +1138,7 @@ Partial Class Form1
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(428, 837)
+        Me.Label4.Location = New System.Drawing.Point(327, 837)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(70, 20)
         Me.Label4.TabIndex = 37
@@ -1150,7 +1148,7 @@ Partial Class Form1
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(522, 837)
+        Me.Label5.Location = New System.Drawing.Point(421, 837)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(68, 20)
         Me.Label5.TabIndex = 38
@@ -1160,7 +1158,7 @@ Partial Class Form1
         '
         Me.lblCalls.AutoSize = True
         Me.lblCalls.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCalls.Location = New System.Drawing.Point(494, 837)
+        Me.lblCalls.Location = New System.Drawing.Point(393, 837)
         Me.lblCalls.Name = "lblCalls"
         Me.lblCalls.Size = New System.Drawing.Size(19, 20)
         Me.lblCalls.TabIndex = 39
@@ -1170,7 +1168,7 @@ Partial Class Form1
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(591, 837)
+        Me.Label7.Location = New System.Drawing.Point(490, 837)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(19, 20)
         Me.Label7.TabIndex = 40
@@ -1279,43 +1277,9 @@ Partial Class Form1
         '
         Me.Timer2.Interval = 500
         '
-        'AUTOASSIST
-        '
-        Me.AUTOASSIST.AutoSize = True
-        Me.AUTOASSIST.Location = New System.Drawing.Point(921, 834)
-        Me.AUTOASSIST.Name = "AUTOASSIST"
-        Me.AUTOASSIST.Size = New System.Drawing.Size(132, 17)
-        Me.AUTOASSIST.TabIndex = 54
-        Me.AUTOASSIST.Text = "AUTO ASSIST MODE"
-        Me.AUTOASSIST.UseVisualStyleBackColor = True
-        Me.AUTOASSIST.Visible = False
-        '
-        'Label8
-        '
-        Me.Label8.AutoSize = True
-        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(845, 830)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(70, 20)
-        Me.Label8.TabIndex = 56
-        Me.Label8.Text = "CALLS:"
-        Me.Label8.Visible = False
-        '
         'Timer5
         '
-        Me.Timer5.Enabled = True
         Me.Timer5.Interval = 250
-        '
-        'Label9
-        '
-        Me.Label9.AutoSize = True
-        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label9.Location = New System.Drawing.Point(778, 830)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(70, 20)
-        Me.Label9.TabIndex = 66
-        Me.Label9.Text = "CALLS:"
-        Me.Label9.Visible = False
         '
         'Timer6
         '
@@ -1895,6 +1859,7 @@ Partial Class Form1
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.lblLeadInfo)
         Me.TabPage1.Controls.Add(Me.lblRecording)
         Me.TabPage1.Controls.Add(Me.txtSpeech)
         Me.TabPage1.Location = New System.Drawing.Point(4, 33)
@@ -2003,7 +1968,7 @@ Partial Class Form1
         '
         'txtYMM
         '
-        Me.txtYMM.Location = New System.Drawing.Point(34, 74)
+        Me.txtYMM.Location = New System.Drawing.Point(310, 76)
         Me.txtYMM.Name = "txtYMM"
         Me.txtYMM.Size = New System.Drawing.Size(195, 24)
         Me.txtYMM.TabIndex = 37
@@ -2191,7 +2156,7 @@ Partial Class Form1
         'chkMoralSupport
         '
         Me.chkMoralSupport.AutoSize = True
-        Me.chkMoralSupport.Location = New System.Drawing.Point(521, 748)
+        Me.chkMoralSupport.Location = New System.Drawing.Point(521, 742)
         Me.chkMoralSupport.Name = "chkMoralSupport"
         Me.chkMoralSupport.Size = New System.Drawing.Size(92, 17)
         Me.chkMoralSupport.TabIndex = 92
@@ -2248,13 +2213,13 @@ Partial Class Form1
         '
         'wbAgentStatus
         '
-        Me.wbAgentStatus.Location = New System.Drawing.Point(1059, 815)
+        Me.wbAgentStatus.Location = New System.Drawing.Point(616, 769)
         Me.wbAgentStatus.MinimumSize = New System.Drawing.Size(20, 20)
         Me.wbAgentStatus.Name = "wbAgentStatus"
         Me.wbAgentStatus.ScriptErrorsSuppressed = True
-        Me.wbAgentStatus.Size = New System.Drawing.Size(56, 39)
+        Me.wbAgentStatus.ScrollBarsEnabled = False
+        Me.wbAgentStatus.Size = New System.Drawing.Size(735, 88)
         Me.wbAgentStatus.TabIndex = 140
-        Me.wbAgentStatus.Visible = False
         '
         'tmrAgentStatus
         '
@@ -2265,7 +2230,7 @@ Partial Class Form1
         '
         Me.lblName.AutoSize = True
         Me.lblName.Font = New System.Drawing.Font("Arial Black", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblName.Location = New System.Drawing.Point(99, 832)
+        Me.lblName.Location = New System.Drawing.Point(57, 832)
         Me.lblName.Name = "lblName"
         Me.lblName.Size = New System.Drawing.Size(134, 22)
         Me.lblName.TabIndex = 0
@@ -2284,10 +2249,11 @@ Partial Class Form1
         '
         'wbDispo
         '
-        Me.wbDispo.Location = New System.Drawing.Point(1146, 834)
+        Me.wbDispo.Location = New System.Drawing.Point(629, 721)
         Me.wbDispo.MinimumSize = New System.Drawing.Size(20, 20)
         Me.wbDispo.Name = "wbDispo"
-        Me.wbDispo.Size = New System.Drawing.Size(64, 20)
+        Me.wbDispo.ScrollBarsEnabled = False
+        Me.wbDispo.Size = New System.Drawing.Size(20, 34)
         Me.wbDispo.TabIndex = 141
         Me.wbDispo.Visible = False
         '
@@ -2304,7 +2270,7 @@ Partial Class Form1
         '
         Me.btnPause.BackColor = System.Drawing.Color.Red
         Me.btnPause.Font = New System.Drawing.Font("Arial Black", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPause.Location = New System.Drawing.Point(529, 771)
+        Me.btnPause.Location = New System.Drawing.Point(514, 758)
         Me.btnPause.Name = "btnPause"
         Me.btnPause.Size = New System.Drawing.Size(96, 46)
         Me.btnPause.TabIndex = 143
@@ -2313,21 +2279,12 @@ Partial Class Form1
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(655, 771)
+        Me.Button1.Location = New System.Drawing.Point(514, 809)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 23)
         Me.Button1.TabIndex = 144
         Me.Button1.Text = "RELOAD"
         Me.Button1.UseVisualStyleBackColor = True
-        '
-        'Button30
-        '
-        Me.Button30.Location = New System.Drawing.Point(763, 771)
-        Me.Button30.Name = "Button30"
-        Me.Button30.Size = New System.Drawing.Size(75, 23)
-        Me.Button30.TabIndex = 145
-        Me.Button30.Text = "Button30"
-        Me.Button30.UseVisualStyleBackColor = True
         '
         'TmrSilence
         '
@@ -2345,13 +2302,31 @@ Partial Class Form1
         '
         Me.tmrSpeech.Interval = 2000
         '
+        'lblLeadInfo
+        '
+        Me.lblLeadInfo.AutoSize = True
+        Me.lblLeadInfo.Location = New System.Drawing.Point(115, 266)
+        Me.lblLeadInfo.Name = "lblLeadInfo"
+        Me.lblLeadInfo.Size = New System.Drawing.Size(0, 24)
+        Me.lblLeadInfo.TabIndex = 147
+        '
+        'wbLeadInfo
+        '
+        Me.wbLeadInfo.Location = New System.Drawing.Point(633, 470)
+        Me.wbLeadInfo.MinimumSize = New System.Drawing.Size(20, 20)
+        Me.wbLeadInfo.Name = "wbLeadInfo"
+        Me.wbLeadInfo.ScrollBarsEnabled = False
+        Me.wbLeadInfo.Size = New System.Drawing.Size(20, 34)
+        Me.wbLeadInfo.TabIndex = 145
+        Me.wbLeadInfo.Visible = False
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(1362, 866)
-        Me.Controls.Add(Me.Button30)
+        Me.ClientSize = New System.Drawing.Size(1366, 866)
+        Me.Controls.Add(Me.wbLeadInfo)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.btnPause)
         Me.Controls.Add(Me.LeadForm)
@@ -2366,9 +2341,6 @@ Partial Class Form1
         Me.Controls.Add(Me.chkMoralSupport)
         Me.Controls.Add(Me.tbCallOrder)
         Me.Controls.Add(Me.TabControl1)
-        Me.Controls.Add(Me.Label9)
-        Me.Controls.Add(Me.Label8)
-        Me.Controls.Add(Me.AUTOASSIST)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.lblQuestion)
         Me.Controls.Add(Me.frReactions)
@@ -2483,7 +2455,6 @@ Partial Class Form1
     Friend WithEvents Button15 As Button
     Friend WithEvents Button17 As Button
     Friend WithEvents Timer2 As Timer
-    Friend WithEvents AUTOASSIST As CheckBox
     Friend WithEvents Button22 As Button
     Friend WithEvents txtEmail As TextBox
     Friend WithEvents Button53 As Button
@@ -2491,9 +2462,7 @@ Partial Class Form1
     Friend WithEvents LifeCheck As CheckBox
     Friend WithEvents HomeCheck As CheckBox
     Friend WithEvents HealthCheck As CheckBox
-    Friend WithEvents Label8 As Label
     Friend WithEvents Timer5 As Timer
-    Friend WithEvents Label9 As Label
     Friend WithEvents Timer6 As Timer
     Friend WithEvents MedicareCheck As CheckBox
     Friend WithEvents RenterCheck As CheckBox
@@ -2556,7 +2525,6 @@ Partial Class Form1
     Friend WithEvents Button32 As Button
     Friend WithEvents Button44 As Button
     Friend WithEvents Button39 As Button
-    Friend WithEvents Button60 As Button
     Friend WithEvents Button29 As Button
     Friend WithEvents Button18 As Button
     Friend WithEvents Button27 As Button
@@ -2587,7 +2555,6 @@ Partial Class Form1
     Friend WithEvents Label10 As Label
     Friend WithEvents lblLeads2 As Label
     Friend WithEvents lblCalls2 As Label
-    Friend WithEvents Button30 As Button
     Friend WithEvents TabPage1 As TabPage
     Friend WithEvents txtSpeech As TextBox
     Friend WithEvents TmrSilence As Timer
@@ -2595,4 +2562,7 @@ Partial Class Form1
     Friend WithEvents tmrBirthday As Timer
     Friend WithEvents lblRecording As Label
     Friend WithEvents tmrSpeech As Timer
+    Friend WithEvents Button60 As Button
+    Friend WithEvents lblLeadInfo As Label
+    Friend WithEvents wbLeadInfo As WebBrowser
 End Class
