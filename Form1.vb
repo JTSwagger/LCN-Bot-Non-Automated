@@ -3169,17 +3169,7 @@ Public Class Form1
 
     End Sub
     Private Sub Form1_Click(sender As Object, e As EventArgs) Handles MyBase.Click
-        Dim PATH As String
-        Dim value As Integer = CInt(Int((3 * Rnd()) + 1))
-        If chkMoralSupport.Checked Then
-            PATH = "C:/SOUNDBOARD/CHERYL/JOKE/JOKE" & CStr(value) & ".jpg"
-            F = New Form
-            F.Location = New Point((CInt(Int((3000 * Rnd())))), CInt(Int((3000 * Rnd()))))
-            F.Width = 500
-            F.Height = 600
-            F.Show()
-            F.BackgroundImage = Image.FromFile(PATH)
-        End If
+
     End Sub
     Private Sub Button2_Click(sender As Object, e As EventArgs)
         RollTheClip("C: /Soundboard/Cheryl/WhoDoYouUSe.mp3")
@@ -3230,7 +3220,6 @@ Public Class Form1
     Private Sub HelloButton_Click(sender As Object, e As EventArgs) Handles btnHello.Click
         RollTheClip("c:\soundboard\cheryl\INTRO\HELLO.mp3")
         isQuestion = True
-
     End Sub
     Private Sub Label1_Click_1(sender As Object, e As EventArgs) Handles Label1.Click
 

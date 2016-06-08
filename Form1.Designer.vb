@@ -162,6 +162,7 @@ Partial Class Form1
         Me.lblStatus = New System.Windows.Forms.Label()
         Me.lblPauseTime = New System.Windows.Forms.Label()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.lblLeadInfo = New System.Windows.Forms.Label()
         Me.lblRecording = New System.Windows.Forms.Label()
         Me.txtSpeech = New System.Windows.Forms.TextBox()
         Me.tbCallOrder = New System.Windows.Forms.TabControl()
@@ -185,12 +186,10 @@ Partial Class Form1
         Me.cmbTCPA = New System.Windows.Forms.ComboBox()
         Me.cmbSecondaries = New System.Windows.Forms.ComboBox()
         Me.tbResults = New System.Windows.Forms.TabPage()
-        Me.chkMoralSupport = New System.Windows.Forms.CheckBox()
         Me.cmbDispo = New System.Windows.Forms.ComboBox()
         Me.Label30 = New System.Windows.Forms.Label()
         Me.txtVerifierNum = New System.Windows.Forms.TextBox()
         Me.Label32 = New System.Windows.Forms.Label()
-        Me.chkAutoDispo = New System.Windows.Forms.CheckBox()
         Me.wbAgentStatus = New System.Windows.Forms.WebBrowser()
         Me.tmrAgentStatus = New System.Windows.Forms.Timer(Me.components)
         Me.lblName = New System.Windows.Forms.Label()
@@ -203,7 +202,6 @@ Partial Class Form1
         Me.tmrObj = New System.Windows.Forms.Timer(Me.components)
         Me.tmrBirthday = New System.Windows.Forms.Timer(Me.components)
         Me.tmrSpeech = New System.Windows.Forms.Timer(Me.components)
-        Me.lblLeadInfo = New System.Windows.Forms.Label()
         Me.wbLeadInfo = New System.Windows.Forms.WebBrowser()
         Me.frReactions.SuspendLayout()
         Me.GroupBox9.SuspendLayout()
@@ -1870,6 +1868,14 @@ Partial Class Form1
         Me.TabPage1.Text = "Customer speech"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
+        'lblLeadInfo
+        '
+        Me.lblLeadInfo.AutoSize = True
+        Me.lblLeadInfo.Location = New System.Drawing.Point(115, 266)
+        Me.lblLeadInfo.Name = "lblLeadInfo"
+        Me.lblLeadInfo.Size = New System.Drawing.Size(0, 24)
+        Me.lblLeadInfo.TabIndex = 147
+        '
         'lblRecording
         '
         Me.lblRecording.AutoSize = True
@@ -2153,16 +2159,6 @@ Partial Class Form1
         Me.tbResults.Text = "Results"
         Me.tbResults.UseVisualStyleBackColor = True
         '
-        'chkMoralSupport
-        '
-        Me.chkMoralSupport.AutoSize = True
-        Me.chkMoralSupport.Location = New System.Drawing.Point(521, 742)
-        Me.chkMoralSupport.Name = "chkMoralSupport"
-        Me.chkMoralSupport.Size = New System.Drawing.Size(92, 17)
-        Me.chkMoralSupport.TabIndex = 92
-        Me.chkMoralSupport.Text = "Moral Support"
-        Me.chkMoralSupport.UseVisualStyleBackColor = True
-        '
         'cmbDispo
         '
         Me.cmbDispo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
@@ -2200,16 +2196,6 @@ Partial Class Form1
         Me.Label32.Size = New System.Drawing.Size(86, 22)
         Me.Label32.TabIndex = 136
         Me.Label32.Text = "Verifier #"
-        '
-        'chkAutoDispo
-        '
-        Me.chkAutoDispo.AutoSize = True
-        Me.chkAutoDispo.Location = New System.Drawing.Point(521, 725)
-        Me.chkAutoDispo.Name = "chkAutoDispo"
-        Me.chkAutoDispo.Size = New System.Drawing.Size(78, 17)
-        Me.chkAutoDispo.TabIndex = 139
-        Me.chkAutoDispo.Text = "Auto Dispo"
-        Me.chkAutoDispo.UseVisualStyleBackColor = True
         '
         'wbAgentStatus
         '
@@ -2270,7 +2256,7 @@ Partial Class Form1
         '
         Me.btnPause.BackColor = System.Drawing.Color.Red
         Me.btnPause.Font = New System.Drawing.Font("Arial Black", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPause.Location = New System.Drawing.Point(514, 758)
+        Me.btnPause.Location = New System.Drawing.Point(514, 725)
         Me.btnPause.Name = "btnPause"
         Me.btnPause.Size = New System.Drawing.Size(96, 46)
         Me.btnPause.TabIndex = 143
@@ -2279,9 +2265,9 @@ Partial Class Form1
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(514, 809)
+        Me.Button1.Location = New System.Drawing.Point(514, 777)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.Size = New System.Drawing.Size(96, 23)
         Me.Button1.TabIndex = 144
         Me.Button1.Text = "RELOAD"
         Me.Button1.UseVisualStyleBackColor = True
@@ -2301,14 +2287,6 @@ Partial Class Form1
         'tmrSpeech
         '
         Me.tmrSpeech.Interval = 2000
-        '
-        'lblLeadInfo
-        '
-        Me.lblLeadInfo.AutoSize = True
-        Me.lblLeadInfo.Location = New System.Drawing.Point(115, 266)
-        Me.lblLeadInfo.Name = "lblLeadInfo"
-        Me.lblLeadInfo.Size = New System.Drawing.Size(0, 24)
-        Me.lblLeadInfo.TabIndex = 147
         '
         'wbLeadInfo
         '
@@ -2333,12 +2311,10 @@ Partial Class Form1
         Me.Controls.Add(Me.wbDispo)
         Me.Controls.Add(Me.wbAgentStatus)
         Me.Controls.Add(Me.lblName)
-        Me.Controls.Add(Me.chkAutoDispo)
         Me.Controls.Add(Me.Label32)
         Me.Controls.Add(Me.txtVerifierNum)
         Me.Controls.Add(Me.Label30)
         Me.Controls.Add(Me.cmbDispo)
-        Me.Controls.Add(Me.chkMoralSupport)
         Me.Controls.Add(Me.tbCallOrder)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Label3)
@@ -2485,7 +2461,6 @@ Partial Class Form1
     Friend WithEvents cmbTCPA As ComboBox
     Friend WithEvents cmbSecondaries As ComboBox
     Friend WithEvents tbResults As TabPage
-    Friend WithEvents chkMoralSupport As CheckBox
     Friend WithEvents cmbSpouseGender As ComboBox
     Friend WithEvents cmbGender As ComboBox
     Friend WithEvents Label19 As Label
@@ -2532,7 +2507,6 @@ Partial Class Form1
     Friend WithEvents txtVerifierNum As TextBox
     Friend WithEvents Label32 As Label
     Friend WithEvents txtYMM As TextBox
-    Friend WithEvents chkAutoDispo As CheckBox
     Friend WithEvents wbAgentStatus As WebBrowser
     Friend WithEvents tmrAgentStatus As Timer
     Friend WithEvents TabPage2 As TabPage
