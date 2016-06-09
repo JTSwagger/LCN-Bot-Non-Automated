@@ -395,7 +395,8 @@ Public Class Form1
             Register()
 
         Catch ex As Exception
-            MsgBox(ex)
+            'MsgBox(ex.Message)
+	    ' ^^ Yay silent failure!!!!
         End Try
 
         tmrAgentStatus.Enabled = True
