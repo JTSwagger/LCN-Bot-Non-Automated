@@ -195,7 +195,6 @@ Partial Class Form1
         Me.lblName = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.wbDispo = New System.Windows.Forms.WebBrowser()
-        Me.LeadForm = New System.Windows.Forms.WebBrowser()
         Me.btnPause = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.TmrSilence = New System.Windows.Forms.Timer(Me.components)
@@ -2243,15 +2242,6 @@ Partial Class Form1
         Me.wbDispo.TabIndex = 141
         Me.wbDispo.Visible = False
         '
-        'LeadForm
-        '
-        Me.LeadForm.Location = New System.Drawing.Point(655, 16)
-        Me.LeadForm.MinimumSize = New System.Drawing.Size(20, 20)
-        Me.LeadForm.Name = "LeadForm"
-        Me.LeadForm.ScriptErrorsSuppressed = True
-        Me.LeadForm.Size = New System.Drawing.Size(695, 749)
-        Me.LeadForm.TabIndex = 142
-        '
         'btnPause
         '
         Me.btnPause.BackColor = System.Drawing.Color.Red
@@ -2307,7 +2297,6 @@ Partial Class Form1
         Me.Controls.Add(Me.wbLeadInfo)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.btnPause)
-        Me.Controls.Add(Me.LeadForm)
         Me.Controls.Add(Me.wbDispo)
         Me.Controls.Add(Me.wbAgentStatus)
         Me.Controls.Add(Me.lblName)
@@ -2515,7 +2504,6 @@ Partial Class Form1
     Friend WithEvents lblPauseTime As Label
     Friend WithEvents wbDispo As WebBrowser
     Friend WithEvents lblStatus As Label
-    Friend WithEvents LeadForm As WebBrowser
     Friend WithEvents btnPause As Button
     Friend WithEvents Button1 As Button
     Friend WithEvents lblSeconds As Label
