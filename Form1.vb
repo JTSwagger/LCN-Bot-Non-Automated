@@ -190,7 +190,7 @@ Public Class Form1
         End Select
         handlepartialquestion()
     End Sub
-    Public Sub getMake(vehiclenum As Integer) 'currentq for this is 8
+    Public Function getMake(vehiclenum As Integer) As Boolean 'currentq for this is 8
         If secondPass = False Then
             ModelHolder = s
         End If
@@ -215,8 +215,12 @@ Public Class Form1
         If vMake(vehiclenum) <> "" Then
 
             If vehiclenum = 1 Then
-                ' LeadForm.Document.GetElementById("vehicle-make").SetAttribute("value", vMake(vehiclenum))
-                ' LeadForm.Document.GetElementById("vehicle-make").RaiseEvent("onchange")
+                For i As Integer = 0 To 2000
+                    Console.WriteLine(i)
+                    i += 1
+                Next
+                local_browser.FindElementById("vehicle-make").SendKeys((vMake(vehiclenum)))
+                local_browser.Keyboard.PressKey(Keys.Return)
 
                 CurrentQ = 9
                 Timer2.Enabled = True
@@ -234,12 +238,11 @@ Public Class Form1
             Timer2.Enabled = False
             CurrentQ = 8
             RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\WHO MAKES THAT VEHICLE.MP3")
-
             isQuestion = True
 
         End If
 
-    End Sub 'GETS THE MAKE OF THE VEHICLE
+    End Function 'GETS THE MAKE OF THE VEHICLE
     Dim callPos As String = ""
     Const Insurance_Provider As String = "Insurance Provider"
     Const Policy_Expiration As String = "Policy Expiration"
@@ -294,7 +297,10 @@ Public Class Form1
                         Console.WriteLine("Checking Year Make and model of Vehicle Number  " & VehicleNum & " out of " & NumberOfVehicles)
                         If getYear(VehicleNum) Then
                             CurrentQ = 8
-                            Timer2.Enabled = True
+                            If getMake(VehicleNum) Then
+
+
+                            End If
                         End If
 
 
@@ -1366,6 +1372,7 @@ Public Class Form1
                 local_browser.FindElementById("vehicle-year").SendKeys(VYear(VehicleNum))
                 local_browser.Keyboard.PressKey(Keys.Return)
                 CurrentQ += 1
+                Return True
             Else
                 'LeadForm.Document.GetElementById("vehicle" & VehicleNum & "-year").SetAttribute("value", VYear(VehicleNum))
                 'LeadForm.Document.GetElementById("vehicle" & VehicleNum & "-year").RaiseEvent("onchange")
@@ -1373,7 +1380,7 @@ Public Class Form1
             End If
         Else
             isQuestion = True
-
+            Return False
         End If
 
 
