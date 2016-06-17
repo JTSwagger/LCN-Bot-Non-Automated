@@ -8,6 +8,7 @@ Imports OpenQA.Selenium
 Imports System.Threading
 Imports System.ComponentModel
 Imports Microsoft.ProjectOxford.SpeechRecognition
+Imports System.Collections.Generic
 
 
 Public Class Form1
@@ -35,13 +36,7 @@ Public Class Form1
     Dim Already_Handled As Boolean = False
     Public Sub onChange(sender As Object, e As Microsoft.ProjectOxford.SpeechRecognition.MicrophoneEventArgs) Handles m.OnMicrophoneStatus
         Recording_status = e.Recording
-        Console.WriteLine("RECORDING: " & e.Recording)
         Me.BeginInvoke(New Action(AddressOf updateLabel))
-        If Recording_status = False Then
-            Me.BeginInvoke(New Action(AddressOf handleResponse))
-
-        End If
-
     End Sub
 
     Sub handlepartialquestion()
@@ -215,21 +210,18 @@ Public Class Form1
         If vMake(vehiclenum) <> "" Then
 
             If vehiclenum = 1 Then
-                For i As Integer = 0 To 2000
-                    Console.WriteLine(i)
+                For i As Integer = 0 To 1500
+                    Console.WriteLine("loading makes..." & i)
                     i += 1
                 Next
                 local_browser.FindElementById("vehicle-make").SendKeys((vMake(vehiclenum)))
                 local_browser.Keyboard.PressKey(Keys.Return)
+                Return True
 
-                CurrentQ = 9
-                Timer2.Enabled = True
             Else
                 ' LeadForm.Document.GetElementById("vehicle" & vehiclenum & "-make").SetAttribute("value", vMake(vehiclenum))
                 '  LeadForm.Document.GetElementById("vehicle" & vehiclenum & "-make").RaiseEvent("onchange")
 
-                CurrentQ = 9
-                Timer2.Enabled = True
             End If
 
         Else
@@ -251,9 +243,11 @@ Public Class Form1
     Const Year_Make_Model As String = "Year Make Model"
 
     Public Sub handleResponse()
+
         If Not Already_Handled Then
             If waveOut.PlaybackState = 0 Then
                 txtSpeech.Text = "In response to asking " & callPos & ": " & vbNewLine & "They said: " & s
+                txtSpeech.Text += vbNewLine & callPos
 
                 Select Case callPos
 
@@ -281,10 +275,10 @@ Public Class Form1
                     Case Policy_Start
                         Console.WriteLine("Checking Insurance Start Date")
                         If CheckHowLong() Then
-                            callPos = Number_of_Vehicles
+                            callPos = Number_Of_Vehicles
                             s = ""
                         End If
-                    Case Number_of_Vehicles
+                    Case Number_Of_Vehicles
                         Console.WriteLine("Checking Number of Vehicles")
                         If checkForNumVehicles() Then
                             callPos = Year_Make_Model
@@ -298,8 +292,18 @@ Public Class Form1
                         If getYear(VehicleNum) Then
                             CurrentQ = 8
                             If getMake(VehicleNum) Then
-
-
+                                CurrentQ = 9
+                                If getModel(VehicleNum) Then
+                                    If NumberOfVehicles > 1 And VehicleNum < NumberOfVehicles Then
+                                        VehicleNum += 1
+                                    Else
+                                        callPos = "Driver_Birthday"
+                                    End If
+                                Else
+                                    Already_Handled = False
+                                End If
+                            Else
+                                Already_Handled = False
                             End If
                         End If
 
@@ -314,7 +318,11 @@ Public Class Form1
         If e.PhraseResponse.Results.Length > 0 Then
             s += LCase(e.PhraseResponse.Results(0).DisplayText)
         End If
-        Me.BeginInvoke(New Action(AddressOf handleResponse))
+        Try
+            Me.BeginInvoke(New Action(AddressOf handleResponse))
+        Catch ex As Exception
+            Console.WriteLine(ex.StackTrace)
+        End Try
     End Sub
 
 
@@ -528,25 +536,62 @@ Public Class Form1
     Dim CustName(1) As String
     Dim F As New Form
     Dim oldCust(1) As String
-    Public Sub returnCarModel(speech As String)
-        NewMod = ""
+    Public Function getModel(ByRef VehicleNum As Integer) As Boolean
+        Timer2.Enabled = False
+        Already_Handled = True
+        Dim y As Integer = 0
+        Dim vnumber As String
+        Select Case VehicleNum
+            Case 1
+                vnumber = "vehicle-model"
+            Case Else
+                vnumber = "vehicle" & VehicleNum & "-model"
+        End Select
 
-        Dim i As Integer = 0
-        Do While i < speech.Length
-            Do Until speech.Substring(i, 1) = " "
-                NewMod = NewMod & Strings.UCase(speech.Substring(i, 1))
-                i = i + 1
-                If i = speech.Length Then Exit Do
-            Loop
-            If i <> speech.Length Then
-                NewMod = NewMod & "%20"
-                i = i + 1
+        Console.WriteLine("Checking model for: " & vnumber)
+
+        Dim modelist(local_browser.FindElementById(vnumber).GetAttribute("length") - 1) As String
+        Dim x As Integer = 0
+        Console.WriteLine(s)
+        Dim str() As String = s.Split()
+        Dim temper() As String = ModelHolder.Split
+
+        Console.WriteLine(local_browser.FindElementById(vnumber).GetAttribute("length") - 1)
+        For i As Integer = 1 To 2000
+            i += 1
+            Console.WriteLine("Loading Models..." & i)
+        Next
+        Dim Model_List As IWebElement = local_browser.FindElementById(vnumber)
+        Dim Model_Collection As IReadOnlyCollection(Of IWebElement) = Model_List.FindElements(By.TagName("option"))
+        Console.WriteLine(Model_Collection)
+        For Each Opt As IWebElement In Model_Collection
+            Console.WriteLine(Opt.Text)
+            If s.Contains(Opt.Text) Then
+                vmodel(VehicleNum) = Opt.Text
+                Model_List.SendKeys(vmodel(VehicleNum))
+            Else
+                For y = 0 To str.Length - 1
+                    Console.WriteLine("Checking to see If " & Opt.Text & " contains " & str(y))
+                    If Opt.Text.Contains(str(y)) Then
+                        vmodel(VehicleNum) = Opt.Text
+                        Exit For
+                    End If
+                Next
+                Console.WriteLine("could not find " & Opt.Text & " in " & s)
+                Console.WriteLine("could not find " & str(y) & " in " & Opt.Text)
             End If
-        Loop
-
-
-
-    End Sub 'Attempts to get Model from Speech returned 
+        Next
+        If vmodel(VehicleNum) <> "" Then
+            Console.WriteLine("MODEL IS: " & vmodel(VehicleNum))
+            Model_List.SendKeys(vmodel(VehicleNum))
+            Return True
+        Else
+            Console.WriteLine("-----MODEL Not FOUND-----")
+            ModelHolder = s
+            RollTheClip("C: \SoundBoard\Cheryl\VEHICLE INFO\What is the model of the Car 1.MP3")
+            Return False
+        End If
+    End Function  '
     Public Sub verifyBDay()
 
 
@@ -630,7 +675,7 @@ Public Class Form1
 
     Dim Recording_status As Boolean
     Sub updateLabel()
-        lblRecording.Text = "RECORDING: " & Recording_status
+        lblRecording.Text = callPos & "RECORDING: " & Recording_status
     End Sub
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
@@ -690,7 +735,7 @@ Public Class Form1
         Const Key As String = "ce43e8a4d7a844b1be7950b260d6b8bd"
         Const Key2 As String = "0d2797650c8648d18474399744512f17"
         m = SpeechRecognitionServiceFactory.CreateMicrophoneClient(SpeechRecognitionMode.LongDictation, "en-us", Key, Key2)
-        local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
+        local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?agent_name=Justin+Theriault&lead_id=421&lead_guid=7af28e93-bfdf-43d0-8e81-742cbdf34ad2&import_id=13395")
 
 
 
@@ -702,7 +747,9 @@ Public Class Form1
 
     Dim happytreefriends As FirefoxBinary = New FirefoxBinary("C:\Users\Insurance Express\Desktop\LCN Bot Non Automated\Firefox Setup 28.0\core\firefox.exe")
     Dim prof As FirefoxProfile = New FirefoxProfile()
-    Dim local_browser As FirefoxDriver = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
+    Public WithEvents local_browser As FirefoxDriver = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
+
+
     Public Sub Unregister()
 
         UnregisterHotKey(Me.Handle, 101)
@@ -2272,7 +2319,6 @@ Public Class Form1
             Case s.Contains("electric insurance")
             Case s.Contains("esurance")
                 IProvider = "ESurance"
-                CurrentQ = 4
             Case s.Contains("financebox.com")
             Case s.Contains("fire and casualty")
             Case s.Contains("fireman's fund")
@@ -2422,9 +2468,21 @@ Public Class Form1
                 End If
 
         End Select
+        Console.WriteLine("Detected " & IProvider & " as insurance")
         If IProvider <> "" Then
-            local_browser.FindElementById("frmInsuranceCarrier").SendKeys(IProvider)
-            local_browser.Keyboard.PressKey(Keys.Return)
+            Try
+
+
+                'local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?agent_name=Justin+Theriault&lead_id=421&lead_guid=7af28e93-bfdf-43d0-8e81-742cbdf34ad2&import_id=13395")
+                local_browser.FindElementById("frmInsuranceCarrier").SendKeys(IProvider)
+                local_browser.Keyboard.PressKey(Keys.Return)
+            Catch ex As Exception
+                Console.WriteLine(ex.Message)
+                Console.WriteLine(ex.Source)
+                Console.WriteLine(ex.InnerException)
+                Console.WriteLine(ex.StackTrace)
+            End Try
+
             Return True
         Else
             Return False
@@ -3209,6 +3267,12 @@ Public Class Form1
 
     End Sub
     Private Sub Form1_Click(sender As Object, e As EventArgs) Handles MyBase.Click
+        local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?agent_name=Justin+Theriault&lead_id=421&lead_guid=7af28e93-bfdf-43d0-8e81-742cbdf34ad2&import_id=13395")
+        Dim carljohnson As IReadOnlyCollection(Of String) = local_browser.WindowHandles
+        local_browser.Navigate.Refresh()
+        For Each carl As String In carljohnson
+            Console.WriteLine(carl)
+        Next
 
     End Sub
     Private Sub Button2_Click(sender As Object, e As EventArgs)
@@ -4196,31 +4260,6 @@ Public Class Form1
 
         If waveOut.PlaybackState = 0 Then
 
-            If CurrentQ = 8 Then
-                Select Case switch
-                    Case False
-                        switch = True
-                        Exit Sub
-                    Case True
-                        Console.WriteLine("checking make")
-
-                        switch = False
-                End Select
-            End If
-
-            If CurrentQ = 9 Then
-                Select Case switch
-                    Case False
-                        switch = True
-                        Exit Sub
-                    Case True
-                        Console.WriteLine("checking models")
-
-                        switch = False
-                        Exit Sub
-                End Select
-            End If
-
             If CurrentQ < 30 Then
                 AskQuestion(CurrentQ, counter)
                 Timer2.Enabled = False
@@ -4999,7 +5038,7 @@ Public Class Form1
 
     Private Sub Form1_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         Unregister()
-
+        local_browser.Dispose()
 
     End Sub
 
@@ -5026,10 +5065,12 @@ Public Class Form1
 
 
         newobjection = True
-        If isQuestion Then
+        If Not Already_Handled Then
             isQuestion = False
             introHello = False
-
+            If Recording_status = False Then
+                m.StartMicAndRecognition()
+            End If
         Else
 
         End If
