@@ -2786,6 +2786,9 @@ Public Class Form1
         If theYear <> "" Then
             numRepeats = 0
             local_browser.FindElementById("frmPolicyExpires_Month").SendKeys(CStr(theMonth))
+            For i As Integer = 0 To 1000
+                i += 1
+            Next
             local_browser.FindElementById("frmPolicyExpires_Year").SendKeys(CStr(theYear))
             Return True
         Else
@@ -2847,6 +2850,7 @@ Public Class Form1
         End Select
         If theMonth <> "" And theYear <> "" Then
             local_browser.FindElementById("frmPolicyStart_Month").SendKeys(CStr(theMonth))
+
             local_browser.FindElementById("frmPolicyStart_Year").SendKeys(CStr(theYear))
             Return True
         Else
