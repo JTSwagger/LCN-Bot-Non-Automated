@@ -7,9 +7,11 @@ Imports OpenQA.Selenium.Firefox
 Imports OpenQA.Selenium
 Imports System.Threading
 Imports System.ComponentModel
+Imports Microsoft.ProjectOxford.SpeechRecognition
 
 
 Public Class Form1
+    Public WithEvents m As MicrophoneRecognitionClient
     <DllImport("User32.dll")>
     Public Shared Function RegisterHotKey(ByVal hwnd As IntPtr,
                   ByVal id As Integer, ByVal fsModifiers As Integer,
@@ -30,6 +32,287 @@ Public Class Form1
     Dim numCounter As Integer = 0
     Dim counter2 As Integer = 0
     Dim Driver As FirefoxDriver
+    Dim Already_Handled As Boolean = False
+    Public Sub onChange(sender As Object, e As Microsoft.ProjectOxford.SpeechRecognition.MicrophoneEventArgs) Handles m.OnMicrophoneStatus
+        Recording_status = e.Recording
+        Console.WriteLine("RECORDING: " & e.Recording)
+        Me.BeginInvoke(New Action(AddressOf updateLabel))
+        If Recording_status = False Then
+            Me.BeginInvoke(New Action(AddressOf handleResponse))
+
+        End If
+
+    End Sub
+
+    Sub handlepartialquestion()
+        Console.WriteLine("looking through partial questions for: " & Part)
+        Console.WriteLine("reps: " & quest)
+
+        Try
+
+            Select Case True
+                Case Part.Contains("who is this"), Part.Contains("who are you"), Part.Contains("who is calling"), Part.Contains("who's this"), Part.Contains("who's calling"), Part.Contains("who do you represent")
+
+                    If CurrentQ = 3 Then
+                        CurrentQ = 0
+                    End If
+                    RollTheClip("c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3")
+                    Already_Handled = True
+                    tmrObj.Enabled = True
+
+                Case Part.Contains("who makes it")
+                    RollTheClip("c:\soundboard\cheryl\REACTIONS\YES.mp3")
+                    Already_Handled = True
+
+                Case Part.Contains("what is this"), Part.Contains("what's this"), Part.Contains("what is the nature of this call"), Part.Contains("what are you calling about"), Part.Contains("what is purpose of this call")
+                    If CurrentQ = 3 Then
+                        CurrentQ = 0
+                    End If
+                    RollTheClip("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
+                    Already_Handled = True
+                    tmrObj.Enabled = True
+
+                Case Part.Contains("what is lcn"), Part.Contains("what is elsieanne"), Part.Contains("about your company"), s.Contains("lcn")
+                    If CurrentQ = 3 Then
+                        CurrentQ = 0
+                    End If
+                    RollTheClip("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
+                    Already_Handled = True
+                    tmrObj.Enabled = True
+
+                Case Part.Contains("why are you calling")
+                    RollTheClip("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
+                    Already_Handled = True
+                    tmrObj.Enabled = True
+
+                Case Part.Contains("how did you get my info"), Part.Contains("where did you get my info")
+                    RollTheClip("c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3")
+                    Already_Handled = True
+                    tmrObj.Enabled = True
+
+
+            End Select
+        Catch ex As Exception
+            Console.WriteLine("problem with part question")
+        End Try
+
+
+    End Sub 'Checks for questions in the p
+    Public Sub SomeSpeech(ByVal sender As Object, ByVal e As Microsoft.ProjectOxford.SpeechRecognition.PartialSpeechResponseEventArgs) Handles m.OnPartialResponseReceived
+        Part = e.PartialResult
+        Me.BeginInvoke(New Action(AddressOf handlePartialObjection))
+    End Sub
+
+    Public Sub handlePartialObjection()
+        Console.WriteLine("looking through partial objections for: " & Part)
+        txtSpeech.Text = "The bot heard:  " & Part
+        Select Case True
+            Case Part.Contains("is this a real person"), Part.Contains("is this a recording"), s.Contains("robot"), s.Contains("automated")
+                RollTheClip("C:\Soundboard\Cheryl\REACTIONS\Loud-laugh.mp3")
+                Timer2.Enabled = True
+                NICount += 1
+            Case Part.Contains("no vehicle"), Part.Contains("sold the car"), Part.Contains("sold my car"), Part.Contains("no car"), Part.Contains("don't have a vehicle"), Part.Contains("don't") And Part.Contains("have a car"), Part.Contains("don't have an automobile"), Part.Contains("dont't have my own car"), Part.Contains("doesn't have a car")
+                newobjection = False
+                Console.WriteLine("THEY DON'T HAVE A CAR")
+                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                cmbDispo.Text = "No Car"
+                CurrentQ = 31
+                Timer2.Enabled = True
+                counter2 = 0
+            Case Part.Contains("not interested"), Part.Contains("don't need a quote"), Part.Contains("i'm fine"), Part.Contains("not really interested"), Part.Contains("not in arrested"), Part.Contains("that's okay thank you"), Part.Contains("no interest"), Part.Contains("stop calling"), Part.Contains("i'm good"), Part.Contains("all set"), Part.Contains("don't want it"), Part.Contains("not changing"), Part.Contains("i'm happy with"), Part.Contains("very happy"), Part.Contains("no thank you"), Part.Contains("not looking"), Part.Contains("don't wanna change"), Part.Contains("no thank you"), Part.Contains("don't need insurance") 'NI
+                newobjection = False
+                Console.WriteLine("NOT INTERESTED")
+                If CurrentQ = 3 Then
+                    CurrentQ = 0
+                End If
+
+                Select Case NICount
+                    Case 0
+
+                        RollTheClip("C:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
+                        NICount += 1
+                        If CurrentQ = 3 Then
+                            CurrentQ = 0
+                        End If
+                        tmrObj.Enabled = True
+                    Case 1
+
+                        RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL1.mp3")
+                        numbreps += 1
+                        If CurrentQ = 3 Then
+                            CurrentQ = 0
+                        End If
+                        tmrObj.Enabled = True
+                End Select
+
+
+            Case Part.Contains("busy"), Part.Contains("at work"), Part.Contains("driving"), Part.Contains("can't talk"), Part.Contains("call me back"), Part.Contains("could you call back"), Part.Contains("call back another time"), Part.Contains("call later"), Part.Contains("working right now")
+                newobjection = False
+                If CurrentQ = 3 Then
+                    CurrentQ = 0
+                End If
+
+
+
+                Select Case counter
+                    Case 0
+                        RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
+                        Timer2.Enabled = True
+                        NICount += 1
+                    Case Else
+                        RollTheClip("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\Im busy.MP3")
+                        Timer2.Enabled = True
+                        NICount += 1
+                        counter = 0
+
+                End Select
+            Case Part.Contains("wrong number"), Part.Contains("by that name"), Part.Contains("wrong phone number")
+                newobjection = False
+                RollTheClip("c:\soundboard\cheryl\Rebuttals\SORRY.mp3")
+                cmbDispo.Text = "Wrong Number"
+                CurrentQ = 31
+                Timer2.Enabled = True
+
+            Case Part.Contains("already have"), Part.Contains("already have insurance"), Part.Contains("already got insurance"), Part.Contains("happy with"), Part.Contains("i have insurance"), Part.Contains("i got insurance")
+
+                RollTheClip("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\i have insurance.mp3")
+                Timer2.Enabled = True
+                NICount += 1
+
+
+            Case Part.Contains("take me off your list"), Part.Contains("name off your list"), Part.Contains("number off your list"), Part.Contains("take me off"), Part.Contains("take me off your call list"), Part.Contains("no call list"), Part.Contains("take this number off the list"), Part.Contains("do not call list"), Part.Contains("remove me from the list"), Part.Contains("taken off his collar"), Part.Contains("remove me from your calling list"), Part.Contains("call list"), Part.Contains("calling list")
+                newobjection = False
+
+                RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\DNC.mp3")
+                cmbDispo.Text = "Do Not Call"
+                CurrentQ = 31
+                Timer2.Enabled = True
+        End Select
+        handlepartialquestion()
+    End Sub
+    Public Sub getMake(vehiclenum As Integer) 'currentq for this is 8
+        If secondPass = False Then
+            ModelHolder = s
+        End If
+        Timer2.Enabled = False
+        Dim X As Integer
+        Console.WriteLine(s)
+        For X = 1 To MAKELIST.Length - 1
+            If s.Contains(LCase(MAKELIST(X))) Then
+                vMake(vehiclenum) = UCase(MAKELIST(X).Replace(" ", "%20"))
+                Console.WriteLine(vMake(vehiclenum))
+                Exit For
+            End If
+        Next
+        If s.Contains("chevy") Then
+            vMake(vehiclenum) = "CHEVROLET"
+            Console.WriteLine("It's a Chevy")
+        End If
+        If s.Contains("folks wagon") Then
+            vMake(vehiclenum) = "VOLKSWAGEN"
+            Console.WriteLine("It's a VOLKSWAGEN")
+        End If
+        If vMake(vehiclenum) <> "" Then
+
+            If vehiclenum = 1 Then
+                ' LeadForm.Document.GetElementById("vehicle-make").SetAttribute("value", vMake(vehiclenum))
+                ' LeadForm.Document.GetElementById("vehicle-make").RaiseEvent("onchange")
+
+                CurrentQ = 9
+                Timer2.Enabled = True
+            Else
+                ' LeadForm.Document.GetElementById("vehicle" & vehiclenum & "-make").SetAttribute("value", vMake(vehiclenum))
+                '  LeadForm.Document.GetElementById("vehicle" & vehiclenum & "-make").RaiseEvent("onchange")
+
+                CurrentQ = 9
+                Timer2.Enabled = True
+            End If
+
+        Else
+            Console.WriteLine("-----MAKE NOT FOUND-----")
+            secondPass = True
+            Timer2.Enabled = False
+            CurrentQ = 8
+            RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\WHO MAKES THAT VEHICLE.MP3")
+
+            isQuestion = True
+
+        End If
+
+    End Sub 'GETS THE MAKE OF THE VEHICLE
+    Dim callPos As String = ""
+    Const Insurance_Provider As String = "Insurance Provider"
+    Const Policy_Expiration As String = "Policy Expiration"
+    Const Policy_Start As String = "Policy Start"
+    Const Number_Of_Vehicles As String = "Number of Vehicles"
+    Const Year_Make_Model As String = "Year Make Model"
+
+    Public Sub handleResponse()
+        If Not Already_Handled Then
+            If waveOut.PlaybackState = 0 Then
+                txtSpeech.Text = "In response to asking " & callPos & ": " & vbNewLine & "They said: " & s
+
+                Select Case callPos
+
+                    Case Insurance_Provider
+                        Console.WriteLine("Checking Insurance Provider")
+                        If CheckForCompany() Then
+
+                            callPos = Policy_Expiration
+
+                            s = ""
+                        Else
+                            repeatPlease()
+                            Already_Handled = False
+                        End If
+
+
+                    Case Policy_Expiration
+                        Console.WriteLine("Checking Insurance Expiration Date")
+                        If checkExpiration() Then
+                            callPos = Policy_Start
+                            s = ""
+                        End If
+
+
+                    Case Policy_Start
+                        Console.WriteLine("Checking Insurance Start Date")
+                        If CheckHowLong() Then
+                            callPos = Number_of_Vehicles
+                            s = ""
+                        End If
+                    Case Number_of_Vehicles
+                        Console.WriteLine("Checking Number of Vehicles")
+                        If checkForNumVehicles() Then
+                            callPos = Year_Make_Model
+                            s = ""
+                        End If
+
+                    Case Year_Make_Model
+
+
+                        Console.WriteLine("Checking Year Make and model of Vehicle Number  " & VehicleNum & " out of " & NumberOfVehicles)
+                        If getYear(VehicleNum) Then
+                            CurrentQ = 8
+                            Timer2.Enabled = True
+                        End If
+
+
+                End Select
+            End If
+        End If
+
+    End Sub
+
+    Public Sub GotSpeech(ByVal sender As Object, ByVal e As Microsoft.ProjectOxford.SpeechRecognition.SpeechResponseEventArgs) Handles m.OnResponseReceived
+        If e.PhraseResponse.Results.Length > 0 Then
+            s += LCase(e.PhraseResponse.Results(0).DisplayText)
+        End If
+        Me.BeginInvoke(New Action(AddressOf handleResponse))
+    End Sub
+
+
+
     Dim MAKELIST() As String =
 {"Acura",
 "Alfa Romeo",
@@ -224,7 +507,7 @@ Public Class Form1
     Dim Years() As String = {"81", "82", "83", "84", "85", "86", "87", "88", "89", "90", "91", "92", "93", "94", "95", "96", "97", "98", "99", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007",
         "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17"}
     Dim whatGotSaid As String = ""
-    Dim s As String
+    Dim s As String = ""
     Dim NEWEMAIL As String
     Dim StringSplit() As String
     Dim Clarify As Integer = 0
@@ -397,8 +680,10 @@ Public Class Form1
             Register()
 
         Catch ex As Exception
-            MsgBox(ex)
         End Try
+        Const Key As String = "ce43e8a4d7a844b1be7950b260d6b8bd"
+        Const Key2 As String = "0d2797650c8648d18474399744512f17"
+        m = SpeechRecognitionServiceFactory.CreateMicrophoneClient(SpeechRecognitionMode.LongDictation, "en-us", Key, Key2)
         local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
 
 
@@ -1058,7 +1343,7 @@ Public Class Form1
         '       End If
         '   Next
     End Sub
-    Public Sub getYear(VehicleNum As Integer)
+    Public Function getYear(VehicleNum As Integer) As Boolean
         temperstring = s
         Dim X As Integer
         For X = 1 To Years.Length - 1
@@ -1078,13 +1363,12 @@ Public Class Form1
         Next
         If VYear(VehicleNum) <> "" Then
             If VehicleNum = 1 Then
-                '  'LeadForm.Document.GetElementById("vehicle-year").SetAttribute("value", VYear(VehicleNum))
-                ' 'LeadForm.Document.GetElementById("vehicle-year").RaiseEvent("onchange")
+                local_browser.FindElementById("vehicle-year").SendKeys(VYear(VehicleNum))
+                local_browser.Keyboard.PressKey(Keys.Return)
                 CurrentQ += 1
-
             Else
-                '  'LeadForm.Document.GetElementById("vehicle" & VehicleNum & "-year").SetAttribute("value", VYear(VehicleNum))
-                ' 'LeadForm.Document.GetElementById("vehicle" & VehicleNum & "-year").RaiseEvent("onchange")
+                'LeadForm.Document.GetElementById("vehicle" & VehicleNum & "-year").SetAttribute("value", VYear(VehicleNum))
+                'LeadForm.Document.GetElementById("vehicle" & VehicleNum & "-year").RaiseEvent("onchange")
                 CurrentQ += 1
             End If
         Else
@@ -1094,7 +1378,7 @@ Public Class Form1
 
 
 
-    End Sub 'GETS THE VEHICLE YEAR
+    End Function 'GETS THE VEHICLE YEAR
     Dim BADINFOCOUNTER As Integer = 0
 
 
@@ -1833,7 +2117,7 @@ Public Class Form1
     End Sub 'so speech text can be done crossthreaded
 
     Dim UnsureAboutCompany As Integer = 0
-    Public Sub CheckForCompany()
+    Public Function CheckForCompany() As Boolean
 
         If s.Contains("don't know") Or s.Contains("not sure") Or s.Contains("not certain") Then
             Select Case UnsureAboutCompany
@@ -1842,9 +2126,7 @@ Public Class Form1
                     UnsureAboutCompany += 1
                 Case 1
                     IProvider = "Progressive"
-                    'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                    'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                    CurrentQ = 4
+
                     UnsureAboutCompany = 0
             End Select
 
@@ -1853,117 +2135,71 @@ Public Class Form1
         Select Case True
             Case s.Contains("none"), s.Contains("don't have insurance"), s.Contains("don't got insurance"), s.Contains("got no insurance"), s.Contains("nobody"), s.Contains("no one"), s.Contains("don't have an insurance company")
                 IProvider = "None"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
 
-                CurrentQ = 6
             Case s.Contains("state farm")
                 IProvider = "State Farm Insurance Co."
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
             Case s.Contains("allstate")
                 IProvider = "Allstate Insurance"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
             Case s.Contains("farmers")
                 IProvider = "Farmers Insurance Exchange"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
             Case s.Contains("farm bureau"), s.Contains("farm family"), s.Contains("rural")
                 IProvider = "Farm Bureau/Farm Family/Rural"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
 
             Case s.Contains("liberty mutual")
                 IProvider = "Liberty Mutual Insurance Corp"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
 
             Case s.Contains("aaa"), s.Contains("triple a")
                 IProvider = "AAA Insurnace Co."
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
             Case s.Contains("nationwide")
                 IProvider = "Nationwide Insurance Company"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
             Case s.Contains("american family")
                 IProvider = "Farm Bureau/Farm Family/Rural"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
             Case s.Contains("travelers")
                 IProvider = "Travelers Insurance Company"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
             Case s.Contains("metlife")
                 IProvider = "MetLife Auto and Home"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
             Case s.Contains("dairyland")
                 IProvider = "Dairyland Insurance"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
             Case s.Contains("shelter")
                 IProvider = "Shelter Insurance Co."
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
             Case s.Contains("safeway")
                 IProvider = "Safeway Insurance"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
             Case s.Contains("eerie")
                 IProvider = "Eerie Insurance Company"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
             Case s.Contains("aarp")
                 IProvider = "AARP"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
             Case s.Contains("aetna")
                 IProvider = "AETNA"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
             Case s.Contains("aflac")
                 IProvider = "AFLAC"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
             Case s.Contains("aig")
                 IProvider = "AIG"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
+
             Case s.Contains("aiu")
                 IProvider = "AIU Insurance"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
+
             Case s.Contains("allied")
                 IProvider = "Allied"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
+
             Case s.Contains("american alliance")
                 IProvider = "American Alliance Insurance"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
             Case s.Contains("american automobile")
 
             Case s.Contains("american casualty")
@@ -1994,15 +2230,9 @@ Public Class Form1
             Case s.Contains("ameriplan")
             Case s.Contains("amica")
                 IProvider = "Amica Insurance"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
             Case s.Contains("answer financial")
             Case s.Contains("arbella")
                 IProvider = "Arbella"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
             Case s.Contains("associated indemnity")
             Case s.Contains("assurant")
             Case s.Contains("atlanta casualty")
@@ -2035,8 +2265,6 @@ Public Class Form1
             Case s.Contains("electric insurance")
             Case s.Contains("esurance")
                 IProvider = "ESurance"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
                 CurrentQ = 4
             Case s.Contains("financebox.com")
             Case s.Contains("fire and casualty")
@@ -2046,9 +2274,6 @@ Public Class Form1
             Case s.Contains("frankenmuth")
             Case s.Contains("geico"), s.Contains("guy code")
                 IProvider = "Geico General Insurance"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
             Case s.Contains("gmac insurance")
             Case s.Contains("golden rule")
             Case s.Contains("government employees")
@@ -2086,22 +2311,16 @@ Public Class Form1
             Case s.Contains("leader specialty")
             Case s.Contains("liberty insurance corp")
                 IProvider = "Liberty Mutual Insurance"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
+
                 CurrentQ = 4
             Case s.Contains("lumbermens mutual")
                 IProvider = "Farm Bureau/Farm Family/Rural"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                CurrentQ = 4
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
+
             Case s.Contains("maryland casualty")
             Case s.Contains("mass mutual")
             Case s.Contains("mega/midwest")
             Case s.Contains("mercury")
                 IProvider = "Mercury"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
             Case s.Contains("metropolitan")
             Case s.Contains("mid century")
             Case s.Contains("mid-continent casualty")
@@ -2134,9 +2353,6 @@ Public Class Form1
             Case s.Contains("preferred mutual")
             Case s.Contains("progressive")
                 IProvider = "Progressive"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
             Case s.Contains("prudential insurance co.")
             Case s.Contains("reliance insurance")
             Case s.Contains("reliance national indemnity")
@@ -2163,16 +2379,8 @@ Public Class Form1
             Case s.Contains("the ahbe group")
             Case s.Contains("the general")
                 IProvider = "The General"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
-                CurrentQ = 4
             Case s.Contains("the hartford")
                 IProvider = "The Hartford"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
-                CurrentQ = 4
             Case s.Contains("tico insurance")
             Case s.Contains("tig countrywide insurance")
             Case s.Contains("titan")
@@ -2190,10 +2398,6 @@ Public Class Form1
             Case s.Contains("usa benefits/continental general")
             Case s.Contains("usaa")
                 IProvider = "USAA"
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                CurrentQ = 4
-                CurrentQ = 4
             Case s.Contains("usf and g")
             Case s.Contains("viking county mutual insurance")
             Case s.Contains("viking insurance co of wi")
@@ -2205,18 +2409,21 @@ Public Class Form1
             Case Else
                 If s.Length > 7 Then
                     IProvider = "Progressive"
-                    'LeadForm.Document.GetElementById("frmInsuranceCarrier").SetAttribute("value", IProvider)
-                    'LeadForm.Document.GetElementById("frmInsuranceCarrier").RaiseEvent("onchange")
-                    CurrentQ = 4
                 Else
 
                     isQuestion = True
-
                 End If
 
         End Select
+        If IProvider <> "" Then
+            local_browser.FindElementById("frmInsuranceCarrier").SendKeys(IProvider)
+            local_browser.Keyboard.PressKey(Keys.Return)
+            Return True
+        Else
+            Return False
+        End If
         HandleObjection(s, NICount)
-    End Sub
+    End Function
     Public Sub RandomHumanism()
         isQuestion = False
         Console.WriteLine("HUMAN EXPRESSION: " & HumanCounter)
@@ -2261,7 +2468,7 @@ Public Class Form1
         End Select
 
     End Sub
-    Public Sub checkExpiration()
+    Public Function checkExpiration() As Boolean
         Dim monthnow As String = Date.Now.Month
         Select Case True
             Case s.Contains("don't know"), s.Contains("not even sure"), s.Contains("not sure")
@@ -2289,10 +2496,7 @@ Public Class Form1
                 Else
                     theYear = Date.Now.Year
                 End If
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", theMonth)
-                'LeadForm.Document.GetElementById("frmPolicyExpires_year").SetAttribute("value", theYear)
-                'LeadForm.Document.GetElementById("frmPolicyStart_Month").SetAttribute("value", "0" & (CStr(Now.Month)))
-                'LeadForm.Document.GetElementById("frmPolicyStart_year").SetAttribute("value", theYear)
+
                 CurrentQ = 6
                 RandomHumanism()
 
@@ -2308,8 +2512,7 @@ Public Class Form1
                 Else
 
                 End If
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", theYear)
+
                 CurrentQ = 5
             Case s.Contains("february")
                 theMonth = 2
@@ -2321,8 +2524,7 @@ Public Class Form1
                     End If
                 Else
                 End If
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                 CurrentQ = 5
 
             Case s.Contains("march")
@@ -2335,8 +2537,7 @@ Public Class Form1
                     End If
                 Else
                 End If
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                 CurrentQ = 5
             Case s.Contains("april")
                 theMonth = 4
@@ -2349,8 +2550,7 @@ Public Class Form1
                 Else
 
                 End If
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", theMonth)
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", theYear)
+
                 CurrentQ = 5
             Case s.Contains("may")
                 theMonth = 5
@@ -2362,8 +2562,7 @@ Public Class Form1
                     End If
                 Else
                 End If
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                 CurrentQ = 5
             Case s.Contains("june")
                 theMonth = 6
@@ -2375,8 +2574,7 @@ Public Class Form1
                     End If
                 Else
                 End If
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                 CurrentQ = 5
             Case s.Contains("july")
                 theMonth = 7
@@ -2388,8 +2586,7 @@ Public Class Form1
                     End If
                 Else
                 End If
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                 CurrentQ = 5
             Case s.Contains("august")
                 theMonth = 8
@@ -2401,8 +2598,7 @@ Public Class Form1
                     End If
                 Else
                 End If
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                 CurrentQ = 5
             Case s.Contains("september")
                 theMonth = 9
@@ -2414,8 +2610,7 @@ Public Class Form1
                     End If
                 Else
                 End If
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                 CurrentQ = 5
             Case s.Contains("october")
                 theMonth = 10
@@ -2427,8 +2622,7 @@ Public Class Form1
                     End If
                 Else
                 End If
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                 CurrentQ = 5
             Case s.Contains("november")
                 theMonth = 11
@@ -2440,8 +2634,7 @@ Public Class Form1
                     End If
                 Else
                 End If
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                 CurrentQ = 5
                 theMonth = 12
                 If secondPass = False Then
@@ -2452,8 +2645,7 @@ Public Class Form1
                     End If
                 Else
                 End If
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                 CurrentQ = 5
             Case s.Contains("month")
                 Select Case True
@@ -2463,14 +2655,12 @@ Public Class Form1
                             theMonth = theMonth - 12
                         End If
                         theYear = Date.Now.Year
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                         CurrentQ = 5
                     Case s.Contains("this")
                         theMonth = Date.Now.Month
                         theYear = Date.Now.Year
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                         CurrentQ = 5
 
                     Case s.Contains("3")
@@ -2483,8 +2673,7 @@ Public Class Form1
                         Else
                             theYear = Date.Now.Year
                         End If
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                         CurrentQ = 5
                     Case s.Contains("4")
                         theMonth = Date.Now.Month + 4
@@ -2496,8 +2685,7 @@ Public Class Form1
                         Else
                             theYear = Date.Now.Year
                         End If
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                         CurrentQ = 5
                     Case s.Contains("5")
                         theMonth = Date.Now.Month + 5
@@ -2509,8 +2697,7 @@ Public Class Form1
                         Else
                             theYear = Date.Now.Year
                         End If
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                         CurrentQ = 5
                     Case s.Contains("6")
                         theMonth = Date.Now.Month + 6
@@ -2522,8 +2709,7 @@ Public Class Form1
                         Else
                             theYear = Date.Now.Year
                         End If
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                         CurrentQ = 5
                     Case s.Contains("7")
                         theMonth = Date.Now.Month + 7
@@ -2535,8 +2721,7 @@ Public Class Form1
                         Else
                             theYear = Date.Now.Year
                         End If
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                         CurrentQ = 5
                     Case s.Contains("8")
                         theMonth = Date.Now.Month + 8
@@ -2548,8 +2733,7 @@ Public Class Form1
                         Else
                             theYear = Date.Now.Year
                         End If
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                         CurrentQ = 5
                     Case s.Contains("9")
                         theMonth = Date.Now.Month + 9
@@ -2561,8 +2745,7 @@ Public Class Form1
                         Else
                             theYear = Date.Now.Year
                         End If
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                        'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                         CurrentQ = 5
                     Case s.Contains("10")
                         theMonth = Date.Now.Month + 10
@@ -2578,8 +2761,7 @@ Public Class Form1
             Case s.Contains("week")
                 theMonth = Date.Now.Month
                 theYear = Date.Now.Year
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Month").SetAttribute("value", CStr(theMonth))
-                'LeadForm.Document.GetElementById("frmPolicyExpires_Year").SetAttribute("value", CStr(theYear))
+
                 CurrentQ = 5
 
             Case Else
@@ -2596,10 +2778,14 @@ Public Class Form1
         End Select
         If theYear <> "" Then
             numRepeats = 0
-            theYear = ""
+            local_browser.FindElementById("frmPolicyExpires_Month").SendKeys(CStr(theMonth))
+            local_browser.FindElementById("frmPolicyExpires_Year").SendKeys(CStr(theYear))
+            Return True
+        Else
+            Return False
         End If
-    End Sub
-    Public Sub CheckHowLong()
+    End Function
+    Public Function CheckHowLong() As Boolean
         Select Case True
             Case s.Contains("don't know"), s.Contains("not even sure"), s.Contains("not sure")
                 If numRepeats < 2 Then
@@ -2652,10 +2838,15 @@ Public Class Form1
                 repeatPlease()
 
         End Select
+        If theMonth <> "" And theYear <> "" Then
+            local_browser.FindElementById("frmPolicyStart_Month").SendKeys(CStr(theMonth))
+            local_browser.FindElementById("frmPolicyStart_Year").SendKeys(CStr(theYear))
+            Return True
+        Else
+            Return False
+        End If
 
-        'LeadForm.Document.GetElementById("frmPolicyStart_Month").SetAttribute("value", CStr(theMonth))
-        'LeadForm.Document.GetElementById("frmPolicyStart_Year").SetAttribute("value", CStr(theYear))
-    End Sub
+    End Function
 
     Dim newobjection As Boolean = False
     Dim Part As String = ""
@@ -3264,7 +3455,8 @@ Public Class Form1
     Private Sub Button35_Click(sender As Object, e As EventArgs) Handles btnIntro.Click
         RollTheClip("c:\soundboard\cheryl\INTRO\Opener 2.MP3")
         isQuestion = True
-
+        callPos = Insurance_Provider
+        m.StartMicAndRecognition()
     End Sub
     Private Sub Button38_Click(sender As Object, e As EventArgs)
         RollTheClip("c:\soundboard\cheryl\TIE INS\Okay What's Your Best Guess.mp3")
@@ -3694,6 +3886,7 @@ Public Class Form1
         Console.WriteLine("ASKING QUESTION: " & CurrentQ)
         Console.WriteLine("version:" & numReps)
         isQuestion = True
+        Already_Handled = False
         Try
             s = ""
             Part = ""
@@ -3732,6 +3925,7 @@ Public Class Form1
                 Case 3
 
                     RollTheClip("C:\SoundBoard\Cheryl\INTRO\Opener 2.MP3")
+                    m.StartMicAndRecognition()
                 Case 4
                     Select Case numReps
                         Case 0
@@ -4833,7 +5027,7 @@ Public Class Form1
 
 
     Private Sub tmrObj_Tick(sender As Object, e As EventArgs) Handles tmrObj.Tick
-
+        Already_Handled = True
         If waveOut.PlaybackState = 0 Then
 
             If playcounter < 1 Then
@@ -4855,6 +5049,7 @@ Public Class Form1
                 tmrObj.Enabled = False
                 Playlist(0) = "NULL"
                 Playlist(1) = "NULL"
+
                 Timer2.Enabled = True
             End If
         End If

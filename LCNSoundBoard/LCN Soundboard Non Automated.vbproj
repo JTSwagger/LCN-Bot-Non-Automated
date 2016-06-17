@@ -81,6 +81,9 @@
     <Reference Include="NDde">
       <HintPath>..\..\..\..\..\..\NDde.2.01.0563.src\NDde\Binary\NDde.dll</HintPath>
     </Reference>
+    <Reference Include="SpeechClient">
+      <HintPath>..\..\..\Downloads\SpeechClient.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
