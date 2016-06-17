@@ -579,7 +579,7 @@ Public Class Form1
         If vmodel(VehicleNum) = "" Then
             For y = 0 To str.Length - 1
                 For p As Integer = 0 To z - 1
-                    Console.WriteLine("Checking to see If " & Model_Collection(z).Text & " contains " & str(y))
+                    Console.WriteLine("Checking to see If " & Model_Collection(p) & " contains " & str(y))
                     If Model_Collection(p).Text.Contains(str(y)) Then
                         vmodel(VehicleNum) = Model_Collection(z).Text
                         Exit For
