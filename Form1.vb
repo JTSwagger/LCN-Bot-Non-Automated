@@ -287,7 +287,6 @@ Public Class Form1
 
                     Case Year_Make_Model
 
-
                         Console.WriteLine("Checking Year Make and model of Vehicle Number  " & VehicleNum & " out of " & NumberOfVehicles)
                         If getYear(VehicleNum) Then
                             CurrentQ = 8
@@ -537,6 +536,7 @@ Public Class Form1
     Dim F As New Form
     Dim oldCust(1) As String
     Public Function getModel(ByRef VehicleNum As Integer) As Boolean
+        Dim z As Integer = 0
         Timer2.Enabled = False
         Already_Handled = True
         Dim y As Integer = 0
@@ -565,22 +565,29 @@ Public Class Form1
         Dim Model_Collection As IReadOnlyCollection(Of IWebElement) = Model_List.FindElements(By.TagName("option"))
         Console.WriteLine(Model_Collection)
         For Each Opt As IWebElement In Model_Collection
+            z += 1
             Console.WriteLine(Opt.Text)
-            If s.Contains(Opt.Text) Then
+            If UCase(s).Contains(Opt.Text) Then
                 vmodel(VehicleNum) = Opt.Text
                 Model_List.SendKeys(vmodel(VehicleNum))
+                Exit For
             Else
-                For y = 0 To str.Length - 1
-                    Console.WriteLine("Checking to see If " & Opt.Text & " contains " & str(y))
-                    If Opt.Text.Contains(str(y)) Then
-                        vmodel(VehicleNum) = Opt.Text
+                Console.WriteLine("could not find " & Opt.Text & " in " & UCase(s))
+            End If
+        Next
+        Console.WriteLine("Completed primary check...")
+        If vmodel(VehicleNum) = "" Then
+            For y = 0 To str.Length - 1
+                For p As Integer = 0 To z - 1
+                    Console.WriteLine("Checking to see If " & Model_Collection(z).Text & " contains " & str(y))
+                    If Model_Collection(p).Text.Contains(str(y)) Then
+                        vmodel(VehicleNum) = Model_Collection(z).Text
                         Exit For
                     End If
                 Next
-                Console.WriteLine("could not find " & Opt.Text & " in " & s)
-                Console.WriteLine("could not find " & str(y) & " in " & Opt.Text)
-            End If
-        Next
+            Next
+        End If
+
         If vmodel(VehicleNum) <> "" Then
             Console.WriteLine("MODEL IS: " & vmodel(VehicleNum))
             Model_List.SendKeys(vmodel(VehicleNum))
