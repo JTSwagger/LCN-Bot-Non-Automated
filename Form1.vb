@@ -673,8 +673,8 @@ Public Class Form1
 
         Console.WriteLine("-----MODEL Not FOUND-----")
         ModelHolder = s
-            rolltheclipThread("C: \SoundBoard\Cheryl\VEHICLE INFO\What is the model of the Car 1.MP3")
-            Return False
+        rolltheclipThread("C: \SoundBoard\Cheryl\VEHICLE INFO\What is the model of the Car 1.MP3")
+        Return False
 
     End Function  '
     Public Sub verifyBDay()
