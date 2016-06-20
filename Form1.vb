@@ -13,6 +13,10 @@ Imports System.Collections.Generic
 
 Public Class Form1
     Public WithEvents m As MicrophoneRecognitionClient
+    Delegate Sub rollTheClipper()
+    Private demoThread As Thread = Nothing
+    Private WithEvents BakgroundWorker As BackgroundWorker
+
     <DllImport("User32.dll")>
     Public Shared Function RegisterHotKey(ByVal hwnd As IntPtr,
                   ByVal id As Integer, ByVal fsModifiers As Integer,
@@ -34,7 +38,7 @@ Public Class Form1
     Dim counter2 As Integer = 0
     Dim Driver As FirefoxDriver
     Dim Already_Handled As Boolean = False
-    Public Sub onChange(sender As Object, e As Microsoft.ProjectOxford.SpeechRecognition.MicrophoneEventArgs) Handles m.OnMicrophoneStatus
+    Public Sub onChange(sender As Object, e As MicrophoneEventArgs) Handles m.OnMicrophoneStatus
         Recording_status = e.Recording
         Me.BeginInvoke(New Action(AddressOf updateLabel))
     End Sub
@@ -51,19 +55,19 @@ Public Class Form1
                     If CurrentQ = 3 Then
                         CurrentQ = 0
                     End If
-                    RollTheClip("c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3")
                     Already_Handled = True
                     tmrObj.Enabled = True
 
                 Case Part.Contains("who makes it")
-                    RollTheClip("c:\soundboard\cheryl\REACTIONS\YES.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\REACTIONS\YES.mp3")
                     Already_Handled = True
 
                 Case Part.Contains("what is this"), Part.Contains("what's this"), Part.Contains("what is the nature of this call"), Part.Contains("what are you calling about"), Part.Contains("what is purpose of this call")
                     If CurrentQ = 3 Then
                         CurrentQ = 0
                     End If
-                    RollTheClip("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
                     Already_Handled = True
                     tmrObj.Enabled = True
 
@@ -71,17 +75,17 @@ Public Class Form1
                     If CurrentQ = 3 Then
                         CurrentQ = 0
                     End If
-                    RollTheClip("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
                     Already_Handled = True
                     tmrObj.Enabled = True
 
                 Case Part.Contains("why are you calling")
-                    RollTheClip("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
                     Already_Handled = True
                     tmrObj.Enabled = True
 
                 Case Part.Contains("how did you get my info"), Part.Contains("where did you get my info")
-                    RollTheClip("c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3")
                     Already_Handled = True
                     tmrObj.Enabled = True
 
@@ -103,13 +107,13 @@ Public Class Form1
         txtSpeech.Text = "The bot heard:  " & Part
         Select Case True
             Case Part.Contains("is this a real person"), Part.Contains("is this a recording"), s.Contains("robot"), s.Contains("automated")
-                RollTheClip("C:\Soundboard\Cheryl\REACTIONS\Loud-laugh.mp3")
+                rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\Loud-laugh.mp3")
                 Timer2.Enabled = True
                 NICount += 1
             Case Part.Contains("no vehicle"), Part.Contains("sold the car"), Part.Contains("sold my car"), Part.Contains("no car"), Part.Contains("don't have a vehicle"), Part.Contains("don't") And Part.Contains("have a car"), Part.Contains("don't have an automobile"), Part.Contains("dont't have my own car"), Part.Contains("doesn't have a car")
                 newobjection = False
                 Console.WriteLine("THEY DON'T HAVE A CAR")
-                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                 cmbDispo.Text = "No Car"
                 CurrentQ = 31
                 Timer2.Enabled = True
@@ -124,7 +128,7 @@ Public Class Form1
                 Select Case NICount
                     Case 0
 
-                        RollTheClip("C:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
+                        rolltheclipThread("C:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
                         NICount += 1
                         If CurrentQ = 3 Then
                             CurrentQ = 0
@@ -132,7 +136,7 @@ Public Class Form1
                         tmrObj.Enabled = True
                     Case 1
 
-                        RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL1.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL1.mp3")
                         numbreps += 1
                         If CurrentQ = 3 Then
                             CurrentQ = 0
@@ -151,11 +155,11 @@ Public Class Form1
 
                 Select Case counter
                     Case 0
-                        RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
                         Timer2.Enabled = True
                         NICount += 1
                     Case Else
-                        RollTheClip("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\Im busy.MP3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\Im busy.MP3")
                         Timer2.Enabled = True
                         NICount += 1
                         counter = 0
@@ -163,14 +167,14 @@ Public Class Form1
                 End Select
             Case Part.Contains("wrong number"), Part.Contains("by that name"), Part.Contains("wrong phone number")
                 newobjection = False
-                RollTheClip("c:\soundboard\cheryl\Rebuttals\SORRY.mp3")
+                rolltheclipThread("c:\soundboard\cheryl\Rebuttals\SORRY.mp3")
                 cmbDispo.Text = "Wrong Number"
                 CurrentQ = 31
                 Timer2.Enabled = True
 
             Case Part.Contains("already have"), Part.Contains("already have insurance"), Part.Contains("already got insurance"), Part.Contains("happy with"), Part.Contains("i have insurance"), Part.Contains("i got insurance")
 
-                RollTheClip("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\i have insurance.mp3")
+                rolltheclipThread("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\i have insurance.mp3")
                 Timer2.Enabled = True
                 NICount += 1
 
@@ -178,7 +182,7 @@ Public Class Form1
             Case Part.Contains("take me off your list"), Part.Contains("name off your list"), Part.Contains("number off your list"), Part.Contains("take me off"), Part.Contains("take me off your call list"), Part.Contains("no call list"), Part.Contains("take this number off the list"), Part.Contains("do not call list"), Part.Contains("remove me from the list"), Part.Contains("taken off his collar"), Part.Contains("remove me from your calling list"), Part.Contains("call list"), Part.Contains("calling list")
                 newobjection = False
 
-                RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\DNC.mp3")
+                rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\DNC.mp3")
                 cmbDispo.Text = "Do Not Call"
                 CurrentQ = 31
                 Timer2.Enabled = True
@@ -233,7 +237,7 @@ Public Class Form1
             secondPass = True
             Timer2.Enabled = False
             CurrentQ = 8
-            RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\WHO MAKES THAT VEHICLE.MP3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\WHO MAKES THAT VEHICLE.MP3")
             isQuestion = True
 
         End If
@@ -345,7 +349,7 @@ Public Class Form1
                             If GetBirthday() Then
                                 callPos = maritalStatus
                             Else
-                                RollTheClip("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
+                                rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
                                 Already_Handled = False
                             End If
                         Else
@@ -381,6 +385,8 @@ Public Class Form1
     Public Sub GotSpeech(ByVal sender As Object, ByVal e As Microsoft.ProjectOxford.SpeechRecognition.SpeechResponseEventArgs) Handles m.OnResponseReceived
         If e.PhraseResponse.Results.Length > 0 Then
             s += LCase(e.PhraseResponse.Results(0).DisplayText)
+        Else
+            m.StartMicAndRecognition()
         End If
         Try
             Me.BeginInvoke(New Action(AddressOf handleResponse))
@@ -648,7 +654,7 @@ Public Class Form1
 
         Console.WriteLine("Completed primary check...")
         If vmodel(VehicleNum) = "" Then
-            For x = 0 To z
+            For x = 0 To z - 1
                 For y = 0 To str.Length - 1
 
                     If Local_Collection(x).Contains(UCase(str(y))) Then
@@ -667,7 +673,7 @@ Public Class Form1
 
         Console.WriteLine("-----MODEL Not FOUND-----")
         ModelHolder = s
-            RollTheClip("C: \SoundBoard\Cheryl\VEHICLE INFO\What is the model of the Car 1.MP3")
+            rolltheclipThread("C: \SoundBoard\Cheryl\VEHICLE INFO\What is the model of the Car 1.MP3")
             Return False
 
     End Function  '
@@ -755,6 +761,7 @@ Public Class Form1
     Dim Recording_status As Boolean
     Sub updateLabel()
         lblRecording.Text = callPos & "RECORDING: " & Recording_status
+
     End Sub
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
@@ -863,37 +870,32 @@ Public Class Form1
         UnregisterHotKey(Me.Handle, 173)
 
     End Sub                      'Unregisters global hotkeys
-    Public Sub RollTheClip(Clip As String)
+    Public Sub rolltheclip()
 
-        If Clip <> "NULL" Then
 
-            waitCheck = 0
-            waveOut.Dispose()
-            waveOut2.Dispose()
+        StopThatClip()
+        waveOut = New NAudio.Wave.WaveOut()
+        waveOut2 = New NAudio.Wave.WaveOut()
 
-            waveOut = New NAudio.Wave.WaveOut()
-            waveOut2 = New NAudio.Wave.WaveOut()
-            If deviceNum1 <> DeviceNum2 Then
-                Dim mp3File As New NAudio.Wave.Mp3FileReader(Clip)
-                Dim mp3File2 As New NAudio.Wave.Mp3FileReader(Clip)
+        If deviceNum1 <> DeviceNum2 Then
+            Dim mp3File As New NAudio.Wave.Mp3FileReader(clipname)
+            Dim mp3File2 As New NAudio.Wave.Mp3FileReader(clipname)
 
-                ' DimwaveFile As New NAudiowavewaveFileReader(Clip)
-                ' DimwaveFile2 As New NAudiowavewaveFileReader(Clip)
-                waveOut.DeviceNumber = deviceNum1
-                waveOut.Init(mp3File)
-                waveOut.Play()
-                waveOut2.DeviceNumber = DeviceNum2
-                waveOut2.Init(mp3File2)
-                waveOut2.Play()
-            Else
-                Dim mp3File As New NAudio.Wave.Mp3FileReader(Clip)
-                '  Dim.mp3eFile As New NAudio.mp3e.mp3eFileReader(Clip)
-                waveOut.DeviceNumber = deviceNum1
-                waveOut.Init(mp3File)
-                waveOut.Play()
-            End If
+            ' DimwaveFile As New NAudiowavewaveFileReader(Clip)
+            ' DimwaveFile2 As New NAudiowavewaveFileReader(Clip)
+            waveOut.DeviceNumber = deviceNum1
+            waveOut.Init(mp3File)
+            waveOut.Play()
+            waveOut2.DeviceNumber = DeviceNum2
+            waveOut2.Init(mp3File2)
+            waveOut2.Play()
+        Else
+            Dim mp3File As New NAudio.Wave.Mp3FileReader(clipname)
+            '  Dim.mp3eFile As New NAudio.mp3e.mp3eFileReader(Clip)
+            waveOut.DeviceNumber = deviceNum1
+            waveOut.Init(mp3File)
+            waveOut.Play()
         End If
-
     End Sub        'Plays sound clips through whatever audio outs are selected
     Sub SpeechtoVar(speech As String) 'to break up month/year'
         Select Case speech
@@ -1525,10 +1527,10 @@ Public Class Form1
 
         Select Case numRepeats
             Case 0
-                RollTheClip("C:/Soundboard/Cheryl/reactions/Can You Repeat that.mp3")
+                rolltheclipThread("C:/Soundboard/Cheryl/reactions/Can You Repeat that.mp3")
                 numRepeats += 1
             Case 1
-                RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\repeatagain.mp3")
+                rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\repeatagain.mp3")
                 numRepeats += 1
             Case Else
                 CurrentQ += 1
@@ -1563,7 +1565,7 @@ Public Class Form1
 
                 Select Case True
                     Case Part.Contains("is this a real person"), Part.Contains("is this a recording"), s.Contains("robot"), s.Contains("automated")
-                        RollTheClip("C:\Soundboard\Cheryl\REACTIONS\Loud-laugh.mp3")
+                        rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\Loud-laugh.mp3")
                         Timer2.Enabled = True
                         NICount += 1
                         Return True
@@ -1571,7 +1573,7 @@ Public Class Form1
                         newobjection = False
 
                         Console.WriteLine("THEY DON'T HAVE A CAR")
-                        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                        rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                         cmbDispo.Text = "No Car"
                         CurrentQ = 31
                         Timer2.Enabled = True
@@ -1601,7 +1603,7 @@ Public Class Form1
                                     tmrObj.Enabled = True
                                     Return True
                                 Else
-                                    RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                                    rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                                     cmbDispo.Text = "Not Interested"
                                     CurrentQ = 31
                                     Timer2.Enabled = True
@@ -1622,14 +1624,14 @@ Public Class Form1
 
                                     Return True
                                 Else
-                                    RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                                    rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                                     cmbDispo.Text = "Not Interested"
                                     CurrentQ = 31
                                     Timer2.Enabled = True
                                     counter2 = 0
                                 End If
                             Case Else
-                                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                                rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                                 cmbDispo.Text = "Not Interested"
                                 CurrentQ = 31
                                 Timer2.Enabled = True
@@ -1645,12 +1647,12 @@ Public Class Form1
 
                         Select Case counter
                             Case 0
-                                RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
+                                rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
                                 Timer2.Enabled = True
                                 NICount += 1
                                 Return True
                             Case Else
-                                RollTheClip("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\Im busy.MP3")
+                                rolltheclipThread("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\Im busy.MP3")
                                 Timer2.Enabled = True
                                 NICount += 1
                                 counter = 0
@@ -1660,7 +1662,7 @@ Public Class Form1
                     Case Part.Contains("wrong number"), Part.Contains("by that name"), Part.Contains("wrong phone number")
                         newobjection = False
 
-                        RollTheClip("c:\soundboard\cheryl\Rebuttals\SORRY.mp3")
+                        rolltheclipThread("c:\soundboard\cheryl\Rebuttals\SORRY.mp3")
                         cmbDispo.Text = "Wrong Number"
                         CurrentQ = 31
                         Timer2.Enabled = True
@@ -1668,7 +1670,7 @@ Public Class Form1
 
                     Case Part.Contains("already have"), Part.Contains("already have insurance"), Part.Contains("already got insurance"), Part.Contains("happy with"), Part.Contains("i have insurance"), Part.Contains("i got insurance")
 
-                        RollTheClip("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\i have insurance.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\i have insurance.mp3")
                         Timer2.Enabled = True
                         NICount += 1
                         Return True
@@ -1677,7 +1679,7 @@ Public Class Form1
                     Case Part.Contains("take me off your list"), Part.Contains("name off your list"), Part.Contains("number off your list"), Part.Contains("take me off"), Part.Contains("take me off your call list"), Part.Contains("no call list"), Part.Contains("take this number off the list"), Part.Contains("do not call list"), Part.Contains("remove me from the list"), Part.Contains("taken off his collar"), Part.Contains("remove me from your calling list"), Part.Contains("call list"), Part.Contains("calling list")
                         newobjection = False
 
-                        RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\DNC.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\DNC.mp3")
                         cmbDispo.Text = "Do Not Call"
                         CurrentQ = 31
                         Timer2.Enabled = True
@@ -1712,7 +1714,7 @@ Public Class Form1
             Case obj.Contains("no vehicle"), obj.Contains("no car"), obj.Contains("don't have a vehicle"), obj.Contains("don't have a car")
 
                 Console.WriteLine("THEY DON'T HAVE A CAR")
-                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                 cmbDispo.Text = "No Car"
                 Return True
                 CurrentQ = 31
@@ -1740,7 +1742,7 @@ Public Class Form1
 
                             Return True
                         Else
-                            RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                            rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                             cmbDispo.Text = "Not Interested"
                             CurrentQ = 31
                             Timer2.Enabled = True
@@ -1761,14 +1763,14 @@ Public Class Form1
 
                             Return True
                         Else
-                            RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                            rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                             cmbDispo.Text = "Not Interested"
                             CurrentQ = 31
                             Timer2.Enabled = True
                             counter2 = 0
                         End If
                     Case Else
-                        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                        rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                         cmbDispo.Text = "Not Interested"
                         CurrentQ = 31
                         Timer2.Enabled = True
@@ -1778,16 +1780,16 @@ Public Class Form1
                 Console.WriteLine("THEY DON'T KNOW")
                 If CurrentQ = 3 Then
                     isQuestion = True
-                    RollTheClip("c:\soundboard\cheryl\PUSHONS\allstategeicostatefarm.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\PUSHONS\allstategeicostatefarm.mp3")
                     Return True
                 ElseIf CurrentQ = 4 Then
-                    RollTheClip("C:/SOUNDBOARD/CHERYL/REBUTTALS/JANUARY FEB MARCH APRIL.mp3")
+                    rolltheclipThread("C:/SOUNDBOARD/CHERYL/REBUTTALS/JANUARY FEB MARCH APRIL.mp3")
                     Return True
                 ElseIf CurrentQ = 7 Then
-                    RollTheClip("c:\soundboard\cheryl\PUSHONS\chevyfordgmc.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\PUSHONS\chevyfordgmc.mp3")
                     Return True
                 Else
-                    RollTheClip("C:\SoundBoard\Cheryl\TIE INS\Great What's Your Best Guess.mp3")
+                    rolltheclipThread("C:\SoundBoard\Cheryl\TIE INS\Great What's Your Best Guess.mp3")
                     Return True
                 End If
                 If CurrentQ = 3 Then
@@ -1799,7 +1801,7 @@ Public Class Form1
                 End If
                 Select Case counter
                     Case >= 0
-                        RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
                         Timer2.Enabled = True
                         numReps += 1
                         Return True
@@ -1810,7 +1812,7 @@ Public Class Form1
 
                 End Select
             Case obj.Contains("wrong number"), obj.Contains("by that name"), obj.Contains("wrong phone number")
-                RollTheClip("c:\soundboard\cheryl\Rebuttals\SORRY.mp3")
+                rolltheclipThread("c:\soundboard\cheryl\Rebuttals\SORRY.mp3")
                 cmbDispo.Text = "Wrong Number"
                 CurrentQ = 31
                 Timer2.Enabled = True
@@ -1845,7 +1847,7 @@ Public Class Form1
                 tmrObj.Enabled = True
                 Return True
             Case obj.Contains("who makes it")
-                RollTheClip("c:\soundboard\cheryl\REACTIONS\YES.mp3")
+                rolltheclipThread("c:\soundboard\cheryl\REACTIONS\YES.mp3")
                 Return True
             Case obj.Contains("what is this"), obj.Contains("what's this"), obj.Contains("what is the nature of this call"), obj.Contains("what are you calling about"), obj.Contains("what is purpose of this call")
                 If CurrentQ = 3 Then
@@ -1880,7 +1882,7 @@ Public Class Form1
                 Return True
 
             Case s.Contains("not home"), s.Contains("he isn't"), s.Contains("not available"), s.Contains("he's not"), s.Contains(" a message"), s.Contains("he's working"), s.Contains("not here"), s.Contains("not right now")
-                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                 CurrentQ = 31
                 Timer2.Enabled = True
                 Return False
@@ -1897,7 +1899,7 @@ Public Class Form1
             Case Part.Contains("this is"), Part.Contains("speaking"), Part.Contains("you've got him"), Part.Contains("you've got her"), Part.Contains("yes"), Part.Contains("yeah"), Part.Contains("what's up?"), Part.Contains("how can i help you"), Part.Contains("hey"), Part.Contains("what do you want"), Part.Contains("hello"), Part.Contains("hi")
                 Return True
             Case Part.Contains("not home"), Part.Contains("he isn't"), Part.Contains("not available"), Part.Contains("he's not"), Part.Contains(" a message"), Part.Contains("he's working"), Part.Contains("not here"), Part.Contains("not right now")
-                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                 CurrentQ = 31
 
                 Timer2.Enabled = True
@@ -1933,7 +1935,7 @@ Public Class Form1
                 NumberOfVehicles = 4
                 Return True
             Case s.Contains("five"), s.Contains("six"), s.Contains("seven"), s.Contains("eight"), s.Contains("nine")
-                RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\only4spots.mp3")
+                rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\only4spots.mp3")
                 NumberOfVehicles = 4
                 Return True
             Case Else
@@ -1949,13 +1951,13 @@ Public Class Form1
             Case s.Contains("yes"), s.Contains("sure"), s.Contains("okay"), s.Contains("ok"), s.Contains("sounds good"), s.Contains("affirmative"), s.Contains("alright")
                 cmbDispo.Text = "Auto Lead"
                 CurrentQ = 31
-                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
+                rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
                 Timer2.Enabled = True
             Case Else
-                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                 cmbDispo.Text = "Lost On Wrap Up"
                 CurrentQ = 31
-                RollTheClip("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
+                rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
                 Timer2.Enabled = True
         End Select
     End Sub
@@ -2262,7 +2264,7 @@ Public Class Form1
         If s.Contains("don't know") Or s.Contains("not sure") Or s.Contains("not certain") Then
             Select Case UnsureAboutCompany
                 Case 0
-                    RollTheClip("C:\SoundBoard\Cheryl\PUSHONS\allstategeicostatefarm.mp3")
+                    rolltheclipThread("C:\SoundBoard\Cheryl\PUSHONS\allstategeicostatefarm.mp3")
                     UnsureAboutCompany += 1
                 Case 1
                     IProvider = "Progressive"
@@ -2580,41 +2582,41 @@ Public Class Form1
         Console.WriteLine("HUMAN EXPRESSION: " & HumanCounter)
         Select Case HumanCounter
             Case 1
-                RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\wonderful.mp3")
+                rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\wonderful.mp3")
                 HumanCounter += 1
                 Timer2.Enabled = True
             Case 2
-                RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\excellent 2.mp3")
+                rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\excellent 2.mp3")
                 HumanCounter += 1
                 Timer2.Enabled = True
             Case 3
-                RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\great 2.mp3")
+                rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\great 2.mp3")
                 HumanCounter += 1
                 Timer2.Enabled = True
             Case 4
-                RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\okGreat.mp3")
+                rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\okGreat.mp3")
                 HumanCounter += 1
                 Timer2.Enabled = True
             Case 5
                 HumanCounter += 1
-                RollTheClip("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\almost done.mp3")
+                rolltheclipThread("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\almost done.mp3")
                 Timer2.Enabled = True
             Case 6
                 HumanCounter += 1
-                ' RollTheClip("C:\SoundBoard\Cheryl\reactions\doing an excellent job.wav")
-                RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\OK.mp3")
+                ' rolltheclipThread("C:\SoundBoard\Cheryl\reactions\doing an excellent job.wav")
+                rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\OK.mp3")
                 Timer2.Enabled = True
             Case 7
-                RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\okGreat.mp3")
+                rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\okGreat.mp3")
                 HumanCounter += 1
                 Timer2.Enabled = True
             Case 8
                 HumanCounter += 1
-                RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\OK2.MP3")
+                rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\OK2.MP3")
                 Timer2.Enabled = True
             Case 9
                 HumanCounter = 1
-                RollTheClip("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\almost out hair.mp3")
+                rolltheclipThread("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\almost out hair.mp3")
                 Timer2.Enabled = True
         End Select
 
@@ -2624,7 +2626,7 @@ Public Class Form1
         Select Case True
             Case s.Contains("don't know"), s.Contains("not even sure"), s.Contains("not sure")
                 If numRepeats < 1 Then
-                    RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\JANUARY FEB MARCH APRIL.MP3")
+                    rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\JANUARY FEB MARCH APRIL.MP3")
                     isQuestion = True
                     numRepeats += 1
                 Else
@@ -2917,7 +2919,7 @@ Public Class Form1
 
             Case Else
                 If numRepeats < 1 Then
-                    RollTheClip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
                     numRepeats += 1
                     isQuestion = True
                 Else
@@ -2943,7 +2945,7 @@ Public Class Form1
         Select Case True
             Case s.Contains("don't know"), s.Contains("not even sure"), s.Contains("not sure")
                 If numRepeats < 2 Then
-                    RollTheClip("C:\SoundBoard\Cheryl\TIE INS\Great what's your best guess.mp3")
+                    rolltheclipThread("C:\SoundBoard\Cheryl\TIE INS\Great what's your best guess.mp3")
                     numRepeats += 1
                 Else
                     theMonth = Now.Month
@@ -3038,7 +3040,7 @@ Public Class Form1
                             Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
                             quest = 1
                     End Select
-                    RollTheClip("c:\soundboard\cheryl\REACTIONS\YES.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\REACTIONS\YES.mp3")
 
                 Case Part.Contains("what is this"), Part.Contains("what's this"), Part.Contains("what is the nature of this call"), Part.Contains("what are you calling about"), Part.Contains("what is purpose of this call")
                     Select Case quest
@@ -3124,8 +3126,8 @@ Public Class Form1
 
     End Sub
     Public Sub StopThatClip()
-        waveOut.Dispose()
-        waveOut2.Dispose()
+        BeginInvoke(New Action(AddressOf waveOut.Dispose))
+        BeginInvoke(New Action(AddressOf waveOut2.Dispose))
         newobjection = True
 
     End Sub 'Stops clip and listens
@@ -3244,13 +3246,13 @@ Public Class Form1
             Select Case (id.ToString)
                 Case "101"
                     If clipnum(0) = 0 Then
-                        RollTheClip("C:  \Soundboard\Cheryl\REACTIONS\OK.mp3")
+                        rolltheclipThread("C:  \Soundboard\Cheryl\REACTIONS\OK.mp3")
                         clipnum(0) += 1
                     ElseIf clipnum(0) = 1 Then
-                        RollTheClip("C:\Soundboard\Cheryl\REACTIONS\OK2.mp3")
+                        rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\OK2.mp3")
                         clipnum(0) += 1
                     Else
-                        RollTheClip("C:\Soundboard\Cheryl\REACTIONS\okgreat.mp3")
+                        rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\okgreat.mp3")
                         clipnum(0) = 0
                     End If
 
@@ -3258,20 +3260,20 @@ Public Class Form1
                 Case "201"
 
                 Case "301"
-                    RollTheClip("C:\Soundboard\Cheryl\REACTIONS\OKGreat.mp3")
+                    rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\OKGreat.mp3")
                 Case "102"
                     If clipnum(2) = 0 Then
-                        RollTheClip("C:\Soundboard\Cheryl\REACTIONS\EXCELLENT 2.mp3")
+                        rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\EXCELLENT 2.mp3")
                         clipnum(2) += 1
                     ElseIf clipnum(2) = 1 Then
-                        RollTheClip("c:\soundboard\cheryl\REACTIONS\Wonderful.mp3")
+                        rolltheclipThread("c:\soundboard\cheryl\REACTIONS\Wonderful.mp3")
                         clipnum(2) += 1
                     Else
-                        RollTheClip("C:\Soundboard\Cheryl\REACTIONS\GREAT 2.mp3")
+                        rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\GREAT 2.mp3")
                         clipnum(2) = 0
                     End If
                 Case "103"
-                    RollTheClip("C:\Soundboard\Cheryl\REACTIONS\verygood.mp3")
+                    rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\verygood.mp3")
                 Case "104"
 
                 Case "105"
@@ -3283,26 +3285,26 @@ Public Class Form1
                 Case "306"
                     'or3
                 Case "107"
-                    RollTheClip("C:\Soundboard\Cheryl\TIE INS\SPELLTHAT.mp3")
+                    rolltheclipThread("C:\Soundboard\Cheryl\TIE INS\SPELLTHAT.mp3")
                 Case "207"
-                    RollTheClip("C:\Soundboard\Cheryl\TIE INS\Could You Please Spell That Out.mp3")
+                    rolltheclipThread("C:\Soundboard\Cheryl\TIE INS\Could You Please Spell That Out.mp3")
                 Case "307"
-                    RollTheClip("C:\Soundboard\Cheryl\TIE INS\Could You Please Spell That Out 2.mp3")
+                    rolltheclipThread("C:\Soundboard\Cheryl\TIE INS\Could You Please Spell That Out 2.mp3")
                 Case "108"
-                    RollTheClip("C:\Soundboard\Cheryl\TIE INS\Take Your Best Guess.mp3")
+                    rolltheclipThread("C:\Soundboard\Cheryl\TIE INS\Take Your Best Guess.mp3")
                 Case "208"
-                    RollTheClip("c:\soundboard\cheryl\TIE INS\Okay What's Your Best Guess.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\TIE INS\Okay What's Your Best Guess.mp3")
                 Case "308"
-                    RollTheClip("c:\soundboard\cheryl\TIE INS\Great What's Your Best Guess.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\TIE INS\Great What's Your Best Guess.mp3")
                 'REBUTTALS
                 Case "109"
-                    RollTheClip("c:\soundboard\cheryl\Rebuttals\Rebuttal1.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\Rebuttals\Rebuttal1.mp3")
                 Case "110"
-                    RollTheClip("c:\soundboard\cheryl\Rebuttals\Rebuttal2.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\Rebuttals\Rebuttal2.mp3")
                 Case "112"
-                    RollTheClip("c:\soundboard\cheryl\Rebuttals\Rebuttal3.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\Rebuttals\Rebuttal3.mp3")
                 Case "111"
-                    RollTheClip("c:\soundboard\cheryl\Rebuttals\Rebuttal4.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\Rebuttals\Rebuttal4.mp3")
 
                 Case "169"
                     StopThatClip()
@@ -3336,39 +3338,33 @@ Public Class Form1
     End Sub
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs)
-        RollTheClip("c: \soundboard\cheryl\INTRO\CHERY_CALLING_FROM_LCN.mp3")
+        rolltheclipThread("c: \soundboard\cheryl\INTRO\CHERY_CALLING_FROM_LCN.mp3")
     End Sub
 
     Private Sub Button12_Click(sender As Object, e As EventArgs) Handles HOMETYPE.Click
         isQuestion = True
 
-        RollTheClip("c:\soundboard\cheryl\PERSONAL INFO\HOMETYPE.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\PERSONAL INFO\HOMETYPE.mp3")
     End Sub
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
         StopThatClip()
-        RollTheClip("c:\soundboard\cheryl\PERSONAL INFO\DO YOU OWN Or RENT THE HOME.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\PERSONAL INFO\DO YOU OWN Or RENT THE HOME.mp3")
         CurrentQ = 15
         isQuestion = True
 
 
     End Sub
     Private Sub Form1_Click(sender As Object, e As EventArgs) Handles MyBase.Click
-        local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?agent_name=Justin+Theriault&lead_id=421&lead_guid=7af28e93-bfdf-43d0-8e81-742cbdf34ad2&import_id=13395")
-        Dim carljohnson As IReadOnlyCollection(Of String) = local_browser.WindowHandles
-        local_browser.Navigate.Refresh()
-        For Each carl As String In carljohnson
-            Console.WriteLine(carl)
-        Next
 
     End Sub
     Private Sub Button2_Click(sender As Object, e As EventArgs)
-        RollTheClip("C: /Soundboard/Cheryl/WhoDoYouUSe.mp3")
+        rolltheclipThread("C: /Soundboard/Cheryl/WhoDoYouUSe.mp3")
     End Sub
     Private Sub Button3_Click(sender As Object, e As EventArgs)
-        RollTheClip("C:/Soundboard/Cheryl/Howlong.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/Howlong.mp3")
     End Sub
     Private Sub Button4_Click(sender As Object, e As EventArgs)
-        RollTheClip("C:/Soundboard/Cheryl/Expiration.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/Expiration.mp3")
     End Sub
     Public Function GetActiveWindows() As ObjectModel.Collection(Of IntPtr)
         EnumWindows(AddressOf Enumerator, 0)
@@ -3408,7 +3404,7 @@ Public Class Form1
                                      ByVal windowTitle As String) As IntPtr
     End Function
     Private Sub HelloButton_Click(sender As Object, e As EventArgs) Handles btnHello.Click
-        RollTheClip("c:\soundboard\cheryl\INTRO\HELLO.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\INTRO\HELLO.mp3")
         isQuestion = True
     End Sub
     Private Sub Label1_Click_1(sender As Object, e As EventArgs) Handles Label1.Click
@@ -3423,7 +3419,7 @@ Public Class Form1
 
     End Sub
     Private Sub Button5_Click(sender As Object, e As EventArgs)
-        RollTheClip("C:/Soundboard/Cheryl/year of the vehicle.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/year of the vehicle.mp3")
     End Sub
     Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
         Primary.Items.Clear()
@@ -3439,7 +3435,7 @@ Public Class Form1
     End Sub
     Private Sub Button17_Click(sender As Object, e As EventArgs) Handles SpouseDOB.Click
         StopThatClip()
-        RollTheClip("c:\soundboard\cheryl\DRIVER INFO\SPOUSES DATE OF BIRTH.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\SPOUSES DATE OF BIRTH.mp3")
         isQuestion = True
 
 
@@ -3454,33 +3450,40 @@ Public Class Form1
             tmrBirthday.Enabled = True
 
         Else
-            RollTheClip("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
+            rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
 
         End If
     End Sub
     Private Sub Button26_Click(sender As Object, e As EventArgs)
-        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/additionalquotes.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/additionalquotes.mp3")
+    End Sub
+    Dim clipname As String
+    Public Sub rolltheclipThread(fileName As String)
+
+        clipname = fileName
+        Me.demoThread = New Thread(New ThreadStart(AddressOf Me.rolltheclip))
+        Me.demoThread.Start()
     End Sub
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles btnTheirName.Click
         Try
-            RollTheClip(globalFile2)
+            rolltheclipThread(globalFile2)
             isQuestion = True
 
         Catch
         End Try
     End Sub
     Private Sub Button7_Click(sender As Object, e As EventArgs)
-        RollTheClip("C:/Soundboard/Cheryl/Car Make Backup.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/Car Make Backup.mp3")
     End Sub
     Private Sub Button18_Click(sender As Object, e As EventArgs)
-        RollTheClip("C:/Soundboard/Cheryl/Model.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/Model.mp3")
     End Sub
     Private Sub Button19_Click(sender As Object, e As EventArgs)
-        RollTheClip("C:/Soundboard/Cheryl/OtherCar.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/OtherCar.mp3")
     End Sub
     Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
         StopThatClip()
-        RollTheClip("c:\soundboard\cheryl\DRIVER INFO\MaritalStatus2.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\MaritalStatus2.mp3")
         CurrentQ = 11
         isQuestion = True
 
@@ -3488,16 +3491,16 @@ Public Class Form1
     Private Sub Button20_Click(sender As Object, e As EventArgs) Handles Button20.Click
         isQuestion = True
 
-        RollTheClip("C:/Soundboard/Cheryl/PERSONAL INFO/phoneType.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/phoneType.mp3")
     End Sub
     Private Sub Button21_Click(sender As Object, e As EventArgs) Handles Button21.Click
         isQuestion = True
 
-        RollTheClip("C:/Soundboard/Cheryl/PERSONAL INFO/Last Name.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/Last Name.mp3")
     End Sub
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles SpouseName.Click
         StopThatClip()
-        RollTheClip("c:\soundboard\cheryl\DRIVER INFO\SPOUSES FIRST NAME.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\SPOUSES FIRST NAME.mp3")
         isQuestion = True
 
         CurrentQ = 12
@@ -3506,51 +3509,51 @@ Public Class Form1
         isQuestion = True
 
         If clipnum(0) = 0 Then
-            RollTheClip("C:\Soundboard\Cheryl\REACTIONS\OK.mp3")
+            rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\OK.mp3")
             clipnum(0) += 1
         ElseIf clipnum(0) = 1 Then
-            RollTheClip("C:\Soundboard\Cheryl\REACTIONS\OK2.mp3")
+            rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\OK2.mp3")
             clipnum(0) += 1
         Else
-            RollTheClip("C:\Soundboard\Cheryl\REACTIONS\OKgreat.mp3")
+            rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\OKgreat.mp3")
             clipnum(0) = 0
         End If
 
 
     End Sub
     Private Sub Button24_Click(sender As Object, e As EventArgs) Handles Button24.Click
-        RollTheClip("C:\Soundboard\Cheryl\REACTIONS\verygood.mp3")
+        rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\verygood.mp3")
     End Sub
     Private Sub Button27_Click(sender As Object, e As EventArgs)
-        RollTheClip("C:/Soundboard/Cheryl/OKEXCELLENT.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/OKEXCELLENT.mp3")
     End Sub
     Private Sub Button28_Click(sender As Object, e As EventArgs) Handles Button28.Click
-        RollTheClip("C:/Soundboard/Cheryl/SORRY.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/SORRY.mp3")
     End Sub
     Private Sub Button32_Click(sender As Object, e As EventArgs)
-        RollTheClip("C:/Soundboard/Cheryl/Rebuttal1.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/Rebuttal1.mp3")
     End Sub
     Private Sub Button31_Click(sender As Object, e As EventArgs)
-        RollTheClip("C:/Soundboard/Cheryl/Rebuttal2.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/Rebuttal2.mp3")
     End Sub
     Private Sub Button30_Click(sender As Object, e As EventArgs)
-        RollTheClip("C:/Soundboard/Cheryl/REbuttal3.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/REbuttal3.mp3")
     End Sub
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
         isQuestion = True
 
-        RollTheClip("c:\soundboard\cheryl\REACTIONS\Could you please verify your address.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REACTIONS\Could you please verify your address.mp3")
     End Sub
     Private Sub Button14_Click(sender As Object, e As EventArgs)
-        RollTheClip("C:/Soundboard/Cheryl/PERSONAL INFO/email.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/email.mp3")
     End Sub
     Private Sub Button22_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\WRAPUP\TCPA Verbatim.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\WRAPUP\TCPA Verbatim.mp3")
     End Sub
     Private Sub Button37_Click(sender As Object, e As EventArgs)
         NICount = 0
         cmbMoreVehicles.SelectedIndex = 0
-        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
         totalCalls = totalCalls + 1
         totalLeads = totalLeads + 1
         lblCalls.Text = totalCalls
@@ -3594,7 +3597,7 @@ Public Class Form1
         cmbMoreVehicles.SelectedIndex = 0
         theurl = ""
         NICount = 0
-        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
         cmbDispo.Text = "Not Available"
         totalCalls = totalCalls + 1
         lblCalls.Text = totalCalls
@@ -3611,96 +3614,96 @@ Public Class Form1
     Private Sub Button33_Click(sender As Object, e As EventArgs) Handles Button33.Click
         isQuestion = True
 
-        RollTheClip("C:/Soundboard/Cheryl/PERSONAL INFO/Credit.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/Credit.mp3")
     End Sub
     Private Sub Button35_Click(sender As Object, e As EventArgs) Handles btnIntro.Click
-        RollTheClip("c:\soundboard\cheryl\INTRO\Opener 2.MP3")
+        rolltheclipThread("c:\soundboard\cheryl\INTRO\Opener 2.MP3")
         isQuestion = True
         callPos = Insurance_Provider
         m.StartMicAndRecognition()
     End Sub
     Private Sub Button38_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\TIE INS\Okay What's Your Best Guess.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\TIE INS\Okay What's Your Best Guess.mp3")
     End Sub
     Private Sub Button36_Click(sender As Object, e As EventArgs)
-        RollTheClip("C:/Soundboard/Cheryl/Opener 2.MP3")
+        rolltheclipThread("C:/Soundboard/Cheryl/Opener 2.MP3")
     End Sub
     Private Sub Button39_Click(sender As Object, e As EventArgs)
-        RollTheClip("C:/Soundboard/Cheryl/YES.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/YES.mp3")
     End Sub
     Private Sub Button41_Click(sender As Object, e As EventArgs) Handles Button41.Click
         If clipnum(2) = 0 Then
-            RollTheClip("C:\Soundboard\Cheryl\REACTIONS\EXCELLENT 2.mp3")
+            rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\EXCELLENT 2.mp3")
             clipnum(2) += 1
         ElseIf clipnum(2) = 1 Then
-            RollTheClip("c:\soundboard\cheryl\REACTIONS\Wonderful.mp3")
+            rolltheclipThread("c:\soundboard\cheryl\REACTIONS\Wonderful.mp3")
             clipnum(2) += 1
         Else
-            RollTheClip("C:\Soundboard\Cheryl\REACTIONS\GREAT 2.mp3")
+            rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\GREAT 2.mp3")
             clipnum(2) = 0
         End If
 
     End Sub
     Private Sub Button29_Click(sender As Object, e As EventArgs)
-        RollTheClip("C:/Soundboard/Cheryl/REBUTTAL4.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/REBUTTAL4.mp3")
     End Sub
     Private Sub Button42_Click(sender As Object, e As EventArgs)
-        RollTheClip("C:/Soundboard/Cheryl/Rebuttal5.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/Rebuttal5.mp3")
     End Sub
     Private Sub Button27_Click_1(sender As Object, e As EventArgs) Handles btnRepeatThat.Click
         If clipnum(5) = 0 Then
-            RollTheClip("C:/Soundboard/Cheryl/reactions/Can You Repeat that.mp3")
+            rolltheclipThread("C:/Soundboard/Cheryl/reactions/Can You Repeat that.mp3")
             clipnum(5) += 1
         ElseIf clipnum(5) = 1 Then
-            RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\repeatagain.mp3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\repeatagain.mp3")
             clipnum(5) += 1
         Else
-            RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\brokenears.mp3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\brokenears.mp3")
             clipnum(5) = 0
         End If
     End Sub
     Private Sub Button53_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\Rebuttals\Rebuttal3.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\Rebuttals\Rebuttal3.mp3")
     End Sub
     Private Sub Button63_Click(sender As Object, e As EventArgs) Handles Button63.Click
         Select Case VehicleNum
             Case 1
                 Select Case NumberOfVehicles
                     Case 1
-                        RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\YMMYV.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\YMMYV.mp3")
                     Case Else
-                        RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\First Vehicle.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\First Vehicle.mp3")
                 End Select
             Case 2
-                RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\2nd Vehicle.mp3")
+                rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\2nd Vehicle.mp3")
             Case 3
-                RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\Third Vehicle.mp3")
+                rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\Third Vehicle.mp3")
             Case 4
-                RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\Fourth Vehicle.mp3")
+                rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\Fourth Vehicle.mp3")
         End Select
     End Sub
     Private Sub Button64_Click(sender As Object, e As EventArgs) Handles Button64.Click
-        RollTheClip("C:/SOUNDBOARD/CHERYL/VEHICLE INFO/HOW MANY VEHICLES DO YOU HAVE.MP3")
+        rolltheclipThread("C:/SOUNDBOARD/CHERYL/VEHICLE INFO/HOW MANY VEHICLES DO YOU HAVE.MP3")
         isQuestion = True
 
     End Sub
     Private Sub Button50_Click(sender As Object, e As EventArgs) Handles btnWhoDoYouHave.Click
         StopThatClip()
-        RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\Who Is The Current Auto INsurance Company that you're with.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\Who Is The Current Auto INsurance Company that you're with.mp3")
         CurrentQ = 3
         isQuestion = True
 
     End Sub
     Private Sub Button51_Click(sender As Object, e As EventArgs) Handles btnPolicyStart.Click
         StopThatClip()
-        RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\HOW MANY YEARS HAVE YOU BEEN WITH THEM 2.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\HOW MANY YEARS HAVE YOU BEEN WITH THEM 2.mp3")
         CurrentQ = 5
         isQuestion = True
 
     End Sub
     Private Sub Button49_Click(sender As Object, e As EventArgs) Handles btnExpiration.Click
         StopThatClip()
-        RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\EXPIRATION.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\EXPIRATION.mp3")
         CurrentQ = 4
         isQuestion = True
 
@@ -3708,75 +3711,75 @@ Public Class Form1
     Private Sub Button62_Click(sender As Object, e As EventArgs)
         Select Case cmbMoreVehicles.SelectedIndex
             Case 0
-                RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\WHAT KIND OF VEHICLE IS THAT 1.mp3")
+                rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\WHAT KIND OF VEHICLE IS THAT 1.mp3")
             Case 1
-                RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\MAKE OF THE SECOND VEHICLE.mp3")
+                rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\MAKE OF THE SECOND VEHICLE.mp3")
             Case 2
-                RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\MAKE OF THE THIRD VEHICLE.mp3")
+                rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\MAKE OF THE THIRD VEHICLE.mp3")
             Case 3
-                RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\MAKE OF THE FOURTH VEHICLE.mp3")
+                rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\MAKE OF THE FOURTH VEHICLE.mp3")
 
         End Select
     End Sub
     Private Sub Button25_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\WRAPUP\YEARBUILT.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\WRAPUP\YEARBUILT.mp3")
     End Sub
     Private Sub Button15_Click_1(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\WRAPUP\SQUARE FOOTAGE.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\WRAPUP\SQUARE FOOTAGE.mp3")
     End Sub
     Private Sub Button44_Click(sender As Object, e As EventArgs)
-        RollTheClip("C:\Soundboard\Cheryl\TIE INS\and.mp3")
+        rolltheclipThread("C:\Soundboard\Cheryl\TIE INS\and.mp3")
     End Sub
     Private Sub Button36_Click_1(sender As Object, e As EventArgs) Handles Button36.Click
-        RollTheClip("C:\Soundboard\Cheryl\TIE INS\Could You Please Spell That Out.mp3")
+        rolltheclipThread("C:\Soundboard\Cheryl\TIE INS\Could You Please Spell That Out.mp3")
     End Sub
     Private Sub Button55_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\Rebuttals\Rebuttal1.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\Rebuttals\Rebuttal1.mp3")
     End Sub
     Private Sub Button52_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\Rebuttals\Rebuttal2.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\Rebuttals\Rebuttal2.mp3")
     End Sub
     Private Sub Button2_Click_1(sender As Object, e As EventArgs) Handles Button2.Click
-        RollTheClip("c:\soundboard\cheryl\Rebuttals\SORRY.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\Rebuttals\SORRY.mp3")
     End Sub
     Private Sub Button3_Click_1(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\WRAPUP\TCPAWARMUP.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\WRAPUP\TCPAWARMUP.mp3")
     End Sub
     Private Sub Button4_Click_1(sender As Object, e As EventArgs)
         Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3"
         Timer6.Enabled = True
     End Sub
     Private Sub Button29_Click_1(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3")
     End Sub
     Private Sub Button30_Click_1(sender As Object, e As EventArgs) Handles YEARBUILT.Click
-        RollTheClip("C:\SoundBoard\Cheryl\WRAPUP\YearBuilt.mp3")
+        rolltheclipThread("C:\SoundBoard\Cheryl\WRAPUP\YearBuilt.mp3")
     End Sub
     Private Sub Button56_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REACTIONS\YES.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REACTIONS\YES.mp3")
     End Sub
     Private Sub Button61_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REACTIONS\NO.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REACTIONS\NO.mp3")
     End Sub
     Private Sub Button42_Click_1(sender As Object, e As EventArgs) Handles Button42.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3"
             Timer6.Enabled = True
         Else
-            RollTheClip("c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3")
+            rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3")
         End If
     End Sub
 
     Private Sub Button66_Click(sender As Object, e As EventArgs)
         Select Case cmbMoreVehicles.SelectedIndex
             Case 0
-                RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\WHAT IS THE MODEL OF THE CAR 1.mp3")
+                rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\WHAT IS THE MODEL OF THE CAR 1.mp3")
             Case 1
-                RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\model OF THE SECOND VEHICLE.mp3")
+                rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\model OF THE SECOND VEHICLE.mp3")
             Case 2
-                RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\model OF THE THIRD VEHICLE.mp3")
+                rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\model OF THE THIRD VEHICLE.mp3")
             Case 3
-                RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\model OF THE FOURTH VEHICLE.mp3")
+                rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\model OF THE FOURTH VEHICLE.mp3")
 
         End Select
     End Sub
@@ -3785,12 +3788,12 @@ Public Class Form1
             Playlist(0) = "c:\soundboard\cheryl\Rebuttals\What's LCN.mp3"
             Timer6.Enabled = True
         Else
-            RollTheClip("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
+            rolltheclipThread("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
         End If
     End Sub
     Private Sub Button43_Click(sender As Object, e As EventArgs) Handles Button43.Click
         cmbMoreVehicles.SelectedIndex = 0
-        RollTheClip("c:\soundboard\cheryl\Rebuttals\DNC.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\Rebuttals\DNC.mp3")
         cmbDispo.Text = "Do Not Call"
         CurrentQ = 31
         Timer2.Enabled = True
@@ -3799,50 +3802,50 @@ Public Class Form1
         resetBot()
     End Sub
     Private Sub Button68_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\INTRO\AUTOOpener 2.MP3")
+        rolltheclipThread("c:\soundboard\cheryl\INTRO\AUTOOpener 2.MP3")
     End Sub
 
     Private Sub tcpa_Click(sender As Object, e As EventArgs) Handles tcpa.Click
-        RollTheClip("c:\soundboard\cheryl\WRAPUP\TCPA.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\WRAPUP\TCPA.mp3")
     End Sub
     Private Sub Button32_Click_2(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
     End Sub
     Private Sub Button39_Click_1(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE YEAR.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE YEAR.mp3")
     End Sub
     Private Sub Button44_Click_1(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE DAY.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE DAY.mp3")
     End Sub
     Private Sub Button29_Click_2(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\WHERE DID YOU GET MY INFO.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\WHERE DID YOU GET MY INFO.mp3")
     End Sub
     Private Sub Button5_Click_1(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
     End Sub
     Private Sub Button19_Click_1(sender As Object, e As EventArgs)
         Playlist(0) = "C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\i understand.mp3"
         Timer6.Enabled = True
     End Sub
     Private Sub Button57_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3")
     End Sub
     Private Sub Button60_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\why do you need my info.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\why do you need my info.mp3")
     End Sub
     Private Sub Button84_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\january feb march april.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\january feb march april.mp3")
     End Sub
     Private Sub Button85_Click(sender As Object, e As EventArgs) Handles Button85.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3"
             Timer6.Enabled = True
         Else
-            RollTheClip("c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3")
+            rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3")
         End If
     End Sub
     Private Sub Button58_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\I'M JUST ABOUT DONE.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I'M JUST ABOUT DONE.mp3")
     End Sub
     Private Sub Button77_Click(sender As Object, e As EventArgs)
         Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I'M JUST ABOUT DONE.mp3"
@@ -3853,89 +3856,68 @@ Public Class Form1
         Timer6.Enabled = True
     End Sub
     Private Sub Button68_Click_1(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\IS THIS THE SPOUSE.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\IS THIS THE SPOUSE.mp3")
     End Sub
     Private Sub Button26_Click_1(sender As Object, e As EventArgs)
         Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I already have insurance rebuttal.mp3"
         Timer6.Enabled = True
     End Sub
     Private Sub Button87_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\This will be real quick.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\This will be real quick.mp3")
     End Sub
     Private Sub Button88_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\what's LCN.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\what's LCN.mp3")
     End Sub
     Private Sub Button89_Click(sender As Object, e As EventArgs) Handles Button89.Click
-        RollTheClip("c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3")
     End Sub
     Private Sub Button90_Click(sender As Object, e As EventArgs) Handles Button90.Click
-        RollTheClip("c:\soundboard\cheryl\INTRO\HELLO.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\INTRO\HELLO.mp3")
     End Sub
     Private Sub Button91_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
     End Sub
     Private Sub Button92_Click(sender As Object, e As EventArgs) Handles Button92.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3"
-            Timer6.Enabled = True
-        Else
-            RollTheClip("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
-        End If
+
+        rolltheclipThread("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
+
     End Sub
     Private Sub Button46_Click(sender As Object, e As EventArgs) Handles Button46.Click
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3")
     End Sub
     Private Sub Button93_Click(sender As Object, e As EventArgs) Handles Button93.Click
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\I COMPLETELY UNDERSTAND.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I COMPLETELY UNDERSTAND.mp3")
     End Sub
     Private Sub Button53_Click_1(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\where did you get my info.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\where did you get my info.mp3")
     End Sub
     Private Sub Button45_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
     End Sub
     Private Sub Button3_Click_2(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
     End Sub
     Private Sub Button81_Click(sender As Object, e As EventArgs) Handles Button81.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\local agents and carriers in your area.mp3"
-            Timer6.Enabled = True
-        Else
-            RollTheClip("c:\soundboard\cheryl\REBUTTALS\local agents and carriers in your area.mp3")
-        End If
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\local agents and carriers in your area.mp3")
     End Sub
     Private Sub Button82_Click(sender As Object, e As EventArgs) Handles Button82.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\can they email.mp3")
 
-
-            Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\can they email.mp3"
-            Timer6.Enabled = True
-        Else
-            RollTheClip("c:\soundboard\cheryl\REBUTTALS\can they email.mp3")
-        End If
     End Sub
     Private Sub Button51_Click_1(sender As Object, e As EventArgs) Handles Button51.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\you're not giving me a quote.mp3"
-            Timer6.Enabled = True
-        Else
-            RollTheClip("c:\soundboard\cheryl\REBUTTALS\you're not giving me a quote.mp3")
-        End If
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\you're not giving me a quote.mp3")
     End Sub
     Private Sub Button83_Click(sender As Object, e As EventArgs) Handles Button83.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\when will they call.mp3"
-            Timer6.Enabled = True
-        Else
-        End If
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\when will they call.mp3")
+
+
     End Sub
     Private Sub Button18_Click_1(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
     End Sub
 
     Private Sub Button86_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\I'M JUST ABOUT DONE.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I'M JUST ABOUT DONE.mp3")
     End Sub
 
     Private Sub Button74_Click(sender As Object, e As EventArgs)
@@ -3943,16 +3925,16 @@ Public Class Form1
     End Sub
 
     Private Sub Button72_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\Rebuttals\Rebuttal4.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\Rebuttals\Rebuttal4.mp3")
 
     End Sub
 
     Private Sub Button76_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
 
     End Sub
     Private Sub Button78_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\where did you get my info.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\where did you get my info.mp3")
 
     End Sub
     Private Sub InsuranceProvider_TextChanged(sender As Object, e As EventArgs) Handles txtInsuranceProvider.TextChanged
@@ -4004,11 +3986,11 @@ Public Class Form1
     End Sub
 
     Private Sub Button3_Click_3(sender As Object, e As EventArgs) Handles Button3.Click
-        RollTheClip("c:\soundboard\cheryl\REACTIONS\YES.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REACTIONS\YES.mp3")
     End Sub
 
     Private Sub Button7_Click_1(sender As Object, e As EventArgs) Handles Button7.Click
-        RollTheClip("c:\soundboard\cheryl\REACTIONS\NO.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REACTIONS\NO.mp3")
     End Sub
 
     Private Sub Button69_Click(sender As Object, e As EventArgs)
@@ -4018,7 +4000,7 @@ Public Class Form1
 
     Private Sub Button17_Click_1(sender As Object, e As EventArgs) Handles Button17.Click
         Try
-            RollTheClip(globalFile)
+            rolltheclipThread(globalFile)
         Catch
 
         End Try
@@ -4026,7 +4008,7 @@ Public Class Form1
 
     Private Sub Button15_Click_2(sender As Object, e As EventArgs) Handles Button15.Click
         Try
-            RollTheClip(globalfile3)
+            rolltheclipThread(globalfile3)
         Catch
         End Try
 
@@ -4040,10 +4022,10 @@ Public Class Form1
 
 
     Private Sub Button18_Click_3(sender As Object, e As EventArgs)
-        RollTheClip("C:/SoundBoard/Cheryl/Names/Vanessa Name.mp3")
+        rolltheclipThread("C:/SoundBoard/Cheryl/Names/Vanessa Name.mp3")
     End Sub
     Public Sub AskQuestion(ByRef Pos As Integer, ByRef numReps As Integer)
-
+        m.EndMicAndRecognition()
         Console.WriteLine("ASKING QUESTION: " & CurrentQ)
         Console.WriteLine("version:" & numReps)
         isQuestion = True
@@ -4058,13 +4040,13 @@ Public Class Form1
                 Case 0
                     Select Case numReps
                         Case 0
-                            RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\Ins provider 1.mp3")
+                            rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\Ins provider 1.mp3")
                             CurrentQ = 3
                         Case 1
-                            RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\Ins provider 2.mp3")
+                            rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\Ins provider 2.mp3")
                             CurrentQ = 3
                         Case Else
-                            RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\Ins provider 3.mp3")
+                            rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\Ins provider 3.mp3")
                             CurrentQ = 3
                             numReps = 0
 
@@ -4072,46 +4054,46 @@ Public Class Form1
                     CurrentQ = 3
 
                 Case 1
-                    RollTheClip("c:\soundboard\cheryl\INTRO\HELLO.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\INTRO\HELLO.mp3")
                 Case 2
                     Select Case numReps
                         Case 0
-                            RollTheClip(globalFile)
+                            rolltheclipThread(globalFile)
 
                         Case 1
-                            RollTheClip(globalfile3)
+                            rolltheclipThread(globalfile3)
                         Case Else
-                            RollTheClip(globalFile2)
+                            rolltheclipThread(globalFile2)
                     End Select
                 Case 3
 
-                    RollTheClip("C:\SoundBoard\Cheryl\INTRO\Opener 2.MP3")
+                    rolltheclipThread("C:\SoundBoard\Cheryl\INTRO\Opener 2.MP3")
                     callPos = Insurance_Provider
                     m.StartMicAndRecognition()
                 Case 4
                     Select Case numReps
                         Case 0
-                            RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\EXPIRATION.mp3")
+                            rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\EXPIRATION.mp3")
                         Case 1
-                            RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\policy exp 1.mp3")
+                            rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\policy exp 1.mp3")
                         Case 2
-                            RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\policy exp 2.mp3")
+                            rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\policy exp 2.mp3")
                         Case Else
-                            RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\policy exp 3.mp3")
+                            rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\policy exp 3.mp3")
                     End Select
                 Case 5
                     Select Case numReps
                         Case 0
-                            RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\And How many years have you been with them.mp3")
+                            rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\And How many years have you been with them.mp3")
                         Case 1
-                            RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\years with 1.mp3")
+                            rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\years with 1.mp3")
                         Case 2
-                            RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\years with 2.mp3")
+                            rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\years with 2.mp3")
                         Case Else
-                            RollTheClip("c:\soundboard\cheryl\INSURANCE INFO\years with 3.mp3")
+                            rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\years with 3.mp3")
                     End Select
                 Case 6
-                    RollTheClip("C:/SOUNDBOARD/CHERYL/VEHICLE INFO/HOW MANY VEHICLES DO YOU HAVE.MP3")
+                    rolltheclipThread("C:/SOUNDBOARD/CHERYL/VEHICLE INFO/HOW MANY VEHICLES DO YOU HAVE.MP3")
                 Case 7
 
                     Console.WriteLine("on vehicle: " & VehicleNum)
@@ -4119,62 +4101,62 @@ Public Class Form1
                         Case 1
                             Select Case NumberOfVehicles
                                 Case 1
-                                    RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\YMMYV.mp3")
+                                    rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\YMMYV.mp3")
                                 Case Else
-                                    RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\First Vehicle.mp3")
+                                    rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\First Vehicle.mp3")
                             End Select
                         Case 2
-                            RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\2nd Vehicle.mp3")
+                            rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\2nd Vehicle.mp3")
                         Case 3
-                            RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\Third Vehicle.mp3")
+                            rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\Third Vehicle.mp3")
                         Case 4
-                            RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\Fourth Vehicle.mp3")
+                            rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\Fourth Vehicle.mp3")
                     End Select
 
                 Case 8
-                    RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\who makes that vehicle.mp3")
+                    rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\who makes that vehicle.mp3")
                 Case 9
-                    RollTheClip("C:\SoundBoard\Cheryl\VEHICLE INFO\what is the model of the car 1.mp3")
+                    rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\what is the model of the car 1.mp3")
                 Case 10
 
                     If getBirthdaWAV() = True Then
                         tbCallOrder.SelectedTab = tbDriverInfo
-                        RollTheClip("C:/Soundboard/Cheryl/Birthday/" & bmonth1 & bday1 & ".mp3")
+                        rolltheclipThread("C:/Soundboard/Cheryl/Birthday/" & bmonth1 & bday1 & ".mp3")
                         While (waveOut.PlaybackState = 1)
                             Console.WriteLine("Checking Birthday")
                         End While
-                        RollTheClip("C:/Soundboard/Cheryl/Birthday/" & byear1 & ".mp3")
+                        rolltheclipThread("C:/Soundboard/Cheryl/Birthday/" & byear1 & ".mp3")
 
                     Else
-                        RollTheClip("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
+                        rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
 
                     End If
                 Case 11
-                    RollTheClip("c:\soundboard\cheryl\DRIVER INFO\MaritalStatus2.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\MaritalStatus2.mp3")
                 Case 12
-                    RollTheClip("c:\soundboard\cheryl\DRIVER INFO\SPOUSES FIRST NAME.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\SPOUSES FIRST NAME.mp3")
                 Case 13
-                    RollTheClip("c:\soundboard\cheryl\DRIVER INFO\SPOUSES DATE OF BIRTH.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\SPOUSES DATE OF BIRTH.mp3")
                 Case 14
-                    RollTheClip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
                 Case 15
-                    RollTheClip("c:\soundboard\cheryl\PERSONAL INFO\DO YOU OWN OR RENT THE HOME.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\PERSONAL INFO\DO YOU OWN OR RENT THE HOME.mp3")
                 Case 16
-                    RollTheClip("c:\soundboard\cheryl\PERSONAL INFO\HOMETYPE.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\PERSONAL INFO\HOMETYPE.mp3")
                 Case 17
-                    RollTheClip("c:\soundboard\cheryl\REACTIONS\COULD YOU PLEASE VERIFY YOUR ADDRESS.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\REACTIONS\COULD YOU PLEASE VERIFY YOUR ADDRESS.mp3")
                 Case 18
-                    RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\Spell out address.mp3")
+                    rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\Spell out address.mp3")
                 Case 19
-                    RollTheClip("C:\SoundBoard\Cheryl\PERSONAL INFO\EMAIL.mp3")
+                    rolltheclipThread("C:\SoundBoard\Cheryl\PERSONAL INFO\EMAIL.mp3")
                 Case 20
-                    RollTheClip("C:\Users\Insurance Express\Documents\LCNSoundBoard\LCNSoundBoard\LCNSoundBoard\bin\Debug\c:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Email Rebuttal.mp3")
+                    rolltheclipThread("C:\Users\Insurance Express\Documents\LCNSoundBoard\LCNSoundBoard\LCNSoundBoard\bin\Debug\c:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Email Rebuttal.mp3")
                 Case 21
-                    RollTheClip("c:\soundboard\cheryl\PERSONAL INFO\Credit.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\PERSONAL INFO\Credit.mp3")
                 Case 22
-                    RollTheClip("c:\soundboard\cheryl\PERSONAL INFO\PhoneType.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\PERSONAL INFO\PhoneType.mp3")
                 Case 23
-                    RollTheClip("c:\soundboard\cheryl\PERSONAL INFO\LAST NAME.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\PERSONAL INFO\LAST NAME.mp3")
                 Case 24
                     If True Then 'LeadForm.Document.GetElementById("frmResidenceType").GetAttribute("value") = "Own" Then
                         HomeQual = True
@@ -4184,80 +4166,80 @@ Public Class Form1
                         HomeQual = False
                     End If
                     If HomeQual = True And LifeQual = True And Mediqual = True Then
-                        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Home Life Medicare.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Home Life Medicare.mp3")
                         Timer2.Enabled = False
                     ElseIf renterQual = True And LifeQual = True And Mediqual = True Then
-                        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Renters and Medicare.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Renters and Medicare.mp3")
                         Timer2.Enabled = False
 
                     ElseIf HomeQual = True And LifeQual = False And Mediqual = False Then
-                        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Home Pitch.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Home Pitch.mp3")
                         Timer2.Enabled = False
 
                     ElseIf HomeQual = True And LifeQual = True And Mediqual = False Then
-                        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\life and home.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\life and home.mp3")
                         Timer2.Enabled = False
 
                     ElseIf HomeQual = True And LifeQual = False And Mediqual = True Then
-                        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Home and Medicare.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Home and Medicare.mp3")
                         Timer2.Enabled = False
 
                     ElseIf HomeQual = False And LifeQual = True And Mediqual = True Then
-                        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Life and Medicare.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Life and Medicare.mp3")
                         Timer2.Enabled = False
 
                     ElseIf rentQual = True And LifeQual = False And Mediqual = False Then
-                        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Rental Insurance Pitch.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Rental Insurance Pitch.mp3")
                         Timer2.Enabled = False
 
                     ElseIf rentQual = True And LifeQual = True And Mediqual = False Then
-                        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\rental and life insurance.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\rental and life insurance.mp3")
                         Timer2.Enabled = False
 
                     ElseIf rentQual = True And LifeQual = False And Mediqual = True Then
-                        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Renters Health.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Renters Health.mp3")
                         Timer2.Enabled = False
 
                     ElseIf renterQual = True And LifeQual = True And HealthQual = True Then
-                        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Renters Health and Life.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Renters Health and Life.mp3")
                         Timer2.Enabled = False
 
                     ElseIf HomeQual = True And LifeQual = False And HealthQual = False Then
-                        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Home Pitch.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Home Pitch.mp3")
                         Timer2.Enabled = False
 
                     ElseIf HomeQual = True And LifeQual = True And HealthQual = False Then
-                        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\life and home insurance.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\life and home insurance.mp3")
                         Timer2.Enabled = False
 
                     ElseIf HomeQual = True And LifeQual = False And HealthQual = True Then
-                        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Home and Health.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Home and Health.mp3")
                         Timer2.Enabled = False
 
                     ElseIf HomeQual = False And LifeQual = True And HealthQual = True Then
-                        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Life and Health Insurance Pitch.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Life and Health Insurance Pitch.mp3")
                         Timer2.Enabled = False
 
                     ElseIf rentQual = True And LifeQual = False And HealthQual = False Then
-                        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\Rental Insurance Pitch.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\Rental Insurance Pitch.mp3")
                         Timer2.Enabled = False
 
                     ElseIf rentQual = True And LifeQual = True And HealthQual = False Then
-                        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\rental and life insurance.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\rental and life insurance.mp3")
                         Timer2.Enabled = False
 
                     ElseIf rentQual = True And LifeQual = False And HealthQual = True Then
-                        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Rental and Health Pitch.mp3")
+                        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Rental and Health Pitch.mp3")
                         Timer2.Enabled = False
                     End If
                 Case 25
-                    RollTheClip("c:\soundboard\cheryl\WRAPUP\YEARBUILT.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\WRAPUP\YEARBUILT.mp3")
                     Timer2.Enabled = False
                 Case 26
-                    RollTheClip("c:\soundboard\cheryl\WRAPUP\SQUARE FOOTAGE.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\WRAPUP\SQUARE FOOTAGE.mp3")
                     Timer2.Enabled = False
                 Case 27
-                    RollTheClip("c:\soundboard\cheryl\WRAPUP\TCPA.mp3")
+                    rolltheclipThread("c:\soundboard\cheryl\WRAPUP\TCPA.mp3")
                     Timer2.Enabled = False
                 Case 28
                     Timer2.Enabled = False
@@ -4278,6 +4260,8 @@ Public Class Form1
 
 
     Public Sub DispositionCall()
+        m.EndMicAndRecognition()
+        StopThatClip()
         NumberOfVehicles = 1
         VehicleNum = 1
         For i As Integer = 0 To 3
@@ -4390,33 +4374,33 @@ Public Class Form1
     End Function
 
     Private Sub Button29_Click_3(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\YEAR OF THE FIRST VEHICLE.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\YEAR OF THE FIRST VEHICLE.mp3")
     End Sub
 
     Private Sub Button30_Click_3(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\MAKE OF THE FIRST VEHICLE.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\MAKE OF THE FIRST VEHICLE.mp3")
     End Sub
 
     Private Sub Button45_Click_1(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\MODEL OF THE FIRST VEHICLE.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\MODEL OF THE FIRST VEHICLE.mp3")
     End Sub
 
     Private Sub Button22_Click_1(sender As Object, e As EventArgs) Handles Button22.Click
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\That's okay.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\That's okay.mp3")
     End Sub
 
     Private Sub Button18_Click_4(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REACTIONS\Wonderful.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REACTIONS\Wonderful.mp3")
     End Sub
 
     Private Sub Button47_Click(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\REACTIONS\This info.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REACTIONS\This info.mp3")
     End Sub
 
     Private Sub Button53_Click_2(sender As Object, e As EventArgs) Handles Button53.Click
         isQuestion = True
 
-        RollTheClip("C:/Soundboard/Cheryl/PERSONAL INFO/email.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/email.mp3")
     End Sub
 
     Private Sub Button31_Click_2(sender As Object, e As EventArgs)
@@ -4440,7 +4424,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button57_Click_1(sender As Object, e As EventArgs) Handles Button57.Click
-        RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\Disclaimer 2.mp3")
+        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\Disclaimer 2.mp3")
     End Sub
 
     Dim played As Boolean = False
@@ -4481,9 +4465,9 @@ Public Class Form1
 
     Private Sub SQFT_Click(sender As Object, e As EventArgs) Handles SQFT.Click
         If HomeCheck.Visible = True Then
-            RollTheClip("C:\SoundBoard\Cheryl\WRAPUP\Square Footage.mp3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\WRAPUP\Square Footage.mp3")
         Else
-            RollTheClip("C:\SoundBoard\Cheryl\WRAPUP\PPCoverage.mp3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\WRAPUP\PPCoverage.mp3")
         End If
 
 
@@ -4542,14 +4526,14 @@ Public Class Form1
         End Select
         If waveOut.PlaybackState = 0 Then
             If playcounter < 1 Then
-                RollTheClip(Playlist(playcounter))
+                rolltheclipThread(Playlist(playcounter))
                 playcounter += 1
                 clipnum(6) += 1
 
             ElseIf playcounter = 1 Then
 
                 If Playlist(1) <> "NULL" Then
-                    RollTheClip(Playlist(playcounter))
+                    rolltheclipThread(Playlist(playcounter))
                     playcounter += 1
                     clipnum(6) = 0
                     clipnum(13) += 1
@@ -4572,15 +4556,15 @@ Public Class Form1
     End Sub
 
     Private Sub Button61_Click_2(sender As Object, e As EventArgs) Handles Button61.Click
-        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\Thank-You.mp3")
+        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\Thank-You.mp3")
     End Sub
 
     Private Sub Button70_Click(sender As Object, e As EventArgs) Handles Button70.Click
-        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\You're-Welcome.mp3")
+        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\You're-Welcome.mp3")
     End Sub
 
     Private Sub Button72_Click_1(sender As Object, e As EventArgs)
-        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\zip.mp3")
+        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\zip.mp3")
     End Sub
 
 
@@ -4648,7 +4632,7 @@ Public Class Form1
         cmbMoreVehicles.SelectedIndex = 0
         theurl = ""
         NICount = 0
-        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
         cmbDispo.Text = "Not Interested"
         totalCalls = totalCalls + 1
         lblCalls.Text = totalCalls
@@ -4671,7 +4655,7 @@ Public Class Form1
         cmbMoreVehicles.SelectedIndex = 0
         theurl = ""
         NICount = 0
-        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
         cmbDispo.Text = "Wrong Number"
         totalCalls = totalCalls + 1
         lblCalls.Text = totalCalls
@@ -4691,7 +4675,7 @@ Public Class Form1
         cmbMoreVehicles.SelectedIndex = 0
         theurl = ""
         NICount = 0
-        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
         cmbDispo.Text = "No Car"
         CurrentQ = 31
         Timer2.Enabled = True
@@ -4703,7 +4687,7 @@ Public Class Form1
         cmbMoreVehicles.SelectedIndex = 0
         theurl = ""
         NICount = 0
-        RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 
         cmbDispo.Text = "No English"
         CurrentQ = 31
@@ -4715,11 +4699,11 @@ Public Class Form1
     Dim spot2 As Integer
 
     Private Sub Button84_Click_1(sender As Object, e As EventArgs) Handles Button84.Click
-        RollTheClip("C:/SOUNDBOARD/CHERYL/REBUTTALS/JANUARY FEB MARCH APRIL.mp3")
+        rolltheclipThread("C:/SOUNDBOARD/CHERYL/REBUTTALS/JANUARY FEB MARCH APRIL.mp3")
     End Sub
 
     Private Sub Button38_Click_1(sender As Object, e As EventArgs) Handles Button38.Click
-        RollTheClip("C:\SoundBoard\Cheryl\TIE INS\Great What's Your Best Guess.mp3")
+        rolltheclipThread("C:\SoundBoard\Cheryl\TIE INS\Great What's Your Best Guess.mp3")
     End Sub
 
     Private Sub Button4_Click_2(sender As Object, e As EventArgs) Handles Button4.Click
@@ -4727,16 +4711,16 @@ Public Class Form1
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3"
             Timer6.Enabled = True
         Else
-            RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
         End If
     End Sub
 
     Private Sub Button77_Click_1(sender As Object, e As EventArgs) Handles Button77.Click
-        RollTheClip("C:\Users\Insurance Express\Desktop\Cheryl MP3\Old Sounds\JUSTABOUTDONE.mp3")
+        rolltheclipThread("C:\Users\Insurance Express\Desktop\Cheryl MP3\Old Sounds\JUSTABOUTDONE.mp3")
     End Sub
 
     Private Sub Button59_Click_1(sender As Object, e As EventArgs) Handles Button59.Click
-        RollTheClip("C:\SoundBoard\Cheryl\PERSONAL INFO\I would just need an email address that you have access to.mp3")
+        rolltheclipThread("C:\SoundBoard\Cheryl\PERSONAL INFO\I would just need an email address that you have access to.mp3")
     End Sub
 
     Private Sub Button19_Click_2(sender As Object, e As EventArgs) Handles Button19.Click
@@ -4744,7 +4728,7 @@ Public Class Form1
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\HappyWithInsurance.mp3"
             Timer6.Enabled = True
         Else
-            RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\HappyWithInsurance.mp3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\HappyWithInsurance.mp3")
         End If
 
     End Sub
@@ -4754,7 +4738,7 @@ Public Class Form1
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\this info.mp3"
             Timer6.Enabled = True
         Else
-            RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\this info.mp3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\this info.mp3")
         End If
 
 
@@ -4765,7 +4749,7 @@ Public Class Form1
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\I actually have this information.mp3"
             Timer6.Enabled = True
         Else
-            RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\I actually have this information.mp3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\I actually have this information.mp3")
         End If
 
     End Sub
@@ -4775,7 +4759,7 @@ Public Class Form1
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\I Already Have Insurance rebuttal.mp3"
             Timer6.Enabled = True
         Else
-            RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\I Already Have Insurance rebuttal.mp3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\I Already Have Insurance rebuttal.mp3")
         End If
 
     End Sub
@@ -4785,7 +4769,7 @@ Public Class Form1
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3"
             Timer6.Enabled = True
         Else
-            RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3")
         End If
 
     End Sub
@@ -4795,7 +4779,7 @@ Public Class Form1
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\EMAIL REBUTTAL.mp3"
             Timer6.Enabled = True
         Else
-            RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\EMAIL REBUTTAL.mp3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\EMAIL REBUTTAL.mp3")
         End If
 
     End Sub
@@ -4805,7 +4789,7 @@ Public Class Form1
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\NEW ADDRESS REBUTTAL.mp3"
             Timer6.Enabled = True
         Else
-            RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\NEW ADDRESS REBUTTAL.mp3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\NEW ADDRESS REBUTTAL.mp3")
         End If
 
     End Sub
@@ -4816,7 +4800,7 @@ Public Class Form1
             Timer6.Enabled = True
 
         Else
-            RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\P.O BOX REBUTTAL.mp3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\P.O BOX REBUTTAL.mp3")
         End If
 
     End Sub
@@ -4826,7 +4810,7 @@ Public Class Form1
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3"
             Timer6.Enabled = True
         Else
-            RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3")
         End If
 
     End Sub
@@ -4836,62 +4820,62 @@ Public Class Form1
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\My spouse takes care of that.mp3"
             Timer6.Enabled = True
         Else
-            RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\My spouse takes care of that.mp3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\My spouse takes care of that.mp3")
         End If
 
     End Sub
 
     Private Sub Button68_Click_2(sender As Object, e As EventArgs) Handles Button68.Click
-        RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\Is this the spouse.mp3")
+        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\Is this the spouse.mp3")
     End Sub
 
     Private Sub Button52_Click_2(sender As Object, e As EventArgs) Handles Button52.Click
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\I HAVE A FEW HERE.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I HAVE A FEW HERE.mp3")
     End Sub
 
     Private Sub Button48_Click_1(sender As Object, e As EventArgs) Handles Button48.Click
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\ONE AT A TIME PLEASE.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\ONE AT A TIME PLEASE.mp3")
     End Sub
 
     Private Sub Make_Click_1(sender As Object, e As EventArgs) Handles Make.Click
-        RollTheClip("c:\soundboard\cheryl\PUSHONS\chevyfordgmc.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\PUSHONS\chevyfordgmc.mp3")
     End Sub
 
     Private Sub insurance_Click_1(sender As Object, e As EventArgs) Handles insurance.Click
-        RollTheClip("c:\soundboard\cheryl\PUSHONS\allstategeicostatefarm.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\PUSHONS\allstategeicostatefarm.mp3")
 
     End Sub
 
     Private Sub Button50_Click_1(sender As Object, e As EventArgs) Handles Button50.Click
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
     End Sub
 
     Private Sub Button55_Click_3(sender As Object, e As EventArgs) Handles Button55.Click
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE DAY.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE DAY.mp3")
     End Sub
 
     Private Sub Button54_Click(sender As Object, e As EventArgs) Handles Button54.Click
-        RollTheClip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE YEAR.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE YEAR.mp3")
     End Sub
 
     Private Sub Button14_Click_1(sender As Object, e As EventArgs) Handles Button14.Click
-        RollTheClip("C:\SoundBoard\Cheryl\PERSONAL INFO\email.mp3")
+        rolltheclipThread("C:\SoundBoard\Cheryl\PERSONAL INFO\email.mp3")
     End Sub
 
     Private Sub Button72_Click_2(sender As Object, e As EventArgs) Handles Button72.Click
-        RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\zip.mp3")
+        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\zip.mp3")
     End Sub
 
     Private Sub Button29_Click_4(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\YEAR OF THE FIRST VEHICLE.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\YEAR OF THE FIRST VEHICLE.mp3")
     End Sub
 
     Private Sub Button30_Click_4(sender As Object, e As EventArgs)
-        RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\MAKE OF THE FIRST VEHICLE.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\MAKE OF THE FIRST VEHICLE.mp3")
     End Sub
 
     Private Sub Button45_Click_2(sender As Object, e As EventArgs) Handles Button45.Click
-        RollTheClip("c:\soundboard\cheryl\VEHICLE INFO\MODEL OF THE FIRST VEHICLE.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\MODEL OF THE FIRST VEHICLE.mp3")
     End Sub
 
     Private Sub Button60_Click_1(sender As Object, e As EventArgs) Handles Button60.Click
@@ -4899,7 +4883,7 @@ Public Class Form1
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL3.mp3"
             Timer6.Enabled = True
         Else
-            RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL3.mp3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL3.mp3")
         End If
 
     End Sub
@@ -4909,7 +4893,7 @@ Public Class Form1
             Playlist(0) = ("C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\Im sure what.mp3")
             Timer6.Enabled = True
         Else
-            RollTheClip("C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\Im sure what.mp3")
+            rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\Im sure what.mp3")
         End If
 
 
@@ -4923,7 +4907,7 @@ Public Class Form1
             NICount = 0
             cmbDispo.Text = "Entering Lead/Low"
             resetBot()
-            RollTheClip("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
+            rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
             NumClicks += 1
             CurrentQ = 31
             Timer2.Enabled = True
@@ -4941,7 +4925,7 @@ Public Class Form1
             theurl = ""
             NICount = 0
             cmbDispo.Text = "Entering Lead/Low"
-            RollTheClip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+            rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
             CurrentQ = 31
             resetBot()
             Timer2.Enabled = True
@@ -4956,15 +4940,15 @@ Public Class Form1
     End Sub
 
     Private Sub Button18_Click_5(sender As Object, e As EventArgs) Handles Button18.Click
-        RollTheClip("C:\SoundBoard\Cheryl\REBUTTALS\Sorry to hear that 2.mp3")
+        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\Sorry to hear that 2.mp3")
     End Sub
 
     Private Sub Button27_Click_2(sender As Object, e As EventArgs) Handles Button27.Click
         If clipnum(9) = 0 Then
-            RollTheClip("C:\Soundboard\Cheryl\REACTIONS\Loud-laugh.mp3")
+            rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\Loud-laugh.mp3")
             clipnum(9) += 1
         Else
-            RollTheClip("C:\Soundboard\Cheryl\REACTIONS\softer-Laugh.mp3")
+            rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\softer-Laugh.mp3")
             clipnum(9) = 0
 
         End If
@@ -4981,36 +4965,28 @@ Public Class Form1
 
     Private Sub Button40_Click_1(sender As Object, e As EventArgs) Handles Button40.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
-            RollTheClip("C:/Soundboard/Cheryl/Rebuttals/NotThatCheap.mp3")
+            rolltheclipThread("C:/Soundboard/Cheryl/Rebuttals/NotThatCheap.mp3")
         Else
-            RollTheClip("C:/Soundboard/Cheryl/Rebuttals/NotThatCheap.mp3")
+            rolltheclipThread("C:/Soundboard/Cheryl/Rebuttals/NotThatCheap.mp3")
         End If
 
     End Sub
-
+    Dim errorText As String = ""
     Private Sub txtVerifierNum_TextChanged(sender As Object, e As EventArgs) Handles txtVerifierNum.TextChanged
 
     End Sub
     Dim UserList(4) As Integer
+    Public Sub ErrorOutput()
+        Console.WriteLine(errorText)
+    End Sub
+    Public Sub errorHandler(ByVal sender As Object, ByVal e As SpeechErrorEventArgs) Handles m.OnConversationError
+
+        errorText = e.SpeechErrorText
+        BeginInvoke(New Action(AddressOf ErrorOutput))
+
+    End Sub
+
     Private Sub txtVerifierNum_Click(sender As Object, e As EventArgs) Handles txtVerifierNum.Click
-
-        txtVerifierNum.Text = InputBox("Temp User:", "Temp User")
-        Dim password As String = "y" & txtVerifierNum.Text & "IE"
-        Dim iFrame As IWebElement = local_browser.FindElementByName("top")
-        local_browser.SwitchTo.Frame(iFrame)
-
-        local_browser.FindElementById("login-agent").Click()
-        local_browser.FindElementById("agent-login").SendKeys(txtVerifierNum.Text)
-        local_browser.FindElementById("agent-password").SendKeys(password)
-        local_browser.FindElementById("btn-get-campaign").Click()
-        local_browser.FindElementById("select-campaign").SendKeys("4040")
-
-
-
-
-
-
-
     End Sub
 
     Private Sub tmrAgentStatus_Tick(sender As Object, e As EventArgs) Handles tmrAgentStatus.Tick
@@ -5089,7 +5065,7 @@ Public Class Form1
                 lblCalls2.Text = tempStr(11)
             End If
         Catch ex As Exception
-            MsgBox(ex)
+
         End Try
 
 
@@ -5157,9 +5133,7 @@ Public Class Form1
         If Not Already_Handled Then
             isQuestion = False
             introHello = False
-            If Recording_status = False Then
-                m.StartMicAndRecognition()
-            End If
+            m.StartMicAndRecognition()
         Else
 
         End If
@@ -5172,11 +5146,11 @@ Public Class Form1
         If waveOut.PlaybackState = 0 Then
 
             If playcounter < 1 Then
-                RollTheClip(Playlist(playcounter))
+                rolltheclipThread(Playlist(playcounter))
                 playcounter += 1
             ElseIf playcounter = 1 Then
                 If Playlist(1) <> "NULL" Then
-                    RollTheClip(Playlist(playcounter))
+                    rolltheclipThread(Playlist(playcounter))
                     playcounter += 1
                 Else
                     playcounter = 0
@@ -5203,11 +5177,11 @@ Public Class Form1
         If waveOut.PlaybackState = 0 Then
 
             If playcounter < 1 Then
-                RollTheClip(Playlist(playcounter))
+                rolltheclipThread(Playlist(playcounter))
                 playcounter += 1
             ElseIf playcounter = 1 Then
                 If Playlist(1) <> "NULL" Then
-                    RollTheClip(Playlist(playcounter))
+                    rolltheclipThread(Playlist(playcounter))
                     playcounter += 1
                 Else
                     playcounter = 0

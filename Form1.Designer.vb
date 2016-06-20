@@ -2180,6 +2180,7 @@ Partial Class Form1
         '
         'txtVerifierNum
         '
+        Me.txtVerifierNum.CausesValidation = False
         Me.txtVerifierNum.Location = New System.Drawing.Point(503, 352)
         Me.txtVerifierNum.Name = "txtVerifierNum"
         Me.txtVerifierNum.ReadOnly = True
@@ -2295,6 +2296,7 @@ Partial Class Form1
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(672, 866)
+        Me.Controls.Add(Me.txtVerifierNum)
         Me.Controls.Add(Me.FullAuto)
         Me.Controls.Add(Me.wbLeadInfo)
         Me.Controls.Add(Me.btnPause)
@@ -2302,7 +2304,6 @@ Partial Class Form1
         Me.Controls.Add(Me.wbAgentStatus)
         Me.Controls.Add(Me.lblName)
         Me.Controls.Add(Me.Label32)
-        Me.Controls.Add(Me.txtVerifierNum)
         Me.Controls.Add(Me.Label30)
         Me.Controls.Add(Me.cmbDispo)
         Me.Controls.Add(Me.tbCallOrder)
