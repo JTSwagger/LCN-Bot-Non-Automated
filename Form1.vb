@@ -760,7 +760,7 @@ Public Class Form1
 
     Dim Recording_status As Boolean
     Sub updateLabel()
-        lblRecording.Text = callPos & "RECORDING: " & Recording_status
+        lblRecording.Text = callPos & ":       RECORDING: " & Recording_status
 
     End Sub
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -821,6 +821,9 @@ Public Class Form1
         Const Key As String = "ce43e8a4d7a844b1be7950b260d6b8bd"
         Const Key2 As String = "0d2797650c8648d18474399744512f17"
         m = SpeechRecognitionServiceFactory.CreateMicrophoneClient(SpeechRecognitionMode.LongDictation, "en-us", Key, Key2)
+
+
+        local_browser = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
         local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?agent_name=Justin+Theriault&lead_id=421&lead_guid=7af28e93-bfdf-43d0-8e81-742cbdf34ad2&import_id=13395")
 
 
@@ -832,8 +835,11 @@ Public Class Form1
     End Sub
 
     Dim happytreefriends As FirefoxBinary = New FirefoxBinary(Application.StartupPath & "\Firefox Setup 28.0\core\firefox.exe")
+
     Dim prof As FirefoxProfile = New FirefoxProfile()
-    Public local_browser As FirefoxDriver = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
+
+
+    Public local_browser As FirefoxDriver
 
 
     Public Sub Unregister()
@@ -4260,6 +4266,7 @@ Public Class Form1
 
 
     Public Sub DispositionCall()
+        callPos = ""
         m.EndMicAndRecognition()
         StopThatClip()
         NumberOfVehicles = 1
@@ -4987,6 +4994,7 @@ Public Class Form1
     End Sub
 
     Private Sub txtVerifierNum_Click(sender As Object, e As EventArgs) Handles txtVerifierNum.Click
+        txtVerifierNum.Text = InputBox("enter agent #: ")
     End Sub
 
     Private Sub tmrAgentStatus_Tick(sender As Object, e As EventArgs) Handles tmrAgentStatus.Tick
@@ -4994,6 +5002,16 @@ Public Class Form1
         lblQuestion.Text = CURRENTQUESTION(CurrentQ)
         wbAgentStatus.Navigate("http://loudcloud9.ytel.com/x5/api/non_agent.php?source=test&user=101&pass=API101IEpost&function=agent_status&agent_user=" & txtVerifierNum.Text & "&stage=csv&header=YES")
         Try
+            Dim somehandles As ICollection = local_browser.WindowHandles
+            For Each item As String In somehandles
+
+                If local_browser.Title().Contains("Auto Insurance") Then
+                    Exit For
+                Else
+                    local_browser.SwitchTo().Window(item)
+
+                End If
+            Next
             If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
                 CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
                 CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
@@ -5003,7 +5021,8 @@ Public Class Form1
                 globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
             End If
         Catch ex As Exception
-
+            Console.WriteLine(ex)
+            Console.WriteLine(ex.StackTrace)
         End Try
 
     End Sub 'Sends API Call to get agent report
