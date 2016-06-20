@@ -190,7 +190,6 @@ Partial Class Form1
         Me.Label30 = New System.Windows.Forms.Label()
         Me.txtVerifierNum = New System.Windows.Forms.TextBox()
         Me.Label32 = New System.Windows.Forms.Label()
-        Me.wbAgentStatus = New System.Windows.Forms.WebBrowser()
         Me.tmrAgentStatus = New System.Windows.Forms.Timer(Me.components)
         Me.lblName = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -200,7 +199,6 @@ Partial Class Form1
         Me.tmrObj = New System.Windows.Forms.Timer(Me.components)
         Me.tmrBirthday = New System.Windows.Forms.Timer(Me.components)
         Me.tmrSpeech = New System.Windows.Forms.Timer(Me.components)
-        Me.wbLeadInfo = New System.Windows.Forms.WebBrowser()
         Me.FullAuto = New System.Windows.Forms.CheckBox()
         Me.frReactions.SuspendLayout()
         Me.GroupBox9.SuspendLayout()
@@ -2197,19 +2195,8 @@ Partial Class Form1
         Me.Label32.TabIndex = 136
         Me.Label32.Text = "Verifier #"
         '
-        'wbAgentStatus
-        '
-        Me.wbAgentStatus.Location = New System.Drawing.Point(616, 769)
-        Me.wbAgentStatus.MinimumSize = New System.Drawing.Size(20, 20)
-        Me.wbAgentStatus.Name = "wbAgentStatus"
-        Me.wbAgentStatus.ScriptErrorsSuppressed = True
-        Me.wbAgentStatus.ScrollBarsEnabled = False
-        Me.wbAgentStatus.Size = New System.Drawing.Size(735, 88)
-        Me.wbAgentStatus.TabIndex = 140
-        '
         'tmrAgentStatus
         '
-        Me.tmrAgentStatus.Enabled = True
         Me.tmrAgentStatus.Interval = 250
         '
         'lblName
@@ -2270,16 +2257,6 @@ Partial Class Form1
         '
         Me.tmrSpeech.Interval = 2000
         '
-        'wbLeadInfo
-        '
-        Me.wbLeadInfo.Location = New System.Drawing.Point(633, 470)
-        Me.wbLeadInfo.MinimumSize = New System.Drawing.Size(20, 20)
-        Me.wbLeadInfo.Name = "wbLeadInfo"
-        Me.wbLeadInfo.ScrollBarsEnabled = False
-        Me.wbLeadInfo.Size = New System.Drawing.Size(20, 34)
-        Me.wbLeadInfo.TabIndex = 145
-        Me.wbLeadInfo.Visible = False
-        '
         'FullAuto
         '
         Me.FullAuto.AutoSize = True
@@ -2298,10 +2275,8 @@ Partial Class Form1
         Me.ClientSize = New System.Drawing.Size(672, 866)
         Me.Controls.Add(Me.txtVerifierNum)
         Me.Controls.Add(Me.FullAuto)
-        Me.Controls.Add(Me.wbLeadInfo)
         Me.Controls.Add(Me.btnPause)
         Me.Controls.Add(Me.wbDispo)
-        Me.Controls.Add(Me.wbAgentStatus)
         Me.Controls.Add(Me.lblName)
         Me.Controls.Add(Me.Label32)
         Me.Controls.Add(Me.Label30)
@@ -2498,7 +2473,6 @@ Partial Class Form1
     Friend WithEvents txtVerifierNum As TextBox
     Friend WithEvents Label32 As Label
     Friend WithEvents txtYMM As TextBox
-    Friend WithEvents wbAgentStatus As WebBrowser
     Friend WithEvents tmrAgentStatus As Timer
     Friend WithEvents TabPage2 As TabPage
     Friend WithEvents lblName As Label
@@ -2527,6 +2501,5 @@ Partial Class Form1
     Friend WithEvents tmrSpeech As Timer
     Friend WithEvents Button60 As Button
     Friend WithEvents lblLeadInfo As Label
-    Friend WithEvents wbLeadInfo As WebBrowser
     Friend WithEvents FullAuto As CheckBox
 End Class

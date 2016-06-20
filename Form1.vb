@@ -127,7 +127,6 @@ Public Class Form1
 
                 Select Case NICount
                     Case 0
-
                         rolltheclipThread("C:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
                         NICount += 1
                         If CurrentQ = 3 Then
@@ -135,7 +134,6 @@ Public Class Form1
                         End If
                         tmrObj.Enabled = True
                     Case 1
-
                         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL1.mp3")
                         numbreps += 1
                         If CurrentQ = 3 Then
@@ -214,19 +212,13 @@ Public Class Form1
         If vMake(vehiclenum) <> "" Then
 
             If vehiclenum = 1 Then
-                For i As Integer = 0 To 500
-                    Console.WriteLine("loading makes..." & i)
-                    i += 1
-                Next
+                Thread.Sleep(500)
                 local_browser.FindElementById("vehicle-make").SendKeys((vMake(vehiclenum)))
                 local_browser.Keyboard.PressKey(Keys.Return)
                 Return True
 
             Else
-                For i As Integer = 0 To 500
-                    Console.WriteLine("loading makes..." & i)
-                    i += 1
-                Next
+                Thread.Sleep(500)
                 local_browser.FindElementById("vehicle" & vehiclenum & "-make").SendKeys(vMake(vehiclenum))
                 local_browser.Keyboard.PressKey(Keys.Return)
                 Return True
@@ -798,8 +790,7 @@ Public Class Form1
             CURRENTQUESTION(30) = "TCPA"
             CURRENTQUESTION(31) = "DISPO"
 
-            Me.Width = 1378
-            Me.Height = 905
+
             Dim DeviceCount As Integer = NAudio.Wave.WaveOut.DeviceCount()              'Gets The number of audio devices on the machine
             Dim SDevice As String = Nothing
             Dim RDevice As String = Nothing
@@ -834,7 +825,7 @@ Public Class Form1
 
     End Sub
 
-    Dim happytreefriends As FirefoxBinary = New FirefoxBinary("C:\Users\Insurance Express\Source\Repos\LCN-Bot-Non-Automated\LCNSoundBoard\core\firefox.exe")
+    Dim happytreefriends As FirefoxBinary = New FirefoxBinary(Application.StartupPath & "\Firefox Setup 28.0\core\firefox.exe")
 
     Dim prof As FirefoxProfile = New FirefoxProfile()
 
@@ -884,19 +875,24 @@ Public Class Form1
         waveOut2 = New NAudio.Wave.WaveOut()
 
         If deviceNum1 <> DeviceNum2 Then
-            Dim mp3File As New NAudio.Wave.Mp3FileReader(clipname)
-            Dim mp3File2 As New NAudio.Wave.Mp3FileReader(clipname)
+            If System.IO.File.Exists(clipname) Then
+                Dim mp3File As New NAudio.Wave.Mp3FileReader(clipname)
+                Dim mp3File2 As New NAudio.Wave.Mp3FileReader(clipname)
 
-            ' DimwaveFile As New NAudiowavewaveFileReader(Clip)
-            ' DimwaveFile2 As New NAudiowavewaveFileReader(Clip)
-            waveOut.DeviceNumber = deviceNum1
-            waveOut.Init(mp3File)
-            waveOut.Play()
-            waveOut2.DeviceNumber = DeviceNum2
-            waveOut2.Init(mp3File2)
-            waveOut2.Play()
+                ' DimwaveFile As New NAudiowavewaveFileReader(Clip)
+                ' DimwaveFile2 As New NAudiowavewaveFileReader(Clip)
+                waveOut.DeviceNumber = deviceNum1
+                waveOut.Init(mp3File)
+                waveOut.Play()
+                waveOut2.DeviceNumber = DeviceNum2
+                waveOut2.Init(mp3File2)
+                waveOut2.Play()
+            Else
+
+            End If
+
         Else
-            Dim mp3File As New NAudio.Wave.Mp3FileReader(clipname)
+                Dim mp3File As New NAudio.Wave.Mp3FileReader(clipname)
             '  Dim.mp3eFile As New NAudio.mp3e.mp3eFileReader(Clip)
             waveOut.DeviceNumber = deviceNum1
             waveOut.Init(mp3File)
@@ -1533,7 +1529,7 @@ Public Class Form1
 
         Select Case numRepeats
             Case 0
-                rolltheclipThread("C: /Soundboard/Cheryl/reactions/Can You Repeat that.mp3")
+                rolltheclipThread("C:  /Soundboard/Cheryl/reactions/Can You Repeat that.mp3")
                 numRepeats += 1
             Case 1
                 rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\repeatagain.mp3")
@@ -4993,6 +4989,20 @@ Public Class Form1
 
     End Sub
 
+    Public Structure Agent
+
+    End Structure
+
+    Public Function GenerateStats() As String
+        req = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/non_agent.php?source=test&user=101&pass=API101IEpost&function=agent_status&agent_user=" & txtVerifierNum.Text & "&stage=csv&header=YES")
+        Dim webResp As Net.WebResponse = req.GetResponse
+        Dim webReader As New IO.StreamReader(webResp.GetResponseStream)
+        Dim Stats As String = webReader.ReadToEnd()
+        Return Stats
+    End Function
+
+
+
     Private Sub txtVerifierNum_Click(sender As Object, e As EventArgs) Handles txtVerifierNum.Click
         txtVerifierNum.Text = InputBox("enter agent #: ")
         local_browser = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
@@ -5006,73 +5016,36 @@ Public Class Form1
         local_browser.FindElementById("select-campaign").Click()
         local_browser.FindElementById("select-campaign").FindElements(By.TagName("option")).Last.Click()
         local_browser.FindElementById("btn-submit").Click()
-
+        tmrAgentStatus.Enabled = True
 
     End Sub
+    Dim req As Net.WebRequest
+    Dim DialerAction As Net.WebRequest
+
 
     Private Sub tmrAgentStatus_Tick(sender As Object, e As EventArgs) Handles tmrAgentStatus.Tick
         Label3.Text = CurrentQ
         lblQuestion.Text = CURRENTQUESTION(CurrentQ)
-        wbAgentStatus.Navigate("http://loudcloud9.ytel.com/x5/api/non_agent.php?source=test&user=101&pass=API101IEpost&function=agent_status&agent_user=" & txtVerifierNum.Text & "&stage=csv&header=YES")
-        Try
-            Dim somehandles As ICollection = local_browser.WindowHandles
-            For Each item As String In somehandles
+        If txtVerifierNum.Text <> "" Then
+            Dim STATS As String = GenerateStats()
+            tempStr = STATS.Split(",")
+            Console.WriteLine(STATS)
 
-                If local_browser.Title().Contains("Auto Insurance") Then
-                    Exit For
-                Else
-                    local_browser.SwitchTo().Window(item)
-
-                End If
-            Next
-            If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
-                CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
-                CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
-                btnTheirName.Text = CustName(0)
-                globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
-                globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
-                globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
-            End If
-        Catch ex As Exception
-            Console.WriteLine(ex)
-            Console.WriteLine(ex.StackTrace)
-        End Try
-
-    End Sub 'Sends API Call to get agent report
-
-    Private Sub wbAgentStatus_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles wbAgentStatus.DocumentCompleted
-        Dim iSpan As TimeSpan = TimeSpan.FromSeconds(isecond)
-        Try
-            Dim STATS As String = wbAgentStatus.Document.Body.InnerHtml
-            tempStr = wbAgentStatus.Document.Body.InnerHtml.Split(",")
-            Label3.Text = CurrentQ
-
-            lblHours.Text = iSpan.Hours.ToString.PadLeft(2, "0"c)
-            lblMinutes.Text = iSpan.Minutes.ToString.PadLeft(2, "0"c)
-            lblSeconds.Text = iSpan.Seconds.ToString.PadLeft(2, "0"c)
             If STATS.Contains("INCALL") Then
                 If newcall = True Then
                     lblStatus.Text = "STATUS: " & "INCALL"
                     Me.BackColor = Color.Green
                     introHello = True
-
-                    wbLeadInfo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "Function=pause_code&value=MGMT")
-
-
                 End If
             End If
             If STATS.Contains("DISPO") Then
-
                 introHello = False
                 lblStatus.Text = "STATUS: " & "DISPO"
             ElseIf STATS.Contains("READY") Then
                 lblStatus.Text = "STATUS: " & "READY"
                 Me.BackColor = Color.Yellow
-                If Recording_status = True Then
-                End If
                 btnPause.Text = "Pause"
                 btnPause.BackColor = Color.Red
-
             ElseIf STATS.Contains("PAUSED") Then
                 btnPause.Text = "Resume"
                 btnPause.BackColor = Color.Green
@@ -5082,26 +5055,51 @@ Public Class Form1
                 Me.BackColor = Color.Red
 
             ElseIf STATS.Contains("DEAD") Then
-
                 introHello = False
                 StopThatClip()
                 CurrentQ = 31
                 Timer2.Enabled = True
 
             End If
-            lblName.Text = tempStr(12)
-            lblName2.Text = tempStr(12)
-
-            If CInt(lblCalls.Text) <> tempStr(11) Then
-                lblCalls.Text = tempStr(11)
-                lblCalls2.Text = tempStr(11)
+            If tempStr.Length > 12 Then
+                lblName.Text = tempStr(12)
+                lblName2.Text = tempStr(12)
+                If CInt(lblCalls.Text) <> tempStr(11) Then
+                    lblCalls.Text = tempStr(11)
+                    lblCalls2.Text = tempStr(11)
+                End If
             End If
-        Catch ex As Exception
-
-        End Try
 
 
-    End Sub 'Gets the status of the Agent based on YTEL API call then splits string and handles 
+
+            Try
+                Dim somehandles As ICollection = local_browser.WindowHandles
+                For Each item As String In somehandles
+
+                    If local_browser.Title().Contains("Auto Insurance") Then
+                        If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
+                            CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
+                            CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
+                            btnTheirName.Text = CustName(0)
+                            globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
+                            globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
+                            globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+                        End If
+                        Exit For
+                    Else
+                        local_browser.SwitchTo().Window(item)
+
+                    End If
+                Next
+            Catch ex As Exception
+                Console.WriteLine(ex)
+                Console.WriteLine(ex.StackTrace)
+            End Try
+        End If
+
+    End Sub 'Sends API Call to get agent report
+
+
     Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles wbDispo.DocumentCompleted
 
         Select Case cmbDispo.Text
@@ -5176,30 +5174,11 @@ Public Class Form1
     Private Sub tmrObj_Tick(sender As Object, e As EventArgs) Handles tmrObj.Tick
         Already_Handled = True
         If waveOut.PlaybackState = 0 Then
+            Timer2.Enabled = True
+            tmrObj.Enabled = False
 
-            If playcounter < 1 Then
-                rolltheclipThread(Playlist(playcounter))
-                playcounter += 1
-            ElseIf playcounter = 1 Then
-                If Playlist(1) <> "NULL" Then
-                    rolltheclipThread(Playlist(playcounter))
-                    playcounter += 1
-                Else
-                    playcounter = 0
-                    tmrObj.Enabled = False
-                    Playlist(0) = "NULL"
-                    Playlist(1) = "NULL"
-                End If
-            Else
-                playcounter = 0
-                counter += 1
-                tmrObj.Enabled = False
-                Playlist(0) = "NULL"
-                Playlist(1) = "NULL"
-
-                Timer2.Enabled = True
-            End If
         End If
+
 
     End Sub 'handles objection through 3 step rebuttal (attention, benefit, close)
 
