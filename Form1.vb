@@ -5002,9 +5002,11 @@ Public Class Form1
         local_browser.FindElementById("agent-login").SendKeys(txtVerifierNum.Text)
         local_browser.FindElementById("agent-password").SendKeys("y" & txtVerifierNum.Text & "IE")
         local_browser.FindElementById("btn-get-campaign").Click()
-        local_browser.FindElementById("select-campaign").SendKeys("4040")
-        local_browser.Keyboard.PressKey("return")
-        local_browser.FindElementById("form-signin").Submit()
+
+        local_browser.FindElementById("select-campaign").Click()
+        local_browser.FindElementById("select-campaign").FindElements(By.TagName("option")).Last.Click()
+        local_browser.FindElementById("btn-submit").Click()
+
 
     End Sub
 
