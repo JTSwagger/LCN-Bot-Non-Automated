@@ -332,7 +332,7 @@ Public Class Form1
                                         callPos = Driver_Birthday
                                         s = ""
                                         If FullAuto.Checked Then
-                                            CurrentQ = 6
+                                            CurrentQ = 10
                                             Timer2.Enabled = True
                                         End If
                                     End If
@@ -823,8 +823,8 @@ Public Class Form1
         m = SpeechRecognitionServiceFactory.CreateMicrophoneClient(SpeechRecognitionMode.LongDictation, "en-us", Key, Key2)
 
 
-        local_browser = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
-        local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?agent_name=Justin+Theriault&lead_id=421&lead_guid=7af28e93-bfdf-43d0-8e81-742cbdf34ad2&import_id=13395")
+
+
 
 
 
@@ -4995,6 +4995,17 @@ Public Class Form1
 
     Private Sub txtVerifierNum_Click(sender As Object, e As EventArgs) Handles txtVerifierNum.Click
         txtVerifierNum.Text = InputBox("enter agent #: ")
+        local_browser = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
+        local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
+        local_browser.SwitchTo().Frame("top")
+        local_browser.FindElementById("login-agent").Click()
+        local_browser.FindElementById("agent-login").SendKeys(txtVerifierNum.Text)
+        local_browser.FindElementById("agent-password").SendKeys("y" & txtVerifierNum.Text & "IE")
+        local_browser.FindElementById("btn-get-campaign").Click()
+        local_browser.FindElementById("select-campaign").SendKeys("4040")
+        local_browser.Keyboard.PressKey("return")
+        local_browser.FindElementById("form-signin").Submit()
+
     End Sub
 
     Private Sub tmrAgentStatus_Tick(sender As Object, e As EventArgs) Handles tmrAgentStatus.Tick
