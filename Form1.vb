@@ -834,7 +834,7 @@ Public Class Form1
 
     End Sub
 
-    Dim happytreefriends As FirefoxBinary = New FirefoxBinary(Application.StartupPath & "\Firefox Setup 28.0\core\firefox.exe")
+    Dim happytreefriends As FirefoxBinary = New FirefoxBinary("C:\Users\Insurance Express\Source\Repos\LCN-Bot-Non-Automated\LCNSoundBoard\core\firefox.exe")
 
     Dim prof As FirefoxProfile = New FirefoxProfile()
 
@@ -1533,7 +1533,7 @@ Public Class Form1
 
         Select Case numRepeats
             Case 0
-                rolltheclipThread("C:/Soundboard/Cheryl/reactions/Can You Repeat that.mp3")
+                rolltheclipThread("C: /Soundboard/Cheryl/reactions/Can You Repeat that.mp3")
                 numRepeats += 1
             Case 1
                 rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\repeatagain.mp3")
