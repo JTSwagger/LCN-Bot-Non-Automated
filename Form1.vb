@@ -210,7 +210,7 @@ Public Class Form1
         If vMake(vehiclenum) <> "" Then
 
             If vehiclenum = 1 Then
-                For i As Integer = 0 To 1500
+                For i As Integer = 0 To 500
                     Console.WriteLine("loading makes..." & i)
                     i += 1
                 Next
@@ -219,9 +219,13 @@ Public Class Form1
                 Return True
 
             Else
-                ' LeadForm.Document.GetElementById("vehicle" & vehiclenum & "-make").SetAttribute("value", vMake(vehiclenum))
-                '  LeadForm.Document.GetElementById("vehicle" & vehiclenum & "-make").RaiseEvent("onchange")
-
+                For i As Integer = 0 To 500
+                    Console.WriteLine("loading makes..." & i)
+                    i += 1
+                Next
+                local_browser.FindElementById("vehicle" & vehiclenum & "-make").SendKeys(vMake(vehiclenum))
+                local_browser.Keyboard.PressKey(Keys.Return)
+                Return True
             End If
 
         Else
@@ -241,6 +245,13 @@ Public Class Form1
     Const Policy_Start As String = "Policy Start"
     Const Number_Of_Vehicles As String = "Number of Vehicles"
     Const Year_Make_Model As String = "Year Make Model"
+    Const Driver_Birthday As String = "Driver Birthday"
+    Const Finalize_BDAY As String = "Finalize BDAY"
+    Const Marital_Status As String = "Marital Status"
+    Const Spouse_Name As String = "Spouse Name"
+    Const Spouse_DOB As String = "Spouse DOB"
+    Const Own_Rent As String = "Own or Rent"
+
 
     Public Sub handleResponse()
 
@@ -256,19 +267,24 @@ Public Class Form1
                         If CheckForCompany() Then
 
                             callPos = Policy_Expiration
-
                             s = ""
+                            If FullAuto.Checked Then
+                                CurrentQ = 4
+                                Timer2.Enabled = True
+                            End If
                         Else
                             repeatPlease()
                             Already_Handled = False
                         End If
-
-
                     Case Policy_Expiration
                         Console.WriteLine("Checking Insurance Expiration Date")
                         If checkExpiration() Then
                             callPos = Policy_Start
                             s = ""
+                            If FullAuto.Checked Then
+                                CurrentQ = 5
+                                Timer2.Enabled = True
+                            End If
                         End If
 
 
@@ -277,12 +293,20 @@ Public Class Form1
                         If CheckHowLong() Then
                             callPos = Number_Of_Vehicles
                             s = ""
+                            If FullAuto.Checked Then
+                                CurrentQ = 6
+                                Timer2.Enabled = True
+                            End If
                         End If
                     Case Number_Of_Vehicles
                         Console.WriteLine("Checking Number of Vehicles")
                         If checkForNumVehicles() Then
                             callPos = Year_Make_Model
                             s = ""
+                            If FullAuto.Checked Then
+                                CurrentQ = 7
+                                Timer2.Enabled = True
+                            End If
                         End If
 
                     Case Year_Make_Model
@@ -293,10 +317,20 @@ Public Class Form1
                             If getMake(VehicleNum) Then
                                 CurrentQ = 9
                                 If getModel(VehicleNum) Then
-                                    If NumberOfVehicles > 1 And VehicleNum < NumberOfVehicles Then
+                                    If NumberOfVehicles > 1 And VehicleNum <= NumberOfVehicles Then
                                         VehicleNum += 1
+                                        CurrentQ = 7
+                                        s = ""
+                                        callPos = Year_Make_Model
+                                        Timer2.Enabled = True
+
                                     Else
-                                        callPos = "Driver_Birthday"
+                                        callPos = Driver_Birthday
+                                        s = ""
+                                        If FullAuto.Checked Then
+                                            CurrentQ = 6
+                                            Timer2.Enabled = True
+                                        End If
                                     End If
                                 Else
                                     Already_Handled = False
@@ -305,6 +339,37 @@ Public Class Form1
                                 Already_Handled = False
                             End If
                         End If
+
+                    Case Driver_Birthday
+                        If getBirthdaWAV() Then
+                            If GetBirthday() Then
+                                callPos = maritalStatus
+                            Else
+                                RollTheClip("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
+                                Already_Handled = False
+                            End If
+                        Else
+                            If getSpouseBDAY(False) Then
+                                CurrentQ = 14
+                                Timer2.Enabled = True
+                                callPos = Finalize_BDAY
+                            Else
+                                repeatPlease()
+                            End If
+
+                        End If
+                    Case Finalize_BDAY
+                        If finalizeSpouseBDay(False) Then
+                            callPos = Marital_Status
+                            If FullAuto.Checked Then
+                                CurrentQ = 11
+                                Timer2.Enabled = True
+                            End If
+                        Else
+
+                        End If
+                    Case Marital_Status
+                        checkMaritalStatus()
 
 
                 End Select
@@ -554,50 +619,57 @@ Public Class Form1
         Dim x As Integer = 0
         Console.WriteLine(s)
         Dim str() As String = s.Split()
+        If str.Length > 1 Then
+            str(str.Length - 1) = str(str.Length - 1).Replace("?", "")
+            str(str.Length - 1) = str(str.Length - 1).Replace(".", "")
+        End If
         Dim temper() As String = ModelHolder.Split
 
         Console.WriteLine(local_browser.FindElementById(vnumber).GetAttribute("length") - 1)
-        For i As Integer = 1 To 2000
+        For i As Integer = 1 To 200
             i += 1
             Console.WriteLine("Loading Models..." & i)
         Next
         Dim Model_List As IWebElement = local_browser.FindElementById(vnumber)
         Dim Model_Collection As IReadOnlyCollection(Of IWebElement) = Model_List.FindElements(By.TagName("option"))
+        Dim Local_Collection(0) As String
         Console.WriteLine(Model_Collection)
         For Each Opt As IWebElement In Model_Collection
+            Local_Collection(z) = Opt.Text
+            ReDim Preserve Local_Collection(Local_Collection.Length + 1)
             z += 1
-            Console.WriteLine(Opt.Text)
             If UCase(s).Contains(Opt.Text) Then
                 vmodel(VehicleNum) = Opt.Text
                 Model_List.SendKeys(vmodel(VehicleNum))
-                Exit For
+                Return True
             Else
-                Console.WriteLine("could not find " & Opt.Text & " in " & UCase(s))
             End If
         Next
+
         Console.WriteLine("Completed primary check...")
         If vmodel(VehicleNum) = "" Then
-            For y = 0 To str.Length - 1
-                For p As Integer = 0 To z - 1
-                    Console.WriteLine("Checking to see If " & Model_Collection(p) & " contains " & str(y))
-                    If Model_Collection(p).Text.Contains(str(y)) Then
-                        vmodel(VehicleNum) = Model_Collection(z).Text
-                        Exit For
+            For x = 0 To z
+                For y = 0 To str.Length - 1
+
+                    If Local_Collection(x).Contains(UCase(str(y))) Then
+                        vmodel(VehicleNum) = UCase(str(y))
+                        Model_List.SendKeys(vmodel(VehicleNum))
+                        Already_Handled = False
+                        Return True
+
                     End If
                 Next
+                If vmodel(VehicleNum) <> "" Then Exit For
             Next
         End If
 
-        If vmodel(VehicleNum) <> "" Then
-            Console.WriteLine("MODEL IS: " & vmodel(VehicleNum))
-            Model_List.SendKeys(vmodel(VehicleNum))
-            Return True
-        Else
-            Console.WriteLine("-----MODEL Not FOUND-----")
-            ModelHolder = s
+
+
+        Console.WriteLine("-----MODEL Not FOUND-----")
+        ModelHolder = s
             RollTheClip("C: \SoundBoard\Cheryl\VEHICLE INFO\What is the model of the Car 1.MP3")
             Return False
-        End If
+
     End Function  '
     Public Sub verifyBDay()
 
@@ -619,25 +691,25 @@ Public Class Form1
 
         Try
 
-            '   If 'LeadForm.Document.GetElementById("frmDOB_Month").GetAttribute("value") <> "" And 'LeadForm.Document.GetElementById("frmDOB_Day").GetAttribute("value") <> "" And 'LeadForm.Document.GetElementById("frmDOB_Year").GetAttribute("value") <> "" Then
-            '  bmonth1 = 'LeadForm.Document.GetElementById("frmDOB_Month").GetAttribute("value")
-            '  bday1 = 'LeadForm.Document.GetElementById("frmDOB_Day").GetAttribute("value")
-            If bday1.Length < 2 Then
-                '          bday1 = bday1.Insert(0, "0")
-                '   End If
-                '     byear1 = 'LeadForm.Document.GetElementById("frmDOB_Year").GetAttribute("value")
+            If local_browser.FindElementById("frmDOB_Month").GetAttribute("value") <> "" And local_browser.FindElementById("frmDOB_Day").GetAttribute("value") <> "" And local_browser.FindElementById("frmDOB_Year").GetAttribute("value") <> "" Then
+                bmonth1 = local_browser.FindElementById("frmDOB_Month").GetAttribute("value")
+                bday1 = local_browser.FindElementById("frmDOB_Day").GetAttribute("value")
+                If bday1.Length < 2 Then
+                    bday1 = bday1.Insert(0, "0")
+                End If
+                byear1 = local_browser.FindElementById("frmDOB_Year").GetAttribute("value")
                 txtDOB.Text = bmonth1 & "/" & bday1 & "/" & byear1.Substring(2)
-                Playlist(0) = "C:/Soundboard/Cheryl/Birthday/" & bmonth1 & bday1 & ".mp3"
-                Playlist(1) = "C:/Soundboard/Cheryl/Birthday/" & byear1 & ".mp3"
                 isQuestion = True
                 Return True
-                '        Else
+            Else
                 Return False
             End If
-        Catch
+        Catch ex As Exception
+            Console.WriteLine(ex)
             Return False
 
         End Try
+
 
 
     End Function 'Checks to see if the birthday exists in the autoform so it can verify, if not it returns false to ask
@@ -752,9 +824,9 @@ Public Class Form1
 
     End Sub
 
-    Dim happytreefriends As FirefoxBinary = New FirefoxBinary("C:\Users\Insurance Express\Desktop\LCN Bot Non Automated\Firefox Setup 28.0\core\firefox.exe")
+    Dim happytreefriends As FirefoxBinary = New FirefoxBinary(Application.StartupPath & "\Firefox Setup 28.0\core\firefox.exe")
     Dim prof As FirefoxProfile = New FirefoxProfile()
-    Public WithEvents local_browser As FirefoxDriver = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
+    Public local_browser As FirefoxDriver = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
 
 
     Public Sub Unregister()
@@ -1428,9 +1500,10 @@ Public Class Form1
                 CurrentQ += 1
                 Return True
             Else
-                'LeadForm.Document.GetElementById("vehicle" & VehicleNum & "-year").SetAttribute("value", VYear(VehicleNum))
-                'LeadForm.Document.GetElementById("vehicle" & VehicleNum & "-year").RaiseEvent("onchange")
+                local_browser.FindElementById("vehicle" & VehicleNum & "-year").SendKeys(VYear(VehicleNum))
+                local_browser.Keyboard.PressKey(Keys.Return)
                 CurrentQ += 1
+                Return True
             End If
         Else
             isQuestion = True
@@ -1999,7 +2072,7 @@ Public Class Form1
         End If
     End Function
     Dim custBday As Boolean
-    Public Function getSpouseBDAY(isspouse As Boolean) As String
+    Public Function getSpouseBDAY(isspouse As Boolean) As Boolean
         Dim x As Integer = 0
         Dim str As String = ""
         For x = 0 To s.Length - 1
@@ -2014,50 +2087,56 @@ Public Class Form1
             custBday = True
         End If
         CurrentQ = 14
-        Return str
+        spouseBDAY = str
+        If spouseBDAY.Length >= 4 Then
+            Return True
+        Else
+            Return False
+        End If
+
     End Function
 
     Dim spousebdaymonth As String
 
 
-    Public Function finalizeSpouseBDay(isspouse As Boolean)
+    Public Function finalizeSpouseBDay(isspouse As Boolean) As Boolean
 
         Select Case True
             Case s.Contains("january")
-                BMonth = "01"
+                BMonth = "JAN"
                 spouseBDAY = spouseBDAY.Substring(1)
             Case s.Contains("february")
-                BMonth = "02"
+                BMonth = "FEB"
                 spouseBDAY = spouseBDAY.Substring(1)
             Case s.Contains("march")
-                BMonth = "03"
+                BMonth = "MAR"
                 spouseBDAY = spouseBDAY.Substring(1)
             Case s.Contains("april")
-                BMonth = "04"
+                BMonth = "APR"
                 spouseBDAY = spouseBDAY.Substring(1)
             Case s.Contains("may")
-                BMonth = "05"
+                BMonth = "MAY"
                 spouseBDAY = spouseBDAY.Substring(1)
             Case s.Contains("june")
-                BMonth = "06"
+                BMonth = "JUN"
                 spouseBDAY = spouseBDAY.Substring(1)
             Case s.Contains("july")
-                BMonth = "07"
+                BMonth = "JUL"
                 spouseBDAY = spouseBDAY.Substring(1)
             Case s.Contains("august")
-                BMonth = "08"
+                BMonth = "AUG"
                 spouseBDAY = spouseBDAY.Substring(1)
             Case s.Contains("september")
-                BMonth = "09"
+                BMonth = "SEP"
                 spouseBDAY = spouseBDAY.Substring(1)
             Case s.Contains("october")
-                BMonth = "10"
+                BMonth = "OCT"
                 spouseBDAY = spouseBDAY.Substring(2)
             Case s.Contains("november")
-                BMonth = "11"
+                BMonth = "NOV"
                 spouseBDAY = spouseBDAY.Substring(2)
             Case s.Contains("december")
-                BMonth = "12"
+                BMonth = "DEC"
                 spouseBDAY = spouseBDAY.Substring(2)
         End Select
         Console.WriteLine("BMONTH IS: " & BMonth)
@@ -2077,9 +2156,9 @@ Public Class Form1
         End If
         If isspouse Then
             If BDay <> "" And BMonth <> "" And BYear <> "" Then
-                'LeadForm.Document.GetElementById("frmSpouseDOB_Month").SetAttribute("value", BMonth)
-                'LeadForm.Document.GetElementById("frmSpouseDOB_Day").SetAttribute("value", BDay)
-                'LeadForm.Document.GetElementById("frmSpouseDOB_Year").SetAttribute("value", BYear)
+                local_browser.FindElementById("frmSpouseDOB_Month").SendKeys(BMonth)
+                local_browser.FindElementById("frmSpouseDOB_Day").SendKeys(BDay)
+                local_browser.FindElementById("frmSpouseDOB_Year").SendKeys(BYear)
                 BDay = ""
                 BMonth = ""
                 BYear = ""
@@ -2090,9 +2169,9 @@ Public Class Form1
         Else
 
             If BDay <> "" And BMonth <> "" And BYear <> "" Then
-                'LeadForm.Document.GetElementById("frmDOB_Month").SetAttribute("value", BMonth)
-                'LeadForm.Document.GetElementById("frmDOB_Day").SetAttribute("value", BDay)
-                'LeadForm.Document.GetElementById("frmDOB_Year").SetAttribute("value", BYear)
+                local_browser.FindElementById("frmDOB_Month").SendKeys(BMonth)
+                local_browser.FindElementById("frmDOB_Day").SendKeys(BDay)
+                local_browser.FindElementById("frmDOB_Year").SendKeys(BYear)
                 BDay = ""
                 BMonth = ""
                 BYear = ""
@@ -4007,6 +4086,7 @@ Public Class Form1
                 Case 3
 
                     RollTheClip("C:\SoundBoard\Cheryl\INTRO\Opener 2.MP3")
+                    callPos = Insurance_Provider
                     m.StartMicAndRecognition()
                 Case 4
                     Select Case numReps
@@ -4059,9 +4139,11 @@ Public Class Form1
 
                     If getBirthdaWAV() = True Then
                         tbCallOrder.SelectedTab = tbDriverInfo
-                        'LeadForm.Document.GetElementById("frmDOB_Month").Focus()
-                        isQuestion = False
-                        tmrBirthday.Enabled = True
+                        RollTheClip("C:/Soundboard/Cheryl/Birthday/" & bmonth1 & bday1 & ".mp3")
+                        While (waveOut.PlaybackState = 1)
+                            Console.WriteLine("Checking Birthday")
+                        End While
+                        RollTheClip("C:/Soundboard/Cheryl/Birthday/" & byear1 & ".mp3")
 
                     Else
                         RollTheClip("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
@@ -4936,10 +5018,10 @@ Public Class Form1
         lblQuestion.Text = CURRENTQUESTION(CurrentQ)
         wbAgentStatus.Navigate("http://loudcloud9.ytel.com/x5/api/non_agent.php?source=test&user=101&pass=API101IEpost&function=agent_status&agent_user=" & txtVerifierNum.Text & "&stage=csv&header=YES")
         Try
-            If CustName(0) <> 'LeadForm.Document.GetElementById("frmFirstName").GetAttribute("value") Then
-                CustName(0) = 'LeadForm.Document.GetElementById("frmFirstName").GetAttribute("value")
-                CustName(1) = 'LeadForm.Document.GetElementById("frmLastName").GetAttribute("value")
-                btnTheirName.Text = CustName(0) Then
+            If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
+                CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
+                CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
+                btnTheirName.Text = CustName(0)
                 globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
                 globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
                 globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
@@ -5059,7 +5141,7 @@ Public Class Form1
         End If
     End Sub 'pause button
 
-    Private Sub Button1_Click_5(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub Button1_Click_5(sender As Object, e As EventArgs)
 
     End Sub
     Dim SilenceReps As Integer = 0
