@@ -241,6 +241,7 @@ Public Class Form1
     Const Own_Rent As String = "Own or Rent"
     Const Home_Type As String = "Residence Type"
     Const Their_Address As String = "Their Address"
+    Const Finalize_Address As String = "Finalize Address"
     Const Email_Address As String = "Email Address"
     Const Credit As String = "Credit"
     Const Phone_Type As String = "Phone Type"
@@ -368,8 +369,13 @@ Public Class Form1
                                 CurrentQ = 11
                                 Timer2.Enabled = True
                             End If
-                        Else
-
+                        ElseIf finalizeSpouseBDay(True) Then
+                            clipType = ""
+                            callPos = Own_Rent
+                            If FullAuto.Checked Then
+                                CurrentQ = 15
+                                Timer2.Enabled = True
+                            End If
                         End If
                     Case Marital_Status
                         If checkMaritalStatus() Then
@@ -385,8 +391,60 @@ Public Class Form1
                                 clipType = ""
                             End If
                         End If
-
-
+                    Case Spouse_Name
+                        If checkForSpouseName() Then
+                            clipType = ""
+                            callPos = Spouse_DOB
+                            If FullAuto.Checked Then
+                                CurrentQ = 13
+                                Timer2.Enabled = True
+                            End If
+                        End If
+                    Case Spouse_DOB
+                        If getSpouseBDAY(True) Then
+                            clipType = ""
+                            callPos = Finalize_BDAY
+                            If FullAuto.Checked Then
+                                CurrentQ = 14
+                                Timer2.Enabled = True
+                            End If
+                        End If
+                    Case Own_Rent
+                        If getHomeType() Then
+                            clipType = ""
+                            callPos = Home_Type
+                            If FullAuto.Checked Then
+                                CurrentQ = 16
+                                Timer2.Enabled = True
+                            End If
+                        End If
+                    Case Home_Type
+                        If getResType() Then
+                            clipType = ""
+                            callPos = Their_Address
+                            If FullAuto.Checked Then
+                                CurrentQ = 17
+                                Timer2.Enabled = True
+                            End If
+                        End If
+                    Case Their_Address
+                        If doaddressstuff() Then
+                            clipType = ""
+                            callPos = Finalize_Address
+                            If FullAuto.Checked Then
+                                CurrentQ = 18
+                                Timer2.Enabled = True
+                            End If
+                        End If
+                    Case Finalize_Address
+                        If finalizeAddress() Then
+                            clipType = ""
+                            callPos = Email_Address
+                            If FullAuto.Checked Then
+                                CurrentQ = 19
+                                Timer2.Enabled = True
+                            End If
+                        End If
                 End Select
             End If
         End If
@@ -1989,11 +2047,12 @@ Public Class Form1
         Console.WriteLine(s)
     End Sub
 
-    Public Sub finalizeAddress()
+    Public Function finalizeAddress() As Boolean
         NewAddress += " " & s
         Console.WriteLine(NewAddress)
-        ' 'LeadForm.Document.GetElementById("frmAddress").SetAttribute("value", NewAddress)
-    End Sub
+        local_browser.FindElementById("frmAddress").SendKeys(NewAddress)
+        Return True
+    End Function
     Public Function getAddressNum() As Boolean
         NewAddress = ""
         Dim x As Integer = 0
@@ -2036,7 +2095,7 @@ Public Class Form1
 
         End Select
         If residenceType <> "" Then
-            'LeadForm.Document.GetElementById("frmDwellingType").SetAttribute("value", sResidenceType)
+            local_browser.FindElementById("frmDwellingType").SendKeys(sResidenceType)
             Return True
         Else
             repeatPlease()
@@ -2056,7 +2115,7 @@ Public Class Form1
 
         End Select
         If residenceType <> "" Then
-            'LeadForm.Document.GetElementById("frmResidenceType").SetAttribute("value", residenceType)
+            local_browser.FindElementById("frmResidenceType").SendKeys(residenceType)
             Return True
         Else
             repeatPlease()
@@ -2214,7 +2273,8 @@ Public Class Form1
         Next
 
         If theSpouseName <> "" Then
-            'LeadForm.Document.GetElementById("frmSpouseFirstName").SetAttribute("value", theSpouseName)
+            local_browser.FindElementById("frmSpouseFirstName").SendKeys(theSpouseName)
+            local_browser.FindElementById("frmSpouseLastName").SendKeys(local_browser.FindElementById("frmLastName").Text)
             Return True
         Else
             repeatPlease()
@@ -3104,6 +3164,15 @@ Public Class Form1
 
     End Sub 'Checks for questions in the partial speech variable (part) handles them if found
 
+    Public Function doaddressstuff() As Boolean
+        ParseAddress(s)
+        If getAddressNum() Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
     Sub ParseAddress(speech As String)
         NewAddress = ""
         Dim x As Integer = 0
@@ -3114,10 +3183,13 @@ Public Class Form1
         NewAddress += " " & StreetSpelling
         zip = speech.Substring(speech.Length - 5, 5)
 
-
-
-
-
+        If NewAddress <> "" Then
+            If getAddressNum() Then
+                Return True
+            Else
+                Return False
+            End If
+        End If
     End Sub
     Public Sub StopThatClip()
         BeginInvoke(New Action(AddressOf waveOut.Dispose))
