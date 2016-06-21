@@ -188,6 +188,7 @@ Partial Class Form1
         Me.btnPause = New System.Windows.Forms.Button()
         Me.FullAuto = New System.Windows.Forms.CheckBox()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.testpagebutton = New System.Windows.Forms.Button()
         Me.frReactions.SuspendLayout()
         Me.GroupBox9.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -1106,10 +1107,10 @@ Partial Class Form1
         '
         Me.lblQuestion.AutoSize = True
         Me.lblQuestion.BackColor = System.Drawing.Color.Transparent
-        Me.lblQuestion.Font = New System.Drawing.Font("Franklin Gothic Heavy", 36.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblQuestion.Font = New System.Drawing.Font("Microsoft Sans Serif", 36.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblQuestion.Location = New System.Drawing.Point(6, 155)
         Me.lblQuestion.Name = "lblQuestion"
-        Me.lblQuestion.Size = New System.Drawing.Size(173, 61)
+        Me.lblQuestion.Size = New System.Drawing.Size(182, 55)
         Me.lblQuestion.TabIndex = 41
         Me.lblQuestion.Text = "HELLO"
         '
@@ -2139,10 +2140,10 @@ Partial Class Form1
         '
         Me.Label3.AutoSize = True
         Me.Label3.BackColor = System.Drawing.Color.Transparent
-        Me.Label3.Font = New System.Drawing.Font("Franklin Gothic Demi Cond", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.Location = New System.Drawing.Point(9, 833)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(45, 20)
+        Me.Label3.Size = New System.Drawing.Size(57, 18)
         Me.Label3.TabIndex = 53
         Me.Label3.Text = "HELLO"
         '
@@ -2176,12 +2177,22 @@ Partial Class Form1
         Me.Label1.TabIndex = 23
         Me.Label1.Text = "Output"
         '
+        'testpagebutton
+        '
+        Me.testpagebutton.Location = New System.Drawing.Point(457, 183)
+        Me.testpagebutton.Name = "testpagebutton"
+        Me.testpagebutton.Size = New System.Drawing.Size(75, 23)
+        Me.testpagebutton.TabIndex = 147
+        Me.testpagebutton.Text = "test page"
+        Me.testpagebutton.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(672, 866)
+        Me.Controls.Add(Me.testpagebutton)
         Me.Controls.Add(Me.txtVerifierNum)
         Me.Controls.Add(Me.FullAuto)
         Me.Controls.Add(Me.btnPause)
@@ -2393,4 +2404,5 @@ Partial Class Form1
     Friend WithEvents lblLeadInfo As Label
     Friend WithEvents FullAuto As CheckBox
     Friend WithEvents Label1 As Label
+    Friend WithEvents testpagebutton As Button
 End Class

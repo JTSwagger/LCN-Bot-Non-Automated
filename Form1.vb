@@ -3173,7 +3173,7 @@ Public Class Form1
         End If
     End Function
 
-    Sub ParseAddress(speech As String)
+    Public Function ParseAddress(speech As String) As Boolean
         NewAddress = ""
         Dim x As Integer = 0
         Do Until speech.Substring(x, 1) = " " Or x = speech.Length
@@ -3190,7 +3190,7 @@ Public Class Form1
                 Return False
             End If
         End If
-    End Sub
+    End Function
     Public Sub StopThatClip()
         BeginInvoke(New Action(AddressOf waveOut.Dispose))
         BeginInvoke(New Action(AddressOf waveOut2.Dispose))
@@ -5252,5 +5252,9 @@ Public Class Form1
 
     Private Sub tbIntro_Click(sender As Object, e As EventArgs) Handles tbIntro.Click
 
+    End Sub
+
+    Private Sub testpagebutton_Click(sender As Object, e As EventArgs) Handles testpagebutton.Click
+        local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
     End Sub
 End Class
