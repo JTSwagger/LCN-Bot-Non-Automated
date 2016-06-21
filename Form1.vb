@@ -372,7 +372,19 @@ Public Class Form1
 
                         End If
                     Case Marital_Status
-                        checkMaritalStatus()
+                        If checkMaritalStatus() Then
+                            If maritalStatus = "Married" Then
+                                callPos = Spouse_Name
+                                clipType = ""
+                                If FullAuto.Checked Then
+                                    CurrentQ = 12
+                                    Timer2.Enabled = True
+                                End If
+                            Else
+                                callPos = Own_Rent
+                                clipType = ""
+                            End If
+                        End If
 
 
                 End Select
@@ -2210,7 +2222,7 @@ Public Class Form1
         End If
     End Function
 
-    Sub checkMaritalStatus()
+    Public Function checkMaritalStatus() As Boolean
         Select Case True
             Case s.Contains("married")
                 maritalStatus = "Married"
@@ -2228,10 +2240,12 @@ Public Class Form1
                 repeatPlease()
         End Select
         If maritalStatus <> "" Then
-            'LeadForm.Document.GetElementById("frmMaritalStatus").SetAttribute("value", maritalStatus)
-            'LeadForm.Document.GetElementById("frmMaritalStatus").RaiseEvent("onchange")
+            local_browser.FindElementById("frmMaritalStatus").SendKeys(maritalStatus)
+            Return True
+        Else
+            Return False
         End If
-    End Sub
+    End Function
     Public Sub updateSpeechText()
         txtSpeech.Text += "::SPEECH ENDED::" & vbNewLine
     End Sub 'so speech text can be done crossthreaded
