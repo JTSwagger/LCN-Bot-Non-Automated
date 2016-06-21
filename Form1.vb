@@ -4998,15 +4998,31 @@ Public Class Form1
     Dim Disposition As Net.WebRequest
 
 
+    Public Sub getLeadWindow()
+        If local_browser.Url.Contains("forms.lead.co") Then
+            If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
+                CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
+                CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
+                btnTheirName.Text = CustName(0)
+                globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
+                globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
+                globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+            End If
+        Else
+            If local_browser.WindowHandles.Count() > 1 Then
+                local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
+            End If
+        End If
 
+    End Sub
 
     Private Sub tmrAgentStatus_Tick(sender As Object, e As EventArgs) Handles tmrAgentStatus.Tick
+        getLeadWindow()
         Label3.Text = CurrentQ
         lblQuestion.Text = CURRENTQUESTION(CurrentQ)
         If txtVerifierNum.Text <> "" Then
             Dim STATS As String = GenerateStats()
             tempStr = STATS.Split(",")
-            Console.WriteLine(STATS)
 
             If STATS.Contains("INCALL") Then
                 If newcall = True Then
@@ -5048,39 +5064,8 @@ Public Class Form1
                     lblCalls2.Text = tempStr(11)
                 End If
             End If
-            Try
-                Dim somehandles As ICollection = local_browser.WindowHandles
-                For Each item As String In somehandles
 
-                    If local_browser.Url.Contains("forms.lead.co") Then
-                        If local_browser.PageSource <> "the requested resource cannot be found" Then
-
-                            If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
-                                CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
-                                CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
-                                btnTheirName.Text = CustName(0)
-                                globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
-                                globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
-                                globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
-                            End If
-                            Exit For
-                        Else
-                            local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
-
-                        End If
-
-
-                    Else
-                            local_browser.SwitchTo().Window(item)
-
-                    End If
-                Next
-            Catch ex As Exception
-                Console.WriteLine(ex)
-                Console.WriteLine(ex.StackTrace)
-            End Try
         End If
-
     End Sub 'Sends API Call to get agent report
 
 
