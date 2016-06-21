@@ -178,7 +178,7 @@ Public Class Form1
                 Timer2.Enabled = True
         End Select
         handlepartialquestion()
-    End Sub
+    End Sub                         ' Checks for Objections from partial speech received.
     Public Function getMake(vehiclenum As Integer) As Boolean 'currentq for this is 8
         If secondPass = False Then
             ModelHolder = s
@@ -232,13 +232,20 @@ Public Class Form1
     Const Policy_Expiration As String = "Policy Expiration"
     Const Policy_Start As String = "Policy Start"
     Const Number_Of_Vehicles As String = "Number of Vehicles"
-    Const Year_Make_Model As String = "Year Make Model"
-    Const Driver_Birthday As String = "Driver Birthday"
-    Const Finalize_BDAY As String = "Finalize BDAY"
-    Const Marital_Status As String = "Marital Status"
+    Const Year_Make_Model As String = "Year Make Model"                             ' This Block of constants are used to check
+    Const Driver_Birthday As String = "Driver Birthday"                             ' what should be done with the recognized speech
+    Const Finalize_BDAY As String = "Finalize BDAY"                                 ' after it is checked against objections & questions
+    Const Marital_Status As String = "Marital Status"                               ' They are assigned to CallPos
     Const Spouse_Name As String = "Spouse Name"
     Const Spouse_DOB As String = "Spouse DOB"
     Const Own_Rent As String = "Own or Rent"
+    Const Home_Type As String = "Residence Type"
+    Const Their_Address As String = "Their Address"
+    Const Email_Address As String = "Email Address"
+    Const Credit As String = "Credit"
+    Const Phone_Type As String = "Phone Type"
+    Const Last_Name As String = "Last Name"
+
 
 
     Public Sub handleResponse()
@@ -372,7 +379,7 @@ Public Class Form1
             End If
         End If
 
-    End Sub
+    End Sub                                                 ' Handles calling data parsing functions based on CallPos
 
     Public Sub GotSpeech(ByVal sender As Object, ByVal e As Microsoft.ProjectOxford.SpeechRecognition.SpeechResponseEventArgs) Handles m.OnResponseReceived
         Console.WriteLine(e.PhraseResponse.RecognitionStatus)
@@ -3318,12 +3325,16 @@ Public Class Form1
         isQuestion = True
 
         rolltheclipThread("c:\soundboard\cheryl\PERSONAL INFO\HOMETYPE.mp3")
+        callPos = Home_Type
+
     End Sub
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
         StopThatClip()
         rolltheclipThread("c:\soundboard\cheryl\PERSONAL INFO\DO YOU OWN Or RENT THE HOME.mp3")
         CurrentQ = 15
         isQuestion = True
+        clipType = "Question"
+        callPos = Own_Rent
 
 
     End Sub
@@ -3409,17 +3420,24 @@ Public Class Form1
         StopThatClip()
         rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\SPOUSES DATE OF BIRTH.mp3")
         isQuestion = True
+        clipType = "Question"
+        callPos = Spouse_DOB
     End Sub
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
         isQuestion = True
         If getBirthdaWAV() = True Then
             tbCallOrder.SelectedTab = tbDriverInfo
+            clipType = "Question"
+            callPos = Driver_Birthday
             'LeadForm.Document.GetElementById("frmDOB_Month").Focus()
             CurrentQ = 10
             Timer2.Enabled = True
         Else
+            clipType = "Question"
+            callPos = Driver_Birthday
             rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
         End If
+
     End Sub
     Dim OnCall As Boolean = False
     Private Sub Button26_Click(sender As Object, e As EventArgs)
@@ -3457,7 +3475,8 @@ Public Class Form1
     Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
         StopThatClip()
         rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\MaritalStatus2.mp3")
-        CurrentQ = 11
+        clipType = "Question"
+        callPos = Marital_Status
         isQuestion = True
 
     End Sub
@@ -3465,18 +3484,24 @@ Public Class Form1
         isQuestion = True
 
         rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/phoneType.mp3")
+        callPos = Phone_Type
+        clipType = "Question"
+
+
     End Sub
     Private Sub Button21_Click(sender As Object, e As EventArgs) Handles Button21.Click
         isQuestion = True
-
         rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/Last Name.mp3")
+        clipType = "Question"
+        callPos = Last_Name
+
     End Sub
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles SpouseName.Click
         StopThatClip()
         rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\SPOUSES FIRST NAME.mp3")
         isQuestion = True
-
-        CurrentQ = 12
+        clipType = "Question"
+        callPos = Spouse_Name
     End Sub
     Private Sub Button23_Click(sender As Object, e As EventArgs) Handles Button23.Click
         isQuestion = True
@@ -3514,8 +3539,9 @@ Public Class Form1
     End Sub
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
         isQuestion = True
-
         rolltheclipThread("c:\soundboard\cheryl\REACTIONS\Could you please verify your address.mp3")
+        callPos = Their_Address
+        clipType = "Question"
     End Sub
     Private Sub Button14_Click(sender As Object, e As EventArgs)
         rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/email.mp3")
@@ -3584,16 +3610,17 @@ Public Class Form1
     End Sub
     Private Sub Button33_Click(sender As Object, e As EventArgs) Handles Button33.Click
         isQuestion = True
-
+        clipType = "Question"
+        callPos = Credit
         rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/Credit.mp3")
     End Sub
     Private Sub Button35_Click(sender As Object, e As EventArgs) Handles btnIntro.Click
-        rolltheclipThread("c:\soundboard\cheryl\INTRO\Opener 2.MP3")
+        rolltheclipThread("c:\soundboard\cheryl\INTRO\INTRO2.MP3")
         clipType = "Question"
-
         callPos = Insurance_Provider
         m.StartMicAndRecognition()
     End Sub
+
     Private Sub Button38_Click(sender As Object, e As EventArgs)
         rolltheclipThread("c:\soundboard\cheryl\TIE INS\Okay What's Your Best Guess.mp3")
     End Sub
@@ -3653,25 +3680,31 @@ Public Class Form1
             Case 4
                 rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\Fourth Vehicle.mp3")
         End Select
+        clipType = "Question"
+        callPos = Year_Make_Model
+
     End Sub
     Private Sub Button64_Click(sender As Object, e As EventArgs) Handles Button64.Click
         rolltheclipThread("C:/SOUNDBOARD/CHERYL/VEHICLE INFO/HOW MANY VEHICLES DO YOU HAVE.MP3")
         isQuestion = True
-
+        clipType = "Question"
+        callPos = Number_Of_Vehicles
     End Sub
     Private Sub Button50_Click(sender As Object, e As EventArgs) Handles btnWhoDoYouHave.Click
         StopThatClip()
         rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\Who Is The Current Auto INsurance Company that you're with.mp3")
         CurrentQ = 3
         isQuestion = True
-
+        clipType = "Question"
+        callPos = Policy_Expiration
     End Sub
     Private Sub Button51_Click(sender As Object, e As EventArgs) Handles btnPolicyStart.Click
         StopThatClip()
         rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\HOW MANY YEARS HAVE YOU BEEN WITH THEM 2.mp3")
         CurrentQ = 5
         isQuestion = True
-
+        clipType = "Question"
+        callPos = Policy_Start
     End Sub
     Private Sub Button49_Click(sender As Object, e As EventArgs) Handles btnExpiration.Click
         StopThatClip()
@@ -4037,7 +4070,7 @@ Public Class Form1
                     End Select
                 Case 3
 
-                    rolltheclipThread("C:\SoundBoard\Cheryl\INTRO\Opener 2.MP3")
+                    rolltheclipThread("C:\SoundBoard\Cheryl\INTRO\INTRO2.MP3")
                     callPos = Insurance_Provider
                     m.StartMicAndRecognition()
                 Case 4
@@ -4377,8 +4410,10 @@ Public Class Form1
 
     Private Sub Button53_Click_2(sender As Object, e As EventArgs) Handles Button53.Click
         isQuestion = True
-
         rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/email.mp3")
+        clipType = "Question"
+        callPos = Email_Address
+
     End Sub
 
     Private Sub Button31_Click_2(sender As Object, e As EventArgs)
@@ -5129,4 +5164,7 @@ Public Class Form1
 
     End Sub
 
+    Private Sub tbIntro_Click(sender As Object, e As EventArgs) Handles tbIntro.Click
+
+    End Sub
 End Class

@@ -168,7 +168,6 @@ Partial Class Form1
         Me.cmbSpouseGender = New System.Windows.Forms.ComboBox()
         Me.cmbGender = New System.Windows.Forms.ComboBox()
         Me.cmbMaritalStatus = New System.Windows.Forms.ComboBox()
-
         Me.tbPersonalInfo = New System.Windows.Forms.TabPage()
         Me.Label20 = New System.Windows.Forms.Label()
         Me.cmbPhoneType = New System.Windows.Forms.ComboBox()
