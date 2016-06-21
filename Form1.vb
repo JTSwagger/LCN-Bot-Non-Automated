@@ -253,6 +253,7 @@ Public Class Form1
                     Case Insurance_Provider
                         Console.WriteLine("Checking Insurance Provider")
                         If CheckForCompany() Then
+                            clipType = ""
 
                             callPos = Policy_Expiration
                             s = ""
@@ -261,12 +262,12 @@ Public Class Form1
                                 Timer2.Enabled = True
                             End If
                         Else
-                            repeatPlease()
                             Already_Handled = False
                         End If
                     Case Policy_Expiration
                         Console.WriteLine("Checking Insurance Expiration Date")
                         If checkExpiration() Then
+                            clipType = ""
                             callPos = Policy_Start
                             s = ""
                             If FullAuto.Checked Then
@@ -279,6 +280,7 @@ Public Class Form1
                     Case Policy_Start
                         Console.WriteLine("Checking Insurance Start Date")
                         If CheckHowLong() Then
+                            clipType = ""
                             callPos = Number_Of_Vehicles
                             s = ""
                             If FullAuto.Checked Then
@@ -289,6 +291,7 @@ Public Class Form1
                     Case Number_Of_Vehicles
                         Console.WriteLine("Checking Number of Vehicles")
                         If checkForNumVehicles() Then
+                            clipType = ""
                             callPos = Year_Make_Model
                             s = ""
                             If FullAuto.Checked Then
@@ -301,6 +304,7 @@ Public Class Form1
 
                         Console.WriteLine("Checking Year Make and model of Vehicle Number  " & VehicleNum & " out of " & NumberOfVehicles)
                         If getYear(VehicleNum) Then
+                            clipType = ""
                             CurrentQ = 8
                             If getMake(VehicleNum) Then
                                 CurrentQ = 9
@@ -313,6 +317,7 @@ Public Class Form1
                                         Timer2.Enabled = True
 
                                     Else
+                                        clipType = ""
                                         callPos = Driver_Birthday
                                         s = ""
                                         If FullAuto.Checked Then
@@ -331,6 +336,7 @@ Public Class Form1
                     Case Driver_Birthday
                         If getBirthdaWAV() Then
                             If GetBirthday() Then
+                                clipType = ""
                                 callPos = maritalStatus
                             Else
                                 rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
@@ -340,6 +346,7 @@ Public Class Form1
                             If getSpouseBDAY(False) Then
                                 CurrentQ = 14
                                 Timer2.Enabled = True
+                                clipType = ""
                                 callPos = Finalize_BDAY
                             Else
                                 repeatPlease()
@@ -348,6 +355,7 @@ Public Class Form1
                         End If
                     Case Finalize_BDAY
                         If finalizeSpouseBDay(False) Then
+                            clipType = ""
                             callPos = Marital_Status
                             If FullAuto.Checked Then
                                 CurrentQ = 11
@@ -849,10 +857,15 @@ Public Class Form1
     Public Sub rolltheclip()
         StopThatClip()
         waveOut = New NAudio.Wave.WaveOut()
-        Dim mp3File As New NAudio.Wave.Mp3FileReader(clipname)
-        waveOut.DeviceNumber = deviceNum1
-        waveOut.Init(mp3File)
-        waveOut.Play()
+        If My.Computer.FileSystem.FileExists(clipname) Then
+            Dim mp3File As New NAudio.Wave.Mp3FileReader(clipname)
+            waveOut.DeviceNumber = deviceNum1
+            waveOut.Init(mp3File)
+            waveOut.Play()
+        Else
+            Console.WriteLine(clipname & " not available")
+        End If
+
     End Sub        'Plays sound clips through whatever audio outs are selected
     Sub SpeechtoVar(speech As String) 'to break up month/year'
         Select Case speech
