@@ -13,7 +13,6 @@ Imports System.Collections.Generic
 
 Public Class Form1
     Public WithEvents m As MicrophoneRecognitionClient
-    Delegate Sub rollTheClipper()
     Private demoThread As Thread = Nothing
     Private WithEvents BakgroundWorker As BackgroundWorker
 
@@ -56,38 +55,31 @@ Public Class Form1
                         CurrentQ = 0
                     End If
                     rolltheclipThread("c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3")
-                    Already_Handled = True
-                    tmrObj.Enabled = True
-
-                Case Part.Contains("who makes it")
-                    rolltheclipThread("c:\soundboard\cheryl\REACTIONS\YES.mp3")
-                    Already_Handled = True
-
+                    Timer2.Enabled = True
                 Case Part.Contains("what is this"), Part.Contains("what's this"), Part.Contains("what is the nature of this call"), Part.Contains("what are you calling about"), Part.Contains("what is purpose of this call")
                     If CurrentQ = 3 Then
                         CurrentQ = 0
                     End If
                     rolltheclipThread("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
                     Already_Handled = True
-                    tmrObj.Enabled = True
-
+                    Timer2.Enabled = True
                 Case Part.Contains("what is lcn"), Part.Contains("what is elsieanne"), Part.Contains("about your company"), s.Contains("lcn")
                     If CurrentQ = 3 Then
                         CurrentQ = 0
                     End If
                     rolltheclipThread("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
                     Already_Handled = True
-                    tmrObj.Enabled = True
+                    Timer2.Enabled = True
 
                 Case Part.Contains("why are you calling")
                     rolltheclipThread("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
                     Already_Handled = True
-                    tmrObj.Enabled = True
+                    Timer2.Enabled = True
 
                 Case Part.Contains("how did you get my info"), Part.Contains("where did you get my info")
                     rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3")
                     Already_Handled = True
-                    tmrObj.Enabled = True
+                    Timer2.Enabled = True
 
 
             End Select
@@ -118,7 +110,7 @@ Public Class Form1
                 CurrentQ = 31
                 Timer2.Enabled = True
                 counter2 = 0
-            Case Part.Contains("not interested"), Part.Contains("don't need a quote"), Part.Contains("i'm fine"), Part.Contains("not really interested"), Part.Contains("not in arrested"), Part.Contains("that's okay thank you"), Part.Contains("no interest"), Part.Contains("stop calling"), Part.Contains("i'm good"), Part.Contains("all set"), Part.Contains("don't want it"), Part.Contains("not changing"), Part.Contains("i'm happy with"), Part.Contains("very happy"), Part.Contains("no thank you"), Part.Contains("not looking"), Part.Contains("don't wanna change"), Part.Contains("no thank you"), Part.Contains("don't need insurance") 'NI
+            Case Part.Contains("not interested"), Part.Contains("don't need a quote"), Part.Contains("i'm fine"), Part.Contains("not really interested"), Part.Contains("not in arrested"), Part.Contains("that's okay thank you"), Part.Contains("no interest"), Part.Contains("stop calling"), Part.Contains("i'm good"), Part.Contains("all set"), Part.Contains("don't want it"), Part.Contains("not changing"), Part.Contains("i'm happy with"), Part.Contains("very happy"), Part.Contains("no thank you"), Part.Contains("not looking"), Part.Contains("don't wanna change"), Part.Contains("no thank you"), Part.Contains("don't need insurance"), Part.Contains("won't change") 'NI
                 newobjection = False
                 Console.WriteLine("NOT INTERESTED")
                 If CurrentQ = 3 Then
@@ -132,14 +124,14 @@ Public Class Form1
                         If CurrentQ = 3 Then
                             CurrentQ = 0
                         End If
-                        tmrObj.Enabled = True
+                        Timer2.Enabled = True
                     Case 1
                         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL1.mp3")
                         numbreps += 1
                         If CurrentQ = 3 Then
                             CurrentQ = 0
                         End If
-                        tmrObj.Enabled = True
+                        Timer2.Enabled = True
                 End Select
 
 
@@ -251,7 +243,7 @@ Public Class Form1
 
     Public Sub handleResponse()
 
-        If Not Already_Handled Then
+        If clipType = "Question" Then
             If waveOut.PlaybackState = 0 Then
                 txtSpeech.Text = "In response to asking " & callPos & ": " & vbNewLine & "They said: " & s
                 txtSpeech.Text += vbNewLine & callPos
@@ -375,16 +367,18 @@ Public Class Form1
     End Sub
 
     Public Sub GotSpeech(ByVal sender As Object, ByVal e As Microsoft.ProjectOxford.SpeechRecognition.SpeechResponseEventArgs) Handles m.OnResponseReceived
+        Console.WriteLine(e.PhraseResponse.RecognitionStatus)
         If e.PhraseResponse.Results.Length > 0 Then
             s += LCase(e.PhraseResponse.Results(0).DisplayText)
-        Else
-            m.StartMicAndRecognition()
         End If
         Try
             Me.BeginInvoke(New Action(AddressOf handleResponse))
         Catch ex As Exception
             Console.WriteLine(ex.StackTrace)
         End Try
+        If e.PhraseResponse.RecognitionStatus = RecognitionStatus.InitialSilenceTimeout Then
+            m.EndMicAndRecognition()
+        End If
     End Sub
 
 
@@ -669,21 +663,7 @@ Public Class Form1
         Return False
 
     End Function  '
-    Public Sub verifyBDay()
 
-
-        Dim bmonth As Integer = 0
-        Dim bday As Integer = 0
-        Dim byear As Integer = 0
-        ' bmonth = 'LeadForm.Document.GetElementById("frmDOB_Month").GetAttribute("value")
-        'bday = 'LeadForm.Document.GetElementById("frmDOB_Day").GetAttribute("value")
-        ' byear = 'LeadForm.Document.GetElementById("frmDOB_Year").GetAttribute("value")
-        Playlist(0) = "C:\Soundboard\test\" & bmonth & bday & ".mp3"
-        Playlist(1) = "C:\Soundboard\test\" & byear & ".mp3"
-        Reset()
-        Timer6.Enabled = True
-
-    End Sub
     Function getBirthdaWAV() As Boolean
 
 
@@ -753,7 +733,9 @@ Public Class Form1
     Dim Recording_status As Boolean
     Sub updateLabel()
         lblRecording.Text = callPos & ":       RECORDING: " & Recording_status
-
+        If Recording_status = False And newcall = False Then
+            m.StartMicAndRecognition()
+        End If
     End Sub
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
@@ -799,12 +781,9 @@ Public Class Form1
             For i = 0 To DeviceCount - 1                                            'This loop fills the audiodevices into the primary and secondary audio comboboxes
                 SDevice = NAudio.Wave.WaveOut.GetCapabilities(i).ProductName
                 Primary.Items.Add(SDevice)
-                Secondary.Items.Add(SDevice)
             Next
             Primary.SelectedIndex() = 0
             deviceNum1 = 0
-            Secondary.SelectedIndex() = 0
-            DeviceNum2 = 0
             Register()
 
         Catch ex As Exception
@@ -868,36 +847,12 @@ Public Class Form1
 
     End Sub                      'Unregisters global hotkeys
     Public Sub rolltheclip()
-
-
         StopThatClip()
         waveOut = New NAudio.Wave.WaveOut()
-        waveOut2 = New NAudio.Wave.WaveOut()
-
-        If deviceNum1 <> DeviceNum2 Then
-            If System.IO.File.Exists(clipname) Then
-                Dim mp3File As New NAudio.Wave.Mp3FileReader(clipname)
-                Dim mp3File2 As New NAudio.Wave.Mp3FileReader(clipname)
-
-                ' DimwaveFile As New NAudiowavewaveFileReader(Clip)
-                ' DimwaveFile2 As New NAudiowavewaveFileReader(Clip)
-                waveOut.DeviceNumber = deviceNum1
-                waveOut.Init(mp3File)
-                waveOut.Play()
-                waveOut2.DeviceNumber = DeviceNum2
-                waveOut2.Init(mp3File2)
-                waveOut2.Play()
-            Else
-
-            End If
-
-        Else
-                Dim mp3File As New NAudio.Wave.Mp3FileReader(clipname)
-            '  Dim.mp3eFile As New NAudio.mp3e.mp3eFileReader(Clip)
-            waveOut.DeviceNumber = deviceNum1
-            waveOut.Init(mp3File)
-            waveOut.Play()
-        End If
+        Dim mp3File As New NAudio.Wave.Mp3FileReader(clipname)
+        waveOut.DeviceNumber = deviceNum1
+        waveOut.Init(mp3File)
+        waveOut.Play()
     End Sub        'Plays sound clips through whatever audio outs are selected
     Sub SpeechtoVar(speech As String) 'to break up month/year'
         Select Case speech
@@ -1529,7 +1484,7 @@ Public Class Form1
 
         Select Case numRepeats
             Case 0
-                rolltheclipThread("C:  /Soundboard/Cheryl/reactions/Can You Repeat that.mp3")
+                rolltheclipThread("C:/Soundboard/Cheryl/reactions/Can You Repeat that.mp3")
                 numRepeats += 1
             Case 1
                 rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\repeatagain.mp3")
@@ -1555,11 +1510,11 @@ Public Class Form1
         End Select
 
     End Function                       'checks to see if the initial speech received can confirm an answering machine
+    Dim clipType As String = ""
     Public Function HandlePartObjection() As Boolean
         isQuestion = True
         Part = LCase(Part)
         If Part <> "" Then
-
             Console.WriteLine("CHECKING AGAINST PARTIAL OBJECTIONS")
             Console.WriteLine(Part)
 
@@ -1602,7 +1557,7 @@ Public Class Form1
                                     If CurrentQ = 3 Then
                                         CurrentQ = 0
                                     End If
-                                    tmrObj.Enabled = True
+                                    Timer2.Enabled = True
                                     Return True
                                 Else
                                     rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
@@ -1622,7 +1577,7 @@ Public Class Form1
                                         CurrentQ = 0
                                     End If
                                     counter2 += 1
-                                    tmrObj.Enabled = True
+
 
                                     Return True
                                 Else
@@ -1710,6 +1665,7 @@ Public Class Form1
     Public Function HandleObjection(obj As String, ByRef numReps As Integer) As Boolean
         Console.WriteLine("CHECKING AGAINST OBJECTIONS")
         Console.WriteLine("reps:" & numReps)
+        clipType = "Objection"
 
         Select Case True
 
@@ -1740,7 +1696,7 @@ Public Class Form1
                             If CurrentQ = 3 Then
                                 CurrentQ = 0
                             End If
-                            tmrObj.Enabled = True
+                            Timer2.Enabled = True
 
                             Return True
                         Else
@@ -1761,7 +1717,7 @@ Public Class Form1
                                 CurrentQ = 0
                             End If
                             counter2 += 1
-                            tmrObj.Enabled = True
+                            Timer2.Enabled = True
 
                             Return True
                         Else
@@ -1846,7 +1802,7 @@ Public Class Form1
                     CurrentQ = 0
                 End If
                 Playlist(1) = "c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3"
-                tmrObj.Enabled = True
+                Timer2.Enabled = True
                 Return True
             Case obj.Contains("who makes it")
                 rolltheclipThread("c:\soundboard\cheryl\REACTIONS\YES.mp3")
@@ -1856,22 +1812,22 @@ Public Class Form1
                     CurrentQ = 0
                 End If
                 Playlist(1) = "c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3"
-                tmrObj.Enabled = True
+                Timer2.Enabled = True
                 Return True
             Case obj.Contains("what is lcn"), obj.Contains("what is elsieanne")
                 If CurrentQ = 3 Then
                     CurrentQ = 0
                 End If
                 Playlist(1) = "c:\soundboard\cheryl\Rebuttals\What's LCN.mp3"
-                tmrObj.Enabled = True
+                Timer2.Enabled = True
                 Return True
             Case obj.Contains("why are you calling")
                 Playlist(1) = "c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3"
-                tmrObj.Enabled = True
+                Timer2.Enabled = True
                 Return True
             Case obj.Contains("how did you get my information")
                 Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3"
-                tmrObj.Enabled = True
+                Timer2.Enabled = True
                 Return True
             Case Else
                 Return False
@@ -2577,7 +2533,6 @@ Public Class Form1
         Else
             Return False
         End If
-        HandleObjection(s, NICount)
     End Function
     Public Sub RandomHumanism()
         isQuestion = False
@@ -2948,10 +2903,13 @@ Public Class Form1
             Case s.Contains("don't know"), s.Contains("not even sure"), s.Contains("not sure")
                 If numRepeats < 2 Then
                     rolltheclipThread("C:\SoundBoard\Cheryl\TIE INS\Great what's your best guess.mp3")
+                    clipType = "Objection"
                     numRepeats += 1
+                    Return False
                 Else
                     theMonth = Now.Month
                     theYear = Now.Year
+                    Return True
                 End If
             Case s.Contains("1"), s.Contains(" a "), s.Contains("a year"), s.Contains("one year"), s.Contains("won year")
                 theYear = CStr(Date.Now.Year - 1)
@@ -3031,7 +2989,7 @@ Public Class Form1
                         CurrentQ = 0
                     End If
                     Playlist(1) = "c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3"
-                    tmrObj.Enabled = True
+                    Timer2.Enabled = True
 
                 Case Part.Contains("who makes it")
                     Select Case quest
@@ -3058,7 +3016,7 @@ Public Class Form1
                         CurrentQ = 0
                     End If
                     Playlist(1) = "c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3"
-                    tmrObj.Enabled = True
+                    Timer2.Enabled = True
 
                 Case Part.Contains("what is lcn"), Part.Contains("what is elsieanne"), Part.Contains("about your company"), s.Contains("lcn")
                     Select Case quest
@@ -3074,7 +3032,7 @@ Public Class Form1
                         CurrentQ = 0
                     End If
                     Playlist(1) = "c:\soundboard\cheryl\Rebuttals\What's LCN.mp3"
-                    tmrObj.Enabled = True
+                    Timer2.Enabled = True
 
 
                 Case Part.Contains("why are you calling")
@@ -3088,7 +3046,7 @@ Public Class Form1
                     End Select
                     Playlist(1) = "c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3"
 
-                    tmrObj.Enabled = True
+                    Timer2.Enabled = True
 
                 Case Part.Contains("how did you get my info"), Part.Contains("where did you get my info")
                     Select Case quest
@@ -3101,7 +3059,7 @@ Public Class Form1
                     End Select
                     Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3"
 
-                    tmrObj.Enabled = True
+                    Timer2.Enabled = True
 
 
             End Select
@@ -3416,61 +3374,61 @@ Public Class Form1
         deviceNum1 = Primary.SelectedIndex
 
     End Sub
-    Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Secondary.SelectedIndexChanged
-        DeviceNum2 = Secondary.SelectedIndex
+    Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs)
+
 
     End Sub
     Private Sub Button5_Click(sender As Object, e As EventArgs)
         rolltheclipThread("C:/Soundboard/Cheryl/year of the vehicle.mp3")
     End Sub
-    Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
+    Private Sub Button16_Click(sender As Object, e As EventArgs)
         Primary.Items.Clear()
-        Secondary.Items.Clear()
+
         Dim DeviceCount As Integer = NAudio.Wave.WaveOut.DeviceCount()
         Dim SDevice As String = Nothing
         For i As Integer = 0 To DeviceCount - 1
             SDevice = NAudio.Wave.WaveOut.GetCapabilities(i).ProductName
             Primary.Items.Add(SDevice)
-            Secondary.Items.Add(SDevice)
-        Next
 
+        Next
     End Sub
     Private Sub Button17_Click(sender As Object, e As EventArgs) Handles SpouseDOB.Click
         StopThatClip()
         rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\SPOUSES DATE OF BIRTH.mp3")
         isQuestion = True
-
-
     End Sub
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
         isQuestion = True
-
         If getBirthdaWAV() = True Then
             tbCallOrder.SelectedTab = tbDriverInfo
             'LeadForm.Document.GetElementById("frmDOB_Month").Focus()
             CurrentQ = 10
-            tmrBirthday.Enabled = True
-
+            Timer2.Enabled = True
         Else
             rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
-
         End If
     End Sub
+    Dim OnCall As Boolean = False
     Private Sub Button26_Click(sender As Object, e As EventArgs)
         rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/additionalquotes.mp3")
     End Sub
     Dim clipname As String
     Public Sub rolltheclipThread(fileName As String)
-
+        s = ""
+        Part = ""
         clipname = fileName
+        If Me.demoThread IsNot Nothing Then
+            Me.demoThread.Abort()
+        End If
         Me.demoThread = New Thread(New ThreadStart(AddressOf Me.rolltheclip))
         Me.demoThread.Start()
+
+
     End Sub
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles btnTheirName.Click
         Try
             rolltheclipThread(globalFile2)
             isQuestion = True
-
         Catch
         End Try
     End Sub
@@ -3559,7 +3517,6 @@ Public Class Form1
         totalCalls = totalCalls + 1
         totalLeads = totalLeads + 1
         lblCalls.Text = totalCalls
-        Label7.Text = totalLeads
         CurrentQ = 1
         lblQuestion.Text = "HELLO"
         txtInsuranceProvider.Clear()
@@ -3603,7 +3560,6 @@ Public Class Form1
         cmbDispo.Text = "Not Available"
         totalCalls = totalCalls + 1
         lblCalls.Text = totalCalls
-        Label7.Text = totalLeads
         lblQuestion.Text = "HELLO"
         txtInsuranceProvider.Clear()
         txtPolicyExpiration.Clear()
@@ -3620,7 +3576,8 @@ Public Class Form1
     End Sub
     Private Sub Button35_Click(sender As Object, e As EventArgs) Handles btnIntro.Click
         rolltheclipThread("c:\soundboard\cheryl\INTRO\Opener 2.MP3")
-        isQuestion = True
+        clipType = "Question"
+
         callPos = Insurance_Provider
         m.StartMicAndRecognition()
     End Sub
@@ -3749,7 +3706,7 @@ Public Class Form1
     End Sub
     Private Sub Button4_Click_1(sender As Object, e As EventArgs)
         Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3"
-        Timer6.Enabled = True
+
     End Sub
     Private Sub Button29_Click_1(sender As Object, e As EventArgs)
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3")
@@ -3766,7 +3723,6 @@ Public Class Form1
     Private Sub Button42_Click_1(sender As Object, e As EventArgs) Handles Button42.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3"
-            Timer6.Enabled = True
         Else
             rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3")
         End If
@@ -3788,7 +3744,7 @@ Public Class Form1
     Private Sub Button67_Click(sender As Object, e As EventArgs) Handles Button67.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = "c:\soundboard\cheryl\Rebuttals\What's LCN.mp3"
-            Timer6.Enabled = True
+
         Else
             rolltheclipThread("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
         End If
@@ -3827,7 +3783,7 @@ Public Class Form1
     End Sub
     Private Sub Button19_Click_1(sender As Object, e As EventArgs)
         Playlist(0) = "C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\i understand.mp3"
-        Timer6.Enabled = True
+
     End Sub
     Private Sub Button57_Click(sender As Object, e As EventArgs)
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3")
@@ -3841,7 +3797,7 @@ Public Class Form1
     Private Sub Button85_Click(sender As Object, e As EventArgs) Handles Button85.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3"
-            Timer6.Enabled = True
+
         Else
             rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3")
         End If
@@ -3851,18 +3807,18 @@ Public Class Form1
     End Sub
     Private Sub Button77_Click(sender As Object, e As EventArgs)
         Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I'M JUST ABOUT DONE.mp3"
-        Timer6.Enabled = True
+
     End Sub
     Private Sub Button25_Click_1(sender As Object, e As EventArgs)
         Playlist(0) = "C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\nothing to be interested in.mp3"
-        Timer6.Enabled = True
+
     End Sub
     Private Sub Button68_Click_1(sender As Object, e As EventArgs)
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\IS THIS THE SPOUSE.mp3")
     End Sub
     Private Sub Button26_Click_1(sender As Object, e As EventArgs)
         Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I already have insurance rebuttal.mp3"
-        Timer6.Enabled = True
+
     End Sub
     Private Sub Button87_Click(sender As Object, e As EventArgs)
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\This will be real quick.mp3")
@@ -3997,7 +3953,7 @@ Public Class Form1
 
     Private Sub Button69_Click(sender As Object, e As EventArgs)
         Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I ACTUALLY HAVE THIS INFORMATION.mp3"
-        Timer6.Enabled = True
+
     End Sub
 
     Private Sub Button17_Click_1(sender As Object, e As EventArgs) Handles Button17.Click
@@ -4030,8 +3986,7 @@ Public Class Form1
         m.EndMicAndRecognition()
         Console.WriteLine("ASKING QUESTION: " & CurrentQ)
         Console.WriteLine("version:" & numReps)
-        isQuestion = True
-        Already_Handled = False
+        clipType = "Question"
         Try
             s = ""
             Part = ""
@@ -4128,10 +4083,8 @@ Public Class Form1
                             Console.WriteLine("Checking Birthday")
                         End While
                         rolltheclipThread("C:/Soundboard/Cheryl/Birthday/" & byear1 & ".mp3")
-
                     Else
                         rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
-
                     End If
                 Case 11
                     rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\MaritalStatus2.mp3")
@@ -4262,7 +4215,10 @@ Public Class Form1
 
 
     Public Sub DispositionCall()
+        Dim resp As Net.WebResponse
+
         callPos = ""
+        clipType = ""
         m.EndMicAndRecognition()
         StopThatClip()
         NumberOfVehicles = 1
@@ -4297,38 +4253,44 @@ Public Class Form1
         SilenceReps = 0
         stillthere = 0
         isQuestion = False
+
+        Hangup = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
+        resp = Hangup.GetResponse
+        resp.Close()
+        Thread.Sleep(500)
         Select Case cmbDispo.Text
             Case "Not Available"
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
-                NATotal += 1
+                Disposition = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "NotAvl")
+                resp = Disposition.GetResponse
+                cmbDispo.SelectedIndex = -1
             Case "Not Interested"
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
-                NITotal += 1
+                Disposition = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "NI")
+                resp = Disposition.GetResponse
+                cmbDispo.SelectedIndex = -1
             Case "Do Not Call"
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
-                DNCTotal += 1
+                Disposition = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "DNC")
+                resp = Disposition.GetResponse
+                cmbDispo.SelectedIndex = -1
             Case "Wrong Number"
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
-                WrongNumTotal += 1
+                Disposition = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "Wrong")
+                resp = Disposition.GetResponse
+                cmbDispo.SelectedIndex = -1
             Case "No Car"
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
-                noCarTotal += 1
-
+                Disposition = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "NoCar")
+                resp = Disposition.GetResponse
+                cmbDispo.SelectedIndex = -1
             Case "Auto Lead"
-                cmbDispo.Text = "Entering Lead/Low"
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
             Case "No English"
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
-
+                Disposition = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "NoEng")
+                resp = Disposition.GetResponse
+                cmbDispo.SelectedIndex = -1
             Case "Lost On Wrap Up"
-                cmbDispo.Text = "Entering Lead/Low"
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
+                Disposition = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "LOW")
+                resp = Disposition.GetResponse
+                cmbDispo.SelectedIndex = -1
             Case "Entering Lead/Low"
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
-            Case Else
-                cmbDispo.Text = "Not Available"
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
         End Select
+        resp.Close()
     End Sub                                                 ' DISPOSITIONS THE CALL 
     Dim switch As Boolean = False
     Dim temperstring As String
@@ -4408,22 +4370,22 @@ Public Class Form1
 
     Private Sub Button31_Click_2(sender As Object, e As EventArgs)
         Playlist(0) = "C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Address Rebuttal.mp3"
-        Timer6.Enabled = True
+
     End Sub
 
     Private Sub Button55_Click_1(sender As Object, e As EventArgs)
         Playlist(0) = "C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Address Rebuttal 2.mp3"
-        Timer6.Enabled = True
+
     End Sub
 
     Private Sub Button49_Click_1(sender As Object, e As EventArgs)
         Playlist(0) = "C:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Email Rebuttal.mp3"
-        Timer6.Enabled = True
+
     End Sub
 
     Private Sub Button56_Click_1(sender As Object, e As EventArgs)
         Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\P.O Box rebuttal.mp3"
-        Timer6.Enabled = True
+
     End Sub
 
     Private Sub Button57_Click_1(sender As Object, e As EventArgs) Handles Button57.Click
@@ -4435,12 +4397,12 @@ Public Class Form1
 
     Private Sub Button58_Click_1(sender As Object, e As EventArgs)
         Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\New address rebuttal.mp3"
-        Timer6.Enabled = True
+
     End Sub
 
     Private Sub Button59_Click(sender As Object, e As EventArgs)
         Playlist(0) = "C:\SoundBoard\Cheryl\PERSONAL INFO\I would just need an email address that you have access to.mp3"
-        Timer6.Enabled = True
+
     End Sub
 
     Private Sub homerenters_CheckedChanged(sender As Object, e As EventArgs) Handles HomeCheck.CheckedChanged
@@ -4455,11 +4417,11 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Timer5_Tick(sender As Object, e As EventArgs) Handles Timer5.Tick
+    Private Sub Timer5_Tick(sender As Object, e As EventArgs)
         If notReady = True Then
             If waveOut.PlaybackState = 0 Then
                 notReady = False
-                Timer5.Enabled = False
+
 
             End If
         End If
@@ -4476,7 +4438,7 @@ Public Class Form1
 
     End Sub
     Dim weHaveBDay As Boolean = False
-    Private Sub Timer6_Tick(sender As Object, e As EventArgs) Handles Timer6.Tick
+    Private Sub Timer6_Tick(sender As Object, e As EventArgs)
         Select Case CurrentQ
             Case 6
                 If clipnum(6) = 0 Then
@@ -4542,7 +4504,7 @@ Public Class Form1
                     clipnum(13) += 1
                 Else
                     playcounter = 0
-                    Timer6.Enabled = False
+
                     weHaveBDay = True
                     Playlist(0) = "NULL"
                     Playlist(1) = "NULL"
@@ -4550,7 +4512,7 @@ Public Class Form1
                 End If
             Else
                 playcounter = 0
-                Timer6.Enabled = False
+
                 weHaveBDay = True
                 Playlist(0) = "NULL"
                 Playlist(1) = "NULL"
@@ -4639,7 +4601,6 @@ Public Class Form1
         cmbDispo.Text = "Not Interested"
         totalCalls = totalCalls + 1
         lblCalls.Text = totalCalls
-        Label7.Text = totalLeads
         CurrentQ = 1
         lblQuestion.Text = "HELLO"
         txtInsuranceProvider.Clear()
@@ -4662,7 +4623,6 @@ Public Class Form1
         cmbDispo.Text = "Wrong Number"
         totalCalls = totalCalls + 1
         lblCalls.Text = totalCalls
-        Label7.Text = totalLeads
         CurrentQ = 1
         lblQuestion.Text = "HELLO"
         txtInsuranceProvider.Clear()
@@ -4712,7 +4672,7 @@ Public Class Form1
     Private Sub Button4_Click_2(sender As Object, e As EventArgs) Handles Button4.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3"
-            Timer6.Enabled = True
+
         Else
             rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
         End If
@@ -4729,7 +4689,7 @@ Public Class Form1
     Private Sub Button19_Click_2(sender As Object, e As EventArgs) Handles Button19.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\HappyWithInsurance.mp3"
-            Timer6.Enabled = True
+
         Else
             rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\HappyWithInsurance.mp3")
         End If
@@ -4739,7 +4699,7 @@ Public Class Form1
     Private Sub Button32_Click_3(sender As Object, e As EventArgs) Handles Button32.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\this info.mp3"
-            Timer6.Enabled = True
+
         Else
             rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\this info.mp3")
         End If
@@ -4750,7 +4710,7 @@ Public Class Form1
     Private Sub Button69_Click_1(sender As Object, e As EventArgs) Handles Button69.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\I actually have this information.mp3"
-            Timer6.Enabled = True
+
         Else
             rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\I actually have this information.mp3")
         End If
@@ -4760,7 +4720,7 @@ Public Class Form1
     Private Sub Button26_Click_2(sender As Object, e As EventArgs) Handles Button26.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\I Already Have Insurance rebuttal.mp3"
-            Timer6.Enabled = True
+
         Else
             rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\I Already Have Insurance rebuttal.mp3")
         End If
@@ -4770,7 +4730,7 @@ Public Class Form1
     Private Sub Button25_Click_2(sender As Object, e As EventArgs) Handles Button25.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3"
-            Timer6.Enabled = True
+
         Else
             rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3")
         End If
@@ -4780,7 +4740,7 @@ Public Class Form1
     Private Sub Button49_Click_2(sender As Object, e As EventArgs) Handles Button49.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\EMAIL REBUTTAL.mp3"
-            Timer6.Enabled = True
+
         Else
             rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\EMAIL REBUTTAL.mp3")
         End If
@@ -4790,7 +4750,7 @@ Public Class Form1
     Private Sub Button58_Click_2(sender As Object, e As EventArgs) Handles Button58.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\NEW ADDRESS REBUTTAL.mp3"
-            Timer6.Enabled = True
+
         Else
             rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\NEW ADDRESS REBUTTAL.mp3")
         End If
@@ -4800,7 +4760,7 @@ Public Class Form1
     Private Sub Button56_Click_2(sender As Object, e As EventArgs) Handles Button56.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = ("C:\SoundBoard\Cheryl\REBUTTALS\P.O BOX REBUTTAL.mp3")
-            Timer6.Enabled = True
+
 
         Else
             rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\P.O BOX REBUTTAL.mp3")
@@ -4811,7 +4771,7 @@ Public Class Form1
     Private Sub Button31_Click_3(sender As Object, e As EventArgs) Handles Button31.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3"
-            Timer6.Enabled = True
+
         Else
             rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3")
         End If
@@ -4821,7 +4781,7 @@ Public Class Form1
     Private Sub Button5_Click_2(sender As Object, e As EventArgs) Handles Button5.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\My spouse takes care of that.mp3"
-            Timer6.Enabled = True
+
         Else
             rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\My spouse takes care of that.mp3")
         End If
@@ -4884,7 +4844,7 @@ Public Class Form1
     Private Sub Button60_Click_1(sender As Object, e As EventArgs) Handles Button60.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL3.mp3"
-            Timer6.Enabled = True
+
         Else
             rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL3.mp3")
         End If
@@ -4894,7 +4854,7 @@ Public Class Form1
     Private Sub Button29_Click_5(sender As Object, e As EventArgs) Handles Button29.Click
         If My.Computer.Keyboard.CtrlKeyDown = False Then
             Playlist(0) = ("C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\Im sure what.mp3")
-            Timer6.Enabled = True
+
         Else
             rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\Im sure what.mp3")
         End If
@@ -4915,7 +4875,7 @@ Public Class Form1
             CurrentQ = 31
             Timer2.Enabled = True
         Else
-            wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "1Auto")
+            Disposition = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "1Auto")
             NumClicks = 0
         End If
 
@@ -4933,7 +4893,7 @@ Public Class Form1
             resetBot()
             Timer2.Enabled = True
         Else
-            wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "1Auto")
+            Disposition = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "1Auto")
         End If
 
     End Sub
@@ -4998,6 +4958,7 @@ Public Class Form1
         Dim webResp As Net.WebResponse = req.GetResponse
         Dim webReader As New IO.StreamReader(webResp.GetResponseStream)
         Dim Stats As String = webReader.ReadToEnd()
+        webResp.Close()
         Return Stats
     End Function
 
@@ -5020,7 +4981,10 @@ Public Class Form1
 
     End Sub
     Dim req As Net.WebRequest
-    Dim DialerAction As Net.WebRequest
+    Dim Hangup As Net.WebRequest
+    Dim Disposition As Net.WebRequest
+
+
 
 
     Private Sub tmrAgentStatus_Tick(sender As Object, e As EventArgs) Handles tmrAgentStatus.Tick
@@ -5033,6 +4997,7 @@ Public Class Form1
 
             If STATS.Contains("INCALL") Then
                 If newcall = True Then
+                    newcall = False
                     lblStatus.Text = "STATUS: " & "INCALL"
                     Me.BackColor = Color.Green
                     introHello = True
@@ -5044,12 +5009,13 @@ Public Class Form1
             ElseIf STATS.Contains("READY") Then
                 lblStatus.Text = "STATUS: " & "READY"
                 Me.BackColor = Color.Yellow
+                newcall = True
                 btnPause.Text = "Pause"
                 btnPause.BackColor = Color.Red
             ElseIf STATS.Contains("PAUSED") Then
                 btnPause.Text = "Resume"
                 btnPause.BackColor = Color.Green
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "Function=pause_code&value=MGMT")
+
                 lblStatus.Text = "STATUS: " & "PAUSED"
                 isecond += 0.75
                 Me.BackColor = Color.Red
@@ -5069,25 +5035,30 @@ Public Class Form1
                     lblCalls2.Text = tempStr(11)
                 End If
             End If
-
-
-
             Try
                 Dim somehandles As ICollection = local_browser.WindowHandles
                 For Each item As String In somehandles
 
-                    If local_browser.Title().Contains("Auto Insurance") Then
-                        If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
-                            CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
-                            CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
-                            btnTheirName.Text = CustName(0)
-                            globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
-                            globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
-                            globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+                    If local_browser.Url.Contains("forms.lead.co") Then
+                        If local_browser.PageSource <> "the requested resource cannot be found" Then
+
+                            If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
+                                CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
+                                CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
+                                btnTheirName.Text = CustName(0)
+                                globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
+                                globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
+                                globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+                            End If
+                            Exit For
+                        Else
+                            local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
+
                         End If
-                        Exit For
+
+
                     Else
-                        local_browser.SwitchTo().Window(item)
+                            local_browser.SwitchTo().Window(item)
 
                     End If
                 Next
@@ -5100,33 +5071,9 @@ Public Class Form1
     End Sub 'Sends API Call to get agent report
 
 
-    Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles wbDispo.DocumentCompleted
+    Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs)
 
-        Select Case cmbDispo.Text
-            Case "Not Available"
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "NotAvl")
-                cmbDispo.SelectedIndex = -1
-            Case "Not Interested"
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "NI")
-                cmbDispo.SelectedIndex = -1
-            Case "Do Not Call"
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "DNC")
-                cmbDispo.SelectedIndex = -1
-            Case "Wrong Number"
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "Wrong")
-                cmbDispo.SelectedIndex = -1
-            Case "No Car"
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "NoCar")
-                cmbDispo.SelectedIndex = -1
-            Case "Auto Lead"
-            Case "No English"
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "NoEng")
-                cmbDispo.SelectedIndex = -1
-            Case "Lost On Wrap Up"
-                wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "LOW")
-                cmbDispo.SelectedIndex = -1
-            Case "Entering Lead/Low"
-        End Select
+
     End Sub 'WebBrowser Object reserved for Dispositioning calls
 
 
@@ -5138,11 +5085,17 @@ Public Class Form1
     End Sub
 
     Private Sub Button1_Click_4(sender As Object, e As EventArgs) Handles btnPause.Click
+        Dim Pause As Net.WebRequest
+        Dim resp As Net.WebResponse
         If btnPause.Text = "Pause" Then
-            wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_pause&value=" & "PAUSE")
+            Pause = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_pause&value=" & "PAUSE")
+            resp = Pause.GetResponse
+            resp.Close()
             btnPause.Text = "Resume"
         Else
-            wbDispo.Navigate("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_pause&value=" & "RESUME")
+            Pause = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_pause&value=" & "RESUME")
+            resp = Pause.GetResponse
+            resp.Close()
             btnPause.Text = "Pause"
         End If
     End Sub 'pause button
@@ -5157,59 +5110,15 @@ Public Class Form1
     Dim isQuestion As Boolean = True
 
     Public Sub isStopped(sender As Object, e As NAudio.Wave.StoppedEventArgs) Handles waveOut.PlaybackStopped
-
-
         newobjection = True
-        If Not Already_Handled Then
-            isQuestion = False
-            introHello = False
-            m.StartMicAndRecognition()
-        Else
-
-        End If
-
+        Select Case clipType
+            Case "Question"
+                introHello = False
+                m.StartMicAndRecognition()
+            Case "Objection"
+                Timer2.Enabled = True
+        End Select
     End Sub 'checks to see if clip is stopped 
-
-
-    Private Sub tmrObj_Tick(sender As Object, e As EventArgs) Handles tmrObj.Tick
-        Already_Handled = True
-        If waveOut.PlaybackState = 0 Then
-            Timer2.Enabled = True
-            tmrObj.Enabled = False
-
-        End If
-
-
-    End Sub 'handles objection through 3 step rebuttal (attention, benefit, close)
-
-
-
-    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles tmrBirthday.Tick
-        If waveOut.PlaybackState = 0 Then
-
-            If playcounter < 1 Then
-                rolltheclipThread(Playlist(playcounter))
-                playcounter += 1
-            ElseIf playcounter = 1 Then
-                If Playlist(1) <> "NULL" Then
-                    rolltheclipThread(Playlist(playcounter))
-                    playcounter += 1
-                Else
-                    playcounter = 0
-                    tmrObj.Enabled = False
-                    Playlist(0) = "NULL"
-                    Playlist(1) = "NULL"
-                End If
-            Else
-                playcounter = 0
-
-                Playlist(0) = "NULL"
-                Playlist(1) = "NULL"
-            End If
-        End If
-    End Sub   'Plays the birthday clips (day month clip, and year clip)
-
-
     Private Sub cmbMoreVehicles_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbMoreVehicles.SelectedIndexChanged
         VehicleNum = cmbMoreVehicles.Text
     End Sub
@@ -5217,4 +5126,9 @@ Public Class Form1
     Private Sub txtVerifierNum_MouseCaptureChanged(sender As Object, e As EventArgs) Handles txtVerifierNum.MouseCaptureChanged
 
     End Sub
+
+    Private Sub TmrSilence_Tick(sender As Object, e As EventArgs)
+
+    End Sub
+
 End Class

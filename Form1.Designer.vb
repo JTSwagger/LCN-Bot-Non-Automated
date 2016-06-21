@@ -44,10 +44,6 @@ Partial Class Form1
         Me.btnTheirName = New System.Windows.Forms.Button()
         Me.btnHello = New System.Windows.Forms.Button()
         Me.Primary = New System.Windows.Forms.ComboBox()
-        Me.Secondary = New System.Windows.Forms.ComboBox()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Button16 = New System.Windows.Forms.Button()
         Me.frReactions = New System.Windows.Forms.GroupBox()
         Me.Button27 = New System.Windows.Forms.Button()
         Me.Button18 = New System.Windows.Forms.Button()
@@ -102,9 +98,7 @@ Partial Class Form1
         Me.Button64 = New System.Windows.Forms.Button()
         Me.Button67 = New System.Windows.Forms.Button()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label5 = New System.Windows.Forms.Label()
         Me.lblCalls = New System.Windows.Forms.Label()
-        Me.Label7 = New System.Windows.Forms.Label()
         Me.lblQuestion = New System.Windows.Forms.Label()
         Me.Button92 = New System.Windows.Forms.Button()
         Me.Button51 = New System.Windows.Forms.Button()
@@ -114,8 +108,6 @@ Partial Class Form1
         Me.Button81 = New System.Windows.Forms.Button()
         Me.results = New System.Windows.Forms.TextBox()
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
-        Me.Timer5 = New System.Windows.Forms.Timer(Me.components)
-        Me.Timer6 = New System.Windows.Forms.Timer(Me.components)
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.tbQuestions = New System.Windows.Forms.TabPage()
         Me.Button40 = New System.Windows.Forms.Button()
@@ -176,6 +168,7 @@ Partial Class Form1
         Me.cmbSpouseGender = New System.Windows.Forms.ComboBox()
         Me.cmbGender = New System.Windows.Forms.ComboBox()
         Me.cmbMaritalStatus = New System.Windows.Forms.ComboBox()
+
         Me.tbPersonalInfo = New System.Windows.Forms.TabPage()
         Me.Label20 = New System.Windows.Forms.Label()
         Me.cmbPhoneType = New System.Windows.Forms.ComboBox()
@@ -193,13 +186,9 @@ Partial Class Form1
         Me.tmrAgentStatus = New System.Windows.Forms.Timer(Me.components)
         Me.lblName = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.wbDispo = New System.Windows.Forms.WebBrowser()
         Me.btnPause = New System.Windows.Forms.Button()
-        Me.TmrSilence = New System.Windows.Forms.Timer(Me.components)
-        Me.tmrObj = New System.Windows.Forms.Timer(Me.components)
-        Me.tmrBirthday = New System.Windows.Forms.Timer(Me.components)
-        Me.tmrSpeech = New System.Windows.Forms.Timer(Me.components)
         Me.FullAuto = New System.Windows.Forms.CheckBox()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.frReactions.SuspendLayout()
         Me.GroupBox9.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -430,45 +419,10 @@ Partial Class Form1
         'Primary
         '
         Me.Primary.FormattingEnabled = True
-        Me.Primary.Location = New System.Drawing.Point(42, 792)
+        Me.Primary.Location = New System.Drawing.Point(10, 798)
         Me.Primary.Name = "Primary"
         Me.Primary.Size = New System.Drawing.Size(164, 21)
         Me.Primary.TabIndex = 21
-        '
-        'Secondary
-        '
-        Me.Secondary.FormattingEnabled = True
-        Me.Secondary.Location = New System.Drawing.Point(299, 792)
-        Me.Secondary.Name = "Secondary"
-        Me.Secondary.Size = New System.Drawing.Size(169, 21)
-        Me.Secondary.TabIndex = 22
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(65, 815)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(76, 13)
-        Me.Label1.TabIndex = 23
-        Me.Label1.Text = "Primary Output"
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(333, 814)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(93, 13)
-        Me.Label2.TabIndex = 24
-        Me.Label2.Text = "Secondary Output"
-        '
-        'Button16
-        '
-        Me.Button16.Location = New System.Drawing.Point(218, 791)
-        Me.Button16.Name = "Button16"
-        Me.Button16.Size = New System.Drawing.Size(75, 23)
-        Me.Button16.TabIndex = 25
-        Me.Button16.Text = "UPDATE"
-        Me.Button16.UseVisualStyleBackColor = True
         '
         'frReactions
         '
@@ -1133,21 +1087,11 @@ Partial Class Form1
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(327, 837)
+        Me.Label4.Location = New System.Drawing.Point(317, 837)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(70, 20)
         Me.Label4.TabIndex = 37
         Me.Label4.Text = "CALLS:"
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(421, 837)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(68, 20)
-        Me.Label5.TabIndex = 38
-        Me.Label5.Text = "LEADS"
         '
         'lblCalls
         '
@@ -1158,16 +1102,6 @@ Partial Class Form1
         Me.lblCalls.Size = New System.Drawing.Size(19, 20)
         Me.lblCalls.TabIndex = 39
         Me.lblCalls.Text = "0"
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(490, 837)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(19, 20)
-        Me.Label7.TabIndex = 40
-        Me.Label7.Text = "0"
         '
         'lblQuestion
         '
@@ -1271,13 +1205,6 @@ Partial Class Form1
         'Timer2
         '
         Me.Timer2.Interval = 500
-        '
-        'Timer5
-        '
-        Me.Timer5.Interval = 250
-        '
-        'Timer6
-        '
         '
         'TabControl1
         '
@@ -2220,16 +2147,6 @@ Partial Class Form1
         Me.Label3.TabIndex = 53
         Me.Label3.Text = "HELLO"
         '
-        'wbDispo
-        '
-        Me.wbDispo.Location = New System.Drawing.Point(629, 721)
-        Me.wbDispo.MinimumSize = New System.Drawing.Size(20, 20)
-        Me.wbDispo.Name = "wbDispo"
-        Me.wbDispo.ScrollBarsEnabled = False
-        Me.wbDispo.Size = New System.Drawing.Size(20, 34)
-        Me.wbDispo.TabIndex = 141
-        Me.wbDispo.Visible = False
-        '
         'btnPause
         '
         Me.btnPause.BackColor = System.Drawing.Color.Red
@@ -2241,31 +2158,24 @@ Partial Class Form1
         Me.btnPause.Text = "Pause"
         Me.btnPause.UseVisualStyleBackColor = False
         '
-        'TmrSilence
-        '
-        Me.TmrSilence.Interval = 1000
-        '
-        'tmrObj
-        '
-        Me.tmrObj.Interval = 50
-        '
-        'tmrBirthday
-        '
-        Me.tmrBirthday.Interval = 50
-        '
-        'tmrSpeech
-        '
-        Me.tmrSpeech.Interval = 2000
-        '
         'FullAuto
         '
         Me.FullAuto.AutoSize = True
-        Me.FullAuto.Location = New System.Drawing.Point(503, 798)
+        Me.FullAuto.Location = New System.Drawing.Point(532, 777)
         Me.FullAuto.Name = "FullAuto"
         Me.FullAuto.Size = New System.Drawing.Size(67, 17)
         Me.FullAuto.TabIndex = 146
         Me.FullAuto.Text = "Full Auto"
         Me.FullAuto.UseVisualStyleBackColor = True
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(73, 819)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(39, 13)
+        Me.Label1.TabIndex = 23
+        Me.Label1.Text = "Output"
         '
         'Form1
         '
@@ -2276,7 +2186,6 @@ Partial Class Form1
         Me.Controls.Add(Me.txtVerifierNum)
         Me.Controls.Add(Me.FullAuto)
         Me.Controls.Add(Me.btnPause)
-        Me.Controls.Add(Me.wbDispo)
         Me.Controls.Add(Me.lblName)
         Me.Controls.Add(Me.Label32)
         Me.Controls.Add(Me.Label30)
@@ -2286,15 +2195,10 @@ Partial Class Form1
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.lblQuestion)
         Me.Controls.Add(Me.frReactions)
-        Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.lblCalls)
-        Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.GroupBox9)
-        Me.Controls.Add(Me.Button16)
-        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.Secondary)
         Me.Controls.Add(Me.Primary)
         Me.ForeColor = System.Drawing.Color.Black
         Me.Name = "Form1"
@@ -2334,10 +2238,6 @@ Partial Class Form1
     Friend WithEvents btnTheirName As Button
     Friend WithEvents btnHello As Button
     Friend WithEvents Primary As ComboBox
-    Friend WithEvents Secondary As ComboBox
-    Friend WithEvents Label1 As Label
-    Friend WithEvents Label2 As Label
-    Friend WithEvents Button16 As Button
     Friend WithEvents SpouseDOB As Button
     Friend WithEvents Button21 As Button
     Friend WithEvents Button20 As Button
@@ -2365,9 +2265,7 @@ Partial Class Form1
     Friend WithEvents cmbMoreVehicles As ComboBox
     Friend WithEvents Button67 As Button
     Friend WithEvents Label4 As Label
-    Friend WithEvents Label5 As Label
     Friend WithEvents lblCalls As Label
-    Friend WithEvents Label7 As Label
     Friend WithEvents lblQuestion As Label
     Friend WithEvents tcpa As Button
     Friend WithEvents SQFT As Button
@@ -2404,8 +2302,6 @@ Partial Class Form1
     Friend WithEvents LifeCheck As CheckBox
     Friend WithEvents HomeCheck As CheckBox
     Friend WithEvents HealthCheck As CheckBox
-    Friend WithEvents Timer5 As Timer
-    Friend WithEvents Timer6 As Timer
     Friend WithEvents MedicareCheck As CheckBox
     Friend WithEvents RenterCheck As CheckBox
     Friend WithEvents Button70 As Button
@@ -2478,7 +2374,6 @@ Partial Class Form1
     Friend WithEvents lblName As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents lblPauseTime As Label
-    Friend WithEvents wbDispo As WebBrowser
     Friend WithEvents lblStatus As Label
     Friend WithEvents btnPause As Button
     Friend WithEvents lblSeconds As Label
@@ -2494,12 +2389,9 @@ Partial Class Form1
     Friend WithEvents lblCalls2 As Label
     Friend WithEvents TabPage1 As TabPage
     Friend WithEvents txtSpeech As TextBox
-    Friend WithEvents TmrSilence As Timer
-    Friend WithEvents tmrObj As Timer
-    Friend WithEvents tmrBirthday As Timer
     Friend WithEvents lblRecording As Label
-    Friend WithEvents tmrSpeech As Timer
     Friend WithEvents Button60 As Button
     Friend WithEvents lblLeadInfo As Label
     Friend WithEvents FullAuto As CheckBox
+    Friend WithEvents Label1 As Label
 End Class
