@@ -2228,8 +2228,7 @@ Public Class Form1
                 repeatPlease()
         End Select
         If maritalStatus <> "" Then
-            'LeadForm.Document.GetElementById("frmMaritalStatus").SetAttribute("value", maritalStatus)
-            'LeadForm.Document.GetElementById("frmMaritalStatus").RaiseEvent("onchange")
+            local_browser.FindElementById("frmMaritalStatus").SendKeys(maritalStatus)
         End If
     End Sub
     Public Sub updateSpeechText()
