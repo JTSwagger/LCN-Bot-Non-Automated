@@ -241,6 +241,7 @@ Public Class Form1
     Const Own_Rent As String = "Own or Rent"
     Const Home_Type As String = "Residence Type"
     Const Their_Address As String = "Their Address"
+    Const Finalize_Address As String = "Finalize Address"
     Const Email_Address As String = "Email Address"
     Const Credit As String = "Credit"
     Const Phone_Type As String = "Phone Type"
@@ -368,8 +369,13 @@ Public Class Form1
                                 CurrentQ = 11
                                 Timer2.Enabled = True
                             End If
-                        Else
-
+                        ElseIf finalizeSpouseBDay(True) Then
+                            clipType = ""
+                            callPos = Own_Rent
+                            If FullAuto.Checked Then
+                                CurrentQ = 15
+                                Timer2.Enabled = True
+                            End If
                         End If
                     Case Marital_Status
                         If checkMaritalStatus() Then
@@ -385,17 +391,60 @@ Public Class Form1
                                 clipType = ""
                             End If
                         End If
-
-                    Case Email_Address
-                        If getEmail() Then
-
+                    Case Spouse_Name
+                        If checkForSpouseName() Then
+                            clipType = ""
+                            callPos = Spouse_DOB
+                            If FullAuto.Checked Then
+                                CurrentQ = 13
+                                Timer2.Enabled = True
+                            End If
                         End If
-                    Case Credit
-
-                    Case Phone_Type
-
-                    Case Last_Name
-
+                    Case Spouse_DOB
+                        If getSpouseBDAY(True) Then
+                            clipType = ""
+                            callPos = Finalize_BDAY
+                            If FullAuto.Checked Then
+                                CurrentQ = 14
+                                Timer2.Enabled = True
+                            End If
+                        End If
+                    Case Own_Rent
+                        If getHomeType() Then
+                            clipType = ""
+                            callPos = Home_Type
+                            If FullAuto.Checked Then
+                                CurrentQ = 16
+                                Timer2.Enabled = True
+                            End If
+                        End If
+                    Case Home_Type
+                        If getResType() Then
+                            clipType = ""
+                            callPos = Their_Address
+                            If FullAuto.Checked Then
+                                CurrentQ = 17
+                                Timer2.Enabled = True
+                            End If
+                        End If
+                    Case Their_Address
+                        If doaddressstuff() Then
+                            clipType = ""
+                            callPos = Finalize_Address
+                            If FullAuto.Checked Then
+                                CurrentQ = 18
+                                Timer2.Enabled = True
+                            End If
+                        End If
+                    Case Finalize_Address
+                        If finalizeAddress() Then
+                            clipType = ""
+                            callPos = Email_Address
+                            If FullAuto.Checked Then
+                                CurrentQ = 19
+                                Timer2.Enabled = True
+                            End If
+                        End If
                 End Select
             End If
         End If
@@ -1965,64 +2014,45 @@ Public Class Form1
 
 
     End Sub
-    Public Function HandlePhoneType() As Boolean
+    Public Sub HandlePhoneType()
         Select Case True
             Case s.Contains("mobile"), s.Contains("cell")
-                local_browser.FindElementById("frmPhoneType1").SendKeys("Mobile/Cell")
-                Return True
+              '  'LeadForm.Document.GetElementById("frmPhoneType1").SetAttribute("value", "Mobile/Cell")
             Case s.Contains("home")
-                local_browser.FindElementById("frmPhoneType1").SendKeys("Home")
-                Return True
+               ' 'LeadForm.Document.GetElementById("frmPhoneType1").SetAttribute("selectedIndex", "2")
             Case s.Contains("work")
-                local_browser.FindElementById("frmPhoneType1").SendKeys("Work")
-                Return True
+                ' 'LeadForm.Document.GetElementById("frmPhoneType1").SetAttribute("selectedIndex", "3")
             Case Else
-                Return False
+                repeatPlease()
         End Select
-    End Function                'Gets Phone Type and adds it to Lead Form
-    Public Function HandleCredit() As Boolean
+
+
+
+    End Sub
+    Public Sub HandleCredit()
         Select Case True
             Case s.Contains("Excellent")
-                local_browser.FindElementById("frmCreditRating").SendKeys("Excellent")
-                Return True
+             '   'LeadForm.Document.GetElementById("frmCreditRating").SetAttribute("value", "Excellent")
             Case s.Contains("Good")
-                Return True
-                local_browser.FindElementById("frmCreditRating").SendKeys("Good")
+                'LeadForm.Document.GetElementById("frmCreditRating").SetAttribute("value", "Good")
             Case s.Contains("fair")
-                Return True
-                local_browser.FindElementById("frmCreditRating").SendKeys("Fair")
+                'LeadForm.Document.GetElementById("frmCreditRating").SetAttribute("value", "Fair")
             Case Else
-                Return False
+                repeatPlease()
         End Select
-    End Function                    ' Gets Credit and sets it to Lead form 
-    Public Function getEmail() As Boolean
-        Dim email As String = ""
-
-        Select Case True
-
-            Case s.Contains("gmail.com")
 
 
-            Case s.Contains("yahoo.com")
+    End Sub
+    Public Sub getEmail()
+        Console.WriteLine(s)
+    End Sub
 
-
-            Case s.Contains("ymail.com")
-
-
-            Case s.Contains("aol.com")
-
-
-            Case s.Contains("mail.com")
-
-        End Select
-        Return False
-    End Function
-
-    Public Sub finalizeAddress()
+    Public Function finalizeAddress() As Boolean
         NewAddress += " " & s
         Console.WriteLine(NewAddress)
-        ' 'LeadForm.Document.GetElementById("frmAddress").SetAttribute("value", NewAddress)
-    End Sub
+        local_browser.FindElementById("frmAddress").SendKeys(NewAddress)
+        Return True
+    End Function
     Public Function getAddressNum() As Boolean
         NewAddress = ""
         Dim x As Integer = 0
@@ -2065,7 +2095,7 @@ Public Class Form1
 
         End Select
         If residenceType <> "" Then
-            'LeadForm.Document.GetElementById("frmDwellingType").SetAttribute("value", sResidenceType)
+            local_browser.FindElementById("frmDwellingType").SendKeys(sResidenceType)
             Return True
         Else
             repeatPlease()
@@ -2085,7 +2115,7 @@ Public Class Form1
 
         End Select
         If residenceType <> "" Then
-            'LeadForm.Document.GetElementById("frmResidenceType").SetAttribute("value", residenceType)
+            local_browser.FindElementById("frmResidenceType").SendKeys(residenceType)
             Return True
         Else
             repeatPlease()
@@ -2160,7 +2190,7 @@ Public Class Form1
                 BMonth = "DEC"
                 spouseBDAY = spouseBDAY.Substring(2)
         End Select
-        Console.WriteLine("BMONTH Is:  " & BMonth)
+        Console.WriteLine("BMONTH IS: " & BMonth)
         If spouseBDAY.Length > 4 Then
             Console.WriteLine(spouseBDAY)
             BDay = spouseBDAY.Substring(0, spouseBDAY.Length - 4)
@@ -2243,7 +2273,8 @@ Public Class Form1
         Next
 
         If theSpouseName <> "" Then
-            'LeadForm.Document.GetElementById("frmSpouseFirstName").SetAttribute("value", theSpouseName)
+            local_browser.FindElementById("frmSpouseFirstName").SendKeys(theSpouseName)
+            local_browser.FindElementById("frmSpouseLastName").SendKeys(local_browser.FindElementById("frmLastName").Text)
             Return True
         Else
             repeatPlease()
@@ -3133,7 +3164,16 @@ Public Class Form1
 
     End Sub 'Checks for questions in the partial speech variable (part) handles them if found
 
-    Sub ParseAddress(speech As String)
+    Public Function doaddressstuff() As Boolean
+        ParseAddress(s)
+        If getAddressNum() Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+    Public Function ParseAddress(speech As String) As Boolean
         NewAddress = ""
         Dim x As Integer = 0
         Do Until speech.Substring(x, 1) = " " Or x = speech.Length
@@ -3143,11 +3183,14 @@ Public Class Form1
         NewAddress += " " & StreetSpelling
         zip = speech.Substring(speech.Length - 5, 5)
 
-
-
-
-
-    End Sub
+        If NewAddress <> "" Then
+            If getAddressNum() Then
+                Return True
+            Else
+                Return False
+            End If
+        End If
+    End Function
     Public Sub StopThatClip()
         BeginInvoke(New Action(AddressOf waveOut.Dispose))
         BeginInvoke(New Action(AddressOf waveOut2.Dispose))
@@ -5209,5 +5252,9 @@ Public Class Form1
 
     Private Sub tbIntro_Click(sender As Object, e As EventArgs) Handles tbIntro.Click
 
+    End Sub
+
+    Private Sub testpagebutton_Click(sender As Object, e As EventArgs) Handles testpagebutton.Click
+        local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
     End Sub
 End Class
