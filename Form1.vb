@@ -211,13 +211,13 @@ Public Class Form1
         If vMake(vehiclenum) <> "" Then
 
             If vehiclenum = 1 Then
-                Thread.Sleep(500)
+
                 local_browser.FindElementById("vehicle-make").SendKeys((vMake(vehiclenum)))
                 local_browser.Keyboard.PressKey(Keys.Return)
                 Return True
 
             Else
-                Thread.Sleep(500)
+
                 local_browser.FindElementById("vehicle" & vehiclenum & "-make").SendKeys(vMake(vehiclenum))
                 local_browser.Keyboard.PressKey(Keys.Return)
                 Return True
@@ -330,8 +330,6 @@ Public Class Form1
                         Else
 
                         End If
-
-
                     Case Policy_Start
                         Console.WriteLine("Checking Insurance Start Date")
                         If CheckHowLong() Then
@@ -409,10 +407,7 @@ Public Class Form1
                                     CurrentQ = 14
                                     Timer2.Enabled = True
                                 End If
-                            Else
-
                             End If
-
                         End If
                     Case Finalize_BDAY
                         If finalizeSpouseBDay(False) Then
@@ -502,6 +497,19 @@ Public Class Form1
                                 Timer2.Enabled = True
                             End If
                         End If
+
+                    Case Email_Address
+               
+                    Case Credit
+
+
+
+                    Case Phone_Type
+
+
+
+                    Case Last_Name
+
                 End Select
             End If
         End If
@@ -761,10 +769,7 @@ Public Class Form1
         Dim temper() As String = ModelHolder.Split
 
         Console.WriteLine(local_browser.FindElementById(vnumber).GetAttribute("length") - 1)
-        For i As Integer = 1 To 200
-            i += 1
-            Console.WriteLine("Loading Models..." & i)
-        Next
+
         Dim Model_List As IWebElement = local_browser.FindElementById(vnumber)
         Dim Model_Collection As IReadOnlyCollection(Of IWebElement) = Model_List.FindElements(By.TagName("option"))
         Dim Local_Collection(0) As String
@@ -2043,18 +2048,18 @@ Public Class Form1
         End Select
     End Sub
     Public Sub HandleLastName()
-        ''LeadForm.Document.GetElementById("frmLastName").SetAttribute("value", s)
+        local_browser.FindElementById("frmLastName").SendKeys(s)
 
 
     End Sub
     Public Sub HandlePhoneType()
         Select Case True
             Case s.Contains("mobile"), s.Contains("cell")
-              '  'LeadForm.Document.GetElementById("frmPhoneType1").SetAttribute("value", "Mobile/Cell")
+                local_browser.FindElementById("frmPhoneType1").SendKeys("Mobile/Cell")
             Case s.Contains("home")
-               ' 'LeadForm.Document.GetElementById("frmPhoneType1").SetAttribute("selectedIndex", "2")
+                local_browser.FindElementById("frmPhoneType1").SendKeys("2")
             Case s.Contains("work")
-                ' 'LeadForm.Document.GetElementById("frmPhoneType1").SetAttribute("selectedIndex", "3")
+                local_browser.FindElementById("frmPhoneType1").SendKeys("3")
             Case Else
 
         End Select
@@ -2065,11 +2070,11 @@ Public Class Form1
     Public Sub HandleCredit()
         Select Case True
             Case s.Contains("Excellent")
-             '   'LeadForm.Document.GetElementById("frmCreditRating").SetAttribute("value", "Excellent")
+                local_browser.FindElementById("frmCreditRating").SendKeys("Excellent")
             Case s.Contains("Good")
-                'LeadForm.Document.GetElementById("frmCreditRating").SetAttribute("value", "Good")
+                local_browser.FindElementById("frmCreditRating").SendKeys("Good")
             Case s.Contains("fair")
-                'LeadForm.Document.GetElementById("frmCreditRating").SetAttribute("value", "Fair")
+                local_browser.FindElementById("frmCreditRating").SendKeys("Fair")
             Case Else
 
         End Select
@@ -5143,13 +5148,13 @@ Public Class Form1
     Private Sub txtVerifierNum_Click(sender As Object, e As EventArgs) Handles txtVerifierNum.Click
         txtVerifierNum.Text = InputBox("enter agent #: ")
         local_browser = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
+        local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
         local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
         local_browser.SwitchTo().Frame("top")
         local_browser.FindElementById("login-agent").Click()
         local_browser.FindElementById("agent-login").SendKeys(txtVerifierNum.Text)
         local_browser.FindElementById("agent-password").SendKeys("y" & txtVerifierNum.Text & "IE")
         local_browser.FindElementById("btn-get-campaign").Click()
-
         local_browser.FindElementById("select-campaign").Click()
         local_browser.FindElementById("select-campaign").FindElements(By.TagName("option")).Last.Click()
         local_browser.FindElementById("btn-submit").Click()
@@ -5162,7 +5167,8 @@ Public Class Form1
 
 
     Public Sub getLeadWindow()
-        If local_browser.Url.Contains("forms.lead.co") Then
+        '
+        If local_browser.Url.Contains("forms.lead.co") And Not local_browser.PageSource.Contains("added successfully") Then
             If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
                 CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
                 CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
