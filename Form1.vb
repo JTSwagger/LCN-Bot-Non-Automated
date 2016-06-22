@@ -103,11 +103,15 @@ Public Class Form1
         txtSpeech.Text = "The bot heard:  " & Part
         Select Case True
             Case Part.Contains("is this a real person"), Part.Contains("is this a recording"), s.Contains("robot"), s.Contains("automated")
+                Part = ""
+
                 clipType = "Objection"
                 rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\Loud-laugh.mp3")
                 Timer2.Enabled = True
                 NICount += 1
             Case Part.Contains("no vehicle"), Part.Contains("sold the car"), Part.Contains("sold my car"), Part.Contains("no car"), Part.Contains("don't have a vehicle"), Part.Contains("don't") And Part.Contains("have a car"), Part.Contains("don't have an automobile"), Part.Contains("dont't have my own car"), Part.Contains("doesn't have a car")
+                Part = ""
+
                 newobjection = False
                 Console.WriteLine("THEY DON'T HAVE A CAR")
                 rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
@@ -115,16 +119,15 @@ Public Class Form1
                 CurrentQ = 31
                 Timer2.Enabled = True
                 counter2 = 0
-                Part = ""
             Case Part.Contains("not interested"), Part.Contains("don't need a quote"), Part.Contains("i'm fine"), Part.Contains("not really interested"), Part.Contains("not in arrested"), Part.Contains("that's okay thank you"), Part.Contains("no interest"), Part.Contains("stop calling"), Part.Contains("i'm good"), Part.Contains("all set"), Part.Contains("don't want it"), Part.Contains("not changing"), Part.Contains("i'm happy with"), Part.Contains("very happy"), Part.Contains("no thank you"), Part.Contains("not looking"), Part.Contains("don't wanna change"), Part.Contains("no thank you"), Part.Contains("don't need insurance"), Part.Contains("won't change") 'NI
+                Part = ""
+
                 clipType = "Objection"
                 newobjection = False
                 Console.WriteLine("NOT INTERESTED")
                 If CurrentQ = 3 Then
                     CurrentQ = 0
                 End If
-                Part = ""
-                Part = ""
                 Select Case NICount
                     Case 0
                         rolltheclipThread("C:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
@@ -144,6 +147,7 @@ Public Class Form1
 
 
             Case Part.Contains("busy"), Part.Contains("at work"), Part.Contains("driving"), Part.Contains("can't talk"), Part.Contains("call me back"), Part.Contains("could you call back"), Part.Contains("call back another time"), Part.Contains("call later"), Part.Contains("working right now")
+                Part = ""
                 newobjection = False
                 clipType = "Objection"
                 If CurrentQ = 3 Then
@@ -161,6 +165,7 @@ Public Class Form1
                         counter = 0
                 End Select
             Case Part.Contains("wrong number"), Part.Contains("by that name"), Part.Contains("wrong phone number")
+                Part = ""
                 newobjection = False
                 rolltheclipThread("c:\soundboard\cheryl\Rebuttals\SORRY.mp3")
                 cmbDispo.Text = "Wrong Number"
@@ -168,12 +173,13 @@ Public Class Form1
                 Timer2.Enabled = True
 
             Case Part.Contains("already have"), Part.Contains("already have insurance"), Part.Contains("already got insurance"), Part.Contains("happy with"), Part.Contains("i have insurance"), Part.Contains("i got insurance")
+                Part = ""
                 clipType = "Objection"
                 rolltheclipThread("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\i have insurance.mp3")
                 Timer2.Enabled = True
                 NICount += 1
-
             Case Part.Contains("take me off your list"), Part.Contains("name off your list"), Part.Contains("number off your list"), Part.Contains("take me off"), Part.Contains("take me off your call list"), Part.Contains("no call list"), Part.Contains("take this number off the list"), Part.Contains("do not call list"), Part.Contains("remove me from the list"), Part.Contains("taken off his collar"), Part.Contains("remove me from your calling list"), Part.Contains("call list"), Part.Contains("calling list")
+                Part = ""
                 newobjection = False
 
                 rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\DNC.mp3")
@@ -181,6 +187,7 @@ Public Class Form1
                 CurrentQ = 31
                 Timer2.Enabled = True
         End Select
+
         handlepartialquestion()
     End Sub                         ' Checks for Objections from partial speech received.
     Public Function getMake(vehiclenum As Integer) As Boolean 'currentq for this is 8
