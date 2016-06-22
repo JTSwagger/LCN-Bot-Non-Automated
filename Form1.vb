@@ -265,7 +265,7 @@ Public Class Form1
 
                         s = ""
                         If FullAuto.Checked Then
-                            CurrentQ = 
+                            CurrentQ = 0 ' i'm not entirely sure
                         End If
 
                     Case Insurance_Provider
@@ -3802,7 +3802,7 @@ Public Class Form1
         CurrentQ = 3
         isQuestion = True
         clipType = "Question"
-        callPos = Policy_Expiration
+        callPos = Insurance_Provider
     End Sub
     Private Sub Button51_Click(sender As Object, e As EventArgs) Handles btnPolicyStart.Click
         StopThatClip()
@@ -3817,7 +3817,8 @@ Public Class Form1
         rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\EXPIRATION.mp3")
         CurrentQ = 4
         isQuestion = True
-
+        clipType = "question"
+        callPos = Policy_Expiration
     End Sub
     Private Sub Button62_Click(sender As Object, e As EventArgs)
         Select Case cmbMoreVehicles.SelectedIndex
@@ -5142,14 +5143,19 @@ Public Class Form1
 
     Public Sub getLeadWindow()
         If local_browser.Url.Contains("forms.lead.co") Then
-            If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
-                CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
-                CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
-                btnTheirName.Text = CustName(0)
-                globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
-                globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
-                globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
-            End If
+            Try
+
+                If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
+                    CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
+                    CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
+                    btnTheirName.Text = CustName(0)
+                    globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
+                    globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
+                    globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+                End If
+            Catch ex As Exception
+                Console.WriteLine("pandas")
+            End Try
         Else
             If local_browser.WindowHandles.Count() > 1 Then
                 local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
