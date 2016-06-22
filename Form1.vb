@@ -499,7 +499,8 @@ Public Class Form1
                         End If
 
                     Case Email_Address
-               
+
+
                     Case Credit
 
 
@@ -3900,11 +3901,9 @@ Public Class Form1
         rolltheclipThread("c:\soundboard\cheryl\REACTIONS\NO.mp3")
     End Sub
     Private Sub Button42_Click_1(sender As Object, e As EventArgs) Handles Button42.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3"
-        Else
-            rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3")
-        End If
+
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3")
+
     End Sub
 
     Private Sub Button66_Click(sender As Object, e As EventArgs)
@@ -3921,12 +3920,9 @@ Public Class Form1
         End Select
     End Sub
     Private Sub Button67_Click(sender As Object, e As EventArgs) Handles Button67.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "c:\soundboard\cheryl\Rebuttals\What's LCN.mp3"
 
-        Else
-            rolltheclipThread("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
-        End If
+        rolltheclipThread("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
+
     End Sub
     Private Sub Button43_Click(sender As Object, e As EventArgs) Handles Button43.Click
         cmbMoreVehicles.SelectedIndex = 0
@@ -3974,12 +3970,9 @@ Public Class Form1
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\january feb march april.mp3")
     End Sub
     Private Sub Button85_Click(sender As Object, e As EventArgs) Handles Button85.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3"
 
-        Else
-            rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3")
-        End If
+        rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3")
+
     End Sub
     Private Sub Button58_Click(sender As Object, e As EventArgs)
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I'M JUST ABOUT DONE.mp3")
@@ -4851,12 +4844,9 @@ Public Class Form1
     End Sub
 
     Private Sub Button4_Click_2(sender As Object, e As EventArgs) Handles Button4.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3"
 
-        Else
-            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
-        End If
+        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
+
     End Sub
 
     Private Sub Button77_Click_1(sender As Object, e As EventArgs) Handles Button77.Click
@@ -4868,104 +4858,68 @@ Public Class Form1
     End Sub
 
     Private Sub Button19_Click_2(sender As Object, e As EventArgs) Handles Button19.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\HappyWithInsurance.mp3"
 
-        Else
-            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\HappyWithInsurance.mp3")
-        End If
+        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\HappyWithInsurance.mp3")
 
     End Sub
 
     Private Sub Button32_Click_3(sender As Object, e As EventArgs) Handles Button32.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\this info.mp3"
 
-        Else
-            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\this info.mp3")
-        End If
+        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\this info.mp3")
 
 
     End Sub
 
     Private Sub Button69_Click_1(sender As Object, e As EventArgs) Handles Button69.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\I actually have this information.mp3"
 
-        Else
-            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\I actually have this information.mp3")
-        End If
+        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\I actually have this information.mp3")
+
 
     End Sub
 
     Private Sub Button26_Click_2(sender As Object, e As EventArgs) Handles Button26.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\I Already Have Insurance rebuttal.mp3"
 
-        Else
-            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\I Already Have Insurance rebuttal.mp3")
-        End If
+        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\I Already Have Insurance rebuttal.mp3")
+
 
     End Sub
 
     Private Sub Button25_Click_2(sender As Object, e As EventArgs) Handles Button25.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3"
+        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3")
 
-        Else
-            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3")
-        End If
 
     End Sub
 
     Private Sub Button49_Click_2(sender As Object, e As EventArgs) Handles Button49.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\EMAIL REBUTTAL.mp3"
 
-        Else
-            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\EMAIL REBUTTAL.mp3")
-        End If
+        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\EMAIL REBUTTAL.mp3")
 
     End Sub
 
     Private Sub Button58_Click_2(sender As Object, e As EventArgs) Handles Button58.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\NEW ADDRESS REBUTTAL.mp3"
 
-        Else
-            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\NEW ADDRESS REBUTTAL.mp3")
-        End If
+        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\NEW ADDRESS REBUTTAL.mp3")
+
 
     End Sub
 
     Private Sub Button56_Click_2(sender As Object, e As EventArgs) Handles Button56.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = ("C:\SoundBoard\Cheryl\REBUTTALS\P.O BOX REBUTTAL.mp3")
 
+        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\P.O BOX REBUTTAL.mp3")
 
-        Else
-            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\P.O BOX REBUTTAL.mp3")
-        End If
 
     End Sub
 
     Private Sub Button31_Click_3(sender As Object, e As EventArgs) Handles Button31.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3"
 
-        Else
-            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3")
-        End If
+        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3")
+
 
     End Sub
 
     Private Sub Button5_Click_2(sender As Object, e As EventArgs) Handles Button5.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\My spouse takes care of that.mp3"
 
-        Else
-            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\My spouse takes care of that.mp3")
-        End If
+        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\My spouse takes care of that.mp3")
 
     End Sub
 
@@ -5023,23 +4977,15 @@ Public Class Form1
     End Sub
 
     Private Sub Button60_Click_1(sender As Object, e As EventArgs) Handles Button60.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = "C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL3.mp3"
 
-        Else
-            rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL3.mp3")
-        End If
+        rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL3.mp3")
+
 
     End Sub
 
     Private Sub Button29_Click_5(sender As Object, e As EventArgs) Handles Button29.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = ("C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\Im sure what.mp3")
 
-        Else
-            rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\Im sure what.mp3")
-        End If
-
+        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\Im sure what.mp3")
 
     End Sub
     Dim NumClicks As Integer = 0
@@ -5108,11 +5054,9 @@ Public Class Form1
     End Sub
 
     Private Sub Button40_Click_1(sender As Object, e As EventArgs) Handles Button40.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            rolltheclipThread("C:/Soundboard/Cheryl/Rebuttals/NotThatCheap.mp3")
-        Else
-            rolltheclipThread("C:/Soundboard/Cheryl/Rebuttals/NotThatCheap.mp3")
-        End If
+
+        rolltheclipThread("C:/Soundboard/Cheryl/Rebuttals/NotThatCheap.mp3")
+
 
     End Sub
     Dim errorText As String = ""
