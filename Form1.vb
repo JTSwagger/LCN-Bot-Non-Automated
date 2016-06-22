@@ -228,6 +228,7 @@ Public Class Form1
 
     End Function 'GETS THE MAKE OF THE VEHICLE
     Dim callPos As String = ""
+    Const Intro As String = "Intro"
     Const Insurance_Provider As String = "Insurance Provider"
     Const Policy_Expiration As String = "Policy Expiration"
     Const Policy_Start As String = "Policy Start"
@@ -258,6 +259,15 @@ Public Class Form1
 
                 Select Case callPos
 
+                    Case Intro
+                        clipType = ""
+                        callPos = Insurance_Provider
+
+                        s = ""
+                        If FullAuto.Checked Then
+                            CurrentQ = 
+                        End If
+
                     Case Insurance_Provider
                         Console.WriteLine("Checking Insurance Provider")
                         If CheckForCompany() Then
@@ -282,6 +292,8 @@ Public Class Form1
                                 CurrentQ = 5
                                 Timer2.Enabled = True
                             End If
+                        Else
+                            repeatPlease()
                         End If
 
 
@@ -346,16 +358,22 @@ Public Class Form1
                             If GetBirthday() Then
                                 clipType = ""
                                 callPos = maritalStatus
+                                If FullAuto.Checked Then
+                                    CurrentQ = 11
+                                    Timer2.Enabled = True
+                                End If
                             Else
-                                rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
+                                rolltheclipThread("C:\Soundboard\Cheryl\DRIVER INFO\DOB1.mp3")
                                 Already_Handled = False
                             End If
                         Else
                             If getSpouseBDAY(False) Then
-                                CurrentQ = 14
-                                Timer2.Enabled = True
                                 clipType = ""
                                 callPos = Finalize_BDAY
+                                If FullAuto.Checked Then
+                                    CurrentQ = 14
+                                    Timer2.Enabled = True
+                                End If
                             Else
                                 repeatPlease()
                             End If
@@ -389,6 +407,10 @@ Public Class Form1
                             Else
                                 callPos = Own_Rent
                                 clipType = ""
+                                If FullAuto.Checked Then
+                                    CurrentQ = 15
+                                    Timer2.Enabled = True
+                                End If
                             End If
                         End If
                     Case Spouse_Name
@@ -768,7 +790,7 @@ Public Class Form1
                 Return False
             End If
         Catch ex As Exception
-            Console.WriteLine(ex)
+            Console.WriteLine(ex.Message)
             Return False
 
         End Try
@@ -876,20 +898,9 @@ Public Class Form1
         Const Key As String = "ce43e8a4d7a844b1be7950b260d6b8bd"
         Const Key2 As String = "0d2797650c8648d18474399744512f17"
         m = SpeechRecognitionServiceFactory.CreateMicrophoneClient(SpeechRecognitionMode.LongDictation, "en-us", Key, Key2)
-
-
-
-
-
-
-
-
-
-
-
     End Sub
 
-    Dim happytreefriends As FirefoxBinary = New FirefoxBinary(Application.StartupPath & "\Firefox Setup 28.0\core\firefox.exe")
+    Dim happytreefriends As FirefoxBinary = New FirefoxBinary(Application.StartupPath & "\core\firefox.exe")
 
     Dim prof As FirefoxProfile = New FirefoxProfile()
 
@@ -3400,7 +3411,16 @@ Public Class Form1
 
             End Select
         End If
-        MyBase.WndProc(m)
+        Try
+            MyBase.WndProc(m)
+        Catch ex As Exception
+            Console.WriteLine("****** EXCEPTION PANDA ********")
+            Console.WriteLine(ex.Message)
+            Console.WriteLine(ex.Data)
+            Console.WriteLine(ex.InnerException)
+            Console.WriteLine(ex.StackTrace)
+            Console.WriteLine("****** END EXCEPTION PANDA ********")
+        End Try
     End Sub
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs)
@@ -4156,8 +4176,8 @@ Public Class Form1
                     End Select
                 Case 3
 
+
                     rolltheclipThread("C:\SoundBoard\Cheryl\INTRO\INTRO2.MP3")
-                    callPos = Insurance_Provider
                     m.StartMicAndRecognition()
                 Case 4
                     Select Case numReps
@@ -4171,6 +4191,7 @@ Public Class Form1
                             rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\policy exp 3.mp3")
                     End Select
                 Case 5
+                    Console.WriteLine("*** PANDA PANDA PANDA NUMREPS = {0}", numReps)
                     Select Case numReps
                         Case 0
                             rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\And How many years have you been with them.mp3")
@@ -4210,13 +4231,13 @@ Public Class Form1
 
                     If getBirthdaWAV() = True Then
                         tbCallOrder.SelectedTab = tbDriverInfo
-                        rolltheclipThread("C:/Soundboard/Cheryl/Birthday/" & bmonth1 & bday1 & ".mp3")
+                        rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & bmonth1 & bday1 & ".mp3")
                         While (waveOut.PlaybackState = 1)
                             Console.WriteLine("Checking Birthday")
                         End While
-                        rolltheclipThread("C:/Soundboard/Cheryl/Birthday/" & byear1 & ".mp3")
+                        rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & byear1 & ".mp3")
                     Else
-                        rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
+                        rolltheclipThread("C:\Soundboard\Cheryl\DRIVER INFO\DOB1.mp3")
                     End If
                 Case 11
                     rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\MaritalStatus2.mp3")
@@ -4237,7 +4258,7 @@ Public Class Form1
                 Case 19
                     rolltheclipThread("C:\SoundBoard\Cheryl\PERSONAL INFO\EMAIL.mp3")
                 Case 20
-                    rolltheclipThread("C:\Users\Insurance Express\Documents\LCNSoundBoard\LCNSoundBoard\LCNSoundBoard\bin\Debug\c:\SoundBoard\Cheryl\REACTIONS\More More More Cheryl\More More More Cheryl\Email Rebuttal.mp3")
+                    rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\Email Rebuttal.mp3")
                 Case 21
                     rolltheclipThread("c:\soundboard\cheryl\PERSONAL INFO\Credit.mp3")
                 Case 22
@@ -5199,8 +5220,9 @@ Public Class Form1
 
     Private Sub Form1_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         Unregister()
-        local_browser.Dispose()
-
+        If local_browser IsNot Nothing Then
+            local_browser.Dispose()
+        End If
     End Sub
 
     Private Sub Button1_Click_4(sender As Object, e As EventArgs) Handles btnPause.Click
@@ -5255,6 +5277,8 @@ Public Class Form1
     End Sub
 
     Private Sub testpagebutton_Click(sender As Object, e As EventArgs) Handles testpagebutton.Click
+        newcall = False
+        local_browser = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
         local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
     End Sub
 End Class
