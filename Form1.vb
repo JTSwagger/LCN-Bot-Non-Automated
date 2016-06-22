@@ -50,13 +50,14 @@ Public Class Form1
 
             Select Case True
                 Case Part.Contains("who is this"), Part.Contains("who are you"), Part.Contains("who is calling"), Part.Contains("who's this"), Part.Contains("who's calling"), Part.Contains("who do you represent")
-
+                    clipType = "Objection"
                     If CurrentQ = 3 Then
                         CurrentQ = 0
                     End If
                     rolltheclipThread("c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3")
                     Timer2.Enabled = True
                 Case Part.Contains("what is this"), Part.Contains("what's this"), Part.Contains("what is the nature of this call"), Part.Contains("what are you calling about"), Part.Contains("what is purpose of this call")
+                    clipType = "Objection"
                     If CurrentQ = 3 Then
                         CurrentQ = 0
                     End If
@@ -64,6 +65,7 @@ Public Class Form1
                     Already_Handled = True
                     Timer2.Enabled = True
                 Case Part.Contains("what is lcn"), Part.Contains("what is elsieanne"), Part.Contains("about your company"), s.Contains("lcn")
+                    clipType = "Objection"
                     If CurrentQ = 3 Then
                         CurrentQ = 0
                     End If
@@ -72,11 +74,13 @@ Public Class Form1
                     Timer2.Enabled = True
 
                 Case Part.Contains("why are you calling")
+                    clipType = "Objection"
                     rolltheclipThread("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
                     Already_Handled = True
                     Timer2.Enabled = True
 
                 Case Part.Contains("how did you get my info"), Part.Contains("where did you get my info")
+                    clipType = "Objection"
                     rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3")
                     Already_Handled = True
                     Timer2.Enabled = True
@@ -99,6 +103,7 @@ Public Class Form1
         txtSpeech.Text = "The bot heard:  " & Part
         Select Case True
             Case Part.Contains("is this a real person"), Part.Contains("is this a recording"), s.Contains("robot"), s.Contains("automated")
+                clipType = "Objection"
                 rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\Loud-laugh.mp3")
                 Timer2.Enabled = True
                 NICount += 1
@@ -111,6 +116,7 @@ Public Class Form1
                 Timer2.Enabled = True
                 counter2 = 0
             Case Part.Contains("not interested"), Part.Contains("don't need a quote"), Part.Contains("i'm fine"), Part.Contains("not really interested"), Part.Contains("not in arrested"), Part.Contains("that's okay thank you"), Part.Contains("no interest"), Part.Contains("stop calling"), Part.Contains("i'm good"), Part.Contains("all set"), Part.Contains("don't want it"), Part.Contains("not changing"), Part.Contains("i'm happy with"), Part.Contains("very happy"), Part.Contains("no thank you"), Part.Contains("not looking"), Part.Contains("don't wanna change"), Part.Contains("no thank you"), Part.Contains("don't need insurance"), Part.Contains("won't change") 'NI
+                clipType = "Objection"
                 newobjection = False
                 Console.WriteLine("NOT INTERESTED")
                 If CurrentQ = 3 Then
@@ -137,6 +143,7 @@ Public Class Form1
 
             Case Part.Contains("busy"), Part.Contains("at work"), Part.Contains("driving"), Part.Contains("can't talk"), Part.Contains("call me back"), Part.Contains("could you call back"), Part.Contains("call back another time"), Part.Contains("call later"), Part.Contains("working right now")
                 newobjection = False
+                clipType = "Objection"
                 If CurrentQ = 3 Then
                     CurrentQ = 0
                 End If
@@ -163,7 +170,7 @@ Public Class Form1
                 Timer2.Enabled = True
 
             Case Part.Contains("already have"), Part.Contains("already have insurance"), Part.Contains("already got insurance"), Part.Contains("happy with"), Part.Contains("i have insurance"), Part.Contains("i got insurance")
-
+                clipType = "Objection"
                 rolltheclipThread("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\i have insurance.mp3")
                 Timer2.Enabled = True
                 NICount += 1
@@ -248,6 +255,35 @@ Public Class Form1
     Const Phone_Type As String = "Phone Type"
     Const Last_Name As String = "Last Name"
 
+    Public Function NumtoMonth(Month As String) As String
+        Select Case Month
+            Case "01", "1"
+                Return "Jan"
+            Case "02", "2"
+                Return "Feb"
+            Case "03", "3"
+                Return "mar"
+            Case "04", "4"
+                Return "Apr"
+            Case "05", "5"
+                Return "May"
+            Case "06", "6"
+                Return "Jun"
+            Case "07", "7"
+                Return "Jul"
+            Case "08", "8"
+                Return "Aug"
+            Case "09", "9"
+                Return "Sep"
+            Case "10"
+                Return "Oct"
+            Case "11"
+                Return "Nov"
+            Case "12"
+                Return "Dec"
+        End Select
+        Return False
+    End Function
 
 
     Public Sub handleResponse()
@@ -265,35 +301,34 @@ Public Class Form1
 
                         s = ""
                         If FullAuto.Checked Then
-                            CurrentQ = 
+                            CurrentQ = 3
                         End If
 
                     Case Insurance_Provider
                         Console.WriteLine("Checking Insurance Provider")
                         If CheckForCompany() Then
                             clipType = ""
-
-                            callPos = Policy_Expiration
+                            callPos = ""
                             s = ""
                             If FullAuto.Checked Then
                                 CurrentQ = 4
                                 Timer2.Enabled = True
                             End If
                         Else
-                            Already_Handled = False
+                            clipType = "Question"
                         End If
                     Case Policy_Expiration
                         Console.WriteLine("Checking Insurance Expiration Date")
                         If checkExpiration() Then
                             clipType = ""
-                            callPos = Policy_Start
+                            callPos = ""
                             s = ""
                             If FullAuto.Checked Then
                                 CurrentQ = 5
                                 Timer2.Enabled = True
                             End If
                         Else
-                            repeatPlease()
+
                         End If
 
 
@@ -301,7 +336,7 @@ Public Class Form1
                         Console.WriteLine("Checking Insurance Start Date")
                         If CheckHowLong() Then
                             clipType = ""
-                            callPos = Number_Of_Vehicles
+                            callPos = ""
                             s = ""
                             If FullAuto.Checked Then
                                 CurrentQ = 6
@@ -312,7 +347,7 @@ Public Class Form1
                         Console.WriteLine("Checking Number of Vehicles")
                         If checkForNumVehicles() Then
                             clipType = ""
-                            callPos = Year_Make_Model
+                            callPos = ""
                             s = ""
                             If FullAuto.Checked Then
                                 CurrentQ = 7
@@ -346,10 +381,10 @@ Public Class Form1
                                         End If
                                     End If
                                 Else
-                                    Already_Handled = False
+                                    clipType = "Question"
                                 End If
                             Else
-                                Already_Handled = False
+                                clipType = "Question"
                             End If
                         End If
 
@@ -357,7 +392,7 @@ Public Class Form1
                         If getBirthdaWAV() Then
                             If GetBirthday() Then
                                 clipType = ""
-                                callPos = maritalStatus
+                                callPos = ""
                                 If FullAuto.Checked Then
                                     CurrentQ = 11
                                     Timer2.Enabled = True
@@ -375,7 +410,7 @@ Public Class Form1
                                     Timer2.Enabled = True
                                 End If
                             Else
-                                repeatPlease()
+
                             End If
 
                         End If
@@ -668,6 +703,7 @@ Public Class Form1
     Dim vmodel(3) As String
     Dim secondPass As Boolean = False
     Dim PRIMARY_KEY As String = "ce43e8a4d7a844b1be7950b260d6b8bd"
+
     Dim timeout As Integer = 30000
     Dim numRepeats As Integer = 0
     Dim Newvar As String = ""
@@ -1580,22 +1616,7 @@ Public Class Form1
 
 
 
-    Public Sub repeatPlease()
-        Console.WriteLine("ASKING TO REPEAT")
 
-        Select Case numRepeats
-            Case 0
-                rolltheclipThread("C:/Soundboard/Cheryl/reactions/Can You Repeat that.mp3")
-                numRepeats += 1
-            Case 1
-                rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\repeatagain.mp3")
-                numRepeats += 1
-            Case Else
-                CurrentQ += 1
-                numRepeats = 0
-        End Select
-        isQuestion = True
-    End Sub   'RUNS THROUGH THE REPEAT LOOP
     Dim numbreps As Integer = 0
 
     Public Function isMachine()
@@ -1623,6 +1644,7 @@ Public Class Form1
 
                 Select Case True
                     Case Part.Contains("is this a real person"), Part.Contains("is this a recording"), s.Contains("robot"), s.Contains("automated")
+
                         rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\Loud-laugh.mp3")
                         Timer2.Enabled = True
                         NICount += 1
@@ -2034,7 +2056,7 @@ Public Class Form1
             Case s.Contains("work")
                 ' 'LeadForm.Document.GetElementById("frmPhoneType1").SetAttribute("selectedIndex", "3")
             Case Else
-                repeatPlease()
+
         End Select
 
 
@@ -2049,7 +2071,7 @@ Public Class Form1
             Case s.Contains("fair")
                 'LeadForm.Document.GetElementById("frmCreditRating").SetAttribute("value", "Fair")
             Case Else
-                repeatPlease()
+
         End Select
 
 
@@ -2109,7 +2131,7 @@ Public Class Form1
             local_browser.FindElementById("frmDwellingType").SendKeys(sResidenceType)
             Return True
         Else
-            repeatPlease()
+
             Return False
         End If
     End Function
@@ -2129,7 +2151,7 @@ Public Class Form1
             local_browser.FindElementById("frmResidenceType").SendKeys(residenceType)
             Return True
         Else
-            repeatPlease()
+
             Return False
         End If
     End Function
@@ -2288,7 +2310,8 @@ Public Class Form1
             local_browser.FindElementById("frmSpouseLastName").SendKeys(local_browser.FindElementById("frmLastName").Text)
             Return True
         Else
-            repeatPlease()
+
+
             Return False
         End If
     End Function
@@ -2308,7 +2331,7 @@ Public Class Form1
             Case s.Contains("domestic partner")
                 maritalStatus = "Domestic Partner"
             Case Else
-                repeatPlease()
+
         End Select
         If maritalStatus <> "" Then
             local_browser.FindElementById("frmMaritalStatus").SendKeys(maritalStatus)
@@ -2993,7 +3016,7 @@ Public Class Form1
         End Select
         If theYear <> "" Then
             numRepeats = 0
-            local_browser.FindElementById("frmPolicyExpires_Month").SendKeys(CStr(theMonth))
+            local_browser.FindElementById("frmPolicyExpires_Month").SendKeys(NumtoMonth(theMonth))
             For i As Integer = 0 To 1000
                 i += 1
             Next
@@ -3055,12 +3078,9 @@ Public Class Form1
             Case s.Contains("19")
                 theYear = CStr(Date.Now.Year - 19)
             Case Else
-
-                repeatPlease()
-
         End Select
         If theMonth <> "" And theYear <> "" Then
-            local_browser.FindElementById("frmPolicyStart_Month").SendKeys(CStr(theMonth))
+            local_browser.FindElementById("frmPolicyStart_Month").SendKeys(NumtoMonth(theMonth))
 
             local_browser.FindElementById("frmPolicyStart_Year").SendKeys(CStr(theYear))
             Return True
@@ -3721,6 +3741,7 @@ Public Class Form1
         rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/Credit.mp3")
     End Sub
     Private Sub Button35_Click(sender As Object, e As EventArgs) Handles btnIntro.Click
+        CurrentQ = 3
         rolltheclipThread("c:\soundboard\cheryl\INTRO\INTRO2.MP3")
         clipType = "Question"
         callPos = Insurance_Provider
@@ -3816,7 +3837,8 @@ Public Class Form1
         StopThatClip()
         rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\EXPIRATION.mp3")
         CurrentQ = 4
-        isQuestion = True
+        clipType = "Question"
+        callPos = Policy_Expiration
 
     End Sub
     Private Sub Button62_Click(sender As Object, e As EventArgs)
@@ -4175,9 +4197,8 @@ Public Class Form1
                             rolltheclipThread(globalFile2)
                     End Select
                 Case 3
-
-
                     rolltheclipThread("C:\SoundBoard\Cheryl\INTRO\INTRO2.MP3")
+                    CurrentQ = 3
                     m.StartMicAndRecognition()
                 Case 4
                     Select Case numReps
@@ -4448,7 +4469,7 @@ Public Class Form1
     Dim switch As Boolean = False
     Dim temperstring As String
     Private Sub Timer2_Tick(sender As Object, e As EventArgs) Handles Timer2.Tick           'CHECKS TO SEE THAT CHERYL IS NOT TALKING SO THE CALL CAN MOVE ON
-
+        Label3.Text = CurrentQ
         If waveOut.PlaybackState = 0 Then
 
             If CurrentQ < 30 Then
@@ -4756,7 +4777,7 @@ Public Class Form1
         cmbDispo.Text = "Not Interested"
         totalCalls = totalCalls + 1
         lblCalls.Text = totalCalls
-        CurrentQ = 1
+        CurrentQ = 0
         lblQuestion.Text = "HELLO"
         txtInsuranceProvider.Clear()
         txtPolicyExpiration.Clear()
