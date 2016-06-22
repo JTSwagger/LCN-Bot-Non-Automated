@@ -386,6 +386,15 @@ Public Class Form1
                             End If
                         End If
 
+                    Case Email_Address
+                        If getEmail() Then
+
+                        End If
+                    Case Credit
+
+                    Case Phone_Type
+
+                    Case Last_Name
 
                 End Select
             End If
@@ -1956,38 +1965,58 @@ Public Class Form1
 
 
     End Sub
-    Public Sub HandlePhoneType()
+    Public Function HandlePhoneType() As Boolean
         Select Case True
             Case s.Contains("mobile"), s.Contains("cell")
-              '  'LeadForm.Document.GetElementById("frmPhoneType1").SetAttribute("value", "Mobile/Cell")
+                local_browser.FindElementById("frmPhoneType1").SendKeys("Mobile/Cell")
+                Return True
             Case s.Contains("home")
-               ' 'LeadForm.Document.GetElementById("frmPhoneType1").SetAttribute("selectedIndex", "2")
+                local_browser.FindElementById("frmPhoneType1").SendKeys("Home")
+                Return True
             Case s.Contains("work")
-                ' 'LeadForm.Document.GetElementById("frmPhoneType1").SetAttribute("selectedIndex", "3")
+                local_browser.FindElementById("frmPhoneType1").SendKeys("Work")
+                Return True
             Case Else
-                repeatPlease()
+                Return False
         End Select
-
-
-
-    End Sub
-    Public Sub HandleCredit()
+    End Function                'Gets Phone Type and adds it to Lead Form
+    Public Function HandleCredit() As Boolean
         Select Case True
             Case s.Contains("Excellent")
-             '   'LeadForm.Document.GetElementById("frmCreditRating").SetAttribute("value", "Excellent")
+                local_browser.FindElementById("frmCreditRating").SendKeys("Excellent")
+                Return True
             Case s.Contains("Good")
-                'LeadForm.Document.GetElementById("frmCreditRating").SetAttribute("value", "Good")
+                Return True
+                local_browser.FindElementById("frmCreditRating").SendKeys("Good")
             Case s.Contains("fair")
-                'LeadForm.Document.GetElementById("frmCreditRating").SetAttribute("value", "Fair")
+                Return True
+                local_browser.FindElementById("frmCreditRating").SendKeys("Fair")
             Case Else
-                repeatPlease()
+                Return False
         End Select
+    End Function                    ' Gets Credit and sets it to Lead form 
+    Public Function getEmail() As Boolean
+        Dim email As String = ""
+
+        Select Case True
+
+            Case s.Contains("gmail.com")
 
 
-    End Sub
-    Public Sub getEmail()
-        Console.WriteLine(s)
-    End Sub
+            Case s.Contains("yahoo.com")
+
+
+            Case s.Contains("ymail.com")
+
+
+            Case s.Contains("aol.com")
+
+
+            Case s.Contains("mail.com")
+
+        End Select
+        Return False
+    End Function
 
     Public Sub finalizeAddress()
         NewAddress += " " & s
@@ -2131,7 +2160,7 @@ Public Class Form1
                 BMonth = "DEC"
                 spouseBDAY = spouseBDAY.Substring(2)
         End Select
-        Console.WriteLine("BMONTH IS: " & BMonth)
+        Console.WriteLine("BMONTH Is:  " & BMonth)
         If spouseBDAY.Length > 4 Then
             Console.WriteLine(spouseBDAY)
             BDay = spouseBDAY.Substring(0, spouseBDAY.Length - 4)
