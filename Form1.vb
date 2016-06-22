@@ -115,6 +115,7 @@ Public Class Form1
                 CurrentQ = 31
                 Timer2.Enabled = True
                 counter2 = 0
+                Part = ""
             Case Part.Contains("not interested"), Part.Contains("don't need a quote"), Part.Contains("i'm fine"), Part.Contains("not really interested"), Part.Contains("not in arrested"), Part.Contains("that's okay thank you"), Part.Contains("no interest"), Part.Contains("stop calling"), Part.Contains("i'm good"), Part.Contains("all set"), Part.Contains("don't want it"), Part.Contains("not changing"), Part.Contains("i'm happy with"), Part.Contains("very happy"), Part.Contains("no thank you"), Part.Contains("not looking"), Part.Contains("don't wanna change"), Part.Contains("no thank you"), Part.Contains("don't need insurance"), Part.Contains("won't change") 'NI
                 clipType = "Objection"
                 newobjection = False
@@ -122,7 +123,8 @@ Public Class Form1
                 If CurrentQ = 3 Then
                     CurrentQ = 0
                 End If
-
+                Part = ""
+                Part = ""
                 Select Case NICount
                     Case 0
                         rolltheclipThread("C:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
@@ -147,9 +149,6 @@ Public Class Form1
                 If CurrentQ = 3 Then
                     CurrentQ = 0
                 End If
-
-
-
                 Select Case counter
                     Case 0
                         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
@@ -160,7 +159,6 @@ Public Class Form1
                         Timer2.Enabled = True
                         NICount += 1
                         counter = 0
-
                 End Select
             Case Part.Contains("wrong number"), Part.Contains("by that name"), Part.Contains("wrong phone number")
                 newobjection = False
@@ -174,7 +172,6 @@ Public Class Form1
                 rolltheclipThread("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\i have insurance.mp3")
                 Timer2.Enabled = True
                 NICount += 1
-
 
             Case Part.Contains("take me off your list"), Part.Contains("name off your list"), Part.Contains("number off your list"), Part.Contains("take me off"), Part.Contains("take me off your call list"), Part.Contains("no call list"), Part.Contains("take this number off the list"), Part.Contains("do not call list"), Part.Contains("remove me from the list"), Part.Contains("taken off his collar"), Part.Contains("remove me from your calling list"), Part.Contains("call list"), Part.Contains("calling list")
                 newobjection = False
@@ -499,7 +496,7 @@ Public Class Form1
                         End If
 
                     Case Email_Address
-               
+
                     Case Credit
 
 
