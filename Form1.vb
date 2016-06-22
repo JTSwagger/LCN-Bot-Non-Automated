@@ -5230,6 +5230,7 @@ Public Class Form1
 
     Public Sub isStopped(sender As Object, e As NAudio.Wave.StoppedEventArgs) Handles waveOut.PlaybackStopped
         newobjection = True
+        waveOut.Dispose()
         Select Case clipType
             Case "Question"
                 introHello = False
@@ -5255,6 +5256,7 @@ Public Class Form1
     End Sub
 
     Private Sub testpagebutton_Click(sender As Object, e As EventArgs) Handles testpagebutton.Click
+        local_browser = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
         local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
     End Sub
 End Class
