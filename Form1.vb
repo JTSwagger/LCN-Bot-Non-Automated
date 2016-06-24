@@ -408,7 +408,7 @@ Public Class Form1
                             CurrentQ = 8
                             If getMake(VehicleNum) Then
                                 CurrentQ = 9
-                                req = Net.WebRequest.Create("http://192.168.1.240:5000/search/" & VYear(VehicleNum) & "/" & vMake(VehicleNum) & "/" & s)
+                                req = Net.WebRequest.Create("http://212.47.241.129:5000/search/" & VYear(VehicleNum) & "/" & vMake(VehicleNum) & "/" & s)
                                 resp = req.GetResponse
                                 Dim webReader As New IO.StreamReader(resp.GetResponseStream)
                                 Dim results As String = webReader.ReadToEnd()
@@ -5248,24 +5248,28 @@ Public Class Form1
 
     Public Sub getLeadWindow()
         '
-        If local_browser.Url.Contains("forms.lead.co") And Not local_browser.PageSource.Contains("added successfully") And Not local_browser.PageSource.Contains("cannot be found") Then
-            If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
-                CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
-                CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
-                btnTheirName.Text = CustName(0)
-                globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
-                globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
-                globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+        Try
+            If local_browser.Url.Contains("forms.lead.co") And Not local_browser.PageSource.Contains("added successfully") And Not local_browser.PageSource.Contains("cannot be found") Then
+                If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
+                    CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
+                    CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
+                    btnTheirName.Text = CustName(0)
+                    globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
+                    globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
+                    globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
 
-            End If
-        ElseIf local_browser.Url.Contains("forms.lead.co") And local_browser.PageSource.Contains("cannot be found") Then
-            local_browser.Navigate.GoToUrl("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
+                End If
+            ElseIf local_browser.Url.Contains("forms.lead.co") And local_browser.PageSource.Contains("cannot be found") Then
+                local_browser.Navigate.GoToUrl("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
 
-        Else
-            If local_browser.WindowHandles.Count() > 1 Then
-                local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
+            Else
+                If local_browser.WindowHandles.Count() > 1 Then
+                    local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
+                End If
             End If
-        End If
+        Catch ex As Exception
+            Console.WriteLine("panda")
+        End Try
 
     End Sub
 
