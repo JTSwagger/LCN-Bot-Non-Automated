@@ -2130,9 +2130,27 @@ Public Class Form1
 
 
     End Sub
-    Public Sub getEmail()
-        Console.WriteLine(s)
-    End Sub
+    Public Function getEmail() As Boolean
+        Dim response As String = s
+        response = response.Replace(" ", "")
+        Dim atIndex As Integer = response.LastIndexOf("at")
+        Dim domain As String = response.Substring(atIndex)
+
+        Dim endlength As Integer = response.Length - domain.Length
+
+        Dim nombre As String = response.Substring(0, endlength)
+        domain = domain.Replace("at", "@")
+
+        Dim derEmail As String = nombre + domain
+
+        Try
+            local_browser.FindElementById("frmEmailAddress").SendKeys(derEmail)
+            Return True
+        Catch ex As Exception
+            Return False
+        End Try
+        Return False
+    End Function
 
     Public Function finalizeAddress() As Boolean
         NewAddress += " " & s
