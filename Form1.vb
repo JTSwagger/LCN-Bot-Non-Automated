@@ -2497,278 +2497,338 @@ Public Class Form1
         End If
 
         Select Case True
-            Case s.Contains("none"), s.Contains("don't have insurance"), s.Contains("don't got insurance"), s.Contains("got no insurance"), s.Contains("nobody"), s.Contains("no one"), s.Contains("don't have an insurance company")
-                IProvider = "None"
-
-            Case s.Contains("state farm")
-                IProvider = "State Farm Insurance Co."
-
-            Case s.Contains("allstate")
-                IProvider = "Allstate Insurance"
-
-            Case s.Contains("farmers")
-                IProvider = "Farmers Insurance Exchange"
-
-            Case s.Contains("farm bureau"), s.Contains("farm family"), s.Contains("rural")
-                IProvider = "Farm Bureau/Farm Family/Rural"
-
-            Case s.Contains("liberty mutual")
-                IProvider = "Liberty Mutual Insurance Corp"
-
-            Case s.Contains("aaa"), s.Contains("triple a")
-                IProvider = "AAA Insurnace Co."
-
-            Case s.Contains("nationwide")
-                IProvider = "Nationwide Insurance Company"
-
-            Case s.Contains("american family")
-                IProvider = "Farm Bureau/Farm Family/Rural"
-
-            Case s.Contains("travelers")
-                IProvider = "Travelers Insurance Company"
-
-            Case s.Contains("metlife")
-                IProvider = "MetLife Auto and Home"
-
-            Case s.Contains("dairyland")
-                IProvider = "Dairyland Insurance"
-
-            Case s.Contains("shelter")
-                IProvider = "Shelter Insurance Co."
-
-            Case s.Contains("safeway")
-                IProvider = "Safeway Insurance"
-
-            Case s.Contains("eerie")
-                IProvider = "Eerie Insurance Company"
-
-            Case s.Contains("aarp")
+            Case s.Contains("none"), s.Contains("no insurance"), s.Contains("don't have"), s.Contains("don't have insurance"), s.Contains("not insured")
+                IProvider = "No current insurance"
+            Case s.Contains("twenty first"), s.Contains("21st"), s.Contains("twenty first century"), s.Contains("21st century"), s.Contains("twenty first century insurance"), s.Contains("21st century insurance"), s.Contains("first century")
+                IProvider = "21st Century Insurance"
+            Case s.Contains("AAA"), s.Contains("triple A"), s.Contains("triple a"), s.Contains("aaa")
+                IProvider = "AAA Insurance Co."
+            Case s.Contains("aarp"), s.Contains("AARP")
                 IProvider = "AARP"
-
-            Case s.Contains("aetna")
+            Case s.Contains("etna"), s.Contains("edna"), s.Contains("aetna"), s.Contains("AETNA"), s.Contains("Edna")
                 IProvider = "AETNA"
-
-            Case s.Contains("aflac")
+            Case s.Contains("aflac"), s.Contains("affleck"), s.Contains("afleck"), s.Contains("AFLAC")
+                moo()
                 IProvider = "AFLAC"
-
-            Case s.Contains("aig")
+            Case s.Contains("aig"), s.Contains("AIG")
                 IProvider = "AIG"
-
-
-            Case s.Contains("aiu")
-                IProvider = "AIU Insurance"
-
-
-            Case s.Contains("allied")
+            Case s.Contains("AIU"), s.Contains("eye you")
+                IProvider = "AIU"
+            Case s.Contains("allied"), s.Contains("ally")
                 IProvider = "Allied"
-
-            Case s.Contains("american alliance")
-                IProvider = "American Alliance Insurance"
-            Case s.Contains("american automobile")
-
-            Case s.Contains("american casualty")
-
-            Case s.Contains("american deposit")
-            Case s.Contains("american direct business")
-            Case s.Contains("american empire")
-            Case s.Contains("american financial")
-            Case s.Contains("american health underwriters")
-            Case s.Contains("american home assurance")
-            Case s.Contains("american insurance")
-            Case s.Contains("american international ins")
-            Case s.Contains("american international pacific")
-            Case s.Contains("american international south")
-            Case s.Contains("american manufacturers")
-            Case s.Contains("american mayflower")
-            Case s.Contains("american motorists")
-            Case s.Contains("american national")
-            Case s.Contains("american premier")
-            Case s.Contains("american protection")
-            Case s.Contains("american republic")
-            Case s.Contains("american savers plan")
-            Case s.Contains("american security")
-            Case s.Contains("american service")
-            Case s.Contains("american skyline")
-            Case s.Contains("american spirit")
-            Case s.Contains("american standard")
+            Case s.Contains("allstate"), s.Contains("all state"), s.Contains("ball state"), s.Contains("mall state")
+                IProvider = "Allstate Insurance"
+            Case s.Contains("american")
+                IProvider = "American Insurance"
             Case s.Contains("ameriplan")
-            Case s.Contains("amica")
+                IProvider = "AmeriPlan"
+            Case s.Contains("amica"), s.Contains("amiga"), s.Contains("amigo")
                 IProvider = "Amica Insurance"
-            Case s.Contains("answer financial")
-            Case s.Contains("arbella")
+            Case s.Contains("answer"), s.Contains("answer financial")
+                IProvider = "Answer Financial"
+            Case s.Contains("arbella"), s.Contains("bella")
                 IProvider = "Arbella"
-            Case s.Contains("associated indemnity")
-            Case s.Contains("assurant")
+            Case s.Contains("associated")
+                IProvider = "Associated Indemnity"
             Case s.Contains("atlanta casualty")
-            Case s.Contains("atlantic indemnity")
+                IProvider = "Atlanta Casualty"
+            Case s.Contains("atlantic"), s.Contains("atlantic indemnity")
+                IProvider = "Atlantic Indemnity"
             Case s.Contains("auto club")
-            Case s.Contains("auto-owners")
-            Case s.Contains("axa advisors")
-            Case s.Contains("bankers life and casualty")
-            Case s.Contains("banner life")
-            Case s.Contains("best agency usa")
-            Case s.Contains("blue cross and blue shield")
-            Case s.Contains("brooke insurance")
-            Case s.Contains("cal farm insurance")
-            Case s.Contains("california state automobile association")
-            Case s.Contains("chubb")
-            Case s.Contains("citizens")
-            Case s.Contains("clarendon american")
-            Case s.Contains("clarendon national")
-            Case s.Contains("cna")
+                IProvider = "Auto Club Insurance Company"
+            Case s.Contains("auto owners")
+                IProvider = "Auto-Owners Insurance"
+            Case s.Contains("axa"), s.Contains("axe")
+                moo()
+                IProvider = "AXA Advisors"
+            Case s.Contains("bankers")
+                IProvider = "Bankers Life and Casualty"
+            Case s.Contains("banner")
+                IProvider = "Banner Life"
+            Case s.Contains("best")
+                IProvider = "Best Agency USA"
+            Case s.Contains("blue cross"), s.Contains("blue cross blue shield"), s.Contains("bcbs") ' should bdsm be a possible search target here?
+                IProvider = "Blue Cross and Blue Shield"
+            Case s.Contains("brooke")
+                IProvider = "Brooke Insurance"
+            Case s.Contains("cal farm"), s.Contains("call form"), s.Contains("cal form"), s.Contains("call farm")
+                IProvider = "Cal Farm Insurance"
+            Case s.Contains("california state"), s.Contains("cal state")
+                IProvider = "California State Automobile Association"
+            Case s.Contains("chub"), s.Contains("chubb")
+                IProvider = "Chubb"
+            Case s.Contains("citizen"), s.Contains("citizens")
+                IProvider = "Citizens"
+            Case s.Contains("clarendon")
+                IProvider = "Clarendon American Insurance"
+            Case s.Contains("cna"), s.Contains("see na")
+                IProvider = "CNA"
             Case s.Contains("colonial")
-            Case s.Contains("comparison market")
-            Case s.Contains("continental casualty")
-            Case s.Contains("continental divide")
+                IProvider = "Colonial Insurance"
+            Case s.Contains("comparison")
+                IProvider = "Comparison Market"
             Case s.Contains("continental")
-            Case s.Contains("cotton states")
-            Case s.Contains("country insurance and financial services")
-            Case s.Contains("countrywide insurance")
-            Case s.Contains("cse insurance group")
-            Case s.Contains("ehealthinsurance services")
-            Case s.Contains("electric insurance")
+                IProvider = "Continental Insurance"
+            Case s.Contains("cotton"), s.Contains("cotton states")
+                IProvider = "Cotton States Insurance"
+            Case s.Contains("country insurance")
+                IProvider = "Country Insurance and Financial Services"
+            Case s.Contains("countrywide")
+                IProvider = "Countrywide Insurance"
+            Case s.Contains("cse"), s.Contains("easy")
+                IProvider = "CSE Insurance Group"
+            Case s.Contains("dairy")
+                IProvider = "Dairyland Insurance"
+            Case s.Contains("e health"), s.Contains("ehealth")
+                IProvider = "eHealthInsurance Services"
+            Case s.Contains("electric")
+                IProvider = "Electric Insurance"
+            Case s.Contains("erie"), s.Contains("eerie"), s.Contains("hear ye")
+                IProvider = "Erie Insurance Company"
             Case s.Contains("esurance")
-                IProvider = "ESurance"
-            Case s.Contains("financebox.com")
-            Case s.Contains("fire and casualty")
-            Case s.Contains("fireman's fund")
-            Case s.Contains("foremost")
-            Case s.Contains("foresters")
-            Case s.Contains("frankenmuth")
-            Case s.Contains("geico"), s.Contains("guy code")
-                IProvider = "Geico General Insurance"
-            Case s.Contains("gmac insurance")
-            Case s.Contains("golden rule")
-            Case s.Contains("government employees")
-            Case s.Contains("guaranty national")
-            Case s.Contains("guide one insurance")
-            Case s.Contains("hanover lloyd's insurance company")
-            Case s.Contains("hartford accident and indemnity")
-            Case s.Contains("hartford fire insurance")
-            Case s.Contains("hartford insurance co of illinois")
-            Case s.Contains("hartford insurance co of the southeast")
-            Case s.Contains("hartford omni")
-            Case s.Contains("hartford underwriters")
-            Case s.Contains("hastings mutual insurance company")
-            Case s.Contains("health benefits direct")
-            Case s.Contains("health choice one")
-            Case s.Contains("health plus of america")
-            Case s.Contains("healthshare american")
-            Case s.Contains("humana")
-            Case s.Contains("ifa")
-            Case s.Contains("igf insurance")
-            Case s.Contains("infinity")
-            Case s.Contains("infinity national")
-            Case s.Contains("infinity select")
-            Case s.Contains("insurance insight")
-            Case s.Contains("insurance.com")
-            Case s.Contains("insuranceleads.com")
-            Case s.Contains("insweb")
-            Case s.Contains("integon")
-            Case s.Contains("john hancock")
-            Case s.Contains("kaiser permanente")
-            Case s.Contains("kemper lloyds")
-            Case s.Contains("landmark american")
-            Case s.Contains("leader national")
-            Case s.Contains("leader preferred")
-            Case s.Contains("leader specialty")
-            Case s.Contains("liberty insurance corp")
-                IProvider = "Liberty Mutual Insurance"
-
-                CurrentQ = 4
-            Case s.Contains("lumbermens mutual")
+                IProvider = "Esurance"
+            Case s.Contains("farm bureau")
                 IProvider = "Farm Bureau/Farm Family/Rural"
-
-            Case s.Contains("maryland casualty")
+            Case s.Contains("farmers"), Not s.Contains("union")
+                moo() ' okay, this one's actually funny
+                IProvider = "Farmers Insurance"
+            Case s.Contains("finance box")
+                IProvider = "FinanceBox.com"
+            Case s.Contains("fire and casualty")
+                IProvider = "Fire and Casualty Insurance Co of CT"
+            Case s.Contains("fireman"), s.Contains("firemens"), s.Contains("firemens fund")
+                IProvider = "Fireman's Fund"
+            Case s.Contains("foremost")
+                IProvider = "Foremost"
+            Case s.Contains("forester")
+                IProvider = "Foresters"
+            Case s.Contains("frank"), s.Contains("frankenstein"), s.Contains("frankenmuth")
+                IProvider = "Frankenmuth Insurance"
+            Case s.Contains("geico"), s.Contains("gecko"), s.Contains("i go")
+                IProvider = "Geico Insurance"
+            Case s.Contains("gmac"), s.Contains("gee em")
+                IProvider = "GMAC Insurance"
+            Case s.Contains("golden rule")
+                IProvider = "Golden Rule Insurance"
+            Case s.Contains("government")
+                IProvider = "Government Employees Insurance"
+            Case s.Contains("i am a panda hear me moo")
+                IProvider = "Progressive"
+                Console.WriteLine("I AM A PANDA, HEAR ME MOO")
+                Console.WriteLine("moooooooooo")
+            Case s.Contains("guaranty"), s.Contains("guarantee")
+                IProvider = "Guaranty National Insurance"
+            Case s.Contains("guide"), s.Contains("guide one")
+                IProvider = "Guide One Insurance"
+            Case s.Contains("hanover"), s.Contains("lloyd")
+                IProvider = "Hanover Lloyd's Insurance Company"
+            Case s.Contains("hartford")
+                IProvider = "Hartfod Insurance Co of the Southeast"
+            Case s.Contains("hastings"), s.Contains("hasting mutual")
+                IProvider = "Hastings Mutual Insurance Company"
+            Case s.Contains("health benefits")
+                IProvider = "Health Benefits Direct"
+            Case s.Contains("health plus")
+                IProvider = "Health Plus of America"
+            Case s.Contains("health share")
+                IProvider = "HealthShare American"
+            Case s.Contains("human"), s.Contains("humana")
+                IProvider = "Humana"
+            Case s.Contains("ifa"), s.Contains("eye f a")
+                IProvider = "IFA Auto Insurance"
+            Case s.Contains("igf")
+                IProvider = "IGF Insurance"
+            Case s.Contains("infinity"), s.Contains("infinite")
+                IProvider = "Infinity Insurance"
+            Case s.Contains("insurance insight")
+                IProvider = "Insurance Insight"
+            Case s.Contains("insurance dot com"), s.Contains("insurance.com")
+                IProvider = "Insurance.com"
+            Case s.Contains("insurance leads dot com"), s.Contains("insuranceleads.com")
+                IProvider = "InsuranceLeaders.com"
+            Case s.Contains("insweb"), s.Contains("in web")
+                IProvider = "Insweb"
+            Case s.Contains("integon"), s.Contains("pentagon")
+                IProvider = "Integon"
+            Case s.Contains("hancock"), s.Contains("john hancock")  ' i should really make it match 'John Footpenis', but like... we'd get sued
+                IProvider = "John Hancock"
+            Case s.Contains("kaiser"), s.Contains("kayser")
+                IProvider = "Kaiser Permanente"
+            Case s.Contains("kemper"), s.Contains("camper"), s.Contains("lloyd")
+                IProvider = "Kemper Lloyds Insurance"
+            Case s.Contains("landmark")
+                IProvider = "Landmark American Insurance"
+            Case s.Contains("leader")
+                IProvider = "Leader National Insurance"
+            Case s.Contains("liberty"), s.Contains("liberty mutual")
+                IProvider = "Liberty Mutual Insurance"
+            Case s.Contains("lumber")
+                IProvider = "Lumbermens Mutual"
+            Case s.Contains("maryland")
+                IProvider = "Maryland Casualty"
             Case s.Contains("mass mutual")
-            Case s.Contains("mega/midwest")
+                IProvider = "Mass Mutual"
+            Case s.Contains("mega"), s.Contains("midwest"), s.Contains("mega midwest")
+                IProvider = "Mega/Midwest"
             Case s.Contains("mercury")
                 IProvider = "Mercury"
+            Case s.Contains("met life"), s.Contains("metlife")
+                IProvider = "MetLife Auto and Home"
             Case s.Contains("metropolitan")
+                IProvider = "Metropolitan Insurance Co."
             Case s.Contains("mid century")
-            Case s.Contains("mid-continent casualty")
+                IProvider = "Mid Century Insurance"
+            Case s.Contains("mid continent")
+                IProvider = "Mid-Continent Casualty"
             Case s.Contains("middlesex")
-            Case s.Contains("midland national life")
+                IProvider = "Middlesex Insurance"
+            Case s.Contains("midland national"), s.Contains("midland")
+                IProvider = "Midland National Life"
             Case s.Contains("mutual of new york")
-            Case s.Contains("mutual of omaha")
-            Case s.Contains("national ben franklin")
+                IProvider = "Mutual of New York"
+            Case s.Contains("mutual of omaha"), s.Contains("omaha")
+                IProvider = "Mutual of Omaha"
+            Case s.Contains("national ben franklin"), s.Contains("ben franklin")
+                IProvider = "National Ben Franklin Insurance"
             Case s.Contains("national casualty")
+                IProvider = "National Casualty"
             Case s.Contains("national continental")
-            Case s.Contains("national fire insurance company of hartford")
-            Case s.Contains("national health insurance")
+                IProvider = "National Continental Insurance"
+            Case s.Contains("national fire")
+                IProvider = "National Fire Insurance Company of Hartford"
+            Case s.Contains("national health")
+                IProvider = "National Health Insurance"
             Case s.Contains("national indemnity")
-            Case s.Contains("national union fire")
+                IProvider = "National Indemnity"
+            Case s.Contains("national union fire of los angeles"), s.Contains("national union fire insurance of los angeles"), s.Contains("national union fire of la"), s.Contains("national union fire insurance of los angeles")
+                IProvider = "National Union Fire Insurance of LA"
+            Case s.Contains("national union fire of pennsylvania"), s.Contains("national union fire insurance of pennsylvania")
+                IProvider = "National Union Fire Insurance of PA"
+            Case s.Contains("nationwide")
+                IProvider = "Nationwood Insurance Company"
             Case s.Contains("new england financial")
+                IProvider = "New England Financial"
             Case s.Contains("new york life")
-            Case s.Contains("northwestern mutual life")
-            Case s.Contains("northwestern pacific indemnity")
-            Case s.Contains("omni indemnity")
-            Case s.Contains("omni insurance")
-            Case s.Contains("orion insurance")
-            Case s.Contains("pacific indemnity")
+                IProvider = "New York Life Insurance"
+            Case s.Contains("northwestern")
+                IProvider = "Northwestern Mutual Life"
+            Case s.Contains("omni")
+                IProvider = "Omni Insruance"
+            Case s.Contains("orion")
+                IProvider = "Orion Insurance"
             Case s.Contains("pacific insurance")
-            Case s.Contains("pafco general")
-            Case s.Contains("patriot general")
-            Case s.Contains("peak property and casualty")
-            Case s.Contains("pemco insurance")
+                IProvider = "Pacific Insurance"
+            Case s.Contains("pafco")
+                IProvider = "Pafco General Insurance"
+            Case s.Contains("patriot")
+                IProvider = "Patriot General Insurance"
+            Case s.Contains("peak property")
+                IProvider = "Peak Property and Casualty Insurance"
+            Case s.Contains("pemco")
+                IProvider = "PEMCO Insurance"
             Case s.Contains("physicians")
-            Case s.Contains("pioneer state mutual")
-            Case s.Contains("preferred mutual")
-            Case s.Contains("progressive")
+                IProvider = "Physicians"
+            Case s.Contains("pioneer")
+                IProvider = "Pioneer State Mutual Insurance Company"
+            Case s.Contains("preferred")
+                IProvider = "Preferred Mutual"
+            Case s.Contains("progressive"), s.Contains("progress"), s.Contains("aggressive")
+                moo()
                 IProvider = "Progressive"
-            Case s.Contains("prudential insurance co.")
-            Case s.Contains("reliance insurance")
-            Case s.Contains("reliance national indemnity")
-            Case s.Contains("reliance national")
-            Case s.Contains("republic indemnity")
-            Case s.Contains("response insurance")
-            Case s.Contains("safeco")
-            Case s.Contains("security insurance co of hartford")
-            Case s.Contains("security national insurance co of fl")
-            Case s.Contains("sentinel insurance")
-            Case s.Contains("sentry insurance a mutual company")
-            Case s.Contains("sentry insurance group")
-            Case s.Contains("st. paul fire and marine")
-            Case s.Contains("st. paul insurance")
-            Case s.Contains("st. paul")
+            Case s.Contains("prudential")
+                IProvider = "Prudential Insurance Co."
+            Case s.Contains("reliance"), s.Contains("reliant")
+                IProvider = "Reliance Insurance"
+            Case s.Contains("response")
+                IProvider = "Response Insurance"
+            Case s.Contains("safeco"), s.Contains("safe co")
+                IProvider = "SAFECO"
+            Case s.Contains("safeway"), s.Contains("safe way")
+                IProvider = "Safeway Insurance"
+            Case s.Contains("security insurance")
+                IProvider = "Security Insurance Co of Hartford"
+            Case s.Contains("security national")
+                IProvider = "Security National Insurance Co of FL"
+            Case s.Contains("sentinel")
+                IProvider = "Sentinel Insurance"
+            Case s.Contains("sentry")
+                moo()
+                IProvider = "Sentry Insurance Group"
+            Case s.Contains("shelter")
+                IProvider = "Shelter Insurance Co."
+            Case s.Contains("saint paul"), s.Contains("st. paul")
+                IProvider = "St. Paul"
             Case s.Contains("standard fire")
-            Case s.Contains("state and county mutual fire insurance")
+                ' Wtf is a 'standard' fire? Like, are there non-standard fires? 
+                IProvider = "Standard Fire Insurance Company"
+            Case s.Contains("state and county")
+                IProvider = "State and County Mutual Fire Insurance"
+            Case s.Contains("state farm"), s.Contains("statefarm"), s.Contains("haystack"), s.Contains("stay farm"), s.Contains("stayfarm")
+                IProvider = "State Farm General"
             Case s.Contains("state fund")
-            Case s.Contains("state national insurance")
-            Case s.Contains("superior american insurance")
-            Case s.Contains("superior guaranty insurance")
-            Case s.Contains("superior insurance")
-            Case s.Contains("sure health plans")
-            Case s.Contains("the ahbe group")
-            Case s.Contains("the general")
+                IProvider = "State Fund"
+            Case s.Contains("state national")
+                IProvider = "State National Insurance"
+            Case s.Contains("superior")
+                IProvider = "Superior Insurance"
+            Case s.Contains("sure health"), s.Contains("sure")
+                IProvider = "Sure Health Plans"
+            Case s.Contains("abe group"), s.Contains("ah be group")
+                IProvider = "The Ahbe Group"
+            Case s.Contains("general"), s.Contains("the general")
                 IProvider = "The General"
+            Case s.Contains("tico"), s.Contains("tye co"), s.Contains("tie co")
+                IProvider = "TICO Insruance"
+            Case s.Contains("tig countrywide"), s.Contains("tig")
+                IProvider = "TIG Countrywide Insurance"
             Case s.Contains("the hartford")
                 IProvider = "The Hartford"
-            Case s.Contains("tico insurance")
-            Case s.Contains("tig countrywide insurance")
             Case s.Contains("titan")
-            Case s.Contains("transamerica")
-            Case s.Contains("tri-state consumer insurance")
-            Case s.Contains("twin city fire insurance")
-            Case s.Contains("unicare")
-            Case s.Contains("united american/farm and ranch")
-            Case s.Contains("united pacific insurance")
+                IProvider = "Titan"
+            Case s.Contains("trans"), s.Contains("transamerica"), s.Contains("trans america")
+                moo()
+                IProvider = "TransAmerica"
+            Case s.Contains("travelers")
+                IProvider = "Travelers Insurance Company" ' pandas are cool
+            Case s.Contains("tri-state"), s.Contains("tri state")
+                IProvider = "Tri-State Consumer Insurance"
+            Case s.Contains("twin city")
+                IProvider = "Twin City Fire Insurance"
+            Case s.Contains("unicare"), s.Contains("unicorn")
+                IProvider = "UniCare"
+            Case s.Contains("united american")
+                IProvider = "United American/Farm and Ranch"
+            Case s.Contains("united pacific")
+                IProvider = "United Pacific Insurance"
             Case s.Contains("united security")
-            Case s.Contains("united services automobile association")
-            Case s.Contains("unitrin direct")
-            Case s.Contains("universal underwriters insurance")
-            Case s.Contains("us financial")
-            Case s.Contains("usa benefits/continental general")
-            Case s.Contains("usaa")
+                IProvider = "United Security"
+            Case s.Contains("united services")
+                IProvider = "United Serviecs Automobile Association"
+            Case s.Contains("unitrin")
+                IProvider = "Unitrin Direct"
+            Case s.Contains("universal")
+                IProvider = "Universal Underwriters Insurance"
+            Case s.Contains("US financial")
+                IProvider = "US Financial"
+            Case s.Contains("USA"), Not s.Contains("USAA")
+                IProvider = "USA Benefits/Continental General"
+            Case s.Contains("USAA"), s.Contains("USA")
                 IProvider = "USAA"
             Case s.Contains("usf and g")
-            Case s.Contains("viking county mutual insurance")
-            Case s.Contains("viking insurance co of wi")
-            Case s.Contains("western and southern life")
-            Case s.Contains("western mutual")
+                IProvider = "USF and G"
+            Case s.Contains("viking")
+                moo()
+                IProvider = "Viking Insurance Co of WI"
+            Case s.Contains("western and")
+                IProvider = "Western and Southern Life"
+            Case s.Contains("western")
+                IProvider = "Western Mutual"
             Case s.Contains("windsor")
-            Case s.Contains("woodlands financial group")
+                IProvider = "Windsor Insurance"
+            Case s.Contains("woodland")
+                IProvider = "Woolands Financial Group"
             Case s.Contains("zurich")
+                IProvider = "Zurich North America"
             Case Else
                 If s.Length > 7 Then
                     IProvider = "Progressive"
