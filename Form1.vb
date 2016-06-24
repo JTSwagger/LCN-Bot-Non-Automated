@@ -556,8 +556,23 @@ Public Class Form1
                         End If
 
                     Case Email_Address
-
+                        If getEmail() Then
+                            clipType = ""
+                            callPos = Credit
+                            If FullAuto.Checked Then
+                                CurrentQ = 21
+                                Timer2.Enabled = True
+                            End If
+                        End If
                     Case Credit
+                        If getCredit() Then
+                            clipType = ""
+                            callPos = Phone_Type
+                            If FullAuto.Checked Then
+                                CurrentQ = 22
+                                Timer2.Enabled = True
+                            End If
+                        End If
                     Case Phone_Type
                     Case Last_Name
                 End Select
@@ -2116,20 +2131,27 @@ Public Class Form1
 
 
     End Sub
-    Public Sub HandleCredit()
+    Public Function getCredit() As Boolean
+        Dim formElem As IWebElement = local_browser.FindElementById("frmCreditRating")
+        Dim response As String = s
         Select Case True
-            Case s.Contains("Excellent")
-                local_browser.FindElementById("frmCreditRating").SendKeys("Excellent")
-            Case s.Contains("Good")
-                local_browser.FindElementById("frmCreditRating").SendKeys("Good")
-            Case s.Contains("fair")
-                local_browser.FindElementById("frmCreditRating").SendKeys("Fair")
-            Case Else
-
+            Case response.Contains("excellent")
+                formElem.Click()
+                formElem.FindElements(By.TagName("option"))(0).Click()
+                Return True
+            Case response.Contains("good")
+                moo()
+                formElem.Click()
+                formElem.FindElements(By.TagName("option"))(1).Click()
+                Return True
+            Case response.Contains("fair")
+                formElem.Click()
+                formElem.FindElements(By.TagName("option"))(2).Click()
+                Return True
         End Select
 
-
-    End Sub
+        Return False
+    End Function
     Public Function getEmail() As Boolean
         Dim response As String = s
         response = response.Replace(" ", "")
@@ -5283,6 +5305,10 @@ Public Class Form1
             btnPause.Text = "Pause"
         End If
     End Sub 'pause button
+
+    Private Sub moo()
+        Console.WriteLine("moo")
+    End Sub
 
     Private Sub Button1_Click_5(sender As Object, e As EventArgs)
 
