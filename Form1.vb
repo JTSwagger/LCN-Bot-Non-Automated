@@ -5248,7 +5248,7 @@ Public Class Form1
 
     Public Sub getLeadWindow()
         '
-        If local_browser.Url.Contains("forms.lead.co") And Not local_browser.PageSource.Contains("added successfully") Then
+        If local_browser.Url.Contains("forms.lead.co") And Not local_browser.PageSource.Contains("added successfully") And Not local_browser.PageSource.Contains("cannot be found") Then
             If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
                 CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
                 CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
@@ -5256,7 +5256,11 @@ Public Class Form1
                 globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
                 globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
                 globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+
             End If
+        ElseIf local_browser.Url.Contains("forms.lead.co") And local_browser.PageSource.Contains("cannot be found") Then
+            local_browser.Navigate.GoToUrl("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
+
         Else
             If local_browser.WindowHandles.Count() > 1 Then
                 local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
