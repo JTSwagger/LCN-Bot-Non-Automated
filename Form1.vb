@@ -592,6 +592,15 @@ Public Class Form1
                                 Timer2.Enabled = True
                             End If
                         End If
+                    Case TCPA_Wrap
+                        If handleTCPA() Then
+                            Console.WriteLine("we haz lead yay")
+                            moo()
+                        Else
+                            Console.WriteLine(":(")
+                            Console.WriteLine("sad panda")
+                        End If
+                        Timer2.Enabled = True
                 End Select
             End If
         End If
@@ -2111,23 +2120,24 @@ Public Class Form1
         End Select
 
     End Function
-
-
-    Public Sub handleTCPA()
+    Public Function handleTCPA() As Boolean
+        Dim response As String = s
         Select Case True
-            Case s.Contains("yes"), s.Contains("sure"), s.Contains("okay"), s.Contains("ok"), s.Contains("sounds good"), s.Contains("affirmative"), s.Contains("alright")
+            Case response.Contains("yes"), response.Contains("okay"), response.Contains("ok"), response.Contains("sounds good"), response.Contains("affirmative"), response.Contains("alright")
                 cmbDispo.Text = "Auto Lead"
                 CurrentQ = 31
                 rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
-                Timer2.Enabled = True
+                'Timer2.Enabled = True
+                Return True
             Case Else
                 rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                 cmbDispo.Text = "Lost On Wrap Up"
                 CurrentQ = 31
                 rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
-                Timer2.Enabled = True
+                'Timer2.Enabled = True
+                Return False
         End Select
-    End Sub
+    End Function
     Public Function getLastName() As Boolean
         Dim response As String = s
         Try
