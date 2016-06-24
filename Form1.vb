@@ -297,6 +297,7 @@ Public Class Form1
     Const Credit As String = "Credit"
     Const Phone_Type As String = "Phone Type"
     Const Last_Name As String = "Last Name"
+    Const TCPA_Wrap As String = "TCPA"
 
     Public Function NumtoMonth(Month As String) As String
         Select Case Month
@@ -556,10 +557,50 @@ Public Class Form1
                         End If
 
                     Case Email_Address
-
+                        If getEmail() Then
+                            clipType = ""
+                            callPos = Credit
+                            If FullAuto.Checked Then
+                                CurrentQ = 21
+                                Timer2.Enabled = True
+                            End If
+                        End If
                     Case Credit
+                        If getCredit() Then
+                            clipType = ""
+                            callPos = Phone_Type
+                            If FullAuto.Checked Then
+                                CurrentQ = 22
+                                Timer2.Enabled = True
+                            End If
+                        End If
                     Case Phone_Type
+                        If getPhoneType() Then
+                            clipType = ""
+                            callPos = Last_Name
+                            If FullAuto.Checked Then
+                                CurrentQ = 23
+                                Timer2.Enabled = True
+                            End If
+                        End If
                     Case Last_Name
+                        If getLastName() Then
+                            clipType = ""
+                            callPos = TCPA_Wrap
+                            If FullAuto.Checked Then
+                                CurrentQ = 27
+                                Timer2.Enabled = True
+                            End If
+                        End If
+                    Case TCPA_Wrap
+                        If handleTCPA() Then
+                            Console.WriteLine("we haz lead yay")
+                            moo()
+                        Else
+                            Console.WriteLine(":(")
+                            Console.WriteLine("sad panda")
+                        End If
+                        Timer2.Enabled = True
                 End Select
             End If
         End If
@@ -2079,60 +2120,101 @@ Public Class Form1
         End Select
 
     End Function
-
-
-    Public Sub handleTCPA()
+    Public Function handleTCPA() As Boolean
+        Dim response As String = s
         Select Case True
-            Case s.Contains("yes"), s.Contains("sure"), s.Contains("okay"), s.Contains("ok"), s.Contains("sounds good"), s.Contains("affirmative"), s.Contains("alright")
+            Case response.Contains("yes"), response.Contains("okay"), response.Contains("ok"), response.Contains("sounds good"), response.Contains("affirmative"), response.Contains("alright")
                 cmbDispo.Text = "Auto Lead"
                 CurrentQ = 31
                 rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
-                Timer2.Enabled = True
+                'Timer2.Enabled = True
+                Return True
             Case Else
                 rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                 cmbDispo.Text = "Lost On Wrap Up"
                 CurrentQ = 31
                 rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
-                Timer2.Enabled = True
+                'Timer2.Enabled = True
+                Return False
         End Select
-    End Sub
-    Public Sub HandleLastName()
-        local_browser.FindElementById("frmLastName").SendKeys(s)
+    End Function
+    Public Function getLastName() As Boolean
+        Dim response As String = s
+        Try
+            local_browser.FindElementById("frmLastName").SendKeys(response)
+            Return True
+        Catch ex As Exception
+            moo()
+            Console.WriteLine("PANDA EXCEPTION!")
+            Return False
+        End Try
 
-
-    End Sub
-    Public Sub HandlePhoneType()
+        Return False
+    End Function
+    Public Function getPhoneType() As Boolean
+        Dim response As String = s
+        Dim formElem As IWebElement = local_browser.FindElementById("frmPhoneType1")
         Select Case True
-            Case s.Contains("mobile"), s.Contains("cell")
-                local_browser.FindElementById("frmPhoneType1").SendKeys("Mobile/Cell")
-            Case s.Contains("home")
-                local_browser.FindElementById("frmPhoneType1").SendKeys("2")
-            Case s.Contains("work")
-                local_browser.FindElementById("frmPhoneType1").SendKeys("3")
-            Case Else
-
+            Case response.Contains("cell"), response.Contains("mobile")
+                moo()
+                formElem.Click()
+                formElem.FindElements(By.TagName("option"))(1).Click()
+                Return True
+            Case response.Contains("home")
+                moo()
+                formElem.Click()
+                formElem.FindElements(By.TagName("option"))(2).Click()
+                Return True
+            Case response.Contains("work")
+                formElem.Click()
+                formElem.FindElements(By.TagName("option"))(3).Click()
+                Return True
         End Select
 
-
-
-    End Sub
-    Public Sub HandleCredit()
+        Return False
+    End Function
+    Public Function getCredit() As Boolean
+        Dim formElem As IWebElement = local_browser.FindElementById("frmCreditRating")
+        Dim response As String = s
         Select Case True
-            Case s.Contains("Excellent")
-                local_browser.FindElementById("frmCreditRating").SendKeys("Excellent")
-            Case s.Contains("Good")
-                local_browser.FindElementById("frmCreditRating").SendKeys("Good")
-            Case s.Contains("fair")
-                local_browser.FindElementById("frmCreditRating").SendKeys("Fair")
-            Case Elsecheck
-
+            Case response.Contains("excellent")
+                formElem.Click()
+                formElem.FindElements(By.TagName("option"))(0).Click()
+                Return True
+            Case response.Contains("good")
+                moo()
+                formElem.Click()
+                formElem.FindElements(By.TagName("option"))(1).Click()
+                Return True
+            Case response.Contains("fair")
+                formElem.Click()
+                formElem.FindElements(By.TagName("option"))(2).Click()
+                Return True
         End Select
 
+        Return False
+    End Function
+    Public Function getEmail() As Boolean
+        Dim response As String = s
+        response = response.Replace(" ", "")
+        Dim atIndex As Integer = response.LastIndexOf("at")
+        Dim domain As String = response.Substring(atIndex)
 
-    End Sub
-    Public Sub getEmail()
-        Console.WriteLine(s)
-    End Sub
+        Dim endlength As Integer = response.Length - domain.Length
+
+        Dim nombre As String = response.Substring(0, endlength)
+        domain = domain.Replace("at", "@")
+
+        Dim derEmail As String = nombre + domain
+
+        Try
+            local_browser.FindElementById("frmEmailAddress").SendKeys(derEmail)
+            Return True
+        Catch ex As Exception
+            Return False
+        End Try
+        Return False
+    End Function
 
     Public Function finalizeAddress() As Boolean
         NewAddress += " " & s
@@ -5165,26 +5247,21 @@ Public Class Form1
 
 
     Public Sub getLeadWindow()
-        Try
-            If local_browser.Url.Contains("forms.lead.co") And Not local_browser.PageSource.Contains("added successfully") And Not local_browser.PageSource.Contains("cannot be found") Then
-                If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
-                    CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
-                    CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
-                    btnTheirName.Text = CustName(0)
-                    globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
-                    globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
-                    globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
-                End If
-            ElseIf local_browser.Url.Contains("forms.lead.co") And local_browser.PageSource.Contains("cannot be found") Then
-                local_browser.Navigate.GoToUrl("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
-            Else
-                If local_browser.WindowHandles.Count() > 1 Then
-                    local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
-                End If
+        '
+        If local_browser.Url.Contains("forms.lead.co") And Not local_browser.PageSource.Contains("added successfully") Then
+            If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
+                CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
+                CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
+                btnTheirName.Text = CustName(0)
+                globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
+                globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
+                globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
             End If
-        Catch
-
-        End Try
+        Else
+            If local_browser.WindowHandles.Count() > 1 Then
+                local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
+            End If
+        End If
 
     End Sub
 
@@ -5236,6 +5313,7 @@ Public Class Form1
                     lblCalls2.Text = tempStr(11)
                 End If
             End If
+
         End If
     End Sub 'Sends API Call to get agent report
 
@@ -5269,6 +5347,10 @@ Public Class Form1
             btnPause.Text = "Pause"
         End If
     End Sub 'pause button
+
+    Private Sub moo()
+        Console.WriteLine("moo")
+    End Sub
 
     Private Sub Button1_Click_5(sender As Object, e As EventArgs)
 
