@@ -297,6 +297,7 @@ Public Class Form1
     Const Credit As String = "Credit"
     Const Phone_Type As String = "Phone Type"
     Const Last_Name As String = "Last Name"
+    Const TCPA_Wrap As String = "TCPA"
 
     Public Function NumtoMonth(Month As String) As String
         Select Case Month
@@ -574,8 +575,23 @@ Public Class Form1
                             End If
                         End If
                     Case Phone_Type
-
+                        If getPhoneType() Then
+                            clipType = ""
+                            callPos = Last_Name
+                            If FullAuto.Checked Then
+                                CurrentQ = 23
+                                Timer2.Enabled = True
+                            End If
+                        End If
                     Case Last_Name
+                        If getLastName() Then
+                            clipType = ""
+                            callPos = TCPA_Wrap
+                            If FullAuto.Checked Then
+                                CurrentQ = 27
+                                Timer2.Enabled = True
+                            End If
+                        End If
                 End Select
             End If
         End If
@@ -2112,20 +2128,30 @@ Public Class Form1
                 Timer2.Enabled = True
         End Select
     End Sub
-    Public Sub HandleLastName()
-        local_browser.FindElementById("frmLastName").SendKeys(s)
+    Public Function getLastName() As Boolean
+        Dim response As String = s
+        Try
+            local_browser.FindElementById("frmLastName").SendKeys(response)
+            Return True
+        Catch ex As Exception
+            moo()
+            Console.WriteLine("PANDA EXCEPTION!")
+            Return False
+        End Try
 
-
-    End Sub
+        Return False
+    End Function
     Public Function getPhoneType() As Boolean
         Dim response As String = s
         Dim formElem As IWebElement = local_browser.FindElementById("frmPhoneType1")
         Select Case True
             Case response.Contains("cell"), response.Contains("mobile")
+                moo()
                 formElem.Click()
                 formElem.FindElements(By.TagName("option"))(1).Click()
                 Return True
             Case response.Contains("home")
+                moo()
                 formElem.Click()
                 formElem.FindElements(By.TagName("option"))(2).Click()
                 Return True
