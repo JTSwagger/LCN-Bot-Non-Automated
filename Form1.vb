@@ -574,6 +574,7 @@ Public Class Form1
                             End If
                         End If
                     Case Phone_Type
+
                     Case Last_Name
                 End Select
             End If
@@ -2116,21 +2117,26 @@ Public Class Form1
 
 
     End Sub
-    Public Sub HandlePhoneType()
+    Public Function getPhoneType() As Boolean
+        Dim response As String = s
+        Dim formElem As IWebElement = local_browser.FindElementById("frmPhoneType1")
         Select Case True
-            Case s.Contains("mobile"), s.Contains("cell")
-                local_browser.FindElementById("frmPhoneType1").SendKeys("Mobile/Cell")
-            Case s.Contains("home")
-                local_browser.FindElementById("frmPhoneType1").SendKeys("2")
-            Case s.Contains("work")
-                local_browser.FindElementById("frmPhoneType1").SendKeys("3")
-            Case Else
-
+            Case response.Contains("cell"), response.Contains("mobile")
+                formElem.Click()
+                formElem.FindElements(By.TagName("option"))(1).Click()
+                Return True
+            Case response.Contains("home")
+                formElem.Click()
+                formElem.FindElements(By.TagName("option"))(2).Click()
+                Return True
+            Case response.Contains("work")
+                formElem.Click()
+                formElem.FindElements(By.TagName("option"))(3).Click()
+                Return True
         End Select
 
-
-
-    End Sub
+        Return False
+    End Function
     Public Function getCredit() As Boolean
         Dim formElem As IWebElement = local_browser.FindElementById("frmCreditRating")
         Dim response As String = s
