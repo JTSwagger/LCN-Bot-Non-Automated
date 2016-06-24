@@ -5248,21 +5248,24 @@ Public Class Form1
 
     Public Sub getLeadWindow()
         '
-        If local_browser.Url.Contains("forms.lead.co") And Not local_browser.PageSource.Contains("added successfully") Then
-            If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
-                CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
-                CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
-                btnTheirName.Text = CustName(0)
-                globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
-                globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
-                globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+        Try
+            If local_browser.Url.Contains("forms.lead.co") And Not local_browser.PageSource.Contains("added successfully") Then
+                If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
+                    CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
+                    CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
+                    btnTheirName.Text = CustName(0)
+                    globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
+                    globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
+                    globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+                End If
+            Else
+                If local_browser.WindowHandles.Count() > 1 Then
+                    local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
+                End If
             End If
-        Else
-            If local_browser.WindowHandles.Count() > 1 Then
-                local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
-            End If
-        End If
-
+        Catch ex As Exception
+            Console.WriteLine("sad panda")
+        End Try
     End Sub
 
     Private Sub tmrAgentStatus_Tick(sender As Object, e As EventArgs) Handles tmrAgentStatus.Tick
