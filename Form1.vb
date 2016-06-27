@@ -9,6 +9,7 @@ Imports System.Threading
 Imports System.ComponentModel
 Imports Microsoft.ProjectOxford.SpeechRecognition
 Imports System.Collections.Generic
+Imports OpenQA.Selenium.Support.UI
 
 
 Public Class Form1
@@ -2153,42 +2154,36 @@ Public Class Form1
     End Function
     Public Function getPhoneType() As Boolean
         Dim response As String = s
-        Dim formElem As IWebElement = local_browser.FindElementById("frmPhoneType1")
+        Dim formElem As SelectElement = local_browser.FindElementById("frmPhoneType1")
         Select Case True
             Case response.Contains("cell"), response.Contains("mobile")
                 moo()
-                formElem.Click()
-                formElem.FindElements(By.TagName("option"))(1).Click()
+                formElem.SelectByText("Mobile/Cell")
                 Return True
             Case response.Contains("home")
                 moo()
-                formElem.Click()
-                formElem.FindElements(By.TagName("option"))(2).Click()
+                formElem.SelectByText("Home")
                 Return True
             Case response.Contains("work")
-                formElem.Click()
-                formElem.FindElements(By.TagName("option"))(3).Click()
+                formElem.SelectByText("Work")
                 Return True
         End Select
 
         Return False
     End Function
     Public Function getCredit() As Boolean
-        Dim formElem As IWebElement = local_browser.FindElementById("frmCreditRating")
+        Dim formElem As SelectElement = local_browser.FindElementById("frmCreditRating")
         Dim response As String = s
         Select Case True
             Case response.Contains("excellent")
-                formElem.Click()
-                formElem.FindElements(By.TagName("option"))(0).Click()
+                formElem.SelectByText("Excellent")
                 Return True
             Case response.Contains("good")
                 moo()
-                formElem.Click()
-                formElem.FindElements(By.TagName("option"))(1).Click()
+                formElem.SelectByText("Good")
                 Return True
             Case response.Contains("fair")
-                formElem.Click()
-                formElem.FindElements(By.TagName("option"))(2).Click()
+                formElem.SelectByText("Fair")
                 Return True
         End Select
 
@@ -2264,7 +2259,8 @@ Public Class Form1
 
         End Select
         If residenceType <> "" Then
-            local_browser.FindElementById("frmDwellingType").SendKeys(sResidenceType)
+            Dim resSelect As SelectElement = local_browser.FindElementById("frmDwellingType")
+            resSelect.SelectByText(sResidenceType)
             Return True
         Else
 
@@ -2284,7 +2280,8 @@ Public Class Form1
 
         End Select
         If residenceType <> "" Then
-            local_browser.FindElementById("frmResidenceType").SendKeys(residenceType)
+            Dim restypesel As SelectElement = local_browser.FindElementById("frmResidenceType")
+            restypesel.SelectByText(residenceType)
             Return True
         Else
 
@@ -2470,8 +2467,8 @@ Public Class Form1
 
         End Select
         If maritalStatus <> "" Then
-            local_browser.FindElementById("frmMaritalStatus").SendKeys(maritalStatus)
-            Return True
+            Dim marstatsel As SelectElement = local_browser.FindElementById("frmMaritalStatus")
+            marstatsel.SelectByText(maritalStatus)
         Else
             Return False
         End If
@@ -2843,11 +2840,9 @@ Public Class Form1
         Console.WriteLine("Detected " & IProvider & " as insurance")
         If IProvider <> "" Then
             Try
-
-
                 'local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?agent_name=Justin+Theriault&lead_id=421&lead_guid=7af28e93-bfdf-43d0-8e81-742cbdf34ad2&import_id=13395")
-                local_browser.FindElementById("frmInsuranceCarrier").SendKeys(IProvider)
-                local_browser.Keyboard.PressKey(Keys.Return)
+                Dim el As SelectElement = local_browser.FindElementById("frmInsuranceCarrier")
+                el.SelectByText(IProvider)
             Catch ex As Exception
                 Console.WriteLine(ex.Message)
                 Console.WriteLine(ex.Source)
@@ -3663,9 +3658,8 @@ Public Class Form1
 
     End Sub
     Private Sub Form1_Click(sender As Object, e As EventArgs) Handles MyBase.Click
-        LoadVehicles()
-        Console.WriteLine(Search("2005 Toyota Camry"))
-
+        'LoadVehicles()
+        'Console.WriteLine(Search("2005 Toyota Camry"))
     End Sub
     Private Sub Button2_Click(sender As Object, e As EventArgs)
         rolltheclipThread("C: /Soundboard/Cheryl/WhoDoYouUSe.mp3")
@@ -4619,11 +4613,15 @@ Public Class Form1
         SilenceReps = 0
         stillthere = 0
         isQuestion = False
+        calltime = 0
 
         Hangup = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
         resp = Hangup.GetResponse
         resp.Close()
         Thread.Sleep(500)
+        Console.WriteLine("***********************")
+        Console.WriteLine(cmbDispo.Text)
+        Console.WriteLine("***********************")
         Select Case cmbDispo.Text
             Case "Not Available"
                 Disposition = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "NotAvl")
@@ -4985,6 +4983,7 @@ Public Class Form1
 
         Reset()
         cmbMoreVehicles.SelectedIndex = 0
+
         theurl = ""
         NICount = 0
         rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
@@ -5476,10 +5475,14 @@ Public Class Form1
         End If
         If STATS.Contains("DEAD") Then
             If calltime < 10 Then
+                Console.WriteLine("not available")
+                Console.WriteLine(calltime)
                 cmbDispo.Text = "Not Available"
                 DispositionCall()
             ElseIf calltime > 10 Or callPos = Intro Then
                 cmbDispo.Text = "Not Interested"
+                Console.WriteLine("not interested")
+                Console.WriteLine(calltime)
                 DispositionCall()
             End If
         End If
