@@ -2589,7 +2589,7 @@ Public Class Form1
                 IProvider = "Esurance"
             Case s.Contains("farm bureau")
                 IProvider = "Farm Bureau/Farm Family/Rural"
-            Case s.Contains("farmers"), Not s.Contains("union")
+            Case s.Contains("farmers")
                 moo() ' okay, this one's actually funny
                 IProvider = "Farmers Insurance"
             Case s.Contains("finance box")
@@ -2652,7 +2652,7 @@ Public Class Form1
                 IProvider = "Integon"
             Case s.Contains("hancock"), s.Contains("john hancock")  ' i should really make it match 'John Footpenis', but like... we'd get sued
                 IProvider = "John Hancock"
-            Case s.Contains("kaiser"), s.Contains("kayser")
+            Case s.Contains("kaiser"), s.Contains("kayser"), s.Contains("permanent")
                 IProvider = "Kaiser Permanente"
             Case s.Contains("kemper"), s.Contains("camper"), s.Contains("lloyd")
                 IProvider = "Kemper Lloyds Insurance"
@@ -2759,7 +2759,6 @@ Public Class Form1
             Case s.Contains("saint paul"), s.Contains("st. paul")
                 IProvider = "St. Paul"
             Case s.Contains("standard fire")
-                ' Wtf is a 'standard' fire? Like, are there non-standard fires? 
                 IProvider = "Standard Fire Insurance Company"
             Case s.Contains("state and county")
                 IProvider = "State and County Mutual Fire Insurance"
@@ -2810,7 +2809,7 @@ Public Class Form1
                 IProvider = "Universal Underwriters Insurance"
             Case s.Contains("US financial")
                 IProvider = "US Financial"
-            Case s.Contains("USA"), Not s.Contains("USAA")
+            Case s.Contains("USA")
                 IProvider = "USA Benefits/Continental General"
             Case s.Contains("USAA"), s.Contains("USA")
                 IProvider = "USAA"
@@ -2830,6 +2829,9 @@ Public Class Form1
             Case s.Contains("zurich")
                 IProvider = "Zurich North America"
             Case Else
+                If IProvider = "Farmers Insurance" And Not s.Contains("farmers") Then
+                    Console.WriteLine("I am the walrus")
+                End If
                 If s.Length > 7 Then
                     IProvider = "Progressive"
                 Else
@@ -5347,6 +5349,7 @@ Public Class Form1
                     lblStatus.Text = "STATUS: " & "INCALL"
                     Me.BackColor = Color.Green
                     introHello = True
+                    calltimer.Enabled = True
                 End If
             End If
             If STATS.Contains("DISPO") Then
@@ -5463,5 +5466,22 @@ Public Class Form1
 
     Private Sub tbQuestions_Click(sender As Object, e As EventArgs) Handles tbQuestions.Click
 
+    End Sub
+
+    Dim calltime As Integer = 0
+    Private Sub calltimer_Tick(sender As Object, e As EventArgs) Handles calltimer.Tick
+        Dim STATS As String = GenerateStats()
+        If STATS.Contains("INCALL") Then
+            calltime += 1
+        End If
+        If STATS.Contains("DEAD") Then
+            If calltime < 10 Then
+                cmbDispo.Text = "Not Available"
+                DispositionCall()
+            ElseIf calltime > 10 Or callPos = Intro Then
+                cmbDispo.Text = "Not Interested"
+                DispositionCall()
+            End If
+        End If
     End Sub
 End Class
