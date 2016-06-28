@@ -2154,7 +2154,7 @@ Public Class Form1
     End Function
     Public Function getPhoneType() As Boolean
         Dim response As String = s
-        Dim formElem As SelectElement = local_browser.FindElementById("frmPhoneType1")
+        Dim formElem As SelectElement = New SelectElement(local_browser.FindElementById("frmPhoneType1"))
         Select Case True
             Case response.Contains("cell"), response.Contains("mobile")
                 moo()
@@ -2172,7 +2172,7 @@ Public Class Form1
         Return False
     End Function
     Public Function getCredit() As Boolean
-        Dim formElem As SelectElement = local_browser.FindElementById("frmCreditRating")
+        Dim formElem As SelectElement = New SelectElement(local_browser.FindElementById("frmCreditRating"))
         Dim response As String = s
         Select Case True
             Case response.Contains("excellent")
@@ -2259,7 +2259,7 @@ Public Class Form1
 
         End Select
         If residenceType <> "" Then
-            Dim resSelect As SelectElement = local_browser.FindElementById("frmDwellingType")
+            Dim resSelect As SelectElement = New SelectElement(local_browser.FindElementById("frmDwellingType"))
             resSelect.SelectByText(sResidenceType)
             Return True
         Else
@@ -2280,7 +2280,7 @@ Public Class Form1
 
         End Select
         If residenceType <> "" Then
-            Dim restypesel As SelectElement = local_browser.FindElementById("frmResidenceType")
+            Dim restypesel As SelectElement = New SelectElement(local_browser.FindElementById("frmResidenceType"))
             restypesel.SelectByText(residenceType)
             Return True
         Else
@@ -2467,7 +2467,7 @@ Public Class Form1
 
         End Select
         If maritalStatus <> "" Then
-            Dim marstatsel As SelectElement = local_browser.FindElementById("frmMaritalStatus")
+            Dim marstatsel As SelectElement = New SelectElement(local_browser.FindElementById("frmMaritalStatus"))
             marstatsel.SelectByText(maritalStatus)
         Else
             Return False
@@ -2841,7 +2841,7 @@ Public Class Form1
         If IProvider <> "" Then
             Try
                 'local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?agent_name=Justin+Theriault&lead_id=421&lead_guid=7af28e93-bfdf-43d0-8e81-742cbdf34ad2&import_id=13395")
-                Dim el As SelectElement = local_browser.FindElementById("frmInsuranceCarrier")
+                Dim el As SelectElement = New SelectElement(local_browser.FindElementById("frmInsuranceCarrier"))
                 el.SelectByText(IProvider)
             Catch ex As Exception
                 Console.WriteLine(ex.Message)
@@ -5310,7 +5310,8 @@ Public Class Form1
     Public Sub getLeadWindow()
         '
         Try
-            If local_browser.Url.Contains("forms.lead.co") And Not local_browser.PageSource.Contains("added successfully") And Not local_browser.PageSource.Contains("cannot be found") Then
+            Dim pageSource As String = local_browser.PageSource
+            If local_browser.Url.Contains("forms.lead.co") And Not pageSource.Contains("added successfully") And Not pageSource.Contains("cannot be found") And Not pageSource.Contains("respectfully end") Then
                 If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
                     CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
                     CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
@@ -5325,7 +5326,11 @@ Public Class Form1
 
             Else
                 If local_browser.WindowHandles.Count() > 1 Then
-                    local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
+                    Try
+                        local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
+                    Catch ex As Exception
+                        Console.WriteLine("rip it. rip it good.")
+                    End Try
                 End If
             End If
         Catch ex As Exception
@@ -5334,8 +5339,13 @@ Public Class Form1
 
     End Sub
 
+    Dim windowCount As Integer = 0
     Private Sub tmrAgentStatus_Tick(sender As Object, e As EventArgs) Handles tmrAgentStatus.Tick
-        getLeadWindow()
+        If windowCount = 4 Then
+            getLeadWindow()
+        Else
+            windowCount += 1
+        End If
         Label3.Text = CurrentQ
         lblQuestion.Text = CURRENTQUESTION(CurrentQ)
         If txtVerifierNum.Text <> "" Then
