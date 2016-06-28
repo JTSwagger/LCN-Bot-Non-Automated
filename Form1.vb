@@ -3213,7 +3213,8 @@ Public Class Form1
             For i As Integer = 0 To 1000
                 i += 1
             Next
-            local_browser.FindElementById("frmPolicyExpires_Year").SendKeys(CStr(theYear))
+            Dim yearsel As SelectElement = New SelectElement(local_browser.FindElementById("frmPolicyExpires_Year"))
+            yearsel.SelectByText(CStr(theYear))
             Return True
         Else
             Return False
