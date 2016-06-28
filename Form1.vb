@@ -138,7 +138,7 @@ Public Class Form1
     End Sub 'Checks for questions in the p
     Public Sub SomeSpeech(ByVal sender As Object, ByVal e As Microsoft.ProjectOxford.SpeechRecognition.PartialSpeechResponseEventArgs) Handles m.OnPartialResponseReceived
         Part = e.PartialResult
-        Me.BeginInvoke(New Action(AddressOf handlePartialObjection))
+        'Me.BeginInvoke(New Action(AddressOf handlePartialObjection))
     End Sub
 
     Public Sub handlePartialObjection()
@@ -1702,18 +1702,11 @@ Public Class Form1
             isQuestion = True
             Return False
         End If
-
-
-
     End Function 'GETS THE VEHICLE YEAR
     Dim BADINFOCOUNTER As Integer = 0
 
 
     Dim ModelHolder As String = ""
-
-
-
-
     Dim numbreps As Integer = 0
 
     Public Function isMachine()
@@ -1756,9 +1749,6 @@ Public Class Form1
                         Timer2.Enabled = True
                         counter2 = 0
                         Return True
-
-
-
                     Case Part.Contains("not interested"), Part.Contains("don't need a quote"), Part.Contains("i'm fine"), Part.Contains("not really interested"), Part.Contains("not in arrested"), Part.Contains("that's okay thank you"), Part.Contains("no interest"), Part.Contains("stop calling"), Part.Contains("i'm good"), Part.Contains("all set"), Part.Contains("don't want it"), Part.Contains("not changing"), Part.Contains("i'm happy with"), Part.Contains("very happy"), Part.Contains("no thank you"), Part.Contains("not looking"), Part.Contains("don't wanna change"), Part.Contains("no thank you"), Part.Contains("don't need insurance") 'NI
 
                         newobjection = False
@@ -5352,13 +5342,8 @@ Public Class Form1
 
     End Sub
 
-    Dim windowCount As Integer = 0
     Private Sub tmrAgentStatus_Tick(sender As Object, e As EventArgs) Handles tmrAgentStatus.Tick
-        If windowCount = 4 Then
-            getLeadWindow()
-        Else
-            windowCount += 1
-        End If
+        getLeadWindow()
         Label3.Text = CurrentQ
         lblQuestion.Text = CURRENTQUESTION(CurrentQ)
         If txtVerifierNum.Text <> "" Then
