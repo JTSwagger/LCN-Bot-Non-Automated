@@ -78,6 +78,8 @@ Public Class Form1
     Dim counter2 As Integer = 0
     Dim Driver As FirefoxDriver
     Dim Already_Handled As Boolean = False
+
+    Dim selectElement As SelectElement
     Public Sub onChange(sender As Object, e As MicrophoneEventArgs) Handles m.OnMicrophoneStatus
         Recording_status = e.Recording
         Me.BeginInvoke(New Action(AddressOf updateLabel))
@@ -2154,36 +2156,36 @@ Public Class Form1
     End Function
     Public Function getPhoneType() As Boolean
         Dim response As String = s
-        Dim formElem As SelectElement = New SelectElement(local_browser.FindElementById("frmPhoneType1"))
+        selectElement = New SelectElement(local_browser.FindElementById("frmPhoneType1"))
         Select Case True
             Case response.Contains("cell"), response.Contains("mobile")
                 moo()
-                formElem.SelectByText("Mobile/Cell")
+                selectElement.SelectByText("Mobile/Cell")
                 Return True
             Case response.Contains("home")
                 moo()
-                formElem.SelectByText("Home")
+                selectElement.SelectByText("Home")
                 Return True
             Case response.Contains("work")
-                formElem.SelectByText("Work")
+                selectElement.SelectByText("Work")
                 Return True
         End Select
 
         Return False
     End Function
     Public Function getCredit() As Boolean
-        Dim formElem As SelectElement = New SelectElement(local_browser.FindElementById("frmCreditRating"))
+        selectElement = New SelectElement(local_browser.FindElementById("frmCreditRating"))
         Dim response As String = s
         Select Case True
             Case response.Contains("excellent")
-                formElem.SelectByText("Excellent")
+                selectElement.SelectByText("Excellent")
                 Return True
             Case response.Contains("good")
                 moo()
-                formElem.SelectByText("Good")
+                selectElement.SelectByText("Good")
                 Return True
             Case response.Contains("fair")
-                formElem.SelectByText("Fair")
+                selectElement.SelectByText("Fair")
                 Return True
         End Select
 
@@ -2259,8 +2261,8 @@ Public Class Form1
 
         End Select
         If residenceType <> "" Then
-            Dim resSelect As SelectElement = New SelectElement(local_browser.FindElementById("frmDwellingType"))
-            resSelect.SelectByText(sResidenceType)
+            selectElement = New SelectElement(local_browser.FindElementById("frmDwellingType"))
+            selectElement.SelectByText(sResidenceType)
             Return True
         Else
 
@@ -2280,8 +2282,8 @@ Public Class Form1
 
         End Select
         If residenceType <> "" Then
-            Dim restypesel As SelectElement = New SelectElement(local_browser.FindElementById("frmResidenceType"))
-            restypesel.SelectByText(residenceType)
+            selectElement = New SelectElement(local_browser.FindElementById("frmResidenceType"))
+            selectElement.SelectByText(residenceType)
             Return True
         Else
 
@@ -2467,8 +2469,8 @@ Public Class Form1
 
         End Select
         If maritalStatus <> "" Then
-            Dim marstatsel As SelectElement = New SelectElement(local_browser.FindElementById("frmMaritalStatus"))
-            marstatsel.SelectByText(maritalStatus)
+            selectElement = New SelectElement(local_browser.FindElementById("frmMaritalStatus"))
+            selectElement.SelectByText(maritalStatus)
         Else
             Return False
         End If
@@ -2841,8 +2843,8 @@ Public Class Form1
         If IProvider <> "" Then
             Try
                 'local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?agent_name=Justin+Theriault&lead_id=421&lead_guid=7af28e93-bfdf-43d0-8e81-742cbdf34ad2&import_id=13395")
-                Dim el As SelectElement = New SelectElement(local_browser.FindElementById("frmInsuranceCarrier"))
-                el.SelectByText(IProvider)
+                selectElement = New SelectElement(local_browser.FindElementById("frmInsuranceCarrier"))
+                selectElement.SelectByText(IProvider)
             Catch ex As Exception
                 Console.WriteLine(ex.Message)
                 Console.WriteLine(ex.Source)
@@ -3213,8 +3215,8 @@ Public Class Form1
             For i As Integer = 0 To 1000
                 i += 1
             Next
-            Dim yearsel As SelectElement = New SelectElement(local_browser.FindElementById("frmPolicyExpires_Year"))
-            yearsel.SelectByText(CStr(theYear))
+            selectElement = New SelectElement(local_browser.FindElementById("frmPolicyExpires_Year"))
+            selectElement.SelectByText(CStr(theYear))
             Return True
         Else
             Return False
@@ -3239,7 +3241,7 @@ Public Class Form1
                 theYear = CStr(Date.Now.Year - 2)
             Case s.Contains("3"), s.Contains("three years"), s.Contains("three")
                 theYear = CStr(Date.Now.Year - 3)
-            Case s.Contains("4"), s.Contains("four years"), s.Contains("for years"), s.Contains("four")
+            Case s.Contains("4"), s.Contains("four years"), s.Contains("for years"), s.Contains("four") ' for years might break some stuff. Could ask for a possible year verification here.
                 theYear = CStr(Date.Now.Year - 4)
             Case s.Contains("5"), s.Contains("five years"), s.Contains("five")
                 theYear = CStr(Date.Now.Year - 5)
@@ -3276,8 +3278,8 @@ Public Class Form1
         End Select
         If theMonth <> "" And theYear <> "" Then
             local_browser.FindElementById("frmPolicyStart_Month").SendKeys(NumtoMonth(theMonth))
-            Dim yearSel As SelectElement = New SelectElement(local_browser.FindElementById("frmPolicyStart_Year"))
-            yearSel.SelectByText(CStr(theYear))
+            selectElement = New SelectElement(local_browser.FindElementById("frmPolicyStart_Year"))
+            selectElement.SelectByText(CStr(theYear))
             Return True
         Else
             Return False
