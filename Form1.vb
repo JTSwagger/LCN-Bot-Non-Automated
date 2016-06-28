@@ -276,9 +276,8 @@ Public Class Form1
             CurrentQ = 8
             rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\WHO MAKES THAT VEHICLE.MP3")
             isQuestion = True
-
         End If
-
+        Return False
     End Function 'GETS THE MAKE OF THE VEHICLE
     Dim callPos As String = ""
     Const Intro As String = "Intro"
@@ -2474,6 +2473,8 @@ Public Class Form1
         Else
             Return False
         End If
+
+        Return False
     End Function
     Public Sub updateSpeechText()
         txtSpeech.Text += "::SPEECH ENDED::" & vbNewLine
@@ -3399,6 +3400,8 @@ Public Class Form1
         Else
             Return False
         End If
+
+        Return False
     End Function
 
     Public Function ParseAddress(speech As String) As Boolean
@@ -3418,6 +3421,8 @@ Public Class Form1
                 Return False
             End If
         End If
+
+        Return False
     End Function
     Public Sub StopThatClip()
         BeginInvoke(New Action(AddressOf waveOut.Dispose))
