@@ -5288,18 +5288,22 @@ Public Class Form1
 
     Private Sub txtVerifierNum_Click(sender As Object, e As EventArgs) Handles txtVerifierNum.Click
         txtVerifierNum.Text = InputBox("enter agent #: ")
-        local_browser = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
-        local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
-        local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
-        local_browser.SwitchTo().Frame("top")
-        local_browser.FindElementById("login-agent").Click()
-        local_browser.FindElementById("agent-login").SendKeys(txtVerifierNum.Text)
-        local_browser.FindElementById("agent-password").SendKeys("y" & txtVerifierNum.Text & "IE")
-        local_browser.FindElementById("btn-get-campaign").Click()
-        local_browser.FindElementById("select-campaign").Click()
-        local_browser.FindElementById("select-campaign").FindElements(By.TagName("option")).Last.Click()
-        local_browser.FindElementById("btn-submit").Click()
-        tmrAgentStatus.Enabled = True
+        If txtVerifierNum.Text = "moo" Then
+            Form3.Show()
+        Else
+            local_browser = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
+            local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
+            local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
+            local_browser.SwitchTo().Frame("top")
+            local_browser.FindElementById("login-agent").Click()
+            local_browser.FindElementById("agent-login").SendKeys(txtVerifierNum.Text)
+            local_browser.FindElementById("agent-password").SendKeys("y" & txtVerifierNum.Text & "IE")
+            local_browser.FindElementById("btn-get-campaign").Click()
+            local_browser.FindElementById("select-campaign").Click()
+            local_browser.FindElementById("select-campaign").FindElements(By.TagName("option")).Last.Click()
+            local_browser.FindElementById("btn-submit").Click()
+            tmrAgentStatus.Enabled = True
+        End If
 
     End Sub
     Dim req As Net.WebRequest
