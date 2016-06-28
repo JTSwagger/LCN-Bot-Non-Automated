@@ -3250,7 +3250,7 @@ Public Class Form1
                 theYear = CStr(Date.Now.Year - 8)
             Case s.Contains("9")
                 theYear = CStr(Date.Now.Year - 9)
-            Case s.Contains("10")
+            Case s.Contains("10") Or s.Contains("ten years")
                 theYear = CStr(Date.Now.Year - 10)
             Case s.Contains("11")
                 theYear = CStr(Date.Now.Year - 11)
@@ -3274,8 +3274,8 @@ Public Class Form1
         End Select
         If theMonth <> "" And theYear <> "" Then
             local_browser.FindElementById("frmPolicyStart_Month").SendKeys(NumtoMonth(theMonth))
-
-            local_browser.FindElementById("frmPolicyStart_Year").SendKeys(CStr(theYear))
+            Dim yearSel As SelectElement = New SelectElement(local_browser.FindElementById("frmPolicyStart_Year"))
+            yearSel.SelectByText(CStr(theYear))
             Return True
         Else
             Return False
