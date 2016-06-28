@@ -5288,7 +5288,7 @@ Public Class Form1
 
     Private Sub txtVerifierNum_Click(sender As Object, e As EventArgs) Handles txtVerifierNum.Click
         txtVerifierNum.Text = InputBox("enter agent #: ")
-        If txtVerifierNum.Text = "moo" Then
+        If txtVerifierNum.Text.ToLower() = "moo" Then
             Form3.Show()
         Else
             local_browser = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
