@@ -346,10 +346,10 @@ Public Class Form1
                     Case Intro
                         clipType = ""
                         callPos = Insurance_Provider
-
                         s = ""
                         If FullAuto.Checked Then
                             CurrentQ = 3
+                            Timer2.Enabled = True
                         End If
 
                     Case Insurance_Provider
