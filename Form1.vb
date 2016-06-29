@@ -5318,7 +5318,11 @@ Public Class Form1
     Public Sub getLeadWindow()
         Try
             Dim pageSource As String = local_browser.PageSource
-            If local_browser.Url.Contains("forms.lead.co") And Not pageSource.Contains("added successfully") And Not pageSource.Contains("cannot be found") And Not pageSource.Contains("respectfully end") Then
+            If pageSource.Contains("past 6 months") Then
+                cmbDispo.Text = "Not interested"
+                DispositionCall()
+            End If
+            If local_browser.Url.Contains("forms.lead.co") And Not pageSource.Contains("added successfully") And Not pageSource.Contains("cannot be found") Then
                 If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
                     CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
                     CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
