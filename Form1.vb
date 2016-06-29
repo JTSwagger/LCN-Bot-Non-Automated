@@ -4350,6 +4350,7 @@ Public Class Form1
             lblQuestion.Text = CURRENTQUESTION(Pos)
             Select Case Pos
                 Case 0
+                    m.StartMicAndRecognition()
                     Select Case numReps
                         Case 0
                             rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\Ins provider 1.mp3")
@@ -4366,8 +4367,10 @@ Public Class Form1
                     CurrentQ = 3
 
                 Case 1
+                    m.StartMicAndRecognition()
                     rolltheclipThread("c:\soundboard\cheryl\INTRO\HELLO.mp3")
                 Case 2
+                    m.StartMicAndRecognition()
                     Select Case numReps
                         Case 0
                             rolltheclipThread(globalFile)
@@ -4393,6 +4396,7 @@ Public Class Form1
                             rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\policy exp 3.mp3")
                     End Select
                 Case 5
+                    m.StartMicAndRecognition()
                     Console.WriteLine("*** PANDA PANDA PANDA NUMREPS = {0}", numReps)
                     Select Case numReps
                         Case 0
@@ -4406,8 +4410,9 @@ Public Class Form1
                     End Select
                 Case 6
                     rolltheclipThread("C:/SOUNDBOARD/CHERYL/VEHICLE INFO/HOW MANY VEHICLES DO YOU HAVE.MP3")
+                    m.StartMicAndRecognition()
                 Case 7
-
+                    m.StartMicAndRecognition()
                     Console.WriteLine("on vehicle: " & VehicleNum)
                     Select Case VehicleNum
                         Case 1
@@ -5287,6 +5292,7 @@ Public Class Form1
             Form3.Show()
             rolltheclipThread("C:\Users\Insurance Express\Source\Repos\LCN-Bot-Non-Automated\LCNSoundBoard\cow-moo3.mp3")
         ElseIf txtVerifierNum.Text = "phillip j fry" Then
+            rolltheclipThread("C:\Users\Insurance Express\Source\Repos\LCN-Bot-Non-Automated\LCNSoundBoard\bite_my_shiny_metal_ass.mp3")
             tmrAgentStatus.Enabled = True
         Else
             local_browser = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
