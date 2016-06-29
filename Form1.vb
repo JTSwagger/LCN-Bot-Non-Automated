@@ -5292,7 +5292,7 @@ Public Class Form1
             Form3.Show()
             rolltheclipThread("C:\Users\Insurance Express\Source\Repos\LCN-Bot-Non-Automated\LCNSoundBoard\cow-moo3.mp3")
         ElseIf txtVerifierNum.Text = "phillip j fry" Then
-            rolltheclipThread("C:\Users\Insurance Express\Source\Repos\LCN-Bot-Non-Automated\LCNSoundBoard\bite_my_shiny_metal_ass.mp3")
+            rolltheclipThread("C:\Users\Insurance Express\Source\Repos\LCN-Bot-Non-Automated\LCNSoundBoard\goodnewseveryone.mp3")
             tmrAgentStatus.Enabled = True
         Else
             local_browser = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
