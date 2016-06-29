@@ -5279,9 +5279,9 @@ Public Class Form1
         req = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/non_agent.php?source=test&user=101&pass=API101IEpost&function=agent_status&agent_user=" & txtVerifierNum.Text & "&stage=csv&header=YES")
         Dim webResp As Net.WebResponse = req.GetResponse
         Dim webReader As New IO.StreamReader(webResp.GetResponseStream)
-        Dim Stats As String = webReader.ReadToEnd()
+        Dim stats As String = webReader.ReadToEnd()
         webResp.Close()
-        Return Stats
+        Return stats
     End Function
 
 
@@ -5291,7 +5291,7 @@ Public Class Form1
         If txtVerifierNum.Text.ToLower() = "moo" Then
             Form3.Show()
             rolltheclipThread("C:\Users\Insurance Express\Source\Repos\LCN-Bot-Non-Automated\LCNSoundBoard\cow-moo3.mp3")
-        ElseIf txtVerifierNum.Text = "phillip j fry" Then
+        ElseIf txtVerifierNum.Text = "philip j fry" Then
             rolltheclipThread("C:\Users\Insurance Express\Source\Repos\LCN-Bot-Non-Automated\LCNSoundBoard\goodnewseveryone.mp3")
             tmrAgentStatus.Enabled = True
         Else
