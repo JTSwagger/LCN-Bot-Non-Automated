@@ -10,7 +10,7 @@ Imports System.ComponentModel
 Imports Microsoft.ProjectOxford.SpeechRecognition
 Imports System.Collections.Generic
 Imports OpenQA.Selenium.Support.UI
-
+Imports Newtonsoft.Json
 
 Public Class Form1
     Dim VehicleList(0) As Vehicle
@@ -259,12 +259,20 @@ Public Class Form1
 
             If vehiclenum = 1 Then
 
-                local_browser.FindElementById("vehicle-make").SendKeys((vMake(vehiclenum)))
-                local_browser.Keyboard.PressKey(Keys.Return)
-                Return True
+                Try
+                    local_browser.FindElementById("vehicle-make").SendKeys((vMake(vehiclenum)))
+                    local_browser.Keyboard.PressKey(Keys.Return)
+                    Return True
+                Catch ex As Exception
+                    Do Until local_browser.FindElementById("vehicle-make").GetAttribute("class").Contains("hide") = False
+                        Console.WriteLine("whoopwhoopwhoop shoopdawhoop")
+                    Loop
+                    local_browser.FindElementById("vehicle-make").SendKeys((vMake(vehiclenum)))
+                    local_browser.Keyboard.PressKey(Keys.Return)
+                    Return True
+                End Try
 
             Else
-
                 local_browser.FindElementById("vehicle" & vehiclenum & "-make").SendKeys(vMake(vehiclenum))
                 local_browser.Keyboard.PressKey(Keys.Return)
                 Return True
@@ -415,9 +423,9 @@ Public Class Form1
                                 Dim webReader As New IO.StreamReader(resp.GetResponseStream)
                                 Dim results As String = webReader.ReadToEnd()
                                 resp.Close()
-
-                                If results.Contains("true") Then
-                                    vmodel(VehicleNum) = results.Split(" ")(3).Replace(ControlChars.Quote, "")
+                                Dim jsonresults As responser = JsonConvert.DeserializeObject(Of responser)(results)
+                                If jsonresults.response = "true" Then
+                                    vmodel(VehicleNum) = jsonresults.model
                                     Console.WriteLine(vmodel(VehicleNum))
                                     local_browser.FindElementById("vehicle-model").SendKeys(vmodel(VehicleNum))
 
@@ -442,8 +450,11 @@ Public Class Form1
                                     clipType = "Question"
                                 End If
                             Else
+                                Console.WriteLine("shiver me timbers")
                                 clipType = "Question"
                             End If
+                        Else
+                            Console.WriteLine("yarrrrr I'm a pirate!")
                         End If
 
                     Case Driver_Birthday
@@ -768,8 +779,7 @@ Public Class Form1
     Dim isplaying As Boolean
     Dim INSCO As String
     Dim POLSTART As String
-    Dim POLEnd As String
-
+    Dim POLEnd As String    ' hehe, Poland.
     Dim CurrentQ As Integer
     Dim LastCustomer
     Dim CustomerName As String
@@ -803,7 +813,6 @@ Public Class Form1
     Dim vmodel(3) As String
     Dim secondPass As Boolean = False
     Dim PRIMARY_KEY As String = "ce43e8a4d7a844b1be7950b260d6b8bd"
-
     Dim timeout As Integer = 30000
     Dim numRepeats As Integer = 0
     Dim Newvar As String = ""
@@ -847,9 +856,7 @@ Public Class Form1
             Case Else
                 vnumber = "vehicle" & VehicleNum & "-model"
         End Select
-
         Console.WriteLine("Checking model for: " & vnumber)
-
         Dim modelist(local_browser.FindElementById(vnumber).GetAttribute("length") - 1) As String
         Dim x As Integer = 0
         Console.WriteLine(s)
@@ -877,7 +884,6 @@ Public Class Form1
             Else
             End If
         Next
-
         Console.WriteLine("Completed primary check...")
         If vmodel(VehicleNum) = "" Then
             For x = 0 To z - 1
@@ -894,21 +900,14 @@ Public Class Form1
                 If vmodel(VehicleNum) <> "" Then Exit For
             Next
         End If
-
-
-
         Console.WriteLine("-----MODEL Not FOUND-----")
         ModelHolder = s
         rolltheclipThread("C: \SoundBoard\Cheryl\VEHICLE INFO\What is the model of the Car 1.MP3")
         Return False
-
     End Function  '
 
     Function getBirthdaWAV() As Boolean
-
-
         Try
-
             If local_browser.FindElementById("frmDOB_Month").GetAttribute("value") <> "" And local_browser.FindElementById("frmDOB_Day").GetAttribute("value") <> "" And local_browser.FindElementById("frmDOB_Year").GetAttribute("value") <> "" Then
                 bmonth1 = local_browser.FindElementById("frmDOB_Month").GetAttribute("value")
                 bday1 = local_browser.FindElementById("frmDOB_Day").GetAttribute("value")
@@ -927,9 +926,6 @@ Public Class Form1
             Return False
 
         End Try
-
-
-
     End Function 'Checks to see if the birthday exists in the autoform so it can verify, if not it returns false to ask
     Function getBDayValues(text As String) As String()
         Dim tempArray() As String = text.Split("/")
@@ -4016,7 +4012,7 @@ Public Class Form1
         CurrentQ = 3
         isQuestion = True
         clipType = "Question"
-        callPos = Policy_Expiration
+        callPos = Insurance_Provider
     End Sub
     Private Sub Button51_Click(sender As Object, e As EventArgs) Handles btnPolicyStart.Click
         StopThatClip()
@@ -5289,6 +5285,9 @@ Public Class Form1
         txtVerifierNum.Text = InputBox("enter agent #: ")
         If txtVerifierNum.Text.ToLower() = "moo" Then
             Form3.Show()
+            rolltheclipThread("C:\Users\Insurance Express\Source\Repos\LCN-Bot-Non-Automated\LCNSoundBoard\cow-moo3.mp3")
+        ElseIf txtVerifierNum.Text = "phillip j fry" Then
+            tmrAgentStatus.Enabled = True
         Else
             local_browser = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
             local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
@@ -5311,7 +5310,6 @@ Public Class Form1
 
 
     Public Sub getLeadWindow()
-        '
         Try
             Dim pageSource As String = local_browser.PageSource
             If local_browser.Url.Contains("forms.lead.co") And Not pageSource.Contains("added successfully") And Not pageSource.Contains("cannot be found") And Not pageSource.Contains("respectfully end") Then
@@ -5322,11 +5320,9 @@ Public Class Form1
                     globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
                     globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
                     globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
-
                 End If
             ElseIf local_browser.Url.Contains("forms.lead.co") And local_browser.PageSource.Contains("cannot be found") Then
                 local_browser.Navigate.GoToUrl("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
-
             Else
                 If local_browser.WindowHandles.Count() > 1 Then
                     Try
@@ -5339,7 +5335,6 @@ Public Class Form1
         Catch ex As Exception
             Console.WriteLine("panda")
         End Try
-
     End Sub
 
     Private Sub tmrAgentStatus_Tick(sender As Object, e As EventArgs) Handles tmrAgentStatus.Tick
@@ -5349,7 +5344,6 @@ Public Class Form1
         If txtVerifierNum.Text <> "" Then
             Dim STATS As String = GenerateStats()
             tempStr = STATS.Split(",")
-
             If STATS.Contains("INCALL") Then
                 If newcall = True Then
                     newcall = False
@@ -5381,7 +5375,6 @@ Public Class Form1
                 StopThatClip()
                 CurrentQ = 31
                 Timer2.Enabled = True
-
             End If
             If tempStr.Length > 12 Then
                 lblName.Text = tempStr(12)
@@ -5391,14 +5384,12 @@ Public Class Form1
                     lblCalls2.Text = tempStr(11)
                 End If
             End If
-
         End If
     End Sub 'Sends API Call to get agent report
 
 
     Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs)
-
-
+        moo()
     End Sub 'WebBrowser Object reserved for Dispositioning calls
 
 
@@ -5495,4 +5486,8 @@ Public Class Form1
             End If
         End If
     End Sub
+End Class
+Public Class responser
+    Public Property response As String
+    Public Property model As String
 End Class
