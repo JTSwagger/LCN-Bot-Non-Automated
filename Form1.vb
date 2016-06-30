@@ -5324,16 +5324,18 @@ Public Class Form1
     Dim alreadyLoaded As Boolean = False
     Public Sub getLeadWindow()
         If Not alreadyLoaded Then
-            Try
-                If Not local_browser.Url.Contains("forms.lead.co") Then
-                    If local_browser.WindowHandles.Count > 1 Then
-                        Try
-                            local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
-                        Catch ex As Exception
-                            Console.WriteLine("uncaught exception")
-                        End Try
-                    End If
+            If Not local_browser.Url.Contains("forms.lead.co") Then
+                If local_browser.WindowHandles.Count > 1 Then
+                    Try
+                        local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
+                    Catch ex As Exception
+                        Console.WriteLine("uncaught exception")
+                    End Try
+                Else
+                    Console.Write(".")
                 End If
+            End If
+            Try
                 Dim pagesource As String = local_browser.PageSource
                 If pagesource.Contains("Please respectfully") Then
                     cmbDispo.Text = "Not interested"
