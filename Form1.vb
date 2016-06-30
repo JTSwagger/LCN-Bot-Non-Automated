@@ -5297,7 +5297,7 @@ Public Class Form1
             rolltheclipThread("C:\Users\Insurance Express\Source\Repos\LCN-Bot-Non-Automated\LCNSoundBoard\goodnewseveryone.mp3")
             tmrAgentStatus.Enabled = True
         Else
-            local_browser = New ChromeDriver(cds)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
+            local_browser = New ChromeDriver("C:\Users\Insurance Express\Downloads\chromedriver_win32")  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
             local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
             local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
             local_browser.SwitchTo().Frame("top")
@@ -5307,8 +5307,10 @@ Public Class Form1
             local_browser.FindElementById("agent-password").SendKeys("y" & txtVerifierNum.Text & "IE")
             Thread.Sleep(500)
             local_browser.FindElementById("btn-get-campaign").Click()
+            Thread.Sleep(250)
             local_browser.FindElementById("select-campaign").Click()
             local_browser.FindElementById("select-campaign").FindElements(By.TagName("option")).Last.Click()
+            Thread.Sleep(250)
             local_browser.FindElementById("btn-submit").Click()
             tmrAgentStatus.Enabled = True
         End If
@@ -5487,11 +5489,10 @@ Public Class Form1
     Private Sub tbIntro_Click(sender As Object, e As EventArgs) Handles tbIntro.Click
 
     End Sub
-    Dim cds As ChromeDriverService
-
+    'Dim cds As ChromeDriverService = New ChromeDriverService()
     Private Sub testpagebutton_Click(sender As Object, e As EventArgs) Handles testpagebutton.Click
         newcall = False
-        local_browser = New ChromeDriver(cds)
+        local_browser = New ChromeDriver("C:\Users\Insurance Express\Downloads\chromedriver_win32")
         local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
     End Sub
 
