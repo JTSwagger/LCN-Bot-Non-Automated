@@ -365,7 +365,7 @@ Public Class Form1
                         Console.WriteLine("Checking Insurance Provider")
                         If CheckForCompany() Then
                             clipType = ""
-                            callPos = ""
+                            callPos = Policy_Expiration
                             s = ""
                             If FullAuto.Checked Then
                                 CurrentQ = 4
@@ -378,7 +378,7 @@ Public Class Form1
                         Console.WriteLine("Checking Insurance Expiration Date")
                         If checkExpiration() Then
                             clipType = ""
-                            callPos = ""
+                            callPos = Policy_Start
                             s = ""
                             If FullAuto.Checked Then
                                 CurrentQ = 5
@@ -391,7 +391,7 @@ Public Class Form1
                         Console.WriteLine("Checking Insurance Start Date")
                         If CheckHowLong() Then
                             clipType = ""
-                            callPos = ""
+                            callPos = Number_Of_Vehicles
                             s = ""
                             If FullAuto.Checked Then
                                 CurrentQ = 6
@@ -402,7 +402,7 @@ Public Class Form1
                         Console.WriteLine("Checking Number of Vehicles")
                         If checkForNumVehicles() Then
                             clipType = ""
-                            callPos = ""
+                            callPos = Year_Make_Model
                             s = ""
                             If FullAuto.Checked Then
                                 CurrentQ = 7
@@ -461,7 +461,7 @@ Public Class Form1
                         If getBirthdaWAV() Then
                             If GetBirthday() Then
                                 clipType = ""
-                                callPos = ""
+                                callPos = Marital_Status
                                 If FullAuto.Checked Then
                                     CurrentQ = 11
                                     Timer2.Enabled = True
@@ -5352,6 +5352,7 @@ Public Class Form1
                 globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
                 globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
                 alreadyLoaded = True
+
             Catch ex As Exception
                 Console.WriteLine(ex.InnerException)
             End Try
