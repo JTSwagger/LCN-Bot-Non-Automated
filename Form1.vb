@@ -4577,6 +4577,7 @@ Public Class Form1
     Public Sub DispositionCall()
         Dim resp As Net.WebResponse
 
+        alreadyLoaded = False
         callPos = ""
         clipType = ""
         m.EndMicAndRecognition()
@@ -5314,37 +5315,43 @@ Public Class Form1
     Dim Hangup As Net.WebRequest
     Dim Disposition As Net.WebRequest
 
-
+    'CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
+    '                CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
+    '                btnTheirName.Text = CustName(0)
+    '                globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
+    '                globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
+    '                globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+    Dim alreadyLoaded As Boolean = False
     Public Sub getLeadWindow()
-        Try
-            Dim pageSource As String = local_browser.PageSource
-            If pageSource.Contains("last 6 month") Then
-                cmbDispo.Text = "Not interested"
-                DispositionCall()
-            End If
-            If local_browser.Url.Contains("forms.lead.co") And Not pageSource.Contains("added successfully") And Not pageSource.Contains("cannot be found") Then
-                If CustName(0) <> local_browser.FindElementById("frmFirstName").GetAttribute("value") Then
-                    CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
-                    CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
-                    btnTheirName.Text = CustName(0)
-                    globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
-                    globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
-                    globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+        If Not alreadyLoaded Then
+            Try
+                If Not local_browser.Url.Contains("forms.lead.co") Then
+                    If local_browser.WindowHandles.Count > 1 Then
+                        Try
+                            local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
+                        Catch ex As Exception
+                            Console.WriteLine("uncaught exception")
+                        End Try
+                    End If
                 End If
-            ElseIf local_browser.Url.Contains("forms.lead.co") And local_browser.PageSource.Contains("cannot be found") Then
-                local_browser.Navigate.GoToUrl("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
-            Else
-                If local_browser.WindowHandles.Count() > 1 Then
-                    Try
-                        local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
-                    Catch ex As Exception
-                        Console.WriteLine("rip it. rip it good.")
-                    End Try
+                Dim pagesource As String = local_browser.PageSource
+                If pagesource.Contains("Please respectfully") Then
+                    cmbDispo.Text = "Not interested"
+                    DispositionCall()
                 End If
-            End If
-        Catch ex As Exception
-            Console.WriteLine("panda")
-        End Try
+                If pagesource.Contains("not found") Then
+                    cmbDispo.Text = "Not available"
+                    DispositionCall()
+                End If
+                btnTheirName.Text = CustName(0) = CustName(1) = local_browser.FindElementById("frmFirstName").Text
+                globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
+                globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
+                globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+                alreadyLoaded = True
+            Catch ex As Exception
+                Console.WriteLine("STOP EXCEPTING!!!!!")
+            End Try
+        End If
     End Sub
 
     Private Sub tmrAgentStatus_Tick(sender As Object, e As EventArgs) Handles tmrAgentStatus.Tick
