@@ -5318,7 +5318,7 @@ Public Class Form1
     Public Sub getLeadWindow()
         Try
             Dim pageSource As String = local_browser.PageSource
-            If pageSource.Contains("past 6 months") Then
+            If pageSource.Contains("last 6 month") Then
                 cmbDispo.Text = "Not interested"
                 DispositionCall()
             End If
