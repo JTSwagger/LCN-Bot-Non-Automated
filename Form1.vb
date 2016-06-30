@@ -5323,7 +5323,7 @@ Public Class Form1
     '                globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
     Dim alreadyLoaded As Boolean = False
     Public Sub getLeadWindow()
-        If Not alreadyLoaded Then
+        If alreadyLoaded = False Then
             If Not local_browser.Url.Contains("forms.lead.co") Then
                 If local_browser.WindowHandles.Count > 1 Then
                     Try
@@ -5332,26 +5332,28 @@ Public Class Form1
                         Console.WriteLine("uncaught exception")
                     End Try
                 Else
-                    Console.Write(".")
+                    Exit Sub
                 End If
             End If
             Try
                 Dim pagesource As String = local_browser.PageSource
                 If pagesource.Contains("Please respectfully") Then
-                    cmbDispo.Text = "Not interested"
+                    cmbDispo.Text = "Not Interested"
                     DispositionCall()
                 End If
                 If pagesource.Contains("not found") Then
-                    cmbDispo.Text = "Not available"
+                    cmbDispo.Text = "Not Available"
                     DispositionCall()
                 End If
-                btnTheirName.Text = CustName(0) = CustName(1) = local_browser.FindElementById("frmFirstName").Text
+                btnTheirName.Text = local_browser.FindElementById("frmFirstName").GetAttribute("value")
+                CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
+                CustName(1) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
                 globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
                 globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
                 globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
                 alreadyLoaded = True
             Catch ex As Exception
-                Console.WriteLine("STOP EXCEPTING!!!!!")
+                Console.WriteLine(ex.InnerException)
             End Try
         End If
     End Sub
@@ -5366,6 +5368,7 @@ Public Class Form1
             If STATS.Contains("INCALL") Then
                 If newcall = True Then
                     newcall = False
+                    alreadyLoaded = False
                     lblStatus.Text = "STATUS: " & "INCALL"
                     Me.BackColor = Color.Green
                     introHello = True
@@ -5374,17 +5377,19 @@ Public Class Form1
             End If
             If STATS.Contains("DISPO") Then
                 introHello = False
+                alreadyLoaded = False
                 lblStatus.Text = "STATUS: " & "DISPO"
             ElseIf STATS.Contains("READY") Then
                 lblStatus.Text = "STATUS: " & "READY"
                 Me.BackColor = Color.Yellow
                 newcall = True
+                alreadyLoaded = False
                 btnPause.Text = "Pause"
                 btnPause.BackColor = Color.Red
             ElseIf STATS.Contains("PAUSED") Then
                 btnPause.Text = "Resume"
                 btnPause.BackColor = Color.Green
-
+                alreadyLoaded = False
                 lblStatus.Text = "STATUS: " & "PAUSED"
                 isecond += 0.75
                 Me.BackColor = Color.Red
@@ -5392,6 +5397,7 @@ Public Class Form1
             ElseIf STATS.Contains("DEAD") Then
                 introHello = False
                 StopThatClip()
+                alreadyLoaded = False
                 CurrentQ = 31
                 Timer2.Enabled = True
             End If
