@@ -4,6 +4,7 @@ Imports System.Speech.Recognition
 Imports NDde.Client
 Imports mshtml
 Imports OpenQA.Selenium.Firefox
+Imports OpenQA.Selenium.Chrome
 Imports OpenQA.Selenium
 Imports System.Threading
 Imports System.ComponentModel
@@ -1034,7 +1035,7 @@ Public Class Form1
     Dim prof As FirefoxProfile = New FirefoxProfile()
 
 
-    Public local_browser As FirefoxDriver
+    Public local_browser As ChromeDriver
 
 
     Public Sub Unregister()
@@ -5296,13 +5297,15 @@ Public Class Form1
             rolltheclipThread("C:\Users\Insurance Express\Source\Repos\LCN-Bot-Non-Automated\LCNSoundBoard\goodnewseveryone.mp3")
             tmrAgentStatus.Enabled = True
         Else
-            local_browser = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
+            local_browser = New ChromeDriver(cds)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
             local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
             local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
             local_browser.SwitchTo().Frame("top")
             local_browser.FindElementById("login-agent").Click()
             local_browser.FindElementById("agent-login").SendKeys(txtVerifierNum.Text)
+            Thread.Sleep(500)
             local_browser.FindElementById("agent-password").SendKeys("y" & txtVerifierNum.Text & "IE")
+            Thread.Sleep(500)
             local_browser.FindElementById("btn-get-campaign").Click()
             local_browser.FindElementById("select-campaign").Click()
             local_browser.FindElementById("select-campaign").FindElements(By.TagName("option")).Last.Click()
@@ -5336,18 +5339,21 @@ Public Class Form1
                 End If
             End If
             Try
-                Dim pagesource As String = local_browser.PageSource
-                If pagesource.Contains("Please respectfully") Then
+                If local_browser.PageSource.Contains("Please respectfully") Then
                     cmbDispo.Text = "Not Interested"
                     DispositionCall()
                 End If
-                If pagesource.Contains("not found") Then
+                If local_browser.PageSource.Contains("not found") Then
                     cmbDispo.Text = "Not Available"
                     DispositionCall()
                 End If
-                btnTheirName.Text = local_browser.FindElementById("frmFirstName").GetAttribute("value")
-                CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
-                CustName(1) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
+                If local_browser.PageSource.Contains("Lead(s)") Then
+                    Exit Sub
+                End If
+                Dim name As String = local_browser.FindElementById("frmFirstName").GetAttribute("value")
+                btnTheirName.Text = name
+                CustName(0) = name
+                CustName(1) = name
                 globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
                 globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
                 globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
@@ -5481,10 +5487,11 @@ Public Class Form1
     Private Sub tbIntro_Click(sender As Object, e As EventArgs) Handles tbIntro.Click
 
     End Sub
+    Dim cds As ChromeDriverService
 
     Private Sub testpagebutton_Click(sender As Object, e As EventArgs) Handles testpagebutton.Click
         newcall = False
-        local_browser = New FirefoxDriver(happytreefriends, prof)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
+        local_browser = New ChromeDriver(cds)
         local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
     End Sub
 
