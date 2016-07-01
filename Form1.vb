@@ -3197,9 +3197,9 @@ Public Class Form1
         If theYear <> "" Then
             numRepeats = 0
             local_browser.FindElementById("frmPolicyExpires_Month").SendKeys(NumtoMonth(theMonth))
-            For i As Integer = 0 To 1000
-                i += 1
-            Next
+            'For i As Integer = 0 To 1000
+            '    i += 1
+            'Next
             selectElement = New SelectElement(local_browser.FindElementById("frmPolicyExpires_Year"))
             selectElement.SelectByText(CStr(theYear))
             Return True
