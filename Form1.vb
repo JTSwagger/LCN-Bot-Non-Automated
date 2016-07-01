@@ -3186,9 +3186,10 @@ Public Class Form1
 
             Case Else
                 If numRepeats = 0 Then
-                    rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
+                    'rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
                     numRepeats += 1
                     isQuestion = True
+                    m.StartMicAndRecognition()
                 Else
                     theMonth = Now.Month
                     theYear = Now.Year
@@ -3280,7 +3281,6 @@ Public Class Form1
         Console.WriteLine("reps: " & quest)
 
         Try
-
             Select Case True
                 Case Part.Contains("who is this"), Part.Contains("who are you"), Part.Contains("who is calling"), Part.Contains("who's this"), Part.Contains("who's calling"), Part.Contains("who do you represent")
                     Select Case quest
@@ -3291,13 +3291,11 @@ Public Class Form1
                             Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
                             quest = 1
                     End Select
-
                     If CurrentQ = 3 Then
                         CurrentQ = 0
                     End If
                     Playlist(1) = "c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3"
                     Timer2.Enabled = True
-
                 Case Part.Contains("who makes it")
                     Select Case quest
                         Case 1
@@ -3308,7 +3306,6 @@ Public Class Form1
                             quest = 1
                     End Select
                     rolltheclipThread("c:\soundboard\cheryl\REACTIONS\YES.mp3")
-
                 Case Part.Contains("what is this"), Part.Contains("what's this"), Part.Contains("what is the nature of this call"), Part.Contains("what are you calling about"), Part.Contains("what is purpose of this call")
                     Select Case quest
                         Case 1
@@ -3324,7 +3321,6 @@ Public Class Form1
                     End If
                     Playlist(1) = "c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3"
                     Timer2.Enabled = True
-
                 Case Part.Contains("what is lcn"), Part.Contains("what is elsieanne"), Part.Contains("about your company"), s.Contains("lcn")
                     Select Case quest
                         Case 1
@@ -3334,14 +3330,11 @@ Public Class Form1
                             Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
                             quest = 1
                     End Select
-
                     If CurrentQ = 3 Then
                         CurrentQ = 0
                     End If
                     Playlist(1) = "c:\soundboard\cheryl\Rebuttals\What's LCN.mp3"
                     Timer2.Enabled = True
-
-
                 Case Part.Contains("why are you calling")
                     Select Case quest
                         Case 1
@@ -3367,14 +3360,10 @@ Public Class Form1
                     Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3"
 
                     Timer2.Enabled = True
-
-
             End Select
         Catch ex As Exception
             Console.WriteLine("problem with part question")
         End Try
-
-
     End Sub 'Checks for questions in the partial speech variable (part) handles them if found
 
     Public Function doaddressstuff() As Boolean
