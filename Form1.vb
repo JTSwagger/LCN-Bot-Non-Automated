@@ -2893,14 +2893,13 @@ Public Class Form1
         Dim monthnow As String = Date.Now.Month
         Select Case True
             Case s.Contains("don't know"), s.Contains("not even sure"), s.Contains("not sure")
-                If numRepeats < 1 Then
+                If numRepeats = 0 Then
                     rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\JANUARY FEB MARCH APRIL.MP3")
                     isQuestion = True
                     numRepeats += 1
                 Else
                     theMonth = Now.Month
                     theYear = Now.Year
-
                 End If
 
             Case s.Contains("month to month") Or s.Contains("month by month")
@@ -3186,12 +3185,13 @@ Public Class Form1
                 CurrentQ = 5
 
             Case Else
-                If numRepeats < 1 Then
+                If numRepeats = 0 Then
                     rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
                     numRepeats += 1
                     isQuestion = True
                 Else
-                    isQuestion = True
+                    theMonth = Now.Month
+                    theYear = Now.Year
                 End If
         End Select
         If theYear <> "" Then
