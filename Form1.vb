@@ -2509,7 +2509,7 @@ Public Class Form1
                 IProvider = "American Insurance"
             Case s.Contains("ameriplan")
                 IProvider = "AmeriPlan"
-            Case s.Contains("amica"), s.Contains("amiga"), s.Contains("amigo")
+            Case s.Contains("amica"), s.Contains("amiga"), s.Contains("amigo"), s.Contains("omika"), s.Contains("amika")
                 IProvider = "Amica Insurance"
             Case s.Contains("answer"), s.Contains("answer financial")
                 IProvider = "Answer Financial"
