@@ -3192,9 +3192,6 @@ Public Class Form1
                     isQuestion = True
                 Else
                     isQuestion = True
-
-
-
                 End If
         End Select
         If theYear <> "" Then
