@@ -3210,7 +3210,7 @@ Public Class Form1
     Public Function CheckHowLong() As Boolean
         Select Case True
             Case s.Contains("don't know"), s.Contains("not even sure"), s.Contains("not sure")
-                If numRepeats < 2 Then
+                If numRepeats = 0 Then
                     rolltheclipThread("C:\SoundBoard\Cheryl\TIE INS\Great what's your best guess.mp3")
                     clipType = "Objection"
                     numRepeats += 1
