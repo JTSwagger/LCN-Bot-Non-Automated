@@ -2534,7 +2534,7 @@ Public Class Form1
                 IProvider = "Banner Life"
             Case s.Contains("best")
                 IProvider = "Best Agency USA"
-            Case s.Contains("blue cross"), s.Contains("blue cross blue shield"), s.Contains("bcbs") ' should bdsm be a possible search target here?
+            Case s.Contains("blue cross"), s.Contains("blue cross blue shield"), s.Contains("bcbs")
                 IProvider = "Blue Cross and Blue Shield"
             Case s.Contains("brooke")
                 IProvider = "Brooke Insurance"
