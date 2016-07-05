@@ -5275,12 +5275,14 @@ Public Class Form1
 
 
     Private Sub txtVerifierNum_Click(sender As Object, e As EventArgs) Handles txtVerifierNum.Click
+        Dim dir As String = AppDomain.CurrentDomain.BaseDirectory
+
         txtVerifierNum.Text = InputBox("enter agent #: ")
         If txtVerifierNum.Text.ToLower() = "moo" Then
             Form3.Show()
-            rolltheclipThread("C:\Users\Insurance Express\Source\Repos\LCN-Bot-Non-Automated\LCNSoundBoard\cow-moo3.mp3")
+            rolltheclipThread(dir + "cow-moo.mp3")
         ElseIf txtVerifierNum.Text = "philip j fry" Then
-            rolltheclipThread("C:\Users\Insurance Express\Source\Repos\LCN-Bot-Non-Automated\LCNSoundBoard\goodnewseveryone.mp3")
+            rolltheclipThread(dir + "goodnewseveryone.mp3")
             tmrAgentStatus.Enabled = True
         Else
             local_browser = New ChromeDriver("C:\Users\Insurance Express\Downloads\chromedriver_win32")  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
