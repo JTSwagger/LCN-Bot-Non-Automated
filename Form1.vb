@@ -5296,7 +5296,7 @@ Public Class Form1
             local_browser.FindElementById("agent-password").SendKeys("y" & txtVerifierNum.Text & "IE")
             Thread.Sleep(500)
             local_browser.FindElementById("btn-get-campaign").Click()
-            Thread.Sleep(250)
+            Thread.Sleep(500)
             local_browser.FindElementById("select-campaign").Click()
             local_browser.FindElementById("select-campaign").FindElements(By.TagName("option")).Last.Click()
             Thread.Sleep(250)
