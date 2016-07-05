@@ -2603,7 +2603,7 @@ Public Class Form1
             Case s.Contains("frank"), s.Contains("frankenstein"), s.Contains("frankenmuth")
                 IProvider = "Frankenmuth Insurance"
             Case s.Contains("geico"), s.Contains("gecko"), s.Contains("i go")
-                IProvider = "Geico Insurance"
+                IProvider = "Geico General Insurance"
             Case s.Contains("gmac"), s.Contains("gee em")
                 IProvider = "GMAC Insurance"
             Case s.Contains("golden rule")
