@@ -5289,6 +5289,7 @@ Public Class Form1
             local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
             local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
             local_browser.SwitchTo().Frame("top")
+            Thread.Sleep(250)
             local_browser.FindElementById("login-agent").Click()
             local_browser.FindElementById("agent-login").SendKeys(txtVerifierNum.Text)
             Thread.Sleep(500)
