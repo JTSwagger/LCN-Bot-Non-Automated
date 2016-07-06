@@ -251,6 +251,17 @@ Public Class Form1
         End If
         handlepartialquestion()
     End Sub                         ' Checks for Objections from partial speech received.
+
+    Public Function getVehicleInfo(vehiclenum As Integer) As Boolean
+        Dim cont As Boolean = False
+        If getYear(vehiclenum) Then
+            cont = True
+        End If
+        Return False
+    End Function
+
+
+
     Public Function getMake(vehiclenum As Integer) As Boolean 'currentq for this is 8
         If secondPass = False Then
             ModelHolder = s
@@ -278,21 +289,21 @@ Public Class Form1
             If vehiclenum = 1 Then
 
                 Try
-                    local_browser.FindElementById("vehicle-make").SendKeys((vMake(vehiclenum)))
-                    local_browser.Keyboard.PressKey(Keys.Return)
+                    selectElement = New SelectElement(local_browser.FindElementById("vehicle-make"))
+                    selectElement.SelectByText(vMake(vehiclenum))
                     Return True
                 Catch ex As Exception
                     Do Until local_browser.FindElementById("vehicle-make").GetAttribute("class").Contains("hide") = False
                         Console.WriteLine("whoopwhoopwhoop shoopdawhoop")
                     Loop
-                    local_browser.FindElementById("vehicle-make").SendKeys((vMake(vehiclenum)))
-                    local_browser.Keyboard.PressKey(Keys.Return)
+                    selectElement = New SelectElement(local_browser.FindElementById("vehicle-make"))
+                    selectElement.SelectByText(vMake(vehiclenum))
                     Return True
                 End Try
 
             Else
-                local_browser.FindElementById("vehicle" & vehiclenum & "-make").SendKeys(vMake(vehiclenum))
-                local_browser.Keyboard.PressKey(Keys.Return)
+                selectElement = New SelectElement(local_browser.FindElementById("vehicle" & vehiclenum & "-make"))
+                selectElement.SelectByText(vMake(vehiclenum))
                 Return True
             End If
         Else
@@ -359,6 +370,7 @@ Public Class Form1
 
 
     Public Sub handleResponse()
+        tmrSilence.Enabled = False
         Dim req As Net.WebRequest
         Dim resp As Net.WebResponse
 
@@ -468,12 +480,12 @@ Public Class Form1
                                     clipType = "Question"
                                 End If
                             Else
-                                Console.WriteLine("shiver me timbers")
+                                Console.WriteLine("there's a problem with getmake")
                                 clipType = "Question"
                             End If
                         Else
-                            Console.WriteLine("yarrrrr I'm a pirate!")
-                            clipType = "Question"
+                            Console.WriteLine("there's a problem with getyear")
+                                clipType = "Question"
                         End If
 
                     Case Driver_Birthday
@@ -647,7 +659,6 @@ Public Class Form1
             m.EndMicAndRecognition()
         End If
     End Sub
-
 
 
     Dim MAKELIST() As String =
@@ -1086,6 +1097,7 @@ Public Class Form1
 
     End Sub                      'Unregisters global hotkeys
     Public Sub rolltheclip()
+
         StopThatClip()
         waveOut = New NAudio.Wave.WaveOut()
         If My.Computer.FileSystem.FileExists(clipname) Then
@@ -1096,7 +1108,6 @@ Public Class Form1
         Else
             Console.WriteLine(clipname & " not available")
         End If
-
     End Sub        'Plays sound clips through whatever audio outs are selected
     Sub SpeechtoVar(speech As String) 'to break up month/year'
         Select Case speech
@@ -4347,7 +4358,6 @@ Public Class Form1
         Console.WriteLine("ASKING QUESTION: " & CurrentQ)
         Console.WriteLine("version:" & numReps)
         clipType = "Question"
-
         Try
             s = ""
             Part = ""
@@ -5303,9 +5313,7 @@ Public Class Form1
             rolltheclipThread(dir + "goodnewseveryone.mp3")
             tmrAgentStatus.Enabled = True
         Else
-            Dim opt As New ChromeOptions
-            opt.AddArguments("disable-popup-blocking")
-            local_browser = New ChromeDriver("C:\Users\Insurance Express\Downloads\chromedriver_win32", opt)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
+            local_browser = New ChromeDriver("C:\Users\Insurance Express\Downloads\chromedriver_win32")  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
             local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
             local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
             local_browser.SwitchTo().Frame("top")
@@ -5338,71 +5346,67 @@ Public Class Form1
     Dim alreadyLoaded As Boolean = False
     Public Sub getLeadWindow()
         If alreadyLoaded = False Then
-            Try
-                If Not local_browser.Url.Contains("forms.lead.co") Then
-                    If local_browser.WindowHandles.Count > 1 Then
-                        Try
-                            local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
-                        Catch ex As Exception
-                            Console.WriteLine("uncaught exception")
-                        End Try
-                    Else
-                        Exit Sub
-                    End If
+            If Not local_browser.Url.Contains("forms.lead.co") Then
+                If local_browser.WindowHandles.Count > 1 Then
+                    Try
+                        local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
+                    Catch ex As Exception
+                        Console.WriteLine("uncaught exception")
+                    End Try
+                Else
+                    Exit Sub
                 End If
+            End If
+            Try
+                If local_browser.PageSource.Contains("Please respectfully") Then
+                    cmbDispo.Text = "Not Interested"
+                    DispositionCall()
+                End If
+                If local_browser.PageSource.Contains("not found") Then
+                    cmbDispo.Text = "Not Available"
+                    DispositionCall()
+                End If
+                If local_browser.PageSource.Contains("Lead(s)") Then
+                    Exit Sub
+                End If
+                Dim name As String = local_browser.FindElementById("frmFirstName").GetAttribute("value")
+                btnTheirName.Text = name
+                CustName(0) = name
+                CustName(1) = name
                 Try
-                    If local_browser.PageSource.Contains("Please respectfully") Then
-                        cmbDispo.Text = "Not Interested"
-                        DispositionCall()
-                    End If
-                    If local_browser.PageSource.Contains("not found") Then
-                        cmbDispo.Text = "Not Available"
-                        DispositionCall()
-                    End If
-                    If local_browser.PageSource.Contains("Lead(s)") Then
-                        Exit Sub
-
-                    End If
-                    Dim name As String = local_browser.FindElementById("frmFirstName").GetAttribute("value")
-                    btnTheirName.Text = name
-                    CustName(0) = name
-                    CustName(1) = name
                     If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3") Then
                         globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
-                        Button15.BackgroundImage = Nothing
-
-                    Else
-                        Button15.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
-
-                    End If
-                    If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3") Then
-                        globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
-                        btnTheirName.BackgroundImage = Nothing
-
+                        ' btnTheirName.BackgroundImage.Dispose()
                     Else
                         btnTheirName.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
 
                     End If
-                    If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3") Then
-                        globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
-                        Button17.BackgroundImage = Nothing
-                    Else
-                        Button17.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
+                Catch ex As Exception
+                    Console.WriteLine(ex.InnerException)
+                    Console.WriteLine(ex.StackTrace)
+                End Try
+                If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3") Then
+                    globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
+                    ' btnTheirName.BackgroundImage.Dispose()
+                Else
+                    btnTheirName.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
+
+                End If
+                If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3") Then
+                    globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+                    ' btnTheirName.BackgroundImage.Dispose()
+                Else
+                    btnTheirName.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
 
 
-                    End If
+                End If
 
-                    alreadyLoaded = True
+                alreadyLoaded = True
 
                 Catch ex As Exception
                     Console.WriteLine(ex.InnerException)
-                End Try
-            Catch ex1 As Exception
-                Console.WriteLine(ex1)
             End Try
         End If
-
-
     End Sub
 
     Private Sub tmrAgentStatus_Tick(sender As Object, e As EventArgs) Handles tmrAgentStatus.Tick
@@ -5566,9 +5570,9 @@ Public Class Form1
     Private Sub tmrSilence_Tick(sender As Object, e As EventArgs) Handles tmrSilence.Tick
         If waveOut.PlaybackState = 0 Then
             Dim temp As Integer = 0
-            theSilence += 150
+            theSilence += 100
             Console.WriteLine("*******************")
-            Console.WriteLine("Customer has gone " & theSilence / 1500 & " second(s) without responding.")
+            Console.WriteLine("Customer has gone " & theSilence / 1000 & " second(s) without responding.")
             Console.WriteLine("Silence Buffer is currently " & SilenceCap & " seconds.")
             Console.WriteLine("*******************")
             If (theSilence / 1000) > SilenceCap Then
