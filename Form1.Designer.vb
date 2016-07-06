@@ -190,6 +190,7 @@ Partial Class Form1
         Me.Label1 = New System.Windows.Forms.Label()
         Me.testpagebutton = New System.Windows.Forms.Button()
         Me.calltimer = New System.Windows.Forms.Timer(Me.components)
+        Me.tmrSilence = New System.Windows.Forms.Timer(Me.components)
         Me.frReactions.SuspendLayout()
         Me.GroupBox9.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -2191,6 +2192,9 @@ Partial Class Form1
         '
         Me.calltimer.Interval = 1000
         '
+        'tmrSilence
+        '
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
@@ -2411,4 +2415,5 @@ Partial Class Form1
     Friend WithEvents Label1 As Label
     Friend WithEvents testpagebutton As Button
     Friend WithEvents calltimer As Timer
+    Public WithEvents tmrSilence As Timer
 End Class
