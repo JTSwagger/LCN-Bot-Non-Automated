@@ -272,21 +272,21 @@ Public Class Form1
             If vehiclenum = 1 Then
 
                 Try
-                    local_browser.FindElementById("vehicle-make").SendKeys((vMake(vehiclenum)))
-                    local_browser.Keyboard.PressKey(Keys.Return)
+                    selectElement = New SelectElement(local_browser.FindElementById("vehicle-make"))
+                    selectElement.SelectByText(vMake(vehiclenum))
                     Return True
                 Catch ex As Exception
                     Do Until local_browser.FindElementById("vehicle-make").GetAttribute("class").Contains("hide") = False
                         Console.WriteLine("whoopwhoopwhoop shoopdawhoop")
                     Loop
-                    local_browser.FindElementById("vehicle-make").SendKeys((vMake(vehiclenum)))
-                    local_browser.Keyboard.PressKey(Keys.Return)
+                    selectElement = New SelectElement(local_browser.FindElementById("vehicle-make"))
+                    selectElement.SelectByText(vMake(vehiclenum))
                     Return True
                 End Try
 
             Else
-                local_browser.FindElementById("vehicle" & vehiclenum & "-make").SendKeys(vMake(vehiclenum))
-                local_browser.Keyboard.PressKey(Keys.Return)
+                selectElement = New SelectElement(local_browser.FindElementById("vehicle" & vehiclenum & "-make"))
+                selectElement.SelectByText(vMake(vehiclenum))
                 Return True
             End If
         Else
@@ -645,7 +645,6 @@ Public Class Form1
             m.EndMicAndRecognition()
         End If
     End Sub
-
 
 
     Dim MAKELIST() As String =
