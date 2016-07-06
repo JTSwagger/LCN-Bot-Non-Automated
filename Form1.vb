@@ -5346,8 +5346,9 @@ Public Class Form1
                 Try
                     If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3") Then
                         globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
-                        ' btnTheirName.BackgroundImage.Dispose()
+                        btnTheirName.BackgroundImage = Nothing
                     Else
+
                         btnTheirName.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
 
                     End If
@@ -5357,16 +5358,19 @@ Public Class Form1
                 End Try
                 If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3") Then
                     globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
-                    ' btnTheirName.BackgroundImage.Dispose()
+                    Button15.BackgroundImage = Nothing
                 Else
-                    btnTheirName.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
+                    Button15.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
+                    Button17.BackgroundImageLayout = 2
 
                 End If
                 If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3") Then
                     globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
-                    ' btnTheirName.BackgroundImage.Dispose()
+                    Button17.BackgroundImage = Nothing
                 Else
-                    btnTheirName.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
+                    Button17.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
+                    Button17.BackgroundImageLayout = 2
+
 
 
                 End If
