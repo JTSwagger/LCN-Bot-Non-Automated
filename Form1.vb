@@ -485,7 +485,7 @@ Public Class Form1
                             End If
                         Else
                             Console.WriteLine("there's a problem with getyear")
-                                clipType = "Question"
+                            clipType = "Question"
                         End If
 
                     Case Driver_Birthday
@@ -5313,7 +5313,9 @@ Public Class Form1
             rolltheclipThread(dir + "goodnewseveryone.mp3")
             tmrAgentStatus.Enabled = True
         Else
-            local_browser = New ChromeDriver("C:\Users\Insurance Express\Downloads\chromedriver_win32")  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
+            Dim opt As New ChromeOptions
+            opt.AddArguments("disable-popup-blocking")
+            local_browser = New ChromeDriver("C:\Users\Insurance Express\Downloads\chromedriver_win32", opt)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
             local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
             local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
             local_browser.SwitchTo().Frame("top")
@@ -5403,8 +5405,8 @@ Public Class Form1
 
                 alreadyLoaded = True
 
-                Catch ex As Exception
-                    Console.WriteLine(ex.InnerException)
+            Catch ex As Exception
+                Console.WriteLine(ex.InnerException)
             End Try
         End If
     End Sub
