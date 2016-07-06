@@ -871,6 +871,9 @@ Public Class Form1
 
     Public Function getModel(ByRef VehicleNum As Integer) As Boolean
         Thread.Sleep(750)
+        If local_browser.FindElementById("vehicle-make").Text <> vMake(VehicleNum) Then
+            local_browser.FindElementById("vehicle-make").SendKeys(vMake(VehicleNum))
+        End If
         Console.WriteLine("Getting model: ")
         selectElement = New SelectElement(local_browser.FindElementById("vehicle-model"))
         Dim Model_List As New List(Of String)
