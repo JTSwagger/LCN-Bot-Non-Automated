@@ -93,7 +93,7 @@ Public Class Form1
         Try
             If Currently_Rebuttaling = False Then
                 Select Case True
-                    Case Part.Contains("who is this"), Part.Contains("who are you"), Part.Contains("who is calling"), Part.Contains("who's this"), Part.Contains("who's calling"), Part.Contains("who do you represent")
+                    Case Part.Contains("who is this"), Part.Contains("who are you"), Part.Contains("who is calling"), Part.Contains("who's this"), Part.Contains("who's calling"), Part.Contains("who do you represent") And callPos <> "Intro"
                         Currently_Rebuttaling = True
                         clipType = "Objection"
                         If CurrentQ = 3 Then
@@ -146,7 +146,7 @@ Public Class Form1
     Public Sub SomeSpeech(ByVal sender As Object, ByVal e As Microsoft.ProjectOxford.SpeechRecognition.PartialSpeechResponseEventArgs) Handles m.OnPartialResponseReceived
         NumWords += 1
         totalInbetween += theSilence / 1000
-        SilenceCap = (totalInbetween / NumWords) + 2
+        SilenceCap = (totalInbetween / NumWords) + 1.5
         theSilence = 0
         Part = e.PartialResult
         Me.BeginInvoke(New Action(AddressOf handlePartialObjection))
@@ -2476,7 +2476,7 @@ Public Class Form1
         End If
 
         Select Case True
-            Case s.Contains("none"), s.Contains("no insurance"), s.Contains("don't have"), s.Contains("don't have insurance"), s.Contains("not insured")
+            Case s.Contains("none"), s.Contains("no insurance"), s.Contains("don't have"), s.Contains("don't have insurance"), s.Contains("not insured"), s.Contains("not with anybody")
                 IProvider = "No current insurance"
             Case s.Contains("twenty first"), s.Contains("21st"), s.Contains("twenty first century"), s.Contains("21st century"), s.Contains("twenty first century insurance"), s.Contains("21st century insurance"), s.Contains("first century")
                 IProvider = "21st Century Insurance"
@@ -3609,6 +3609,7 @@ Public Class Form1
             Console.WriteLine(ex.StackTrace)
             Console.WriteLine("****** END EXCEPTION PANDA ********")
         End Try
+        tmrSilence.Enabled = True
     End Sub
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs)
@@ -3620,7 +3621,7 @@ Public Class Form1
 
         rolltheclipThread("c:\soundboard\cheryl\PERSONAL INFO\HOMETYPE.mp3")
         callPos = Home_Type
-
+        tmrSilence.Enabled = True
     End Sub
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
         StopThatClip()
@@ -3629,7 +3630,7 @@ Public Class Form1
         isQuestion = True
         clipType = "Question"
         callPos = Own_Rent
-
+        tmrSilence.Enabled = True
 
     End Sub
     Private Sub Form1_Click(sender As Object, e As EventArgs) Handles MyBase.Click
@@ -3717,6 +3718,7 @@ Public Class Form1
         isQuestion = True
         clipType = "Question"
         callPos = Spouse_DOB
+        tmrSilence.Enabled = True
     End Sub
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
         isQuestion = True
@@ -3732,7 +3734,7 @@ Public Class Form1
             callPos = Driver_Birthday
             rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
         End If
-
+        tmrSilence.Enabled = True
     End Sub
     Dim OnCall As Boolean = False
     Private Sub Button26_Click(sender As Object, e As EventArgs)
@@ -3775,7 +3777,7 @@ Public Class Form1
         clipType = "Question"
         callPos = Marital_Status
         isQuestion = True
-
+        tmrSilence.Enabled = True
     End Sub
     Private Sub Button20_Click(sender As Object, e As EventArgs) Handles Button20.Click
         isQuestion = True
@@ -3783,7 +3785,7 @@ Public Class Form1
         rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/phoneType.mp3")
         callPos = Phone_Type
         clipType = "Question"
-
+        tmrSilence.Enabled = True
 
     End Sub
     Private Sub Button21_Click(sender As Object, e As EventArgs) Handles Button21.Click
@@ -3791,7 +3793,7 @@ Public Class Form1
         rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/Last Name.mp3")
         clipType = "Question"
         callPos = Last_Name
-
+        tmrSilence.Enabled = True
     End Sub
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles SpouseName.Click
         StopThatClip()
@@ -3799,6 +3801,7 @@ Public Class Form1
         isQuestion = True
         clipType = "Question"
         callPos = Spouse_Name
+        tmrSilence.Enabled = True
     End Sub
     Private Sub Button23_Click(sender As Object, e As EventArgs) Handles Button23.Click
         isQuestion = True
@@ -3839,6 +3842,7 @@ Public Class Form1
         rolltheclipThread("c:\soundboard\cheryl\REACTIONS\Could you please verify your address.mp3")
         callPos = Their_Address
         clipType = "Question"
+        tmrSilence.Enabled = True
     End Sub
     Private Sub Button14_Click(sender As Object, e As EventArgs)
         rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/email.mp3")
@@ -3910,6 +3914,7 @@ Public Class Form1
         clipType = "Question"
         callPos = Credit
         rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/Credit.mp3")
+        tmrSilence.Enabled = True
     End Sub
     Private Sub Button35_Click(sender As Object, e As EventArgs) Handles btnIntro.Click
         CurrentQ = 3
@@ -3917,6 +3922,7 @@ Public Class Form1
         rolltheclipThread("c:\soundboard\cheryl\INTRO\INTRO2.MP3")
         clipType = "Question"
         callPos = Insurance_Provider
+        SilenceCap = 3
         m.StartMicAndRecognition()
     End Sub
 
@@ -3981,6 +3987,7 @@ Public Class Form1
         End Select
         clipType = "Question"
         callPos = Year_Make_Model
+        tmrSilence.Enabled = True
 
     End Sub
     Private Sub Button64_Click(sender As Object, e As EventArgs) Handles Button64.Click
@@ -3988,6 +3995,8 @@ Public Class Form1
         isQuestion = True
         clipType = "Question"
         callPos = Number_Of_Vehicles
+        tmrSilence.Enabled = True
+        tmrSilence.Enabled = True
     End Sub
     Private Sub Button50_Click(sender As Object, e As EventArgs) Handles btnWhoDoYouHave.Click
         StopThatClip()
@@ -3996,6 +4005,7 @@ Public Class Form1
         isQuestion = True
         clipType = "Question"
         callPos = Insurance_Provider
+        tmrSilence.Enabled = True
     End Sub
     Private Sub Button51_Click(sender As Object, e As EventArgs) Handles btnPolicyStart.Click
         StopThatClip()
@@ -4004,6 +4014,7 @@ Public Class Form1
         isQuestion = True
         clipType = "Question"
         callPos = Policy_Start
+        tmrSilence.Enabled = True
     End Sub
     Private Sub Button49_Click(sender As Object, e As EventArgs) Handles btnExpiration.Click
         StopThatClip()
@@ -4011,7 +4022,7 @@ Public Class Form1
         CurrentQ = 4
         clipType = "Question"
         callPos = Policy_Expiration
-
+        tmrSilence.Enabled = True
     End Sub
     Private Sub Button62_Click(sender As Object, e As EventArgs)
         Select Case cmbMoreVehicles.SelectedIndex
@@ -4023,6 +4034,7 @@ Public Class Form1
                 rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\MAKE OF THE THIRD VEHICLE.mp3")
             Case 3
                 rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\MAKE OF THE FOURTH VEHICLE.mp3")
+
 
         End Select
     End Sub
@@ -4067,7 +4079,7 @@ Public Class Form1
         rolltheclipThread("c:\soundboard\cheryl\REACTIONS\NO.mp3")
     End Sub
     Private Sub Button42_Click_1(sender As Object, e As EventArgs) Handles Button42.Click
-
+        clipType = "Objection"
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3")
 
     End Sub
@@ -4086,7 +4098,7 @@ Public Class Form1
         End Select
     End Sub
     Private Sub Button67_Click(sender As Object, e As EventArgs) Handles Button67.Click
-
+        clipType = "Objection"
         rolltheclipThread("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
 
     End Sub
@@ -4136,7 +4148,7 @@ Public Class Form1
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\january feb march april.mp3")
     End Sub
     Private Sub Button85_Click(sender As Object, e As EventArgs) Handles Button85.Click
-
+        clipType = "Objection"
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3")
 
     End Sub
@@ -4174,7 +4186,7 @@ Public Class Form1
         rolltheclipThread("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
     End Sub
     Private Sub Button92_Click(sender As Object, e As EventArgs) Handles Button92.Click
-
+        clipType = "Objection"
         rolltheclipThread("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
 
     End Sub
@@ -4194,16 +4206,20 @@ Public Class Form1
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
     End Sub
     Private Sub Button81_Click(sender As Object, e As EventArgs) Handles Button81.Click
+        clipType = "Objection"
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\local agents and carriers in your area.mp3")
     End Sub
     Private Sub Button82_Click(sender As Object, e As EventArgs) Handles Button82.Click
+        clipType = "Objection"
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\can they email.mp3")
 
     End Sub
     Private Sub Button51_Click_1(sender As Object, e As EventArgs) Handles Button51.Click
+        clipType = "Objection"
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\you're not giving me a quote.mp3")
     End Sub
     Private Sub Button83_Click(sender As Object, e As EventArgs) Handles Button83.Click
+        clipType = "Objection"
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\when will they call.mp3")
 
 
@@ -4715,7 +4731,7 @@ Public Class Form1
         rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/email.mp3")
         clipType = "Question"
         callPos = Email_Address
-
+        tmrSilence.Enabled = True
     End Sub
 
     Private Sub Button31_Click_2(sender As Object, e As EventArgs)
@@ -5035,14 +5051,14 @@ Public Class Form1
     End Sub
 
     Private Sub Button19_Click_2(sender As Object, e As EventArgs) Handles Button19.Click
-
+        clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\HappyWithInsurance.mp3")
 
 
     End Sub
 
     Private Sub Button32_Click_3(sender As Object, e As EventArgs) Handles Button32.Click
-
+        clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\this info.mp3")
 
 
@@ -5050,51 +5066,51 @@ Public Class Form1
     End Sub
 
     Private Sub Button69_Click_1(sender As Object, e As EventArgs) Handles Button69.Click
-
+        clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\I actually have this information.mp3")
 
     End Sub
 
     Private Sub Button26_Click_2(sender As Object, e As EventArgs) Handles Button26.Click
-
+        clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\I Already Have Insurance rebuttal.mp3")
 
 
     End Sub
 
     Private Sub Button25_Click_2(sender As Object, e As EventArgs) Handles Button25.Click
-
+        clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3")
 
 
     End Sub
 
     Private Sub Button49_Click_2(sender As Object, e As EventArgs) Handles Button49.Click
-
+        clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\EMAIL REBUTTAL.mp3")
 
     End Sub
 
     Private Sub Button58_Click_2(sender As Object, e As EventArgs) Handles Button58.Click
-
+        clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\NEW ADDRESS REBUTTAL.mp3")
 
     End Sub
 
     Private Sub Button56_Click_2(sender As Object, e As EventArgs) Handles Button56.Click
-
+        clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\P.O BOX REBUTTAL.mp3")
 
     End Sub
 
     Private Sub Button31_Click_3(sender As Object, e As EventArgs) Handles Button31.Click
-
+        clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3")
 
     End Sub
 
     Private Sub Button5_Click_2(sender As Object, e As EventArgs) Handles Button5.Click
-
+        clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\My spouse takes care of that.mp3")
 
 
@@ -5154,18 +5170,15 @@ Public Class Form1
     End Sub
 
     Private Sub Button60_Click_1(sender As Object, e As EventArgs) Handles Button60.Click
-
+        clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL3.mp3")
 
     End Sub
 
     Private Sub Button29_Click_5(sender As Object, e As EventArgs) Handles Button29.Click
-        If My.Computer.Keyboard.CtrlKeyDown = False Then
-            Playlist(0) = ("C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\Im sure what.mp3")
+        clipType = "Objection"
+        rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\Im sure what.mp3")
 
-        Else
-            rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\Im sure what.mp3")
-        End If
 
 
     End Sub
@@ -5235,7 +5248,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button40_Click_1(sender As Object, e As EventArgs) Handles Button40.Click
-
+        clipType = "Objection"
         rolltheclipThread("C:/Soundboard/Cheryl/Rebuttals/NotThatCheap.mp3")
 
 
@@ -5544,9 +5557,9 @@ Public Class Form1
     Private Sub tmrSilence_Tick(sender As Object, e As EventArgs) Handles tmrSilence.Tick
         If waveOut.PlaybackState = 0 Then
             Dim temp As Integer = 0
-            theSilence += 100
+            theSilence += 200
             Console.WriteLine("*******************")
-            Console.WriteLine("Customer has gone " & theSilence / 1000 & " second(s) without responding.")
+            Console.WriteLine("Customer has gone " & theSilence / 2000 & " second(s) without responding.")
             Console.WriteLine("Silence Buffer is currently " & SilenceCap & " seconds.")
             Console.WriteLine("*******************")
             If (theSilence / 1000) > SilenceCap Then
