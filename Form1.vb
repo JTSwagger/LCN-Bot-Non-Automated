@@ -448,18 +448,17 @@ Public Class Form1
                             CurrentQ = 8
                             If getMake(VehicleNum) Then
                                 CurrentQ = 9
-                                req = Net.WebRequest.Create("http://212.47.241.129:5000/search/" & VYear(VehicleNum) & "/" & vMake(VehicleNum) & "/" & s)
-                                resp = req.GetResponse
-                                Dim webReader As New IO.StreamReader(resp.GetResponseStream)
-                                Dim results As String = webReader.ReadToEnd()
-                                resp.Close()
-                                Dim jsonresults As responser = JsonConvert.DeserializeObject(Of responser)(results)
-                                If jsonresults.response = "true" Then
-                                    vmodel(VehicleNum) = jsonresults.model
-                                    Console.WriteLine(vmodel(VehicleNum))
-                                    local_browser.FindElementById("vehicle-model").SendKeys(vmodel(VehicleNum))
-
-
+                                'req = Net.WebRequest.Create("http://212.47.241.129:5000/search/" & VYear(VehicleNum) & "/" & vMake(VehicleNum) & "/" & s)
+                                'resp = req.GetResponse
+                                'Dim webReader As New IO.StreamReader(resp.GetResponseStream)
+                                ''Dim results As String = webReader.ReadToEnd()
+                                'resp.Close()
+                                'Dim jsonresults As responser = JsonConvert.DeserializeObject(Of responser)(results)
+                                'If jsonresults.response = "true" Then
+                                'vmodel(VehicleNum) = jsonresults.model
+                                'Console.WriteLine(vmodel(VehicleNum))
+                                If getModel(VehicleNum) Then
+                                    '  local_browser.FindElementById("vehicle-model").SendKeys(vmodel(VehicleNum)
                                     If NumberOfVehicles > 1 And VehicleNum < NumberOfVehicles Then
                                         VehicleNum += 1
                                         CurrentQ = 7
@@ -869,65 +868,26 @@ Public Class Form1
     Dim CustName(1) As String
     Dim F As New Form
     Dim oldCust(1) As String
+
     Public Function getModel(ByRef VehicleNum As Integer) As Boolean
-        Dim z As Integer = 0
-        Timer2.Enabled = False
-        Already_Handled = True
-        Dim y As Integer = 0
-        Dim vnumber As String
-        Select Case VehicleNum
-            Case 1
-                vnumber = "vehicle-model"
-            Case Else
-                vnumber = "vehicle" & VehicleNum & "-model"
-        End Select
-        Console.WriteLine("Checking model for: " & vnumber)
-        Dim modelist(local_browser.FindElementById(vnumber).GetAttribute("length") - 1) As String
-        Dim x As Integer = 0
-        Console.WriteLine(s)
-        Dim str() As String = s.Split()
-        If str.Length > 1 Then
-            str(str.Length - 1) = str(str.Length - 1).Replace("?", "")
-            str(str.Length - 1) = str(str.Length - 1).Replace(".", "")
-        End If
-        Dim temper() As String = ModelHolder.Split
-
-        Console.WriteLine(local_browser.FindElementById(vnumber).GetAttribute("length") - 1)
-
-        Dim Model_List As IWebElement = local_browser.FindElementById(vnumber)
-        Dim Model_Collection As IReadOnlyCollection(Of IWebElement) = Model_List.FindElements(By.TagName("option"))
-        Dim Local_Collection(0) As String
-        Console.WriteLine(Model_Collection)
-        For Each Opt As IWebElement In Model_Collection
-            Local_Collection(z) = Opt.Text
-            ReDim Preserve Local_Collection(Local_Collection.Length + 1)
-            z += 1
-            If UCase(s).Contains(Opt.Text) Then
-                vmodel(VehicleNum) = Opt.Text
-                Model_List.SendKeys(vmodel(VehicleNum))
-                Return True
-            Else
-            End If
+        Thread.Sleep(500)
+        selectElement = New SelectElement(local_browser.FindElementById("vehicle-model"))
+        Dim Model_List As New List(Of String)
+        For i As Integer = 0 To selectElement.Options.Count - 1
+            Model_List.Add(selectElement.Options(i).Text)
         Next
-        Console.WriteLine("Completed primary check...")
-        If vmodel(VehicleNum) = "" Then
-            For x = 0 To z - 1
-                For y = 0 To str.Length - 1
-
-                    If Local_Collection(x).Contains(UCase(str(y))) Then
-                        vmodel(VehicleNum) = UCase(str(y))
-                        Model_List.SendKeys(vmodel(VehicleNum))
-                        Already_Handled = False
-                        Return True
-
-                    End If
-                Next
-                If vmodel(VehicleNum) <> "" Then Exit For
+        Dim split_speech() As String = s.Split()
+        split_speech.Last.Replace("?", "")
+        split_speech.Last.Replace(".", " ")
+        For x As Integer = 0 To Model_List.Count - 1
+            For Y As Integer = 0 To split_speech.Length - 1
+                If Model_List.Item(x).Contains(split_speech(Y)) Then
+                    Console.WriteLine("Found it bitch!")
+                    selectElement.SelectByText(split_speech(Y))
+                    Return True
+                End If
             Next
-        End If
-        Console.WriteLine("-----MODEL Not FOUND-----")
-        ModelHolder = s
-        rolltheclipThread("C: \SoundBoard\Cheryl\VEHICLE INFO\What is the model of the Car 1.MP3")
+        Next
         Return False
     End Function  '
 
@@ -1967,6 +1927,7 @@ Public Class Form1
                 End Select
             Case obj.Contains("don't know"), obj.Contains("no idea"), obj.Contains("no clue"), obj.Contains("not sure"), obj.Contains("couldn't tell you"), Part.Contains("you'd have to talk to")
                 Console.WriteLine("THEY DON'T KNOW")
+                tmrSilence.Enabled = True
                 If CurrentQ = 3 Then
                     isQuestion = True
                     rolltheclipThread("c:\soundboard\cheryl\PUSHONS\allstategeicostatefarm.mp3")
