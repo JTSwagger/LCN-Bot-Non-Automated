@@ -251,6 +251,17 @@ Public Class Form1
         End If
         handlepartialquestion()
     End Sub                         ' Checks for Objections from partial speech received.
+
+    Public Function getVehicleInfo(vehiclenum As Integer) As Boolean
+        Dim cont As Boolean = False
+        If getYear(vehiclenum) Then
+            cont = True
+        End If
+        Return False
+    End Function
+
+
+
     Public Function getMake(vehiclenum As Integer) As Boolean 'currentq for this is 8
         If secondPass = False Then
             ModelHolder = s
@@ -469,12 +480,12 @@ Public Class Form1
                                     clipType = "Question"
                                 End If
                             Else
-                                Console.WriteLine("shiver me timbers")
+                                Console.WriteLine("there's a problem with getmake")
                                 clipType = "Question"
                             End If
                         Else
-                            Console.WriteLine("yarrrrr I'm a pirate!")
-                            clipType = "Question"
+                            Console.WriteLine("there's a problem with getyear")
+                                clipType = "Question"
                         End If
 
                     Case Driver_Birthday
@@ -1086,6 +1097,7 @@ Public Class Form1
 
     End Sub                      'Unregisters global hotkeys
     Public Sub rolltheclip()
+
         StopThatClip()
         waveOut = New NAudio.Wave.WaveOut()
         If My.Computer.FileSystem.FileExists(clipname) Then
@@ -1096,7 +1108,6 @@ Public Class Form1
         Else
             Console.WriteLine(clipname & " not available")
         End If
-
     End Sub        'Plays sound clips through whatever audio outs are selected
     Sub SpeechtoVar(speech As String) 'to break up month/year'
         Select Case speech
@@ -5362,23 +5373,28 @@ Public Class Form1
                 btnTheirName.Text = name
                 CustName(0) = name
                 CustName(1) = name
-                If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3") Then
-                    globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
-                    btnTheirName.BackgroundImage.Dispose()
-                Else
-                    btnTheirName.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
+                Try
+                    If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3") Then
+                        globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
+                        ' btnTheirName.BackgroundImage.Dispose()
+                    Else
+                        btnTheirName.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
 
-                End If
+                    End If
+                Catch ex As Exception
+                    Console.WriteLine(ex.InnerException)
+                    Console.WriteLine(ex.StackTrace)
+                End Try
                 If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3") Then
                     globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
-                    btnTheirName.BackgroundImage.Dispose()
+                    ' btnTheirName.BackgroundImage.Dispose()
                 Else
                     btnTheirName.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
 
                 End If
                 If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3") Then
                     globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
-                    btnTheirName.BackgroundImage.Dispose()
+                    ' btnTheirName.BackgroundImage.Dispose()
                 Else
                     btnTheirName.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
 
@@ -5387,8 +5403,8 @@ Public Class Form1
 
                 alreadyLoaded = True
 
-            Catch ex As Exception
-                Console.WriteLine(ex.InnerException)
+                Catch ex As Exception
+                    Console.WriteLine(ex.InnerException)
             End Try
         End If
     End Sub
