@@ -141,7 +141,13 @@ Public Class Form1
 
 
     End Sub 'Checks for questions in the p
+    Dim NumWords As Integer = 0
+    Dim totalInbetween As Integer = 0
     Public Sub SomeSpeech(ByVal sender As Object, ByVal e As Microsoft.ProjectOxford.SpeechRecognition.PartialSpeechResponseEventArgs) Handles m.OnPartialResponseReceived
+        NumWords += 1
+        totalInbetween += theSilence / 1000
+        SilenceCap = (totalInbetween / NumWords) + 2
+        theSilence = 0
         Part = e.PartialResult
         Me.BeginInvoke(New Action(AddressOf handlePartialObjection))
     End Sub
@@ -149,7 +155,7 @@ Public Class Form1
     Public Sub handlePartialObjection()
         Console.WriteLine("looking through partial objections for: " & Part)
         txtSpeech.Text = "The bot heard:  " & Part
-
+        inBetween = False
         If Currently_Rebuttaling = False Then
             Select Case True
                 Case Part.Contains("is this a real person"), Part.Contains("is this a recording"), s.Contains("robot"), s.Contains("automated")
@@ -353,7 +359,7 @@ Public Class Form1
 
 
     Public Sub handleResponse()
-
+        tmrSilence.Enabled = False
         Dim req As Net.WebRequest
         Dim resp As Net.WebResponse
 
@@ -397,6 +403,7 @@ Public Class Form1
                                 Timer2.Enabled = True
                             End If
                         Else
+                            s = ""
 
                         End If
                     Case Policy_Start
@@ -467,6 +474,7 @@ Public Class Form1
                             End If
                         Else
                             Console.WriteLine("yarrrrr I'm a pirate!")
+                            clipType = "Question"
                         End If
 
                     Case Driver_Birthday
@@ -636,11 +644,6 @@ Public Class Form1
         If e.PhraseResponse.Results.Length > 0 Then
             s += LCase(e.PhraseResponse.Results(0).DisplayText)
         End If
-        Try
-            Me.BeginInvoke(New Action(AddressOf handleResponse))
-        Catch ex As Exception
-            Console.WriteLine(ex.StackTrace)
-        End Try
         If e.PhraseResponse.RecognitionStatus = RecognitionStatus.InitialSilenceTimeout Then
             m.EndMicAndRecognition()
         End If
@@ -3214,6 +3217,7 @@ Public Class Form1
             'Next
             selectElement = New SelectElement(local_browser.FindElementById("frmPolicyExpires_Year"))
             selectElement.SelectByText(CStr(theYear))
+            theYear = ""
             Return True
         Else
             Return False
@@ -3770,10 +3774,12 @@ Public Class Form1
 
     End Sub
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles btnTheirName.Click
+
         Try
             rolltheclipThread(globalFile2)
             isQuestion = True
         Catch
+
         End Try
     End Sub
     Private Sub Button7_Click(sender As Object, e As EventArgs)
@@ -3929,6 +3935,7 @@ Public Class Form1
     End Sub
     Private Sub Button35_Click(sender As Object, e As EventArgs) Handles btnIntro.Click
         CurrentQ = 3
+        tmrSilence.Enabled = True
         rolltheclipThread("c:\soundboard\cheryl\INTRO\INTRO2.MP3")
         clipType = "Question"
         callPos = Insurance_Provider
@@ -4336,6 +4343,7 @@ Public Class Form1
         rolltheclipThread("C:/SoundBoard/Cheryl/Names/Vanessa Name.mp3")
     End Sub
     Public Sub AskQuestion(ByRef Pos As Integer, ByRef numReps As Integer)
+
         m.EndMicAndRecognition()
         Console.WriteLine("ASKING QUESTION: " & CurrentQ)
         Console.WriteLine("version:" & numReps)
@@ -4558,7 +4566,7 @@ Public Class Form1
                     Timer2.Enabled = False
                     NICount = 0
             End Select
-
+            tmrSilence.Enabled = True
         Catch ex As Exception
             Console.WriteLine(ex)
         End Try
@@ -4574,7 +4582,8 @@ Public Class Form1
 
     Public Sub DispositionCall()
         Dim resp As Net.WebResponse
-
+        theSilence = 0
+        tmrSilence.Enabled = False
         alreadyLoaded = False
         callPos = ""
         clipType = ""
@@ -4660,7 +4669,6 @@ Public Class Form1
     Private Sub Timer2_Tick(sender As Object, e As EventArgs) Handles Timer2.Tick           'CHECKS TO SEE THAT CHERYL IS NOT TALKING SO THE CALL CAN MOVE ON
         Label3.Text = CurrentQ
         If waveOut.PlaybackState = 0 Then
-
             If CurrentQ < 30 Then
                 AskQuestion(CurrentQ, counter)
                 Timer2.Enabled = False
@@ -4669,7 +4677,6 @@ Public Class Form1
             End If
         Else
         End If
-
     End Sub
     Dim endcall As Boolean = False
     Dim DISPO As String
@@ -5356,9 +5363,29 @@ Public Class Form1
                 btnTheirName.Text = name
                 CustName(0) = name
                 CustName(1) = name
-                globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
-                globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
-                globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+                If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3") Then
+                    globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
+                    btnTheirName.BackgroundImage.Dispose()
+                Else
+                    btnTheirName.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
+
+                End If
+                If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3") Then
+                    globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
+                    btnTheirName.BackgroundImage.Dispose()
+                Else
+                    btnTheirName.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
+
+                End If
+                If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3") Then
+                    globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+                    btnTheirName.BackgroundImage.Dispose()
+                Else
+                    btnTheirName.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
+
+
+                End If
+
                 alreadyLoaded = True
 
             Catch ex As Exception
@@ -5465,7 +5492,8 @@ Public Class Form1
     Dim isQuestion As Boolean = True
 
     Public Sub isStopped(sender As Object, e As NAudio.Wave.StoppedEventArgs) Handles waveOut.PlaybackStopped
-
+        inBetween = True
+        Console.WriteLine("CHERYLBOT IS DONE SPEAKING...")
         newobjection = True
         Select Case clipType
             Case "Question"
@@ -5484,9 +5512,7 @@ Public Class Form1
 
     End Sub
 
-    Private Sub TmrSilence_Tick(sender As Object, e As EventArgs)
 
-    End Sub
 
     Private Sub tbIntro_Click(sender As Object, e As EventArgs) Handles tbIntro.Click
 
@@ -5522,7 +5548,32 @@ Public Class Form1
             End If
         End If
     End Sub
+    Dim theSilence As Integer = 0
+    Dim SilenceCap As Double = 3
+    Dim CustomSilence(5) As Integer
+
+    Private Sub tmrSilence_Tick(sender As Object, e As EventArgs) Handles tmrSilence.Tick
+        If waveOut.PlaybackState = 0 Then
+            Dim temp As Integer = 0
+            theSilence += 100
+            Console.WriteLine("*******************")
+            Console.WriteLine("Customer has gone " & theSilence / 1000 & " second(s) without responding.")
+            Console.WriteLine("Silence Buffer is currently " & SilenceCap & " seconds.")
+            Console.WriteLine("*******************")
+            If (theSilence / 1000) > SilenceCap Then
+                HandleSilence()
+            End If
+        End If
+    End Sub
+    Public Sub HandleSilence()
+
+        theSilence = 0
+        handleResponse()
+    End Sub
+    Dim inBetween As Integer = 0
+
 End Class
+
 Public Class responser
     Public Property response As String
     Public Property model As String
