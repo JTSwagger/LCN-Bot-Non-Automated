@@ -12,6 +12,7 @@ Imports Microsoft.ProjectOxford.SpeechRecognition
 Imports System.Collections.Generic
 Imports OpenQA.Selenium.Support.UI
 Imports Newtonsoft.Json
+Imports System
 
 Public Class Form1
     Dim VehicleList(0) As Vehicle
@@ -1026,7 +1027,7 @@ Public Class Form1
     Dim prof As FirefoxProfile = New FirefoxProfile()
 
 
-    Public local_browser As ChromeDriver
+    Public local_browser As Remote.RemoteWebDriver
 
 
     Public Sub Unregister()
@@ -4575,6 +4576,7 @@ Public Class Form1
 
 
     Public Sub DispositionCall()
+        SilenceCap = 3
         Dim resp As Net.WebResponse
         theSilence = 0
         tmrSilence.Enabled = False
@@ -5285,7 +5287,7 @@ Public Class Form1
 
     Private Sub txtVerifierNum_Click(sender As Object, e As EventArgs) Handles txtVerifierNum.Click
         Dim dir As String = AppDomain.CurrentDomain.BaseDirectory
-
+        Dim opt As New ChromeOptions
         txtVerifierNum.Text = InputBox("enter agent #: ")
         If txtVerifierNum.Text.ToLower() = "moo" Then
             Form3.Show()
@@ -5294,25 +5296,33 @@ Public Class Form1
             rolltheclipThread(dir + "goodnewseveryone.mp3")
             tmrAgentStatus.Enabled = True
         Else
-            Dim opt As New ChromeOptions
-            opt.AddArguments("disable-popup-blocking")
-            local_browser = New ChromeDriver("C:\Users\Insurance Express\Downloads\chromedriver_win32", opt)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
-            local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
-            local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
-            local_browser.SwitchTo().Frame("top")
-            Thread.Sleep(550)
-            local_browser.FindElementById("login-agent").Click()
-            local_browser.FindElementById("agent-login").SendKeys(txtVerifierNum.Text)
-            Thread.Sleep(500)
-            local_browser.FindElementById("agent-password").SendKeys("y" & txtVerifierNum.Text & "IE")
-            Thread.Sleep(500)
-            local_browser.FindElementById("btn-get-campaign").Click()
-            Thread.Sleep(500)
-            local_browser.FindElementById("select-campaign").Click()
-            local_browser.FindElementById("select-campaign").FindElements(By.TagName("option")).Last.Click()
-            Thread.Sleep(250)
-            local_browser.FindElementById("btn-submit").Click()
+            Try
+                local_browser = New Remote.RemoteWebDriver(New Uri("http://localhost:5454/hub"), Remote.DesiredCapabilities.Chrome)
+
+            Catch ex As Exception
+                Console.WriteLine(Ex)
+                Shell("C:\Users\Insurance Express\Downloads\chromedriver_win32\chromedriver.exe -port=5454")
+                Thread.Sleep(1000)
+                local_browser = New Remote.RemoteWebDriver(New Uri("http://localhost:5454/"), Remote.DesiredCapabilities.Chrome)
+                local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
+                local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
+                local_browser.SwitchTo().Frame("top")
+                Thread.Sleep(550)
+                local_browser.FindElementById("login-agent").Click()
+                local_browser.FindElementById("agent-login").SendKeys(txtVerifierNum.Text)
+                Thread.Sleep(500)
+                local_browser.FindElementById("agent-password").SendKeys("y" & txtVerifierNum.Text & "IE")
+                Thread.Sleep(500)
+                local_browser.FindElementById("btn-get-campaign").Click()
+                Thread.Sleep(500)
+                local_browser.FindElementById("select-campaign").Click()
+                local_browser.FindElementById("select-campaign").FindElements(By.TagName("option")).Last.Click()
+                Thread.Sleep(250)
+                local_browser.FindElementById("btn-submit").Click()
+            End Try
+
             tmrAgentStatus.Enabled = True
+
         End If
 
     End Sub
@@ -5328,6 +5338,7 @@ Public Class Form1
     '                globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
     Dim alreadyLoaded As Boolean = False
     Public Sub getLeadWindow()
+
         If alreadyLoaded = False Then
             If Not local_browser.Url.Contains("forms.lead.co") Then
                 If local_browser.WindowHandles.Count > 1 Then
@@ -5520,10 +5531,23 @@ Public Class Form1
 
     End Sub
     'Dim cds As ChromeDriverService = New ChromeDriverService()
+    Dim remote_browser As Remote.RemoteWebDriver
     Private Sub testpagebutton_Click(sender As Object, e As EventArgs) Handles testpagebutton.Click
+
+
+
         newcall = False
-        local_browser = New ChromeDriver("C:\Users\Insurance Express\Downloads\chromedriver_win32")
-        local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
+        Try
+            remote_browser = New Remote.RemoteWebDriver(New Uri("http://127.0.0.1:5454"), Remote.DesiredCapabilities.Chrome)
+            remote_browser.Url = ("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
+        Catch
+            Dim opt As New Chrome.ChromeOptions
+            opt.AddArgument("--port=5454")
+            Shell("C:\Users\Insurance Express\Downloads\chromedriver_win32\chromedriver.exe -port=5454")
+            Thread.Sleep(1000)
+            remote_browser = New Remote.RemoteWebDriver(New Uri("http://127.0.0.1:5454"), Remote.DesiredCapabilities.Chrome)
+            remote_browser.Navigate.GoToUrl("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
+        End Try
     End Sub
 
     Private Sub tbQuestions_Click(sender As Object, e As EventArgs) Handles tbQuestions.Click
