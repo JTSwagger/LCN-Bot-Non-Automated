@@ -870,20 +870,24 @@ Public Class Form1
     Dim oldCust(1) As String
 
     Public Function getModel(ByRef VehicleNum As Integer) As Boolean
-        Thread.Sleep(500)
+        Thread.Sleep(750)
+        Console.WriteLine("Getting model: ")
         selectElement = New SelectElement(local_browser.FindElementById("vehicle-model"))
         Dim Model_List As New List(Of String)
         For i As Integer = 0 To selectElement.Options.Count - 1
             Model_List.Add(selectElement.Options(i).Text)
         Next
         Dim split_speech() As String = s.Split()
-        split_speech.Last.Replace("?", "")
-        split_speech.Last.Replace(".", " ")
+        For z As Integer = 0 To split_speech.Length - 1
+            split_speech(z) = split_speech(z).Replace("?", "")
+            split_speech(z) = UCase(split_speech(z).Replace(".", " "))
+        Next
         For x As Integer = 0 To Model_List.Count - 1
             For Y As Integer = 0 To split_speech.Length - 1
-                If Model_List.Item(x).Contains(split_speech(Y)) Then
+                Console.WriteLine(Model_List.Item(x) & ">>>>" & split_speech(Y))
+                If Model_List.Item(x).Contains(split_speech(Y)) And split_speech(Y).Length > 2 Then
                     Console.WriteLine("Found it bitch!")
-                    selectElement.SelectByText(split_speech(Y))
+                    selectElement.SelectByText(Model_List.Item(x))
                     Return True
                 End If
             Next
