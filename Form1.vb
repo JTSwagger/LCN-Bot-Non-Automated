@@ -359,7 +359,6 @@ Public Class Form1
 
 
     Public Sub handleResponse()
-        tmrSilence.Enabled = False
         Dim req As Net.WebRequest
         Dim resp As Net.WebResponse
 
@@ -4348,6 +4347,7 @@ Public Class Form1
         Console.WriteLine("ASKING QUESTION: " & CurrentQ)
         Console.WriteLine("version:" & numReps)
         clipType = "Question"
+
         Try
             s = ""
             Part = ""
@@ -5303,7 +5303,9 @@ Public Class Form1
             rolltheclipThread(dir + "goodnewseveryone.mp3")
             tmrAgentStatus.Enabled = True
         Else
-            local_browser = New ChromeDriver("C:\Users\Insurance Express\Downloads\chromedriver_win32")  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
+            Dim opt As New ChromeOptions
+            opt.AddArguments("disable-popup-blocking")
+            local_browser = New ChromeDriver("C:\Users\Insurance Express\Downloads\chromedriver_win32", opt)  ' fun fact, you can just pass Nothing as the profile and it'll work fine(:
             local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
             local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
             local_browser.SwitchTo().Frame("top")
@@ -5336,62 +5338,71 @@ Public Class Form1
     Dim alreadyLoaded As Boolean = False
     Public Sub getLeadWindow()
         If alreadyLoaded = False Then
-            If Not local_browser.Url.Contains("forms.lead.co") Then
-                If local_browser.WindowHandles.Count > 1 Then
-                    Try
-                        local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
-                    Catch ex As Exception
-                        Console.WriteLine("uncaught exception")
-                    End Try
-                Else
-                    Exit Sub
-                End If
-            End If
             Try
-                If local_browser.PageSource.Contains("Please respectfully") Then
-                    cmbDispo.Text = "Not Interested"
-                    DispositionCall()
+                If Not local_browser.Url.Contains("forms.lead.co") Then
+                    If local_browser.WindowHandles.Count > 1 Then
+                        Try
+                            local_browser.SwitchTo().Window(local_browser.WindowHandles.Last)
+                        Catch ex As Exception
+                            Console.WriteLine("uncaught exception")
+                        End Try
+                    Else
+                        Exit Sub
+                    End If
                 End If
-                If local_browser.PageSource.Contains("not found") Then
-                    cmbDispo.Text = "Not Available"
-                    DispositionCall()
-                End If
-                If local_browser.PageSource.Contains("Lead(s)") Then
-                    Exit Sub
-                End If
-                Dim name As String = local_browser.FindElementById("frmFirstName").GetAttribute("value")
-                btnTheirName.Text = name
-                CustName(0) = name
-                CustName(1) = name
-                If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3") Then
-                    globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
-                    btnTheirName.BackgroundImage.Dispose()
-                Else
-                    btnTheirName.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
+                Try
+                    If local_browser.PageSource.Contains("Please respectfully") Then
+                        cmbDispo.Text = "Not Interested"
+                        DispositionCall()
+                    End If
+                    If local_browser.PageSource.Contains("not found") Then
+                        cmbDispo.Text = "Not Available"
+                        DispositionCall()
+                    End If
+                    If local_browser.PageSource.Contains("Lead(s)") Then
+                        Exit Sub
 
-                End If
-                If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3") Then
-                    globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
-                    btnTheirName.BackgroundImage.Dispose()
-                Else
-                    btnTheirName.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
+                    End If
+                    Dim name As String = local_browser.FindElementById("frmFirstName").GetAttribute("value")
+                    btnTheirName.Text = name
+                    CustName(0) = name
+                    CustName(1) = name
+                    If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3") Then
+                        globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
+                        Button15.BackgroundImage = Nothing
 
-                End If
-                If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3") Then
-                    globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
-                    btnTheirName.BackgroundImage.Dispose()
-                Else
-                    btnTheirName.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
+                    Else
+                        Button15.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
+
+                    End If
+                    If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3") Then
+                        globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
+                        btnTheirName.BackgroundImage = Nothing
+
+                    Else
+                        btnTheirName.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
+
+                    End If
+                    If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3") Then
+                        globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+                        Button17.BackgroundImage = Nothing
+                    Else
+                        Button17.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
 
 
-                End If
+                    End If
 
-                alreadyLoaded = True
+                    alreadyLoaded = True
 
-            Catch ex As Exception
-                Console.WriteLine(ex.InnerException)
+                Catch ex As Exception
+                    Console.WriteLine(ex.InnerException)
+                End Try
+            Catch ex1 As Exception
+                Console.WriteLine(ex1)
             End Try
         End If
+
+
     End Sub
 
     Private Sub tmrAgentStatus_Tick(sender As Object, e As EventArgs) Handles tmrAgentStatus.Tick
@@ -5555,9 +5566,9 @@ Public Class Form1
     Private Sub tmrSilence_Tick(sender As Object, e As EventArgs) Handles tmrSilence.Tick
         If waveOut.PlaybackState = 0 Then
             Dim temp As Integer = 0
-            theSilence += 100
+            theSilence += 150
             Console.WriteLine("*******************")
-            Console.WriteLine("Customer has gone " & theSilence / 1000 & " second(s) without responding.")
+            Console.WriteLine("Customer has gone " & theSilence / 1500 & " second(s) without responding.")
             Console.WriteLine("Silence Buffer is currently " & SilenceCap & " seconds.")
             Console.WriteLine("*******************")
             If (theSilence / 1000) > SilenceCap Then
