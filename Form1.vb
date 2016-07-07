@@ -3,7 +3,6 @@ Imports System.Speech
 Imports System.Speech.Recognition
 Imports NDde.Client
 Imports mshtml
-Imports OpenQA.Selenium.Firefox
 Imports OpenQA.Selenium.Chrome
 Imports OpenQA.Selenium
 Imports System.Threading
@@ -78,7 +77,6 @@ Public Class Form1
     Dim counter As Integer = 0
     Dim numCounter As Integer = 0
     Dim counter2 As Integer = 0
-    Dim Driver As FirefoxDriver
     Dim Already_Handled As Boolean = False
 
     Dim selectElement As SelectElement
@@ -788,9 +786,7 @@ Public Class Form1
     Dim theMonth As String
     Dim theYear As String
     Dim writtenMonth As String
-    Dim Au As New AutoItX3Lib.AutoItX3
     Dim vars() As String
-    Dim dde As New DdeClient("Firefox", "WWW_GetWindowInfo")
     Dim GramBuild As GrammarBuilder
     Dim headElement As HtmlElement
     Dim scriptElement As HtmlElement
@@ -5318,7 +5314,7 @@ Public Class Form1
                 local_browser = New Remote.RemoteWebDriver(New Uri("http://localhost:5454/hub"), Remote.DesiredCapabilities.Chrome)
 
             Catch ex As Exception
-                Console.WriteLine(Ex)
+                Console.WriteLine(ex)
                 Shell("chromedriver.exe -portchro=5454")
                 Thread.Sleep(1000)
                 local_browser = New Remote.RemoteWebDriver(New Uri("http://localhost:5454/"), Remote.DesiredCapabilities.Chrome)
