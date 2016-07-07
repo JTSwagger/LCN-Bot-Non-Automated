@@ -372,8 +372,6 @@ Public Class Form1
 
     Public Sub handleResponse()
         tmrSilence.Enabled = False
-        Dim req As Net.WebRequest
-        Dim resp As Net.WebResponse
 
         If clipType = "Question" Then
             If waveOut.PlaybackState = 0 Then
@@ -490,6 +488,7 @@ Public Class Form1
 
                     Case Driver_Birthday
                         If getBirthdaWAV() Then
+
                             If GetBirthday() Then
                                 clipType = ""
                                 callPos = Marital_Status
@@ -498,7 +497,6 @@ Public Class Form1
                                     Timer2.Enabled = True
                                 End If
                             Else
-                                rolltheclipThread("C: \Soundboard\Cheryl\DRIVER INFO\DOB1.mp3")
                                 Already_Handled = False
                             End If
                         Else
@@ -871,12 +869,20 @@ Public Class Form1
     Dim oldCust(1) As String
 
     Public Function getModel(ByRef VehicleNum As Integer) As Boolean
-        Thread.Sleep(750)
+
         If local_browser.FindElementById("vehicle-make").Text <> vMake(VehicleNum) Then
             local_browser.FindElementById("vehicle-make").SendKeys(vMake(VehicleNum))
         End If
         Console.WriteLine("Getting model: ")
-        selectElement = New SelectElement(local_browser.FindElementById("vehicle-model"))
+        Try
+            selectElement = New SelectElement(local_browser.FindElementById("vehicle-model"))
+        Catch
+            While local_browser.FindElementById("Vehicle-model").Displayed = False
+
+            End While
+            selectElement = New SelectElement(local_browser.FindElementById("vehicle-model"))
+        End Try
+
         Dim Model_List As New List(Of String)
         For i As Integer = 0 To selectElement.Options.Count - 1
             Model_List.Add(selectElement.Options(i).Text)
@@ -3273,7 +3279,6 @@ Public Class Form1
     Sub handlepartquestion()
         Console.WriteLine("CHECKING AGAINST PARTIAL QUESTIONS")
         Console.WriteLine("reps: " & quest)
-
         Try
             Select Case True
                 Case Part.Contains("who is this"), Part.Contains("who are you"), Part.Contains("who is calling"), Part.Contains("who's this"), Part.Contains("who's calling"), Part.Contains("who do you represent")
@@ -3309,7 +3314,6 @@ Public Class Form1
                             Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
                             quest = 1
                     End Select
-
                     If CurrentQ = 3 Then
                         CurrentQ = 0
                     End If
@@ -3374,7 +3378,7 @@ Public Class Form1
     Public Function ParseAddress(speech As String) As Boolean
         NewAddress = ""
         Dim x As Integer = 0
-        Do Until speech.Substring(x, 1) = " " Or x = speech.Length
+        Do Until speech.Substring(x, 1) = " " Or x = speech.Length - 1
             NewAddress += speech.Substring(x, 1)
             x = x + 1
         Loop
@@ -3729,13 +3733,14 @@ Public Class Form1
             callPos = Driver_Birthday
             'LeadForm.Document.GetElementById("frmDOB_Month").Focus()
             CurrentQ = 10
-            Timer2.Enabled = True
+            rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & bmonth1 & bday1 & ".mp3")
         Else
             clipType = "Question"
             callPos = Driver_Birthday
             rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
         End If
-        tmrSilence.Enabled = True
+        Timer2.Enabled = True
+
     End Sub
     Dim OnCall As Boolean = False
     Private Sub Button26_Click(sender As Object, e As EventArgs)
@@ -4436,13 +4441,15 @@ Public Class Form1
                 Case 9
                     rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\what is the model of the car 1.mp3")
                 Case 10
+                    If FullAuto.Checked Then
+                        If getBirthdaWAV() = True Then
+                            tbCallOrder.SelectedTab = tbDriverInfo
+                            rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & bmonth1 & bday1 & ".mp3")
+                            While (waveOut.PlaybackState = 1)
+                                Console.WriteLine("Checking Birthday")
+                            End While
+                        End If
 
-                    If getBirthdaWAV() = True Then
-                        tbCallOrder.SelectedTab = tbDriverInfo
-                        rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & bmonth1 & bday1 & ".mp3")
-                        While (waveOut.PlaybackState = 1)
-                            Console.WriteLine("Checking Birthday")
-                        End While
                         rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & byear1 & ".mp3")
                     Else
                         rolltheclipThread("C:\Soundboard\Cheryl\DRIVER INFO\DOB1.mp3")
@@ -4576,6 +4583,8 @@ Public Class Form1
 
 
     Public Sub DispositionCall()
+        theMonth = ""
+        theYear = ""
         SilenceCap = 3
         Dim resp As Net.WebResponse
         theSilence = 0
