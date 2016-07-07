@@ -875,12 +875,22 @@ Public Class Form1
         End If
         Console.WriteLine("Getting model: ")
         Try
-            selectElement = New SelectElement(local_browser.FindElementById("vehicle-model"))
+            If VehicleNum = 1 Then
+                selectElement = New SelectElement(local_browser.FindElementById("vehicle-model"))
+            Else
+                selectElement = New SelectElement(local_browser.FindElementById("vehicle" & VehicleNum & "-model"))
+            End If
+
         Catch
             While local_browser.FindElementById("Vehicle-model").Displayed = False
-
+                Console.WriteLine("I MISS CARBS AHHHH")
             End While
-            selectElement = New SelectElement(local_browser.FindElementById("vehicle-model"))
+            If VehicleNum = 1 Then
+                selectElement = New SelectElement(local_browser.FindElementById("vehicle-model"))
+            Else
+                selectElement = New SelectElement(local_browser.FindElementById("vehicle" & VehicleNum & "-model"))
+            End If
+
         End Try
 
         Dim Model_List As New List(Of String)
@@ -3739,6 +3749,7 @@ Public Class Form1
             callPos = Driver_Birthday
             rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
         End If
+
         Timer2.Enabled = True
 
     End Sub
@@ -4445,15 +4456,12 @@ Public Class Form1
                         If getBirthdaWAV() = True Then
                             tbCallOrder.SelectedTab = tbDriverInfo
                             rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & bmonth1 & bday1 & ".mp3")
-                            While (waveOut.PlaybackState = 1)
-                                Console.WriteLine("Checking Birthday")
-                            End While
+                            Timer2.Enabled = True
                         End If
-
-                        rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & byear1 & ".mp3")
                     Else
-                        rolltheclipThread("C:\Soundboard\Cheryl\DRIVER INFO\DOB1.mp3")
+                        rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & byear1 & ".mp3")
                     End If
+
                 Case 11
                     rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\MaritalStatus2.mp3")
                 Case 12
@@ -5540,22 +5548,22 @@ Public Class Form1
 
     End Sub
     'Dim cds As ChromeDriverService = New ChromeDriverService()
-    Dim remote_browser As Remote.RemoteWebDriver
+
     Private Sub testpagebutton_Click(sender As Object, e As EventArgs) Handles testpagebutton.Click
 
 
 
         newcall = False
         Try
-            remote_browser = New Remote.RemoteWebDriver(New Uri("http://127.0.0.1:5454"), Remote.DesiredCapabilities.Chrome)
-            remote_browser.Url = ("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
+            local_browser = New Remote.RemoteWebDriver(New Uri("http://127.0.0.1:5454"), Remote.DesiredCapabilities.Chrome)
+            local_browser.Url = ("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
         Catch
             Dim opt As New Chrome.ChromeOptions
             opt.AddArgument("--port=5454")
             Shell("C:\Users\Insurance Express\Downloads\chromedriver_win32\chromedriver.exe -port=5454")
             Thread.Sleep(1000)
-            remote_browser = New Remote.RemoteWebDriver(New Uri("http://127.0.0.1:5454"), Remote.DesiredCapabilities.Chrome)
-            remote_browser.Navigate.GoToUrl("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
+            local_browser = New Remote.RemoteWebDriver(New Uri("http://127.0.0.1:5454"), Remote.DesiredCapabilities.Chrome)
+            local_browser.Navigate.GoToUrl("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
         End Try
     End Sub
 
