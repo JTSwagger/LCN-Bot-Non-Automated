@@ -3,7 +3,6 @@ Imports System.Speech
 Imports System.Speech.Recognition
 Imports NDde.Client
 Imports mshtml
-Imports OpenQA.Selenium.Firefox
 Imports OpenQA.Selenium.Chrome
 Imports OpenQA.Selenium
 Imports System.Threading
@@ -78,7 +77,6 @@ Public Class Form1
     Dim counter As Integer = 0
     Dim numCounter As Integer = 0
     Dim counter2 As Integer = 0
-    Dim Driver As FirefoxDriver
     Dim Already_Handled As Boolean = False
 
     Dim selectElement As SelectElement
@@ -783,9 +781,7 @@ Public Class Form1
     Dim theMonth As String
     Dim theYear As String
     Dim writtenMonth As String
-    Dim Au As New AutoItX3Lib.AutoItX3
     Dim vars() As String
-    Dim dde As New DdeClient("Firefox", "WWW_GetWindowInfo")
     Dim GramBuild As GrammarBuilder
     Dim headElement As HtmlElement
     Dim scriptElement As HtmlElement
@@ -1027,11 +1023,6 @@ Public Class Form1
         Const Key2 As String = "0d2797650c8648d18474399744512f17"
         m = SpeechRecognitionServiceFactory.CreateMicrophoneClient(SpeechRecognitionMode.LongDictation, "en-us", Key, Key2)
     End Sub
-
-    Dim happytreefriends As FirefoxBinary = New FirefoxBinary(Application.StartupPath & "\core\firefox.exe")
-
-    Dim prof As FirefoxProfile = New FirefoxProfile()
-
 
     Public local_browser As Remote.RemoteWebDriver
 
@@ -5300,9 +5291,9 @@ Public Class Form1
         txtVerifierNum.Text = InputBox("enter agent #: ")
         If txtVerifierNum.Text.ToLower() = "moo" Then
             Form3.Show()
-            rolltheclipThread(dir + "cow-moo.mp3")
+            rolltheclipThread("cow-moo.mp3")
         ElseIf txtVerifierNum.Text = "philip j fry" Then
-            rolltheclipThread(dir + "goodnewseveryone.mp3")
+            rolltheclipThread("goodnewseveryone.mp3")
             tmrAgentStatus.Enabled = True
         Else
             Try
@@ -5310,7 +5301,7 @@ Public Class Form1
 
             Catch ex As Exception
                 Console.WriteLine(Ex)
-                Shell("C:\Users\Insurance Express\Downloads\chromedriver_win32\chromedriver.exe -port=5454")
+                Shell("chromedriver.exe -port=5454")
                 Thread.Sleep(1000)
                 local_browser = New Remote.RemoteWebDriver(New Uri("http://localhost:5454/"), Remote.DesiredCapabilities.Chrome)
                 local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
