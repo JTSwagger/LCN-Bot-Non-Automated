@@ -5305,14 +5305,13 @@ Public Class Form1
 
 
     Private Sub txtVerifierNum_Click(sender As Object, e As EventArgs) Handles txtVerifierNum.Click
-        Dim dir As String = AppDomain.CurrentDomain.BaseDirectory
         Dim opt As New ChromeOptions
         txtVerifierNum.Text = InputBox("enter agent #: ")
         If txtVerifierNum.Text.ToLower() = "moo" Then
             Form3.Show()
-            rolltheclipThread(dir + "cow-moo.mp3")
+            rolltheclipThread("cow-moo.mp3")
         ElseIf txtVerifierNum.Text = "philip j fry" Then
-            rolltheclipThread(dir + "goodnewseveryone.mp3")
+            rolltheclipThread("goodnewseveryone.mp3")
             tmrAgentStatus.Enabled = True
         Else
             Try
@@ -5320,7 +5319,7 @@ Public Class Form1
 
             Catch ex As Exception
                 Console.WriteLine(Ex)
-                Shell("C:\chromedriver_win32\chromedriver.exe -portchro=5454")
+                Shell("chromedriver.exe -portchro=5454")
                 Thread.Sleep(1000)
                 local_browser = New Remote.RemoteWebDriver(New Uri("http://localhost:5454/"), Remote.DesiredCapabilities.Chrome)
                 local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
