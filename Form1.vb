@@ -303,9 +303,14 @@ Public Class Form1
                 End Try
 
             Else
-                selectElement = New SelectElement(local_browser.FindElementById("vehicle" & vehiclenum & "-make"))
-                selectElement.SelectByText(vMake(vehiclenum))
-                Return True
+                Try
+                    selectElement = New SelectElement(local_browser.FindElementById("vehicle" & vehiclenum & "-make"))
+                    selectElement.SelectByText(vMake(vehiclenum))
+                    Return True
+                Catch
+
+                End Try
+
             End If
         Else
             Console.WriteLine("-----MAKE NOT FOUND-----")
@@ -869,7 +874,7 @@ Public Class Form1
     Dim oldCust(1) As String
 
     Public Function getModel(ByRef VehicleNum As Integer) As Boolean
-
+        Thread.Sleep(300)
         If local_browser.FindElementById("vehicle-make").Text <> vMake(VehicleNum) Then
             local_browser.FindElementById("vehicle-make").SendKeys(vMake(VehicleNum))
         End If
@@ -1038,9 +1043,6 @@ Public Class Form1
         m = SpeechRecognitionServiceFactory.CreateMicrophoneClient(SpeechRecognitionMode.LongDictation, "en-us", Key, Key2)
     End Sub
 
-    Dim happytreefriends As FirefoxBinary = New FirefoxBinary(Application.StartupPath & "\core\firefox.exe")
-
-    Dim prof As FirefoxProfile = New FirefoxProfile()
 
 
     Public local_browser As Remote.RemoteWebDriver
@@ -5318,7 +5320,7 @@ Public Class Form1
 
             Catch ex As Exception
                 Console.WriteLine(Ex)
-                Shell("C:\Users\Insurance Express\Downloads\chromedriver_win32\chromedriver.exe -port=5454")
+                Shell("C:\chromedriver_win32\chromedriver.exe -port=5454")
                 Thread.Sleep(1000)
                 local_browser = New Remote.RemoteWebDriver(New Uri("http://localhost:5454/"), Remote.DesiredCapabilities.Chrome)
                 local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
@@ -5560,7 +5562,7 @@ Public Class Form1
         Catch
             Dim opt As New Chrome.ChromeOptions
             opt.AddArgument("--port=5454")
-            Shell("C:\Users\Insurance Express\Downloads\chromedriver_win32\chromedriver.exe -port=5454")
+            Shell("C:\chromedriver_win32\chromedriver.exe -port=5454")
             Thread.Sleep(1000)
             local_browser = New Remote.RemoteWebDriver(New Uri("http://127.0.0.1:5454"), Remote.DesiredCapabilities.Chrome)
             local_browser.Navigate.GoToUrl("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
