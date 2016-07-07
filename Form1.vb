@@ -200,8 +200,6 @@ Public Class Form1
                             End If
                             Timer2.Enabled = True
                     End Select
-
-
                 Case Part.Contains("busy"), Part.Contains("at work"), Part.Contains("driving"), Part.Contains("can't talk"), Part.Contains("call me back"), Part.Contains("could you call back"), Part.Contains("call back another time"), Part.Contains("call later"), Part.Contains("working right now")
                     Currently_Rebuttaling = True
                     Part = ""
@@ -241,7 +239,6 @@ Public Class Form1
                     Currently_Rebuttaling = True
                     Part = ""
                     newobjection = False
-
                     rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\DNC.mp3")
                     cmbDispo.Text = "Do Not Call"
                     CurrentQ = 31
@@ -1038,10 +1035,6 @@ Public Class Form1
         Const Key2 As String = "0d2797650c8648d18474399744512f17"
         m = SpeechRecognitionServiceFactory.CreateMicrophoneClient(SpeechRecognitionMode.LongDictation, "en-us", Key, Key2)
     End Sub
-
-    Dim happytreefriends As FirefoxBinary = New FirefoxBinary(Application.StartupPath & "\core\firefox.exe")
-
-    Dim prof As FirefoxProfile = New FirefoxProfile()
 
 
     Public local_browser As Remote.RemoteWebDriver
@@ -1952,7 +1945,7 @@ Public Class Form1
                 End Select
             Case obj.Contains("don't know"), obj.Contains("no idea"), obj.Contains("no clue"), obj.Contains("not sure"), obj.Contains("couldn't tell you"), Part.Contains("you'd have to talk to")
                 Console.WriteLine("THEY DON'T KNOW")
-                tmrSilence.Enabled = True
+
                 If CurrentQ = 3 Then
                     isQuestion = True
                     rolltheclipThread("c:\soundboard\cheryl\PUSHONS\allstategeicostatefarm.mp3")
@@ -3625,7 +3618,7 @@ Public Class Form1
             Console.WriteLine(ex.StackTrace)
             Console.WriteLine("****** END EXCEPTION PANDA ********")
         End Try
-        tmrSilence.Enabled = True
+
     End Sub
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs)
@@ -3637,7 +3630,7 @@ Public Class Form1
 
         rolltheclipThread("c:\soundboard\cheryl\PERSONAL INFO\HOMETYPE.mp3")
         callPos = Home_Type
-        tmrSilence.Enabled = True
+
     End Sub
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
         StopThatClip()
@@ -3646,7 +3639,7 @@ Public Class Form1
         isQuestion = True
         clipType = "Question"
         callPos = Own_Rent
-        tmrSilence.Enabled = True
+
 
     End Sub
     Private Sub Form1_Click(sender As Object, e As EventArgs) Handles MyBase.Click
@@ -3734,7 +3727,7 @@ Public Class Form1
         isQuestion = True
         clipType = "Question"
         callPos = Spouse_DOB
-        tmrSilence.Enabled = True
+
     End Sub
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
         isQuestion = True
@@ -3795,7 +3788,7 @@ Public Class Form1
         clipType = "Question"
         callPos = Marital_Status
         isQuestion = True
-        tmrSilence.Enabled = True
+
     End Sub
     Private Sub Button20_Click(sender As Object, e As EventArgs) Handles Button20.Click
         isQuestion = True
@@ -3803,7 +3796,7 @@ Public Class Form1
         rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/phoneType.mp3")
         callPos = Phone_Type
         clipType = "Question"
-        tmrSilence.Enabled = True
+
 
     End Sub
     Private Sub Button21_Click(sender As Object, e As EventArgs) Handles Button21.Click
@@ -3811,7 +3804,7 @@ Public Class Form1
         rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/Last Name.mp3")
         clipType = "Question"
         callPos = Last_Name
-        tmrSilence.Enabled = True
+
     End Sub
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles SpouseName.Click
         StopThatClip()
@@ -3819,7 +3812,7 @@ Public Class Form1
         isQuestion = True
         clipType = "Question"
         callPos = Spouse_Name
-        tmrSilence.Enabled = True
+
     End Sub
     Private Sub Button23_Click(sender As Object, e As EventArgs) Handles Button23.Click
         isQuestion = True
@@ -3856,11 +3849,13 @@ Public Class Form1
         rolltheclipThread("C:/Soundboard/Cheryl/REbuttal3.mp3")
     End Sub
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+
         isQuestion = True
         rolltheclipThread("c:\soundboard\cheryl\REACTIONS\Could you please verify your address.mp3")
         callPos = Their_Address
         clipType = "Question"
-        tmrSilence.Enabled = True
+
+
     End Sub
     Private Sub Button14_Click(sender As Object, e As EventArgs)
         rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/email.mp3")
@@ -3932,11 +3927,11 @@ Public Class Form1
         clipType = "Question"
         callPos = Credit
         rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/Credit.mp3")
-        tmrSilence.Enabled = True
+
     End Sub
     Private Sub Button35_Click(sender As Object, e As EventArgs) Handles btnIntro.Click
         CurrentQ = 3
-        tmrSilence.Enabled = True
+
         rolltheclipThread("c:\soundboard\cheryl\INTRO\INTRO2.MP3")
         clipType = "Question"
         callPos = Insurance_Provider
@@ -4005,7 +4000,7 @@ Public Class Form1
         End Select
         clipType = "Question"
         callPos = Year_Make_Model
-        tmrSilence.Enabled = True
+
 
     End Sub
     Private Sub Button64_Click(sender As Object, e As EventArgs) Handles Button64.Click
@@ -4013,8 +4008,7 @@ Public Class Form1
         isQuestion = True
         clipType = "Question"
         callPos = Number_Of_Vehicles
-        tmrSilence.Enabled = True
-        tmrSilence.Enabled = True
+
     End Sub
     Private Sub Button50_Click(sender As Object, e As EventArgs) Handles btnWhoDoYouHave.Click
         StopThatClip()
@@ -4023,7 +4017,7 @@ Public Class Form1
         isQuestion = True
         clipType = "Question"
         callPos = Insurance_Provider
-        tmrSilence.Enabled = True
+
     End Sub
     Private Sub Button51_Click(sender As Object, e As EventArgs) Handles btnPolicyStart.Click
         StopThatClip()
@@ -4032,7 +4026,7 @@ Public Class Form1
         isQuestion = True
         clipType = "Question"
         callPos = Policy_Start
-        tmrSilence.Enabled = True
+
     End Sub
     Private Sub Button49_Click(sender As Object, e As EventArgs) Handles btnExpiration.Click
         StopThatClip()
@@ -4040,7 +4034,7 @@ Public Class Form1
         CurrentQ = 4
         clipType = "Question"
         callPos = Policy_Expiration
-        tmrSilence.Enabled = True
+
     End Sub
     Private Sub Button62_Click(sender As Object, e As EventArgs)
         Select Case cmbMoreVehicles.SelectedIndex
@@ -4577,7 +4571,7 @@ Public Class Form1
                     Timer2.Enabled = False
                     NICount = 0
             End Select
-            tmrSilence.Enabled = True
+
         Catch ex As Exception
             Console.WriteLine(ex)
         End Try
@@ -4751,7 +4745,7 @@ Public Class Form1
         rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/email.mp3")
         clipType = "Question"
         callPos = Email_Address
-        tmrSilence.Enabled = True
+
     End Sub
 
     Private Sub Button31_Click_2(sender As Object, e As EventArgs)
@@ -5338,7 +5332,6 @@ Public Class Form1
                 Thread.Sleep(250)
                 local_browser.FindElementById("btn-submit").Click()
             End Try
-
             tmrAgentStatus.Enabled = True
 
         End If
@@ -5521,10 +5514,13 @@ Public Class Form1
 
     Dim micStatus As Boolean
     Dim isQuestion As Boolean = True
-
+    Public Sub turnonsilence()
+        tmrSilence.Enabled = True
+    End Sub
     Public Sub isStopped(sender As Object, e As NAudio.Wave.StoppedEventArgs) Handles waveOut.PlaybackStopped
         inBetween = True
         Console.WriteLine("CHERYLBOT IS DONE SPEAKING...")
+        BeginInvoke(New Action(AddressOf turnOnSilence))
         newobjection = True
         Select Case clipType
             Case "Question"
