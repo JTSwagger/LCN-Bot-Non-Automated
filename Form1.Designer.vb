@@ -186,11 +186,9 @@ Partial Class Form1
         Me.lblName = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.btnPause = New System.Windows.Forms.Button()
-        Me.FullAuto = New System.Windows.Forms.CheckBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.testpagebutton = New System.Windows.Forms.Button()
         Me.calltimer = New System.Windows.Forms.Timer(Me.components)
-        Me.tmrSilence = New System.Windows.Forms.Timer(Me.components)
         Me.frReactions.SuspendLayout()
         Me.GroupBox9.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -2160,16 +2158,6 @@ Partial Class Form1
         Me.btnPause.Text = "Pause"
         Me.btnPause.UseVisualStyleBackColor = False
         '
-        'FullAuto
-        '
-        Me.FullAuto.AutoSize = True
-        Me.FullAuto.Location = New System.Drawing.Point(532, 777)
-        Me.FullAuto.Name = "FullAuto"
-        Me.FullAuto.Size = New System.Drawing.Size(67, 17)
-        Me.FullAuto.TabIndex = 146
-        Me.FullAuto.Text = "Full Auto"
-        Me.FullAuto.UseVisualStyleBackColor = True
-        '
         'Label1
         '
         Me.Label1.AutoSize = True
@@ -2192,9 +2180,6 @@ Partial Class Form1
         '
         Me.calltimer.Interval = 1000
         '
-        'tmrSilence
-        '
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
@@ -2203,7 +2188,6 @@ Partial Class Form1
         Me.ClientSize = New System.Drawing.Size(672, 866)
         Me.Controls.Add(Me.testpagebutton)
         Me.Controls.Add(Me.txtVerifierNum)
-        Me.Controls.Add(Me.FullAuto)
         Me.Controls.Add(Me.btnPause)
         Me.Controls.Add(Me.lblName)
         Me.Controls.Add(Me.Label32)
@@ -2411,9 +2395,7 @@ Partial Class Form1
     Friend WithEvents lblRecording As Label
     Friend WithEvents Button60 As Button
     Friend WithEvents lblLeadInfo As Label
-    Friend WithEvents FullAuto As CheckBox
     Friend WithEvents Label1 As Label
     Friend WithEvents testpagebutton As Button
     Friend WithEvents calltimer As Timer
-    Public WithEvents tmrSilence As Timer
 End Class

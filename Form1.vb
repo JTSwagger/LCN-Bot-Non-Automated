@@ -371,7 +371,7 @@ Public Class Form1
 
 
     Public Sub handleResponse()
-        tmrSilence.Enabled = False
+        'tmrSilence.Enabled = False
 
         If clipType = "Question" Then
             If waveOut.PlaybackState = 0 Then
@@ -384,10 +384,6 @@ Public Class Form1
                         clipType = ""
                         callPos = Insurance_Provider
                         s = ""
-                        If FullAuto.Checked Then
-                            CurrentQ = 3
-                            Timer2.Enabled = True
-                        End If
 
                     Case Insurance_Provider
                         Console.WriteLine("Checking Insurance Provider")
@@ -395,10 +391,7 @@ Public Class Form1
                             clipType = ""
                             callPos = Policy_Expiration
                             s = ""
-                            If FullAuto.Checked Then
-                                CurrentQ = 4
-                                Timer2.Enabled = True
-                            End If
+
                         Else
                             clipType = "Question"
                         End If
@@ -408,10 +401,7 @@ Public Class Form1
                             clipType = ""
                             callPos = Policy_Start
                             s = ""
-                            If FullAuto.Checked Then
-                                CurrentQ = 5
-                                Timer2.Enabled = True
-                            End If
+
                         Else
                             s = ""
 
@@ -422,10 +412,7 @@ Public Class Form1
                             clipType = ""
                             callPos = Number_Of_Vehicles
                             s = ""
-                            If FullAuto.Checked Then
-                                CurrentQ = 6
-                                Timer2.Enabled = True
-                            End If
+
                         End If
                     Case Number_Of_Vehicles
                         Console.WriteLine("Checking Number of Vehicles")
@@ -433,10 +420,7 @@ Public Class Form1
                             clipType = ""
                             callPos = Year_Make_Model
                             s = ""
-                            If FullAuto.Checked Then
-                                CurrentQ = 7
-                                Timer2.Enabled = True
-                            End If
+
                         End If
 
                     Case Year_Make_Model
@@ -447,17 +431,8 @@ Public Class Form1
                             CurrentQ = 8
                             If getMake(VehicleNum) Then
                                 CurrentQ = 9
-                                'req = Net.WebRequest.Create("http://212.47.241.129:5000/search/" & VYear(VehicleNum) & "/" & vMake(VehicleNum) & "/" & s)
-                                'resp = req.GetResponse
-                                'Dim webReader As New IO.StreamReader(resp.GetResponseStream)
-                                ''Dim results As String = webReader.ReadToEnd()
-                                'resp.Close()
-                                'Dim jsonresults As responser = JsonConvert.DeserializeObject(Of responser)(results)
-                                'If jsonresults.response = "true" Then
-                                'vmodel(VehicleNum) = jsonresults.model
-                                'Console.WriteLine(vmodel(VehicleNum))
+
                                 If getModel(VehicleNum) Then
-                                    '  local_browser.FindElementById("vehicle-model").SendKeys(vmodel(VehicleNum)
                                     If NumberOfVehicles > 1 And VehicleNum < NumberOfVehicles Then
                                         VehicleNum += 1
                                         CurrentQ = 7
@@ -469,10 +444,7 @@ Public Class Form1
                                         clipType = ""
                                         callPos = Driver_Birthday
                                         s = ""
-                                        If FullAuto.Checked Then
-                                            CurrentQ = 10
-                                            Timer2.Enabled = True
-                                        End If
+
                                     End If
                                 Else
                                     clipType = "Question"
@@ -492,10 +464,7 @@ Public Class Form1
                             If GetBirthday() Then
                                 clipType = ""
                                 callPos = Marital_Status
-                                If FullAuto.Checked Then
-                                    CurrentQ = 11
-                                    Timer2.Enabled = True
-                                End If
+
                             Else
                                 Already_Handled = False
                             End If
@@ -503,136 +472,74 @@ Public Class Form1
                             If getSpouseBDAY(False) Then
                                 clipType = ""
                                 callPos = Finalize_BDAY
-                                If FullAuto.Checked Then
-                                    CurrentQ = 14
-                                    Timer2.Enabled = True
-                                End If
+
                             End If
                         End If
                     Case Finalize_BDAY
                         If finalizeSpouseBDay(False) Then
                             clipType = ""
                             callPos = Marital_Status
-                            If FullAuto.Checked Then
-                                CurrentQ = 11
-                                Timer2.Enabled = True
-                            End If
+
                         ElseIf finalizeSpouseBDay(True) Then
                             clipType = ""
                             callPos = Own_Rent
-                            If FullAuto.Checked Then
-                                CurrentQ = 15
-                                Timer2.Enabled = True
-                            End If
+
                         End If
                     Case Marital_Status
                         If checkMaritalStatus() Then
                             If maritalStatus = "Married" Then
                                 callPos = Spouse_Name
                                 clipType = ""
-                                If FullAuto.Checked Then
-                                    CurrentQ = 12
-                                    Timer2.Enabled = True
-                                End If
+
                             Else
                                 callPos = Own_Rent
                                 clipType = ""
-                                If FullAuto.Checked Then
-                                    CurrentQ = 15
-                                    Timer2.Enabled = True
-                                End If
+
                             End If
                         End If
                     Case Spouse_Name
                         If checkForSpouseName() Then
                             clipType = ""
                             callPos = Spouse_DOB
-                            If FullAuto.Checked Then
-                                CurrentQ = 13
-                                Timer2.Enabled = True
-                            End If
+
                         End If
                     Case Spouse_DOB
                         If getSpouseBDAY(True) Then
                             clipType = ""
                             callPos = Finalize_BDAY
-                            If FullAuto.Checked Then
-                                CurrentQ = 14
-                                Timer2.Enabled = True
-                            End If
+
                         End If
                     Case Own_Rent
                         If getHomeType() Then
                             clipType = ""
                             callPos = Home_Type
-                            If FullAuto.Checked Then
-                                CurrentQ = 16
-                                Timer2.Enabled = True
-                            End If
+
                         End If
                     Case Home_Type
                         If getResType() Then
                             clipType = ""
                             callPos = Their_Address
-                            If FullAuto.Checked Then
-                                CurrentQ = 17
-                                Timer2.Enabled = True
-                            End If
-                        End If
-                    Case Their_Address
-                        If doaddressstuff() Then
-                            clipType = ""
-                            callPos = Finalize_Address
-                            If FullAuto.Checked Then
-                                CurrentQ = 18
-                                Timer2.Enabled = True
-                            End If
-                        End If
-                    Case Finalize_Address
-                        If finalizeAddress() Then
-                            clipType = ""
-                            callPos = Email_Address
-                            If FullAuto.Checked Then
-                                CurrentQ = 19
-                                Timer2.Enabled = True
-                            End If
+
                         End If
 
-                    Case Email_Address
-                        If getEmail() Then
-                            clipType = ""
-                            callPos = Credit
-                            If FullAuto.Checked Then
-                                CurrentQ = 21
-                                Timer2.Enabled = True
-                            End If
-                        End If
+
                     Case Credit
                         If getCredit() Then
                             clipType = ""
                             callPos = Phone_Type
-                            If FullAuto.Checked Then
-                                CurrentQ = 22
-                                Timer2.Enabled = True
-                            End If
+
                         End If
                     Case Phone_Type
                         If getPhoneType() Then
                             clipType = ""
                             callPos = Last_Name
-                            If FullAuto.Checked Then
-                                CurrentQ = 23
-                                Timer2.Enabled = True
-                            End If
+
                         End If
                     Case Last_Name
                         If getLastName() Then
                             clipType = ""
                             callPos = TCPA_Wrap
-                            If FullAuto.Checked Then
-                                CurrentQ = 27
-                                Timer2.Enabled = True
-                            End If
+
                         End If
                     Case TCPA_Wrap
                         If handleTCPA() Then
@@ -652,10 +559,12 @@ Public Class Form1
         Console.WriteLine(e.PhraseResponse.RecognitionStatus)
         If e.PhraseResponse.Results.Length > 0 Then
             s += LCase(e.PhraseResponse.Results(0).DisplayText)
+            BeginInvoke(New Action(AddressOf handleResponse))
         End If
         If e.PhraseResponse.RecognitionStatus = RecognitionStatus.InitialSilenceTimeout Then
             m.EndMicAndRecognition()
         End If
+
     End Sub
 
 
@@ -2180,54 +2089,7 @@ Public Class Form1
 
         Return False
     End Function
-    Public Function getEmail() As Boolean
-        Dim response As String = s
-        response = response.Replace(" ", "")
-        Dim atIndex As Integer = response.LastIndexOf(" at ")
-        Dim domain As String = response.Substring(atIndex)
 
-        Dim endlength As Integer = response.Length - domain.Length
-
-        Dim nombre As String = response.Substring(0, endlength)
-        domain = domain.Replace("at", "@")
-
-        Dim derEmail As String = nombre + domain
-
-        Try
-            local_browser.FindElementById("frmEmailAddress").SendKeys(derEmail)
-            Return True
-        Catch ex As Exception
-            Return False
-        End Try
-        Return False
-    End Function
-
-    Public Function finalizeAddress() As Boolean
-        NewAddress += " " & s
-        Console.WriteLine(NewAddress)
-        local_browser.FindElementById("frmAddress").SendKeys(NewAddress)
-        Return True
-    End Function
-    Public Function getAddressNum() As Boolean
-        NewAddress = ""
-        Dim x As Integer = 0
-        Try
-            Do Until s.Substring(x, 1) = " " Or x = s.Length
-                Select Case True
-                    Case s.Substring(x, 1) = "1", s.Substring(x, 1) = "2", s.Substring(x, 1) = "3", s.Substring(x, 1) = "4", s.Substring(x, 1) = "5", s.Substring(x, 1) = "6", s.Substring(x, 1) = "7", s.Substring(x, 1) = "8", s.Substring(x, 1) = "9", s.Substring(x, 1) = "0"
-                        NewAddress += s.Substring(x, 1)
-                End Select
-                x = x + 1
-            Loop
-        Catch ex As Exception
-            Console.WriteLine("Problem with address")
-        End Try
-        If NewAddress <> "" Then
-            Return True
-        Else
-            Return False
-        End If
-    End Function
     Public Function getResType() As Boolean
         Select Case True
             Case s.Contains("single family"), s.Contains("house")
@@ -3382,6 +3244,9 @@ Public Class Form1
     Public Function ParseAddress(speech As String) As Boolean
         NewAddress = ""
         Dim x As Integer = 0
+        If speech.Length < 1 Then
+            Return False
+        End If
         Do Until speech.Substring(x, 1) = " " Or x = speech.Length - 1
             NewAddress += speech.Substring(x, 1)
             x = x + 1
@@ -5313,7 +5178,7 @@ Public Class Form1
 
             Catch ex As Exception
                 Console.WriteLine(ex)
-                Shell("C:\Users\Insurance Express\Downloads\chromedriver_win32\chromedriver.exe -port=5454")
+                Shell("chromedriver.exe -port=5454")
                 Thread.Sleep(1000)
                 local_browser = New Remote.RemoteWebDriver(New Uri("http://localhost:5454/"), Remote.DesiredCapabilities.Chrome)
                 local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
@@ -5514,13 +5379,11 @@ Public Class Form1
 
     Dim micStatus As Boolean
     Dim isQuestion As Boolean = True
-    Public Sub turnonsilence()
-        tmrSilence.Enabled = True
-    End Sub
+
     Public Sub isStopped(sender As Object, e As NAudio.Wave.StoppedEventArgs) Handles waveOut.PlaybackStopped
         inBetween = True
         Console.WriteLine("CHERYLBOT IS DONE SPEAKING...")
-        BeginInvoke(New Action(AddressOf turnOnSilence))
+        BeginInvoke(New Action(AddressOf turnonsilence))
         newobjection = True
         Select Case clipType
             Case "Question"
@@ -5592,29 +5455,9 @@ Public Class Form1
     Dim SilenceCap As Double = 3
     Dim CustomSilence(5) As Integer
 
-    Private Sub tmrSilence_Tick(sender As Object, e As EventArgs) Handles tmrSilence.Tick
-        If waveOut.PlaybackState = 0 Then
-            Dim temp As Integer = 0
-            theSilence += 200
-            Console.WriteLine("*******************")
-            Console.WriteLine("Customer has gone " & theSilence / 2000 & " second(s) without responding.")
-            Console.WriteLine("Silence Buffer is currently " & SilenceCap & " seconds.")
-            Console.WriteLine("*******************")
-            If (theSilence / 1000) > SilenceCap Then
-                HandleSilence()
-            End If
-        End If
-    End Sub
-    Public Sub HandleSilence()
 
-        theSilence = 0
-        handleResponse()
-    End Sub
+
     Dim inBetween As Integer = 0
 
 End Class
 
-Public Class responser
-    Public Property response As String
-    Public Property model As String
-End Class
