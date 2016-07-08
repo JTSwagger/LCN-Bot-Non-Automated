@@ -56,6 +56,8 @@ Public Class Form1
     End Structure
     Public WithEvents m As MicrophoneRecognitionClient
     Private demoThread As Thread = Nothing
+    Private ModelThread As Thread = Nothing
+
     Private WithEvents BakgroundWorker As BackgroundWorker
 
     <DllImport("User32.dll")>
@@ -139,7 +141,9 @@ Public Class Form1
         End Try
 
 
+
     End Sub 'Checks for questions in the p
+
     Dim NumWords As Integer = 0
     Dim totalInbetween As Integer = 0
     Public Sub SomeSpeech(ByVal sender As Object, ByVal e As Microsoft.ProjectOxford.SpeechRecognition.PartialSpeechResponseEventArgs) Handles m.OnPartialResponseReceived
@@ -431,23 +435,20 @@ Public Class Form1
                             CurrentQ = 8
                             If getMake(VehicleNum) Then
                                 CurrentQ = 9
+                                Me.ModelThread = New Thread(New ThreadStart(AddressOf getModel))
 
-                                If getModel(VehicleNum) Then
-                                    If NumberOfVehicles > 1 And VehicleNum < NumberOfVehicles Then
-                                        VehicleNum += 1
-                                        CurrentQ = 7
-                                        s = ""
-                                        callPos = Year_Make_Model
-                                        Timer2.Enabled = True
+                                If NumberOfVehicles > 1 And VehicleNum < NumberOfVehicles Then
+                                    VehicleNum += 1
+                                    CurrentQ = 7
+                                    s = ""
+                                    callPos = Year_Make_Model
+                                    Timer2.Enabled = True
 
-                                    Else
-                                        clipType = ""
-                                        callPos = Driver_Birthday
-                                        s = ""
-
-                                    End If
                                 Else
-                                    clipType = "Question"
+                                    clipType = ""
+                                    callPos = Driver_Birthday
+                                    s = ""
+
                                 End If
                             Else
                                 Console.WriteLine("there's a problem with getmake")
@@ -775,7 +776,7 @@ Public Class Form1
     Dim F As New Form
     Dim oldCust(1) As String
 
-    Public Function getModel(ByRef VehicleNum As Integer) As Boolean
+    Public Function getModel() As Boolean
         Thread.Sleep(300)
         If local_browser.FindElementById("vehicle-make").Text <> vMake(VehicleNum) Then
             local_browser.FindElementById("vehicle-make").SendKeys(vMake(VehicleNum))
@@ -3232,11 +3233,6 @@ Public Class Form1
 
     Public Function doaddressstuff() As Boolean
         ParseAddress(s)
-        If getAddressNum() Then
-            Return True
-        Else
-            Return False
-        End If
 
         Return False
     End Function
@@ -3255,11 +3251,7 @@ Public Class Form1
         zip = speech.Substring(speech.Length - 5, 5)
 
         If NewAddress <> "" Then
-            If getAddressNum() Then
-                Return True
-            Else
-                Return False
-            End If
+
         End If
 
         Return False
@@ -4312,15 +4304,9 @@ Public Class Form1
                 Case 9
                     rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\what is the model of the car 1.mp3")
                 Case 10
-                    If FullAuto.Checked Then
-                        If getBirthdaWAV() = True Then
-                            tbCallOrder.SelectedTab = tbDriverInfo
-                            rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & bmonth1 & bday1 & ".mp3")
-                            Timer2.Enabled = True
-                        End If
-                    Else
-                        rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & byear1 & ".mp3")
-                    End If
+
+                    rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & byear1 & ".mp3")
+
 
                 Case 11
                     rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\MaritalStatus2.mp3")
@@ -4456,7 +4442,7 @@ Public Class Form1
         SilenceCap = 3
         Dim resp As Net.WebResponse
         theSilence = 0
-        tmrSilence.Enabled = False
+
         alreadyLoaded = False
         callPos = ""
         clipType = ""
@@ -5383,7 +5369,7 @@ Public Class Form1
     Public Sub isStopped(sender As Object, e As NAudio.Wave.StoppedEventArgs) Handles waveOut.PlaybackStopped
         inBetween = True
         Console.WriteLine("CHERYLBOT IS DONE SPEAKING...")
-        BeginInvoke(New Action(AddressOf turnonsilence))
+
         newobjection = True
         Select Case clipType
             Case "Question"
