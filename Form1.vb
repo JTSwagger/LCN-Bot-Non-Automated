@@ -3230,40 +3230,6 @@ Public Class Form1
         End Try
     End Sub 'Checks for questions in the partial speech variable (part) handles them if found
 
-    Public Function doaddressstuff() As Boolean
-        ParseAddress(s)
-        If getAddressNum() Then
-            Return True
-        Else
-            Return False
-        End If
-
-        Return False
-    End Function
-
-    Public Function ParseAddress(speech As String) As Boolean
-        NewAddress = ""
-        Dim x As Integer = 0
-        If speech.Length < 1 Then
-            Return False
-        End If
-        Do Until speech.Substring(x, 1) = " " Or x = speech.Length - 1
-            NewAddress += speech.Substring(x, 1)
-            x = x + 1
-        Loop
-        NewAddress += " " & StreetSpelling
-        zip = speech.Substring(speech.Length - 5, 5)
-
-        If NewAddress <> "" Then
-            If getAddressNum() Then
-                Return True
-            Else
-                Return False
-            End If
-        End If
-
-        Return False
-    End Function
     Public Sub StopThatClip()
         BeginInvoke(New Action(AddressOf waveOut.Dispose))
         BeginInvoke(New Action(AddressOf waveOut2.Dispose))
@@ -4312,15 +4278,15 @@ Public Class Form1
                 Case 9
                     rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\what is the model of the car 1.mp3")
                 Case 10
-                    If FullAuto.Checked Then
-                        If getBirthdaWAV() = True Then
-                            tbCallOrder.SelectedTab = tbDriverInfo
-                            rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & bmonth1 & bday1 & ".mp3")
-                            Timer2.Enabled = True
-                        End If
-                    Else
-                        rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & byear1 & ".mp3")
-                    End If
+                    'If FullAuto.Checked Then
+                    '    If getBirthdaWAV() = True Then
+                    '        tbCallOrder.SelectedTab = tbDriverInfo
+                    '        rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & bmonth1 & bday1 & ".mp3")
+                    '        Timer2.Enabled = True
+                    '    End If
+                    'Else
+                    '    rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & byear1 & ".mp3")
+                    'End If
 
                 Case 11
                     rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\MaritalStatus2.mp3")
@@ -4456,7 +4422,6 @@ Public Class Form1
         SilenceCap = 3
         Dim resp As Net.WebResponse
         theSilence = 0
-        tmrSilence.Enabled = False
         alreadyLoaded = False
         callPos = ""
         clipType = ""
@@ -5383,7 +5348,7 @@ Public Class Form1
     Public Sub isStopped(sender As Object, e As NAudio.Wave.StoppedEventArgs) Handles waveOut.PlaybackStopped
         inBetween = True
         Console.WriteLine("CHERYLBOT IS DONE SPEAKING...")
-        BeginInvoke(New Action(AddressOf turnonsilence))
+        'BeginInvoke(New Action(AddressOf turnonsilence))
         newobjection = True
         Select Case clipType
             Case "Question"
