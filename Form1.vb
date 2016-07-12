@@ -145,7 +145,7 @@ Public Class Form1
     Public Sub SomeSpeech(ByVal sender As Object, ByVal e As Microsoft.ProjectOxford.SpeechRecognition.PartialSpeechResponseEventArgs) Handles m.OnPartialResponseReceived
         NumWords += 1
         totalInbetween += theSilence / 1000
-        SilenceCap = (totalInbetween / NumWords) + 1.5
+        SilenceCap = (totalInbetween / NumWords) + 2.1
         theSilence = 0
         Part = e.PartialResult
         Me.BeginInvoke(New Action(AddressOf handlePartialObjection))
@@ -450,17 +450,7 @@ Public Class Form1
                             CurrentQ = 8
                             If getMake(VehicleNum) Then
                                 CurrentQ = 9
-                                'req = Net.WebRequest.Create("http://212.47.241.129:5000/search/" & VYear(VehicleNum) & "/" & vMake(VehicleNum) & "/" & s)
-                                'resp = req.GetResponse
-                                'Dim webReader As New IO.StreamReader(resp.GetResponseStream)
-                                ''Dim results As String = webReader.ReadToEnd()
-                                'resp.Close()
-                                'Dim jsonresults As responser = JsonConvert.DeserializeObject(Of responser)(results)
-                                'If jsonresults.response = "true" Then
-                                'vmodel(VehicleNum) = jsonresults.model
-                                'Console.WriteLine(vmodel(VehicleNum))
                                 If getModel(VehicleNum) Then
-                                    '  local_browser.FindElementById("vehicle-model").SendKeys(vmodel(VehicleNum)
                                     If NumberOfVehicles > 1 And VehicleNum < NumberOfVehicles Then
                                         VehicleNum += 1
                                         CurrentQ = 7
@@ -478,7 +468,14 @@ Public Class Form1
                                         End If
                                     End If
                                 Else
-                                    clipType = "Question"
+                                    'clipType = "Question"
+                                    clipType = ""
+                                    callPos = Driver_Birthday
+                                    s = ""
+                                    If FullAuto.Checked Then
+                                        CurrentQ = 10
+                                        Timer2.Enabled = True
+                                    End If
                                 End If
                             Else
                                 Console.WriteLine("there's a problem with getmake")
@@ -870,7 +867,7 @@ Public Class Form1
     Dim oldCust(1) As String
 
     Public Function getModel(ByRef VehicleNum As Integer) As Boolean
-        Thread.Sleep(300)
+        Thread.Sleep(200)
         If local_browser.FindElementById("vehicle-make").Text <> vMake(VehicleNum) Then
             local_browser.FindElementById("vehicle-make").SendKeys(vMake(VehicleNum))
         End If
@@ -1041,7 +1038,7 @@ Public Class Form1
 
 
 
-    Public local_browser As Remote.RemoteWebDriver
+    Public local_browser As ChromeDriver
 
 
     Public Sub Unregister()
@@ -2476,7 +2473,6 @@ Public Class Form1
 
     Dim UnsureAboutCompany As Integer = 0
     Public Function CheckForCompany() As Boolean
-
         If s.Contains("don't know") Or s.Contains("not sure") Or s.Contains("not certain") Then
             Select Case UnsureAboutCompany
                 Case 0
@@ -3879,31 +3875,49 @@ Public Class Form1
         txtPolicyStart.Clear()
     End Sub
     Public Sub resetBot()
-        Dim i As Integer
-        For i = 0 To 50
-            clipnum(i) = 0
-            txtInsuranceProvider.Clear()
-            txtPolicyExpiration.Clear()
-            txtPolicyStart.Clear()
-            cmbSecondaries.SelectedIndex = -1
-            txtDOB.Clear()
-            cmbGender.SelectedIndex = -1
-            cmbMaritalStatus.SelectedIndex = -1
-            txtSPOUSENAME.Clear()
-            txtSPOUSEDOB.Clear()
-            cmbSpouseGender.SelectedIndex = -1
-            cmbOwnRent.SelectedIndex = -1
-            cmbHomeType.SelectedIndex = -1
-            txtAddress.Clear()
-            txtEmail.Clear()
-            cmbCredit.SelectedIndex = -1
-            cmbPhoneType.SelectedIndex = -1
-            txtName.Clear()
-            cmbSecondaries.SelectedIndex = -1
-            txtYearBuilt.Clear()
-            txtSqFt.Clear()
-            cmbTCPA.SelectedIndex = -1
+        theMonth = ""
+        theYear = ""
+        SilenceCap = 3
+        Dim resp As Net.WebResponse
+        theSilence = 0
+        tmrSilence.Enabled = False
+        alreadyLoaded = False
+        callPos = ""
+        clipType = ""
+        m.EndMicAndRecognition()
+        StopThatClip()
+        NumberOfVehicles = 1
+        VehicleNum = 1
+        For i As Integer = 0 To 3
+            VYear(i) = ""
+            vMake(i) = ""
+            vmodel(i) = ""
         Next
+        numRepeats = 0
+        Timer2.Enabled = False
+
+        introHello = True
+        Timer2.Enabled = False
+        stillthere = 0
+        isQuestion = True
+        numRepeats = 0
+        HumanCounter = 1
+        newcall = True
+        insurancePass = False
+        lblQuestion.Text = CURRENTQUESTION(1)
+        tbCallOrder.SelectedTab = tbIntro
+        introBday = False
+        NICount = 0
+        timesAsking = 0
+        counter = 0
+        counter2 = 0
+        CurrentQ = 0
+
+        txtSpeech.Clear()
+        SilenceReps = 0
+        stillthere = 0
+        isQuestion = False
+        calltime = 0
     End Sub
     Private Sub Button34_Click(sender As Object, e As EventArgs) Handles Button34.Click
 
@@ -5317,7 +5331,7 @@ Public Class Form1
                 Console.WriteLine(ex)
                 Shell("chromedriver.exe -portchro=5454")
                 Thread.Sleep(1000)
-                local_browser = New Remote.RemoteWebDriver(New Uri("http://localhost:5454/"), Remote.DesiredCapabilities.Chrome)
+                local_browser = New ChromeDriver()
                 local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
                 local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
                 local_browser.SwitchTo().Frame("top")
@@ -5442,6 +5456,7 @@ Public Class Form1
                 introHello = False
                 alreadyLoaded = False
                 lblStatus.Text = "STATUS: " & "DISPO"
+                resetBot()
             ElseIf STATS.Contains("READY") Then
                 lblStatus.Text = "STATUS: " & "READY"
                 Me.BackColor = Color.Yellow
