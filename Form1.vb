@@ -232,7 +232,7 @@ Public Class Form1
                     CurrentQ = 31
                     Timer2.Enabled = True
 
-                Case Part.Contains("already have"), Part.Contains("already have insurance"), Part.Contains("already got insurance"), Part.Contains("happy with"), Part.Contains("i have insurance"), Part.Contains("i got insurance")
+                Case Part.Contains("already have"), Part.Contains("already have insurance"), Part.Contains("already got insurance"), Part.Contains("i have insurance"), Part.Contains("i got insurance")
                     Currently_Rebuttaling = True
                     Part = ""
                     clipType = "Objection"
@@ -266,6 +266,7 @@ Public Class Form1
         If secondPass = False Then
             ModelHolder = s
         End If
+        Dim repeats As Integer = 0
         Timer2.Enabled = False
         Dim X As Integer
         Console.WriteLine(s)
@@ -312,11 +313,15 @@ Public Class Form1
 
             End If
         Else
+            If repeats >= 1 Then
+                Return False
+            End If
             Console.WriteLine("-----MAKE NOT FOUND-----")
             secondPass = True
             Timer2.Enabled = False
             CurrentQ = 8
             rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\WHO MAKES THAT VEHICLE.MP3")
+            repeats += 1
             isQuestion = True
         End If
         Return False
@@ -941,8 +946,8 @@ Public Class Form1
 
         Catch ex As Exception
         End Try
-        Const Key As String = "ce43e8a4d7a844b1be7950b260d6b8bd"
-        Const Key2 As String = "0d2797650c8648d18474399744512f17"
+        Const Key As String = "da75bfe0a6bc4d2bacda60b105cef7e"
+        Const Key2 As String = "c36c061f0b8748bd862aa5bbcceda683"
         m = SpeechRecognitionServiceFactory.CreateMicrophoneClient(SpeechRecognitionMode.LongDictation, "en-us", Key, Key2)
     End Sub
 
@@ -986,6 +991,7 @@ Public Class Form1
     End Sub                      'Unregisters global hotkeys
     Public Sub rolltheclip()
 
+        StopThatClip()
         StopThatClip()
         waveOut = New NAudio.Wave.WaveOut()
         If My.Computer.FileSystem.FileExists(clipname) Then

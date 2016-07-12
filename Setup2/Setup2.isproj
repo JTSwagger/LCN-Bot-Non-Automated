@@ -28,10 +28,4 @@
 		</TaggedOutputs> -->
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath32)\InstallShield\2015Limited\InstallShield.targets"/>
-	<ItemGroup>
-		<ProjectReference Include="..\LCNSoundBoard\LCN Soundboard Non Automated.vbproj">
-			<Name>LCN Soundboard Non Automated</Name>
-			<Project>{0827A0B3-1CAB-44D8-B231-CF14A33647E7}</Project>
-		</ProjectReference>
-	</ItemGroup>
 </Project>
