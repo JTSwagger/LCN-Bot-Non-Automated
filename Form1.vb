@@ -417,7 +417,6 @@ Public Class Form1
                             End If
                         Else
                             s = ""
-
                         End If
                     Case Policy_Start
                         Console.WriteLine("Checking Insurance Start Date")
