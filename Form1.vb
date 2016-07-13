@@ -317,8 +317,8 @@ Public Class Form1
             Timer2.Enabled = False
             CurrentQ = 8
             rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\WHO MAKES THAT VEHICLE.MP3")
-            repeats += 1
             isQuestion = True
+            callPos = "Question"
         End If
         Return False
     End Function 'GETS THE MAKE OF THE VEHICLE
@@ -409,7 +409,6 @@ Public Class Form1
 
                         Else
                             s = ""
-
                         End If
                     Case Policy_Start
                         Console.WriteLine("Checking Insurance Start Date")
@@ -436,7 +435,7 @@ Public Class Form1
                             CurrentQ = 8
                             If getMake(VehicleNum) Then
                                 CurrentQ = 9
-                                Me.ModelThread = New Thread(New ThreadStart(AddressOf getModel))
+                                getModel()
 
                                 If NumberOfVehicles > 1 And VehicleNum < NumberOfVehicles Then
                                     VehicleNum += 1
@@ -4199,11 +4198,30 @@ Public Class Form1
     End Sub
 
     Private Sub Button3_Click_3(sender As Object, e As EventArgs) Handles Button3.Click
-        rolltheclipThread("c:\soundboard\cheryl\REACTIONS\YES.mp3")
+        If clipnum(3) = 0 Then
+            rolltheclipThread("c:\soundboard\cheryl\REACTIONS\YES.mp3")
+            clipnum(3) += 1
+        ElseIf clipnum(3) = 1 Then
+            rolltheclipThread("c:\soundboard\cheryl\REACTIONS\uh-huh 1.mp3")
+            clipnum(3) += 1
+        Else
+            rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\yeah 1.mp3")
+            clipnum(3) = 0
+        End If
+
     End Sub
 
     Private Sub Button7_Click_1(sender As Object, e As EventArgs) Handles Button7.Click
-        rolltheclipThread("c:\soundboard\cheryl\REACTIONS\NO.mp3")
+        If clipnum(4) = 0 Then
+            rolltheclipThread("c:\soundboard\cheryl\REACTIONS\sorry, no 1.mp3")
+            clipnum(4) += 1
+        ElseIf clipnum(4) = 1 Then
+            rolltheclipThread("c:\soundboard\cheryl\REACTIONS\no way 1.mp3")
+            clipnum(4) += 1
+        Else
+            rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\no, not at all 1.mp3")
+            clipnum(4) = 0
+        End If
     End Sub
 
     Private Sub Button69_Click(sender As Object, e As EventArgs)
