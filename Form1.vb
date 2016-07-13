@@ -286,9 +286,7 @@ Public Class Form1
             Console.WriteLine("It's a VOLKSWAGEN")
         End If
         If vMake(vehiclenum) <> "" Then
-
             If vehiclenum = 1 Then
-
                 Try
                     selectElement = New SelectElement(local_browser.FindElementById("vehicle-make"))
                     selectElement.SelectByText(vMake(vehiclenum))
@@ -301,14 +299,12 @@ Public Class Form1
                     selectElement.SelectByText(vMake(vehiclenum))
                     Return True
                 End Try
-
             Else
                 Try
                     selectElement = New SelectElement(local_browser.FindElementById("vehicle" & vehiclenum & "-make"))
                     selectElement.SelectByText(vMake(vehiclenum))
                     Return True
                 Catch
-
                 End Try
 
             End If
@@ -396,7 +392,7 @@ Public Class Form1
 
                     Case Insurance_Provider
                         Console.WriteLine("Checking Insurance Provider")
-                        If CheckForCompany() Then
+                        If checkCompany() Then
                             clipType = ""
                             callPos = Policy_Expiration
                             s = ""
@@ -2340,7 +2336,7 @@ Public Class Form1
     End Sub 'so speech text can be done crossthreaded
 
     Dim UnsureAboutCompany As Integer = 0
-    Public Function CheckForCompany() As Boolean
+    Public Function checkCompany() As Boolean
 
         If s.Contains("don't know") Or s.Contains("not sure") Or s.Contains("not certain") Then
             Select Case UnsureAboutCompany
