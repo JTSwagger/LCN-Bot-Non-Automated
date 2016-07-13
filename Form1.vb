@@ -882,13 +882,53 @@ Public Class Form1
         Return tempArray
     End Function
 
+    Dim THE_REFERENCE_SECTION(10) As Dictionary(Of String, Integer)
+    Sub ConsultTheScrolls(QUERY As String)
+        Dim LO As KeyValuePair(Of String, Integer) = Nothing
+
+        Dim QueryWords() As String = QUERY.Split()
+        For Each item As String In QueryWords
+            For i As Integer = 0 To 10
+                If THE_REFERENCE_SECTION(i).ContainsKey(item) Then
+                    If LO.Key = item Then
+                        '        If THE_REFERENCE_SECTION(i).getValue > LO.Key Then
+
+                    End If
+
+                End If
+
+            Next
+        Next
+    End Sub
+
+    Sub getWords(phrase As String, numdic As Integer)
+        Dim words() As String
+        Dim ph As String
+        For Each ph In phrase
+            words = ph.Split(" ")
+            For i As Integer = 0 To words.Length - 1
+                If Not THE_REFERENCE_SECTION(numdic).ContainsKey(words(i)) Then
+
+                    THE_REFERENCE_SECTION(numdic).Add(words(i), 1)
+                Else
+                    THE_REFERENCE_SECTION(numdic)(words(i)) += 1
+                End If
+            Next
+        Next
+        Console.WriteLine("word:     " & "OCCURENCES")
+        For Each item As KeyValuePair(Of String, Integer) In THE_REFERENCE_SECTION(numdic)
+            Console.WriteLine(item.Key & ":   " & item.Value)
+        Next
+    End Sub
+
+
 
     Sub returnMCS(stringlist As List(Of String))
         Dim whereami As Integer = 0
         For Each word As String In stringlist
             word = word.Replace(" ", "").ToLower
-            Console.WriteLine("word: " & word)
-            For j As Integer = 0 To stringlist.Count
+            Console.WriteLine("word:  " & word)
+            For j As Integer = 0 To stringlist.Count - 1
                 If j = whereami Then
                     Continue For
                 End If
@@ -904,9 +944,9 @@ Public Class Form1
         For i As Integer = 0 To merf.Length - 1
             strcompare += merf.Substring(i, 1)
             If check.Contains(strcompare) Then
-                Console.WriteLine(strcompare & " in " & check)
                 Continue For
             Else
+                Console.WriteLine("BIGGEST RECOGNIZED WORD IN " & merf & " is " & strcompare)
                 strcompare = ""
             End If
         Next
@@ -3531,8 +3571,14 @@ Public Class Form1
 
     End Sub
     Private Sub Form1_Click(sender As Object, e As EventArgs) Handles MyBase.Click
-        'LoadVehicles()
-        'Console.WriteLine(Search("2005 Toyota Camry"))
+        Dim KFC As New List(Of String)
+        KFC.Add("Not Interested")
+        KFC.Add("I have no interest")
+        KFC.Add("there's no way i'm interested")
+        KFC.Add("nothing about this interests me")
+        KFC.Add("Not even a little interested")
+
+
     End Sub
     Private Sub Button2_Click(sender As Object, e As EventArgs)
         rolltheclipThread("C: /Soundboard/Cheryl/WhoDoYouUSe.mp3")
