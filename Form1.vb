@@ -3647,8 +3647,12 @@ Public Class Form1
 
     End Sub
     Private Sub Form1_Click(sender As Object, e As EventArgs) Handles MyBase.Click
-        'LoadVehicles()
-        'Console.WriteLine(Search("2005 Toyota Camry"))
+        Dim listerine As List(Of String) = New List(Of String)
+        listerine.Add("not interested")
+        listerine.Add("I have no interest")
+        listerine.Add("If am in no way interested")
+        ReturnMostCommonstring(listerine)
+
     End Sub
     Private Sub Button2_Click(sender As Object, e As EventArgs)
         rolltheclipThread("C: /Soundboard/Cheryl/WhoDoYouUSe.mp3")
@@ -4217,6 +4221,45 @@ Public Class Form1
     Private Sub Button45_Click(sender As Object, e As EventArgs)
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
     End Sub
+    Function ReturnMostCommonstring(ByVal StringList As List(Of String)) As String()()
+        Dim spot As Integer = 0
+        Dim word As String = ""
+        Dim StrCompare As String = ""
+        Dim place_holder As Integer = 0
+        Dim strStart As Integer = 0
+        Dim strEnd As Integer = 1
+        Dim subStart As Integer = 0
+        Dim subEnd As Integer = 0
+        Dim NumOccur(0)() As String
+
+
+        For Each word In StringList
+            word = word.Replace(" ", "")
+            For z As Integer = 0 To word.Length - 2
+                For y As Integer = 1 To word.Length - 1
+                    Try
+
+                        StrCompare = word.Substring(strStart, y - z)
+                    Catch
+                        Console.WriteLine(strStart & " " & y - z & " are not valid paramaters for " & word)
+                    End Try
+                    For X As Integer = 0 To StringList.Count - 1
+
+                        If spot <> X Then
+                            If StringList.Item(X).Replace(" ", "").Contains(StrCompare) Then
+                                Console.WriteLine(StrCompare & " exists in " & StringList.Item(X).Replace(" ", ""))
+                            End If
+                        End If
+
+                    Next
+
+                Next
+                strStart += 1
+            Next
+            spot += 1
+        Next
+        Return NumOccur
+    End Function
     Private Sub Button3_Click_2(sender As Object, e As EventArgs)
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
     End Sub
