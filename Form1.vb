@@ -4273,6 +4273,12 @@ Public Class Form1
         Next
         Return NumOccur
     End Function
+    Function returnMCS(ByVal StringList As List(Of String)) As String
+        Dim numberOccurances(0)() As String
+        For Each word As String In StringList
+            word = word.Replace(" ", "")
+        Next
+    End Function
     Private Sub Button3_Click_2(sender As Object, e As EventArgs)
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
     End Sub
