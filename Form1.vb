@@ -884,6 +884,36 @@ Public Class Form1
     End Function
 
 
+    Sub returnMCS(stringlist As List(Of String))
+        Dim whereami As Integer = 0
+        For Each word As String In stringlist
+            word = word.Replace(" ", "").ToLower
+            Console.WriteLine("word: " & word)
+            For j As Integer = 0 To stringlist.Count
+                If j = whereami Then
+                    Continue For
+                End If
+                check_string(word, stringlist(j))
+            Next
+            whereami += 1
+        Next
+    End Sub
+
+    Sub check_string(merf As String, check As String)
+        check = check.Replace(" ", "").ToLower
+        Dim strcompare As String = ""
+        For i As Integer = 0 To merf.Length - 1
+            strcompare += merf.Substring(i, 1)
+            If check.Contains(strcompare) Then
+                Console.WriteLine(strcompare & " in " & check)
+                Continue For
+            Else
+                strcompare = ""
+            End If
+        Next
+
+    End Sub
+
     Dim Recording_status As Boolean
     Sub updateLabel()
         lblRecording.Text = callPos & ":       RECORDING: " & Recording_status
