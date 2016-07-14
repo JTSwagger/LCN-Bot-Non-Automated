@@ -1057,50 +1057,27 @@ Public Class Form1
 
     End Sub                      'Unregisters global hotkeys
 
-    Dim helloThread As Thread
-    Dim nameThread As Thread
-    Dim introThread As Thread
-    Dim naThread As Thread
-    Dim niThread As Thread
-    Dim ncThread As Thread
-    Dim wnThread As Thread
-    Dim neThread As Thread
-    Dim leadThread As Thread
-    Dim lowThread As Thread
-    Public Sub createThreads()
-        helloThread = New Thread(AddressOf MrClippy)
-        nameThread = New Thread(AddressOf MrClippy)
-        introThread = New Thread(AddressOf MrClippy)
-        naThread = New Thread(AddressOf MrClippy)
-        niThread = New Thread(AddressOf MrClippy)
-        ncThread = New Thread(AddressOf MrClippy)
-        wnThread = New Thread(AddressOf MrClippy)
-        neThread = New Thread(AddressOf MrClippy)
-        leadThread = New Thread(AddressOf MrClippy)
-        lowThread = New Thread(AddressOf MrClippy)
-    End Sub
-
-    Public Sub MrClippy(filename As String)
-        StopThatClip()
-        waveOut = New NAudio.Wave.WaveOut()
-        If My.Computer.FileSystem.FileExists(filename) Then
-            Dim audioFile As New NAudio.Wave.Mp3FileReader(filename)
-            waveOut.DeviceNumber = deviceNum1
-            waveOut.Init(audioFile)
-            waveOut.Play()
-        Else
-            Console.WriteLine(filename & " not available. Sowwy")
-        End If
-    End Sub
+    Dim accessLock As New Object
+    Dim endthread As Boolean = False
     Public Sub rolltheclip()
+
         StopThatClip()
         waveOut = New NAudio.Wave.WaveOut()
         If My.Computer.FileSystem.FileExists(clipname) Then
             Dim mp3File As New NAudio.Wave.Mp3FileReader(clipname)
             waveOut.DeviceNumber = deviceNum1
             waveOut.Init(mp3File)
+            Dim keepRunning As Boolean = True
+            While keepRunning
+                waveOut.Play()
+                SyncLock accessLock
+                    If endthread Then
+                        keepRunning = False
+                    End If
+                End SyncLock
+            End While
+            waveOut.Stop()
 
-            waveOut.Play()
         Else
             Console.WriteLine(clipname & " not available")
         End If
@@ -3365,9 +3342,11 @@ Public Class Form1
         Return False
     End Function
     Public Sub StopThatClip()
-        BeginInvoke(New Action(AddressOf waveOut.Stop))
-        BeginInvoke(New Action(AddressOf waveOut.Dispose))
-        BeginInvoke(New Action(AddressOf waveOut2.Dispose))
+        SyncLock accessLock
+            endthread = True
+        End SyncLock
+        'BeginInvoke(New Action(AddressOf waveOut.Dispose))
+        'BeginInvoke(New Action(AddressOf waveOut2.Dispose))
         newobjection = True
 
     End Sub 'Stops clip and listens
@@ -3733,6 +3712,8 @@ Public Class Form1
         End If
         Me.demoThread = New Thread(New ThreadStart(AddressOf Me.rolltheclip))
         Me.demoThread.Start()
+
+
     End Sub
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles btnTheirName.Click
 
