@@ -173,7 +173,7 @@ Public Class Form1
                     Part = ""
                     newobjection = False
                     Console.WriteLine("THEY DON'T HAVE A CAR")
-                    nicedayThread.Start("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                    rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                     cmbDispo.Text = "No Car"
                     CurrentQ = 31
                     Timer2.Enabled = True
@@ -997,7 +997,6 @@ Public Class Form1
             CURRENTQUESTION(30) = "TCPA"
             CURRENTQUESTION(31) = "DISPO"
 
-            createThreads()
 
             Dim DeviceCount As Integer = NAudio.Wave.WaveOut.DeviceCount()              'Gets The number of audio devices on the machine
             Dim SDevice As String = Nothing
@@ -1061,16 +1060,22 @@ Public Class Form1
     Dim helloThread As Thread
     Dim nameThread As Thread
     Dim introThread As Thread
-    Dim nicedayThread As Thread
-    Dim dncThread As Thread
+    Dim naThread As Thread
+    Dim niThread As Thread
+    Dim ncThread As Thread
+    Dim wnThread As Thread
+    Dim neThread As Thread
     Dim leadThread As Thread
     Dim lowThread As Thread
     Public Sub createThreads()
         helloThread = New Thread(AddressOf MrClippy)
         nameThread = New Thread(AddressOf MrClippy)
         introThread = New Thread(AddressOf MrClippy)
-        nicedayThread = New Thread(AddressOf MrClippy)
-        dncThread = New Thread(AddressOf MrClippy)
+        naThread = New Thread(AddressOf MrClippy)
+        niThread = New Thread(AddressOf MrClippy)
+        ncThread = New Thread(AddressOf MrClippy)
+        wnThread = New Thread(AddressOf MrClippy)
+        neThread = New Thread(AddressOf MrClippy)
         leadThread = New Thread(AddressOf MrClippy)
         lowThread = New Thread(AddressOf MrClippy)
     End Sub
@@ -1755,7 +1760,7 @@ Public Class Form1
                         newobjection = False
 
                         Console.WriteLine("THEY DON'T HAVE A CAR")
-                        nicedayThread.Start("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+                        rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                         cmbDispo.Text = "No Car"
                         CurrentQ = 31
                         Timer2.Enabled = True
@@ -1782,7 +1787,7 @@ Public Class Form1
                                     Timer2.Enabled = True
                                     Return True
                                 Else
-                                    nicedayThread.Start("c:\soundboard\cheryl\WRAPUP\have a great day.mp3")
+                                    rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                                     cmbDispo.Text = "Not Interested"
                                     CurrentQ = 31
                                     Timer2.Enabled = True
@@ -1803,14 +1808,14 @@ Public Class Form1
 
                                     Return True
                                 Else
-                                    nicedayThread.Start("c:\soundboard\cheryl\WRAPUP\have a great day.mp3")
+                                    rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                                     cmbDispo.Text = "Not Interested"
                                     CurrentQ = 31
                                     Timer2.Enabled = True
                                     counter2 = 0
                                 End If
                             Case Else
-                                nicedayThread.Start("c:\soundboard\cheryl\WRAPUP\have a great day.mp3")
+                                rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                                 cmbDispo.Text = "Not Interested"
                                 CurrentQ = 31
                                 Timer2.Enabled = True
@@ -1894,7 +1899,7 @@ Public Class Form1
             Case obj.Contains("no vehicle"), obj.Contains("no car"), obj.Contains("don't have a vehicle"), obj.Contains("don't have a car")
 
                 Console.WriteLine("THEY DON'T HAVE A CAR")
-                nicedayThread.Start("c:\soundboard\cheryl\WRAPUP\have a great day.mp3")
+                rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                 cmbDispo.Text = "No Car"
                 Return True
                 CurrentQ = 31
@@ -1922,7 +1927,7 @@ Public Class Form1
 
                             Return True
                         Else
-                            nicedayThread.Start("c:\soundboard\cheryl\WRAPUP\have a great day.mp3")
+                            rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                             cmbDispo.Text = "Not Interested"
                             CurrentQ = 31
                             Timer2.Enabled = True
@@ -1943,14 +1948,14 @@ Public Class Form1
 
                             Return True
                         Else
-                            nicedayThread.Start("c:\soundboard\cheryl\WRAPUP\have a great day.mp3")
+                            rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                             cmbDispo.Text = "Not Interested"
                             CurrentQ = 31
                             Timer2.Enabled = True
                             counter2 = 0
                         End If
                     Case Else
-                        nicedayThread.Start("c:\soundboard\cheryl\WRAPUP\have a great day.mp3")
+                        rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                         cmbDispo.Text = "Not Interested"
                         CurrentQ = 31
                         Timer2.Enabled = True
@@ -2063,7 +2068,7 @@ Public Class Form1
                 Return True
 
             Case s.Contains("not home"), s.Contains("he isn't"), s.Contains("not available"), s.Contains("he's not"), s.Contains(" a message"), s.Contains("he's working"), s.Contains("not here"), s.Contains("not right now")
-                nicedayThread.Start("c:\soundboard\cheryl\WRAPUP\have a great day.mp3")
+                rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                 CurrentQ = 31
                 Timer2.Enabled = True
                 Return False
@@ -2080,7 +2085,7 @@ Public Class Form1
             Case Part.Contains("this is"), Part.Contains("speaking"), Part.Contains("you've got him"), Part.Contains("you've got her"), Part.Contains("yes"), Part.Contains("yeah"), Part.Contains("what's up?"), Part.Contains("how can i help you"), Part.Contains("hey"), Part.Contains("what do you want"), Part.Contains("hello"), Part.Contains("hi")
                 Return True
             Case Part.Contains("not home"), Part.Contains("he isn't"), Part.Contains("not available"), Part.Contains("he's not"), Part.Contains(" a message"), Part.Contains("he's working"), Part.Contains("not here"), Part.Contains("not right now")
-                nicedayThread.Start("c:\soundboard\cheryl\WRAPUP\have a great day.mp3")
+                rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                 CurrentQ = 31
 
                 Timer2.Enabled = True
@@ -2135,7 +2140,7 @@ Public Class Form1
                 'Timer2.Enabled = True
                 Return True
             Case Else
-                nicedayThread.Start("c:\soundboard\cheryl\WRAPUP\have a great day.mp3")
+                rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
                 cmbDispo.Text = "Lost On Wrap Up"
                 CurrentQ = 31
                 rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
@@ -3660,7 +3665,7 @@ Public Class Form1
                                      ByVal windowTitle As String) As IntPtr
     End Function
     Private Sub HelloButton_Click(sender As Object, e As EventArgs) Handles btnHello.Click
-        helloThread.Start("c:\soundboard\cheryl\INTRO\HELLO.mp3")
+        rolltheclipThread("c:\soundboard\cheryl\INTRO\HELLO.mp3")
         isQuestion = True
     End Sub
     Private Sub Label1_Click_1(sender As Object, e As EventArgs) Handles Label1.Click
@@ -3732,7 +3737,7 @@ Public Class Form1
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles btnTheirName.Click
 
         Try
-            nameThread.Start(globalFile2)
+            rolltheclipThread(globalFile2)
             isQuestion = True
         Catch
 
@@ -3874,7 +3879,7 @@ Public Class Form1
         cmbMoreVehicles.SelectedIndex = 0
         theurl = ""
         NICount = 0
-        nicedayThread.Start("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
         cmbDispo.Text = "Not Available"
         totalCalls = totalCalls + 1
         lblCalls.Text = totalCalls
@@ -3897,7 +3902,7 @@ Public Class Form1
     Private Sub Button35_Click(sender As Object, e As EventArgs) Handles btnIntro.Click
         CurrentQ = 3
 
-        introThread.Start("c:\soundboard\cheryl\INTRO\INTRO2.MP3")
+        rolltheclipThread("c:\soundboard\cheryl\INTRO\INTRO2.MP3")
         clipType = "Question"
         callPos = Insurance_Provider
         SilenceCap = 3
@@ -4955,7 +4960,7 @@ Public Class Form1
         cmbMoreVehicles.SelectedIndex = 0
         theurl = ""
         NICount = 0
-        nicedayThread.Start("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
         cmbDispo.Text = "Not Interested"
         totalCalls = totalCalls + 1
         lblCalls.Text = totalCalls
@@ -4978,7 +4983,7 @@ Public Class Form1
 
         theurl = ""
         NICount = 0
-        nicedayThread.Start("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
         cmbDispo.Text = "Wrong Number"
         totalCalls = totalCalls + 1
         lblCalls.Text = totalCalls
@@ -4997,7 +5002,7 @@ Public Class Form1
         cmbMoreVehicles.SelectedIndex = 0
         theurl = ""
         NICount = 0
-        nicedayThread.Start("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
         cmbDispo.Text = "No Car"
         CurrentQ = 31
         Timer2.Enabled = True
@@ -5009,7 +5014,7 @@ Public Class Form1
         cmbMoreVehicles.SelectedIndex = 0
         theurl = ""
         NICount = 0
-        nicedayThread.Start("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+        rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 
         cmbDispo.Text = "No English"
         CurrentQ = 31
@@ -5201,7 +5206,7 @@ Public Class Form1
             theurl = ""
             NICount = 0
             cmbDispo.Text = "Entering Lead/Low"
-            nicedayThread.Start("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+            rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
             CurrentQ = 31
             resetBot()
             Timer2.Enabled = True
