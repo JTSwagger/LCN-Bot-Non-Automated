@@ -1056,16 +1056,28 @@ Public Class Form1
         UnregisterHotKey(Me.Handle, 173)
 
     End Sub                      'Unregisters global hotkeys
+
+    Dim accessLock As New Object
+    Dim endthread As Boolean = False
     Public Sub rolltheclip()
 
-        StopThatClip()
         StopThatClip()
         waveOut = New NAudio.Wave.WaveOut()
         If My.Computer.FileSystem.FileExists(clipname) Then
             Dim mp3File As New NAudio.Wave.Mp3FileReader(clipname)
             waveOut.DeviceNumber = deviceNum1
             waveOut.Init(mp3File)
-            waveOut.Play()
+            Dim keepRunning As Boolean = True
+            While keepRunning
+                waveOut.Play()
+                SyncLock accessLock
+                    If endthread Then
+                        keepRunning = False
+                    End If
+                End SyncLock
+            End While
+            waveOut.Stop()
+
         Else
             Console.WriteLine(clipname & " not available")
         End If
@@ -3330,8 +3342,11 @@ Public Class Form1
         Return False
     End Function
     Public Sub StopThatClip()
-        BeginInvoke(New Action(AddressOf waveOut.Dispose))
-        BeginInvoke(New Action(AddressOf waveOut2.Dispose))
+        SyncLock accessLock
+            endthread = True
+        End SyncLock
+        'BeginInvoke(New Action(AddressOf waveOut.Dispose))
+        'BeginInvoke(New Action(AddressOf waveOut2.Dispose))
         newobjection = True
 
     End Sub 'Stops clip and listens
@@ -3693,7 +3708,7 @@ Public Class Form1
         Part = ""
         clipname = fileName
         If Me.demoThread IsNot Nothing Then
-            Me.demoThread.Abort()
+            StopThatClip()
         End If
         Me.demoThread = New Thread(New ThreadStart(AddressOf Me.rolltheclip))
         Me.demoThread.Start()
@@ -5504,7 +5519,7 @@ Public Class Form1
         Catch
             Dim opt As New Chrome.ChromeOptions
             opt.AddArgument("--port=5454")
-            Shell("C:\chromedriver_win32\chromedriver.exe -port=5454")
+            Shell("chromedriver.exe -port=5454")
             Thread.Sleep(1000)
             local_browser = New Remote.RemoteWebDriver(New Uri("http://127.0.0.1:5454"), Remote.DesiredCapabilities.Chrome)
             local_browser.Navigate.GoToUrl("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
