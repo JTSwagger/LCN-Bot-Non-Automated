@@ -1057,8 +1057,6 @@ Public Class Form1
 
     End Sub                      'Unregisters global hotkeys
 
-    Dim accessLock As New Object
-    Dim endthread As Boolean = False
     Public Sub rolltheclip()
 
         StopThatClip()
@@ -1067,17 +1065,8 @@ Public Class Form1
             Dim mp3File As New NAudio.Wave.Mp3FileReader(clipname)
             waveOut.DeviceNumber = deviceNum1
             waveOut.Init(mp3File)
-            Dim keepRunning As Boolean = True
-            While keepRunning
-                waveOut.Play()
-                SyncLock accessLock
-                    If endthread Then
-                        keepRunning = False
-                    End If
-                End SyncLock
-            End While
-            waveOut.Stop()
 
+            waveOut.Play()
         Else
             Console.WriteLine(clipname & " not available")
         End If
