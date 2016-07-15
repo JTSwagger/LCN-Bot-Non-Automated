@@ -3436,11 +3436,8 @@ Public Class Form1
         Return False
     End Function
     Public Sub StopThatClip()
-        SyncLock accessLock
-            endthread = True
-        End SyncLock
-        'BeginInvoke(New Action(AddressOf waveOut.Dispose))
-        'BeginInvoke(New Action(AddressOf waveOut2.Dispose))
+        BeginInvoke(New Action(AddressOf waveOut.Dispose))
+        BeginInvoke(New Action(AddressOf waveOut2.Dispose))
         newobjection = True
 
     End Sub 'Stops clip and listens
