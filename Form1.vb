@@ -152,7 +152,7 @@ Public Class Form1
         SilenceCap = (totalInbetween / NumWords) + 1.5
         theSilence = 0
         Part = e.PartialResult
-        Me.BeginInvoke(New Action(AddressOf handlePartialObjection))
+        Me.BeginInvoke(New Action(AddressOf ConsultTheScrolls))
     End Sub
     Dim Currently_Rebuttaling As Boolean = False
     Public Sub handlePartialObjection()
@@ -881,43 +881,96 @@ Public Class Form1
 
         Return tempArray
     End Function
+    Dim objReader As System.IO.StreamReader
 
     Dim THE_REFERENCE_SECTION(10) As Dictionary(Of String, Integer)
-    Sub ConsultTheScrolls(QUERY As String)
-        Dim LO As KeyValuePair(Of String, Integer) = Nothing
+    Sub FilltheShelves()
+        For i As Integer = 0 To Scrolls.Length - 1
+            Console.WriteLine("Adding  ")
+            Scrolls(i) = New List(Of String)
+        Next
+        For i As Integer = 0 To Scrolls.Length - 1
 
-        Dim QueryWords() As String = QUERY.Split()
-        For Each item As String In QueryWords
-            For i As Integer = 0 To 10
-                If THE_REFERENCE_SECTION(i).ContainsKey(item) Then
-                    If LO.Key = item Then
-                        '        If THE_REFERENCE_SECTION(i).getValue > LO.Key Then
-
-                    End If
-
-                End If
-
-            Next
+            If System.IO.File.Exists(My.Application.Info.DirectoryPath & "Scroll" & i & ".wzd") = True Then
+                Dim Lines() As String = IO.File.ReadAllLines(My.Application.Info.DirectoryPath & "Scroll" & i & ".wzd")
+                For Each item As String In Lines
+                    Scrolls(i).Add(item)
+                Next
+            End If
         Next
     End Sub
+    Dim currentButton As Integer = 0
+    Dim LO As KeyValuePair(Of String, Integer) = New KeyValuePair(Of String, Integer)
+    Dim buttonindex As Integer = -1
+    Dim BestMatch As Integer = 100
+    Sub ConsultTheScrolls()
+        Dim d As New Dictionary(Of String, Integer)
+        Dim match As Boolean = False
+        Dim Buttonindex As Integer = -1
+        Dim NumMatches(10) As Integer
+        txtSpeech.Text = "The bot heard:  " & Part
+        If Part IsNot Nothing And Part <> "" Then
+            For x As Integer = 0 To Scrolls.Length - 1
+                For i As Integer = 0 To Scrolls(x).Count - 1
+                    Console.WriteLine("CONSULTING SCROLL.... " & x)
+                    If Scrolls(i).Contains(Part) Then
+                        Console.WriteLine("************************************")
+                        Console.WriteLine("FOUND " & Part & " IN SCROLL " & x)
+                        Console.WriteLine("*************************************")
+                        rebuttalYoFace(x + 1)
+                        match = True
+                    Else
+                        Console.WriteLine(Part & " is similar to " & Scrolls(x)(i) & " at " & levenshtein(Part, Scrolls(x)(i)))
+                        d.Add(Scrolls(x)(i), levenshtein(Part, Scrolls(x)(i)))
+                    End If
+
+                Next
+            Next
+
+        End If
+        Dim strArray() As KeyValuePair(Of String, Integer) = d.ToArray
+
+
+        For z As Integer = 0 To d.Count - 1
+            Console.WriteLine("MATCH " & z & " " & strArray(z).Key & "   " & strArray(z).Value)
+            If strArray(z).Value < BestMatch Then
+                BestMatch = strArray(z).Value
+                Buttonindex = z + 1
+            End If
+        Next
+        If BestMatch < 10 Then
+            rebuttalYoFace(Buttonindex)
+
+        End If
+
+    End Sub
+    Sub rebuttalYoFace(index As Integer)
+        Console.WriteLine("Rebuttaling YO FACE with button: " & index)
+
+        Select Case index
+                Case 1
+                    Currently_Rebuttaling = True
+                    rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3")
+                Case 2
+                    Currently_Rebuttaling = True
+                    rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\I actually have this information.mp3")
+                Case 3
+
+                Case 4
+                    Currently_Rebuttaling = True
+                    rolltheclipThread("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
+            End Select
+
+    End Sub
+    Dim Scrolls(20) As List(Of String)
+
 
     Sub getWords(phrase As String, numdic As Integer)
-        Dim words() As String
-        Dim ph As String
-        For Each ph In phrase
-            words = ph.Split(" ")
-            For i As Integer = 0 To words.Length - 1
-                If Not THE_REFERENCE_SECTION(numdic).ContainsKey(words(i)) Then
-
-                    THE_REFERENCE_SECTION(numdic).Add(words(i), 1)
-                Else
-                    THE_REFERENCE_SECTION(numdic)(words(i)) += 1
-                End If
-            Next
-        Next
-        Console.WriteLine("word:     " & "OCCURENCES")
-        For Each item As KeyValuePair(Of String, Integer) In THE_REFERENCE_SECTION(numdic)
-            Console.WriteLine(item.Key & ":   " & item.Value)
+        If Not Scrolls(numdic).Contains(phrase) Then
+            Scrolls(numdic).Add(phrase)
+        End If
+        For Each item As String In Scrolls(numdic)
+            Console.WriteLine(item)
         Next
     End Sub
 
@@ -963,6 +1016,8 @@ Public Class Form1
         End If
     End Sub
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        FilltheShelves()
+
         Try
             Dim i As Integer = 0
             cmbDispo.Text = "Not Available"
@@ -2402,6 +2457,63 @@ Public Class Form1
 
         Return False
     End Function
+
+    Function levenshtein(a As String, b As String) As Integer
+
+        Dim i As Integer
+        Dim j As Integer
+        Dim cost As Integer
+        Dim d(,) As Integer
+        Dim min1 As Integer
+        Dim min2 As Integer
+        Dim min3 As Integer
+
+        If Len(a) = 0 Then
+            levenshtein = Len(b)
+            Exit Function
+        End If
+
+        If Len(b) = 0 Then
+            levenshtein = Len(a)
+            Exit Function
+        End If
+
+        ReDim d(Len(a), Len(b))
+
+        For i = 0 To Len(a)
+            d(i, 0) = i
+        Next
+
+        For j = 0 To Len(b)
+            d(0, j) = j
+        Next
+
+        For i = 1 To Len(a)
+            For j = 1 To Len(b)
+                If Mid(a, i, 1) = Mid(b, j, 1) Then
+                    cost = 0
+                Else
+                    cost = 1
+                End If
+
+                ' Since Min() function is not a part of VBA, we'll "emulate" it below
+                min1 = (d(i - 1, j) + 1)
+                min2 = (d(i, j - 1) + 1)
+                min3 = (d(i - 1, j - 1) + cost)
+
+                If min1 <= min2 And min1 <= min3 Then
+                    d(i, j) = min1
+                ElseIf min2 <= min1 And min2 <= min3 Then
+                    d(i, j) = min2
+                Else
+                    d(i, j) = min3
+                End If
+
+            Next
+        Next
+        levenshtein = d(Len(a), Len(b))
+
+    End Function
     Public Sub updateSpeechText()
         txtSpeech.Text += "::SPEECH ENDED::" & vbNewLine
     End Sub 'so speech text can be done crossthreaded
@@ -2758,13 +2870,6 @@ Public Class Form1
                 If IProvider = "Farmers Insurance" And Not s.Contains("farmers") Then
                     Console.WriteLine("I am the walrus")
                 End If
-                If s.Length > 7 Then
-                    IProvider = "Progressive"
-                Else
-
-                    isQuestion = True
-                End If
-
         End Select
         Console.WriteLine("Detected " & IProvider & " as insurance")
         If IProvider <> "" Then
@@ -3573,12 +3678,7 @@ Public Class Form1
 
     End Sub
     Private Sub Form1_Click(sender As Object, e As EventArgs) Handles MyBase.Click
-        Dim KFC As New List(Of String)
-        KFC.Add("Not Interested")
-        KFC.Add("I have no interest")
-        KFC.Add("there's no way i'm interested")
-        KFC.Add("nothing about this interests me")
-        KFC.Add("Not even a little interested")
+
 
 
     End Sub
@@ -4046,6 +4146,7 @@ Public Class Form1
         End Select
     End Sub
     Private Sub Button67_Click(sender As Object, e As EventArgs) Handles Button67.Click
+        getWords(Part, 2)
         clipType = "Objection"
         rolltheclipThread("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
 
@@ -4096,6 +4197,7 @@ Public Class Form1
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\january feb march april.mp3")
     End Sub
     Private Sub Button85_Click(sender As Object, e As EventArgs) Handles Button85.Click
+        getWords(Part, 4)
         clipType = "Objection"
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3")
 
@@ -4134,6 +4236,7 @@ Public Class Form1
         rolltheclipThread("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
     End Sub
     Private Sub Button92_Click(sender As Object, e As EventArgs) Handles Button92.Click
+        getWords(Part, 3)
         clipType = "Objection"
         rolltheclipThread("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
 
@@ -4158,15 +4261,18 @@ Public Class Form1
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\local agents and carriers in your area.mp3")
     End Sub
     Private Sub Button82_Click(sender As Object, e As EventArgs) Handles Button82.Click
+        getWords(Part, 6)
         clipType = "Objection"
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\can they email.mp3")
 
     End Sub
     Private Sub Button51_Click_1(sender As Object, e As EventArgs) Handles Button51.Click
+        getWords(Part, 7)
         clipType = "Objection"
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\you're not giving me a quote.mp3")
     End Sub
     Private Sub Button83_Click(sender As Object, e As EventArgs) Handles Button83.Click
+        getWords(Part, 8)
         clipType = "Objection"
         rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\when will they call.mp3")
 
@@ -5014,6 +5120,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button19_Click_2(sender As Object, e As EventArgs) Handles Button19.Click
+        getWords(Part, 14)
         clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\HappyWithInsurance.mp3")
 
@@ -5021,6 +5128,8 @@ Public Class Form1
     End Sub
 
     Private Sub Button32_Click_3(sender As Object, e As EventArgs) Handles Button32.Click
+        getWords(Part, 10)
+        getWords(Part, 9)
         clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\this info.mp3")
 
@@ -5029,12 +5138,15 @@ Public Class Form1
     End Sub
 
     Private Sub Button69_Click_1(sender As Object, e As EventArgs) Handles Button69.Click
+
+        getWords(s, 1)
         clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\I actually have this information.mp3")
 
     End Sub
 
     Private Sub Button26_Click_2(sender As Object, e As EventArgs) Handles Button26.Click
+        getWords(Part, 11)
         clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\I Already Have Insurance rebuttal.mp3")
 
@@ -5042,6 +5154,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button25_Click_2(sender As Object, e As EventArgs) Handles Button25.Click
+        getWords(s, 0)
         clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3")
 
@@ -5049,6 +5162,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button49_Click_2(sender As Object, e As EventArgs) Handles Button49.Click
+        getWords(Part, 12)
         clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\EMAIL REBUTTAL.mp3")
 
@@ -5067,6 +5181,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button31_Click_3(sender As Object, e As EventArgs) Handles Button31.Click
+        getWords(Part, 13)
         clipType = "Objection"
         rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3")
 
@@ -5465,6 +5580,7 @@ Public Class Form1
     Dim isQuestion As Boolean = True
 
     Public Sub isStopped(sender As Object, e As NAudio.Wave.StoppedEventArgs) Handles waveOut.PlaybackStopped
+        Currently_Rebuttaling = False
         inBetween = True
         Console.WriteLine("CHERYLBOT IS DONE SPEAKING...")
 
@@ -5543,5 +5659,25 @@ Public Class Form1
 
     Dim inBetween As Integer = 0
 
+    Dim objwriter As System.IO.StreamWriter
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        For i As Integer = 0 To Scrolls.Length - 1
+
+            If System.IO.File.Exists(My.Application.Info.DirectoryPath & "Scroll" & i & ".wzd") = True Then
+                objwriter = New System.IO.StreamWriter(My.Application.Info.DirectoryPath & "Scroll" & i & ".wzd", True)
+                For Each item As String In Scrolls(i)
+                    objwriter.WriteLine(item)
+                Next
+                objwriter.Close()
+            Else
+                objwriter = New System.IO.StreamWriter(My.Application.Info.DirectoryPath & "Scroll" & i & ".wzd", False)
+                For Each item As String In Scrolls(i)
+                    objwriter.WriteLine(item)
+                Next
+                objwriter.Close()
+            End If
+
+        Next
+    End Sub
 End Class
 
