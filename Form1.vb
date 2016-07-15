@@ -3795,7 +3795,7 @@ Public Class Form1
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles btnTheirName.Click
 
         Try
-            rolltheclip(globalFile2)
+            BackgroundWorker1.RunWorkerAsync(globalFile2)
             isQuestion = True
         Catch
 
@@ -3960,7 +3960,7 @@ Public Class Form1
     Private Sub Button35_Click(sender As Object, e As EventArgs) Handles btnIntro.Click
         CurrentQ = 3
 
-        rolltheclip("c:\soundboard\cheryl\INTRO\INTRO2.MP3")
+        BackgroundWorker1.RunWorkerAsync("c:\soundboard\cheryl\INTRO\INTRO2.MP3")
         clipType = "Question"
         callPos = Insurance_Provider
         SilenceCap = 3
@@ -4158,7 +4158,7 @@ Public Class Form1
     End Sub
 
     Private Sub tcpa_Click(sender As Object, e As EventArgs) Handles tcpa.Click
-        rolltheclip("c:\soundboard\cheryl\WRAPUP\TCPA.mp3")
+        BackgroundWorker1.RunWorkerAsync("c:\soundboard\cheryl\WRAPUP\TCPA.mp3")
     End Sub
     Private Sub Button32_Click_2(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
@@ -4816,7 +4816,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button57_Click_1(sender As Object, e As EventArgs) Handles Button57.Click
-        rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\Disclaimer 2.mp3")
+        BackgroundWorker1.RunWorkerAsync("C:\SoundBoard\Cheryl\REBUTTALS\Disclaimer 2.mp3")
     End Sub
 
     Dim played As Boolean = False
@@ -5148,7 +5148,7 @@ Public Class Form1
     Private Sub Button25_Click_2(sender As Object, e As EventArgs) Handles Button25.Click
         getWords(s, 0)
         clipType = "Objection"
-        rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3")
+        BackgroundWorker1.RunWorkerAsync("C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3")
 
 
     End Sub
@@ -5261,7 +5261,7 @@ Public Class Form1
             NICount = 0
             cmbDispo.Text = "Entering Lead/Low"
             resetBot()
-            rolltheclip("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
+            BackgroundWorker1.RunWorkerAsync("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
             NumClicks += 1
             CurrentQ = 31
             Timer2.Enabled = True
@@ -5670,6 +5670,17 @@ Public Class Form1
             End If
 
         Next
+    End Sub
+
+    Private Sub BackgroundWorker1_DoWork(sender As Object, e As DoWorkEventArgs) Handles BackgroundWorker1.DoWork
+        Dim worker As System.ComponentModel.BackgroundWorker
+        worker = CType(sender, System.ComponentModel.BackgroundWorker)
+
+        Dim clippy As String
+        clippy = CType(e.Argument, String)
+
+        rolltheclip(clippy)
+
     End Sub
 End Class
 

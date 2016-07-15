@@ -190,6 +190,7 @@ Partial Class Form1
         Me.testpagebutton = New System.Windows.Forms.Button()
         Me.calltimer = New System.Windows.Forms.Timer(Me.components)
         Me.Button1 = New System.Windows.Forms.Button()
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.frReactions.SuspendLayout()
         Me.GroupBox9.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -2190,6 +2191,9 @@ Partial Class Form1
         Me.Button1.Text = "export Scrolls"
         Me.Button1.UseVisualStyleBackColor = True
         '
+        'BackgroundWorker1
+        '
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
@@ -2410,4 +2414,5 @@ Partial Class Form1
     Friend WithEvents testpagebutton As Button
     Friend WithEvents calltimer As Timer
     Friend WithEvents Button1 As Button
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
 End Class
