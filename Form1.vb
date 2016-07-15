@@ -926,7 +926,6 @@ Public Class Form1
 
                 Next
             Next
-
         End If
         Dim strArray() As KeyValuePair(Of String, Integer) = d.ToArray
 
@@ -936,6 +935,7 @@ Public Class Form1
             If strArray(z).Value < BestMatch Then
                 BestMatch = strArray(z).Value
                 Buttonindex = z + 1
+
             End If
         Next
         If BestMatch < 10 Then
@@ -966,8 +966,17 @@ Public Class Form1
 
 
     Sub getWords(phrase As String, numdic As Integer)
-        If Not Scrolls(numdic).Contains(phrase) Then
+        Console.WriteLine("PANDA PANDA PANDA: " & phrase & "NO MORE PANDA PANDA PANDA")
+        For Each item As String In Scrolls(numdic)
+            If item.Contains(phrase) Then
+                Console.WriteLine("I AM THE MOTHERFUCKING WALRUS")
+            End If
+        Next
+        If Scrolls(numdic).Contains(phrase) Then
+            Exit Sub
+        Else
             Scrolls(numdic).Add(phrase)
+            Console.WriteLine("added phrase")
         End If
         For Each item As String In Scrolls(numdic)
             Console.WriteLine(item)
@@ -5678,6 +5687,10 @@ Public Class Form1
 
         rolltheclip(clippy)
 
+    End Sub
+
+    Private Sub Button16_Click_1(sender As Object, e As EventArgs) Handles Button16.Click
+        Part = ""
     End Sub
 End Class
 

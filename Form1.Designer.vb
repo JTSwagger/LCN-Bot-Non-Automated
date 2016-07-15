@@ -191,6 +191,7 @@ Partial Class Form1
         Me.calltimer = New System.Windows.Forms.Timer(Me.components)
         Me.Button1 = New System.Windows.Forms.Button()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        Me.Button16 = New System.Windows.Forms.Button()
         Me.frReactions.SuspendLayout()
         Me.GroupBox9.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -2194,12 +2195,22 @@ Partial Class Form1
         'BackgroundWorker1
         '
         '
+        'Button16
+        '
+        Me.Button16.Location = New System.Drawing.Point(230, 183)
+        Me.Button16.Name = "Button16"
+        Me.Button16.Size = New System.Drawing.Size(164, 23)
+        Me.Button16.TabIndex = 149
+        Me.Button16.Text = "Colonic (clear the butthole)"
+        Me.Button16.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(672, 866)
+        Me.Controls.Add(Me.Button16)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.testpagebutton)
         Me.Controls.Add(Me.txtVerifierNum)
@@ -2415,4 +2426,5 @@ Partial Class Form1
     Friend WithEvents calltimer As Timer
     Friend WithEvents Button1 As Button
     Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents Button16 As Button
 End Class
