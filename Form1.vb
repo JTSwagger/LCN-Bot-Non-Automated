@@ -948,7 +948,7 @@ Public Class Form1
 
             End If
         Next
-        If BestMatch < 4 Then
+        If BestMatch < 7 Then
             rebuttalYoFace(Buttonindex)
 
         End If
