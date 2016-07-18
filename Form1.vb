@@ -288,21 +288,24 @@ Public Class Form1
         If vMake(vehiclenum) <> "" Then
             If vehiclenum = 1 Then
                 Try
-                    selectElement = New SelectElement(local_browser.FindElementById("vehicle-make"))
-                    selectElement.SelectByText(vMake(vehiclenum))
+                    'selectElement = New SelectElement(local_browser.FindElementById("vehicle-make"))
+                    'selectElement.SelectByText(vMake(vehiclenum))
+                    BackgroundWorker2.RunWorkerAsync({"vehicle-make", vMake(vehiclenum)})
                     Return True
                 Catch ex As Exception
                     Do Until local_browser.FindElementById("vehicle-make").GetAttribute("class").Contains("hide") = False
                         Console.WriteLine("whoopwhoopwhoop shoopdawhoop")
                     Loop
-                    selectElement = New SelectElement(local_browser.FindElementById("vehicle-make"))
-                    selectElement.SelectByText(vMake(vehiclenum))
+                    'selectElement = New SelectElement(local_browser.FindElementById("vehicle-make"))
+                    'selectElement.SelectByText(vMake(vehiclenum))
+                    BackgroundWorker2.RunWorkerAsync({"vehicle-make", vMake(vehiclenum)})
                     Return True
                 End Try
             Else
                 Try
-                    selectElement = New SelectElement(local_browser.FindElementById("vehicle" & vehiclenum & "-make"))
-                    selectElement.SelectByText(vMake(vehiclenum))
+                    'selectElement = New SelectElement(local_browser.FindElementById("vehicle" & vehiclenum & "-make"))
+                    'selectElement.SelectByText(vMake(vehiclenum))
+                    BackgroundWorker2.RunWorkerAsync({"vehicle" & vehiclenum & "-make", vMake(vehiclenum)})
                     Return True
                 Catch
                 End Try
@@ -779,14 +782,19 @@ Public Class Form1
     Public Function getModel() As Boolean
         Thread.Sleep(300)
         If local_browser.FindElementById("vehicle-make").Text <> vMake(VehicleNum) Then
-            local_browser.FindElementById("vehicle-make").SendKeys(vMake(VehicleNum))
+            'local_browser.FindElementById("vehicle-make").SendKeys(vMake(VehicleNum))
+            BackgroundWorker2.RunWorkerAsync({"vehicle-make", vMake(VehicleNum)})
+
         End If
         Console.WriteLine("Getting model: ")
+        Dim der_Elem As String
         Try
             If VehicleNum = 1 Then
                 selectElement = New SelectElement(local_browser.FindElementById("vehicle-model"))
+                der_Elem = "vehicle-model"
             Else
                 selectElement = New SelectElement(local_browser.FindElementById("vehicle" & VehicleNum & "-model"))
+                der_Elem = "vehicle" & VehicleNum & "-model"
             End If
 
         Catch
@@ -795,8 +803,10 @@ Public Class Form1
             End While
             If VehicleNum = 1 Then
                 selectElement = New SelectElement(local_browser.FindElementById("vehicle-model"))
+                der_Elem = "vehicle-model"
             Else
                 selectElement = New SelectElement(local_browser.FindElementById("vehicle" & VehicleNum & "-model"))
+                der_Elem = "vehicle" & VehicleNum & "-model"
             End If
 
         End Try
@@ -815,7 +825,7 @@ Public Class Form1
                 Console.WriteLine(Model_List.Item(x) & ">>>>" & split_speech(Y))
                 If Model_List.Item(x).Contains(split_speech(Y)) And split_speech(Y).Length > 2 Then
                     Console.WriteLine("Found it bitch!")
-                    selectElement.SelectByText(Model_List.Item(x))
+                    BackgroundWorker2.RunWorkerAsync({der_Elem, Model_List.Item(x)})
                     Return True
                 End If
             Next
@@ -938,7 +948,7 @@ Public Class Form1
 
             End If
         Next
-        If BestMatch < 10 Then
+        If BestMatch < 4 Then
             rebuttalYoFace(Buttonindex)
 
         End If
@@ -967,17 +977,14 @@ Public Class Form1
 
     Sub getWords(phrase As String, numdic As Integer)
         Console.WriteLine("PANDA PANDA PANDA: " & phrase & "NO MORE PANDA PANDA PANDA")
-        For Each item As String In Scrolls(numdic)
-            If item.Contains(phrase) Then
-                Console.WriteLine("I AM THE MOTHERFUCKING WALRUS")
+        For Each item As String In phrase.Split(".")
+            Console.WriteLine("SPLIT ITEM " & item)
+            If Not Scrolls(numdic).Contains(item) And Not item = "" Then
+                Console.WriteLine("I AM THE WALRUS")
+                Scrolls(numdic).Add(item)
+                Console.WriteLine("Added item")
             End If
         Next
-        If Scrolls(numdic).Contains(phrase) Then
-            Exit Sub
-        Else
-            Scrolls(numdic).Add(phrase)
-            Console.WriteLine("added phrase")
-        End If
         For Each item As String In Scrolls(numdic)
             Console.WriteLine(item)
         Next
@@ -1735,13 +1742,16 @@ Public Class Form1
         Next
         If VYear(VehicleNum) <> "" Then
             If VehicleNum = 1 Then
-                local_browser.FindElementById("vehicle-year").SendKeys(VYear(VehicleNum))
-                local_browser.Keyboard.PressKey(Keys.Return)
+                'local_browser.FindElementById("vehicle-year").SendKeys(VYear(VehicleNum))
+                'local_browser.Keyboard.PressKey(Keys.Return)
+                BackgroundWorker2.RunWorkerAsync({"vehicle-year", VYear(VehicleNum)})
+
                 CurrentQ += 1
                 Return True
             Else
-                local_browser.FindElementById("vehicle" & VehicleNum & "-year").SendKeys(VYear(VehicleNum))
-                local_browser.Keyboard.PressKey(Keys.Return)
+                'local_browser.FindElementById("vehicle" & VehicleNum & "-year").SendKeys(VYear(VehicleNum))
+                'local_browser.Keyboard.PressKey(Keys.Return)
+                BackgroundWorker2.RunWorkerAsync({"vehicle" & VehicleNum & "-year", VYear(VehicleNum)})
                 CurrentQ += 1
                 Return True
             End If
@@ -3670,14 +3680,14 @@ Public Class Form1
         rolltheclip("c: \soundboard\cheryl\INTRO\CHERY_CALLING_FROM_LCN.mp3")
     End Sub
 
-    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles HOMETYPE.Click
+    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles btnHomeType.Click
         isQuestion = True
 
         rolltheclip("c:\soundboard\cheryl\PERSONAL INFO\HOMETYPE.mp3")
         callPos = Home_Type
 
     End Sub
-    Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
+    Private Sub Button13_Click(sender As Object, e As EventArgs) Handles btnOwnOrRent.Click
         StopThatClip()
         rolltheclip("c:\soundboard\cheryl\PERSONAL INFO\DO YOU OWN Or RENT THE HOME.mp3")
         CurrentQ = 15
@@ -3775,7 +3785,7 @@ Public Class Form1
         callPos = Spouse_DOB
 
     End Sub
-    Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+    Private Sub Button9_Click(sender As Object, e As EventArgs) Handles btnDOB.Click
         isQuestion = True
         If getBirthdaWAV() = True Then
             tbCallOrder.SelectedTab = tbDriverInfo
@@ -3816,7 +3826,7 @@ Public Class Form1
     Private Sub Button19_Click(sender As Object, e As EventArgs)
         rolltheclip("C:/Soundboard/Cheryl/OtherCar.mp3")
     End Sub
-    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles btnMaritalStatus.Click
         StopThatClip()
         rolltheclip("c:\soundboard\cheryl\DRIVER INFO\MaritalStatus2.mp3")
         clipType = "Question"
@@ -3824,7 +3834,7 @@ Public Class Form1
         isQuestion = True
 
     End Sub
-    Private Sub Button20_Click(sender As Object, e As EventArgs) Handles Button20.Click
+    Private Sub Button20_Click(sender As Object, e As EventArgs) Handles btnPhoneType.Click
         isQuestion = True
 
         rolltheclip("C:/Soundboard/Cheryl/PERSONAL INFO/phoneType.mp3")
@@ -3833,14 +3843,14 @@ Public Class Form1
 
 
     End Sub
-    Private Sub Button21_Click(sender As Object, e As EventArgs) Handles Button21.Click
+    Private Sub Button21_Click(sender As Object, e As EventArgs) Handles btnVerifyLastName.Click
         isQuestion = True
         rolltheclip("C:/Soundboard/Cheryl/PERSONAL INFO/Last Name.mp3")
         clipType = "Question"
         callPos = Last_Name
 
     End Sub
-    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles SpouseName.Click
+    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles btnSpouseName.Click
         StopThatClip()
         rolltheclip("c:\soundboard\cheryl\DRIVER INFO\SPOUSES FIRST NAME.mp3")
         isQuestion = True
@@ -3848,7 +3858,7 @@ Public Class Form1
         callPos = Spouse_Name
 
     End Sub
-    Private Sub Button23_Click(sender As Object, e As EventArgs) Handles Button23.Click
+    Private Sub Button23_Click(sender As Object, e As EventArgs) Handles btnOK.Click
         isQuestion = True
 
         If clipnum(0) = 0 Then
@@ -3864,7 +3874,7 @@ Public Class Form1
 
 
     End Sub
-    Private Sub Button24_Click(sender As Object, e As EventArgs) Handles Button24.Click
+    Private Sub Button24_Click(sender As Object, e As EventArgs) Handles btnWhatIGot.Click
         rolltheclip("C:\Soundboard\Cheryl\REACTIONS\verygood.mp3")
     End Sub
     Private Sub Button27_Click(sender As Object, e As EventArgs)
@@ -3882,7 +3892,7 @@ Public Class Form1
     Private Sub Button30_Click(sender As Object, e As EventArgs)
         rolltheclip("C:/Soundboard/Cheryl/REbuttal3.mp3")
     End Sub
-    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles btnAddress.Click
 
         isQuestion = True
         rolltheclip("c:\soundboard\cheryl\REACTIONS\Could you please verify your address.mp3")
@@ -3937,7 +3947,7 @@ Public Class Form1
             cmbTCPA.SelectedIndex = -1
         Next
     End Sub
-    Private Sub Button34_Click(sender As Object, e As EventArgs) Handles Button34.Click
+    Private Sub Button34_Click(sender As Object, e As EventArgs) Handles btnNotAvailableCloser.Click
 
 
         cmbMoreVehicles.SelectedIndex = 0
@@ -3956,7 +3966,7 @@ Public Class Form1
         resetBot()
 
     End Sub
-    Private Sub Button33_Click(sender As Object, e As EventArgs) Handles Button33.Click
+    Private Sub Button33_Click(sender As Object, e As EventArgs) Handles btnCreditApprox.Click
         isQuestion = True
         clipType = "Question"
         callPos = Credit
@@ -3982,7 +3992,7 @@ Public Class Form1
     Private Sub Button39_Click(sender As Object, e As EventArgs)
         rolltheclip("C:/Soundboard/Cheryl/YES.mp3")
     End Sub
-    Private Sub Button41_Click(sender As Object, e As EventArgs) Handles Button41.Click
+    Private Sub Button41_Click(sender As Object, e As EventArgs) Handles btnHumanReaction.Click
         If clipnum(2) = 0 Then
             rolltheclip("C:\Soundboard\Cheryl\REACTIONS\EXCELLENT 2.mp3")
             clipnum(2) += 1
@@ -4016,7 +4026,7 @@ Public Class Form1
     Private Sub Button53_Click(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\Rebuttals\Rebuttal3.mp3")
     End Sub
-    Private Sub Button63_Click(sender As Object, e As EventArgs) Handles Button63.Click
+    Private Sub Button63_Click(sender As Object, e As EventArgs) Handles btnYearMakeModel.Click
         Select Case VehicleNum
             Case 1
                 Select Case NumberOfVehicles
@@ -4037,7 +4047,7 @@ Public Class Form1
 
 
     End Sub
-    Private Sub Button64_Click(sender As Object, e As EventArgs) Handles Button64.Click
+    Private Sub Button64_Click(sender As Object, e As EventArgs) Handles btnHowManyVehicles.Click
         rolltheclip("C:/SOUNDBOARD/CHERYL/VEHICLE INFO/HOW MANY VEHICLES DO YOU HAVE.MP3")
         isQuestion = True
         clipType = "Question"
@@ -4093,7 +4103,7 @@ Public Class Form1
     Private Sub Button44_Click(sender As Object, e As EventArgs)
         rolltheclip("C:\Soundboard\Cheryl\TIE INS\and.mp3")
     End Sub
-    Private Sub Button36_Click_1(sender As Object, e As EventArgs) Handles Button36.Click
+    Private Sub Button36_Click_1(sender As Object, e As EventArgs) Handles btnSpellThatPl0x.Click
         rolltheclip("C:\Soundboard\Cheryl\TIE INS\Could You Please Spell That Out.mp3")
     End Sub
     Private Sub Button55_Click(sender As Object, e As EventArgs)
@@ -4102,7 +4112,7 @@ Public Class Form1
     Private Sub Button52_Click(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\Rebuttals\Rebuttal2.mp3")
     End Sub
-    Private Sub Button2_Click_1(sender As Object, e As EventArgs) Handles Button2.Click
+    Private Sub Button2_Click_1(sender As Object, e As EventArgs) Handles btnSorry.Click
         rolltheclip("c:\soundboard\cheryl\Rebuttals\SORRY.mp3")
     End Sub
     Private Sub Button3_Click_1(sender As Object, e As EventArgs)
@@ -4115,7 +4125,7 @@ Public Class Form1
     Private Sub Button29_Click_1(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3")
     End Sub
-    Private Sub Button30_Click_1(sender As Object, e As EventArgs) Handles YEARBUILT.Click
+    Private Sub Button30_Click_1(sender As Object, e As EventArgs) Handles btnYearBuilt.Click
         rolltheclip("C:\SoundBoard\Cheryl\WRAPUP\YearBuilt.mp3")
     End Sub
     Private Sub Button56_Click(sender As Object, e As EventArgs)
@@ -4124,7 +4134,7 @@ Public Class Form1
     Private Sub Button61_Click(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\REACTIONS\NO.mp3")
     End Sub
-    Private Sub Button42_Click_1(sender As Object, e As EventArgs) Handles Button42.Click
+    Private Sub Button42_Click_1(sender As Object, e As EventArgs) Handles btnYallAreStalkers.Click
         clipType = "Objection"
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3")
 
@@ -4143,13 +4153,13 @@ Public Class Form1
 
         End Select
     End Sub
-    Private Sub Button67_Click(sender As Object, e As EventArgs) Handles Button67.Click
+    Private Sub Button67_Click(sender As Object, e As EventArgs) Handles btnWhatsLCN.Click
         getWords(Part, 2)
         clipType = "Objection"
         rolltheclip("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
 
     End Sub
-    Private Sub Button43_Click(sender As Object, e As EventArgs) Handles Button43.Click
+    Private Sub Button43_Click(sender As Object, e As EventArgs) Handles btnDoNotCallCloser.Click
         cmbMoreVehicles.SelectedIndex = 0
         rolltheclip("c:\soundboard\cheryl\Rebuttals\DNC.mp3")
         cmbDispo.Text = "Do Not Call"
@@ -4163,7 +4173,7 @@ Public Class Form1
         rolltheclip("c:\soundboard\cheryl\INTRO\AUTOOpener 2.MP3")
     End Sub
 
-    Private Sub tcpa_Click(sender As Object, e As EventArgs) Handles tcpa.Click
+    Private Sub tcpa_Click(sender As Object, e As EventArgs) Handles btnTCPA.Click
         BackgroundWorker1.RunWorkerAsync("c:\soundboard\cheryl\WRAPUP\TCPA.mp3")
     End Sub
     Private Sub Button32_Click_2(sender As Object, e As EventArgs)
@@ -4194,7 +4204,7 @@ Public Class Form1
     Private Sub Button84_Click(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\january feb march april.mp3")
     End Sub
-    Private Sub Button85_Click(sender As Object, e As EventArgs) Handles Button85.Click
+    Private Sub Button85_Click(sender As Object, e As EventArgs) Handles btnDontYouHaveThis.Click
         getWords(Part, 4)
         clipType = "Objection"
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3")
@@ -4224,25 +4234,25 @@ Public Class Form1
     Private Sub Button88_Click(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\what's LCN.mp3")
     End Sub
-    Private Sub Button89_Click(sender As Object, e As EventArgs) Handles Button89.Click
+    Private Sub Button89_Click(sender As Object, e As EventArgs) Handles btnHaiThisIsCheryl.Click
         rolltheclip("c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3")
     End Sub
-    Private Sub Button90_Click(sender As Object, e As EventArgs) Handles Button90.Click
+    Private Sub Button90_Click(sender As Object, e As EventArgs) Handles btnAreYouStillThere.Click
         rolltheclip("c:\soundboard\cheryl\INTRO\HELLO.mp3")
     End Sub
     Private Sub Button91_Click(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
     End Sub
-    Private Sub Button92_Click(sender As Object, e As EventArgs) Handles Button92.Click
+    Private Sub Button92_Click(sender As Object, e As EventArgs) Handles btnWhatDisAbout.Click
         getWords(Part, 3)
         clipType = "Objection"
         rolltheclip("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
 
     End Sub
-    Private Sub Button46_Click(sender As Object, e As EventArgs) Handles Button46.Click
+    Private Sub Button46_Click(sender As Object, e As EventArgs) Handles btnGreatQuestion.Click
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3")
     End Sub
-    Private Sub Button93_Click(sender As Object, e As EventArgs) Handles Button93.Click
+    Private Sub Button93_Click(sender As Object, e As EventArgs) Handles btnIUnderstandCompletely.Click
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\I COMPLETELY UNDERSTAND.mp3")
     End Sub
     Private Sub Button53_Click_1(sender As Object, e As EventArgs)
@@ -4254,22 +4264,22 @@ Public Class Form1
     Private Sub Button3_Click_2(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
     End Sub
-    Private Sub Button81_Click(sender As Object, e As EventArgs) Handles Button81.Click
+    Private Sub Button81_Click(sender As Object, e As EventArgs) Handles btnALLTHECALLS.Click
         clipType = "Objection"
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\local agents and carriers in your area.mp3")
     End Sub
-    Private Sub Button82_Click(sender As Object, e As EventArgs) Handles Button82.Click
+    Private Sub Button82_Click(sender As Object, e As EventArgs) Handles btnEmailMePl0x.Click
         getWords(Part, 6)
         clipType = "Objection"
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\can they email.mp3")
 
     End Sub
-    Private Sub Button51_Click_1(sender As Object, e As EventArgs) Handles Button51.Click
+    Private Sub Button51_Click_1(sender As Object, e As EventArgs) Handles btnYoureNotIDK.Click
         getWords(Part, 7)
         clipType = "Objection"
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\you're not giving me a quote.mp3")
     End Sub
-    Private Sub Button83_Click(sender As Object, e As EventArgs) Handles Button83.Click
+    Private Sub Button83_Click(sender As Object, e As EventArgs) Handles btnWhenWillTheyCallMe.Click
         getWords(Part, 8)
         clipType = "Objection"
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\when will they call.mp3")
@@ -4341,15 +4351,15 @@ Public Class Form1
     End Sub
     Private Sub YEARBUILTTEXT_TextChanged(sender As Object, e As EventArgs) Handles txtYearBuilt.TextChanged
         If String.IsNullOrEmpty(txtYearBuilt.Text) = False Then
-            SQFT.Visible = True
+            btnSquareFeet.Visible = True
             txtSqFt.Visible = True
         Else
-            SQFT.Visible = False
+            btnSquareFeet.Visible = False
             txtSqFt.Visible = False
         End If
     End Sub
 
-    Private Sub Button3_Click_3(sender As Object, e As EventArgs) Handles Button3.Click
+    Private Sub Button3_Click_3(sender As Object, e As EventArgs) Handles btnYAAAAAS.Click
         If clipnum(3) = 0 Then
             rolltheclip("c:\soundboard\cheryl\REACTIONS\YES.mp3")
             clipnum(3) += 1
@@ -4363,7 +4373,7 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button7_Click_1(sender As Object, e As EventArgs) Handles Button7.Click
+    Private Sub Button7_Click_1(sender As Object, e As EventArgs) Handles btnNahhh.Click
         If clipnum(4) = 0 Then
             rolltheclip("c:\soundboard\cheryl\REACTIONS\sorry, no 1.mp3")
             clipnum(4) += 1
@@ -4381,7 +4391,7 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button17_Click_1(sender As Object, e As EventArgs) Handles Button17.Click
+    Private Sub Button17_Click_1(sender As Object, e As EventArgs) Handles btnHiQuestionMark.Click
         Try
             rolltheclip(globalFile)
         Catch
@@ -4389,7 +4399,7 @@ Public Class Form1
         End Try
     End Sub
 
-    Private Sub Button15_Click_2(sender As Object, e As EventArgs) Handles Button15.Click
+    Private Sub Button15_Click_2(sender As Object, e As EventArgs) Handles btnLookingForMoo.Click
         Try
             rolltheclip(globalfile3)
         Catch
@@ -4781,7 +4791,7 @@ Public Class Form1
         rolltheclip("c:\soundboard\cheryl\VEHICLE INFO\MODEL OF THE FIRST VEHICLE.mp3")
     End Sub
 
-    Private Sub Button22_Click_1(sender As Object, e As EventArgs) Handles Button22.Click
+    Private Sub Button22_Click_1(sender As Object, e As EventArgs) Handles btnIsOkay.Click
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\That's okay.mp3")
     End Sub
 
@@ -4793,7 +4803,7 @@ Public Class Form1
         rolltheclip("c:\soundboard\cheryl\REACTIONS\This info.mp3")
     End Sub
 
-    Private Sub Button53_Click_2(sender As Object, e As EventArgs) Handles Button53.Click
+    Private Sub Button53_Click_2(sender As Object, e As EventArgs) Handles btnGetEmailAddr.Click
         isQuestion = True
         rolltheclip("C:/Soundboard/Cheryl/PERSONAL INFO/email.mp3")
         clipType = "Question"
@@ -4821,7 +4831,7 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button57_Click_1(sender As Object, e As EventArgs) Handles Button57.Click
+    Private Sub Button57_Click_1(sender As Object, e As EventArgs) Handles btnTCPARepeatPl0x.Click
         BackgroundWorker1.RunWorkerAsync("C:\SoundBoard\Cheryl\REBUTTALS\Disclaimer 2.mp3")
     End Sub
 
@@ -4861,7 +4871,7 @@ Public Class Form1
     End Sub
 
 
-    Private Sub SQFT_Click(sender As Object, e As EventArgs) Handles SQFT.Click
+    Private Sub SQFT_Click(sender As Object, e As EventArgs) Handles btnSquareFeet.Click
         If HomeCheck.Visible = True Then
             rolltheclip("C:\SoundBoard\Cheryl\WRAPUP\Square Footage.mp3")
         Else
@@ -4953,11 +4963,11 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Button61_Click_2(sender As Object, e As EventArgs) Handles Button61.Click
+    Private Sub Button61_Click_2(sender As Object, e As EventArgs) Handles btnThankYou.Click
         rolltheclip("C:\SoundBoard\Cheryl\REACTIONS\Thank-You.mp3")
     End Sub
 
-    Private Sub Button70_Click(sender As Object, e As EventArgs) Handles Button70.Click
+    Private Sub Button70_Click(sender As Object, e As EventArgs) Handles btnYoureWelcome.Click
         rolltheclip("C:\SoundBoard\Cheryl\REACTIONS\You're-Welcome.mp3")
     End Sub
 
@@ -5024,7 +5034,7 @@ Public Class Form1
 
 
 
-    Private Sub Button12_Click_1(sender As Object, e As EventArgs) Handles Button12.Click
+    Private Sub Button12_Click_1(sender As Object, e As EventArgs) Handles btnNotInterestedCloser.Click
 
         Reset()
         cmbMoreVehicles.SelectedIndex = 0
@@ -5045,7 +5055,7 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button6_Click_1(sender As Object, e As EventArgs) Handles Button6.Click
+    Private Sub Button6_Click_1(sender As Object, e As EventArgs) Handles btnWrongNumberCloser.Click
 
 
         Reset()
@@ -5067,7 +5077,7 @@ Public Class Form1
         resetBot()
     End Sub
 
-    Private Sub Button10_Click_1(sender As Object, e As EventArgs) Handles Button10.Click
+    Private Sub Button10_Click_1(sender As Object, e As EventArgs) Handles btnNoCarCloser.Click
         Reset()
         cmbMoreVehicles.SelectedIndex = 0
         theurl = ""
@@ -5079,7 +5089,7 @@ Public Class Form1
         resetBot()
     End Sub
 
-    Private Sub Button35_Click_1(sender As Object, e As EventArgs) Handles Button35.Click
+    Private Sub Button35_Click_1(sender As Object, e As EventArgs) Handles btnNoEnglishCloser.Click
         Reset()
         cmbMoreVehicles.SelectedIndex = 0
         theurl = ""
@@ -5095,29 +5105,29 @@ Public Class Form1
     Dim spot1 As Integer
     Dim spot2 As Integer
 
-    Private Sub Button84_Click_1(sender As Object, e As EventArgs) Handles Button84.Click
+    Private Sub Button84_Click_1(sender As Object, e As EventArgs) Handles btnMonthsList.Click
         rolltheclip("C:/SOUNDBOARD/CHERYL/REBUTTALS/JANUARY FEB MARCH APRIL.mp3")
     End Sub
 
-    Private Sub Button38_Click_1(sender As Object, e As EventArgs) Handles Button38.Click
+    Private Sub Button38_Click_1(sender As Object, e As EventArgs) Handles btnBestGuess.Click
         rolltheclip("C:\SoundBoard\Cheryl\TIE INS\Great What's Your Best Guess.mp3")
     End Sub
 
-    Private Sub Button4_Click_2(sender As Object, e As EventArgs) Handles Button4.Click
+    Private Sub Button4_Click_2(sender As Object, e As EventArgs) Handles btnThisWillBeQuickAndPainless.Click
 
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
 
     End Sub
 
-    Private Sub Button77_Click_1(sender As Object, e As EventArgs) Handles Button77.Click
+    Private Sub Button77_Click_1(sender As Object, e As EventArgs) Handles btnAlmostDone.Click
         rolltheclip("C:\Users\Insurance Express\Desktop\Cheryl MP3\Old Sounds\JUSTABOUTDONE.mp3")
     End Sub
 
-    Private Sub Button59_Click_1(sender As Object, e As EventArgs) Handles Button59.Click
+    Private Sub Button59_Click_1(sender As Object, e As EventArgs) Handles btnNoEmailRebut.Click
         rolltheclip("C:\SoundBoard\Cheryl\PERSONAL INFO\I would just need an email address that you have access to.mp3")
     End Sub
 
-    Private Sub Button19_Click_2(sender As Object, e As EventArgs) Handles Button19.Click
+    Private Sub Button19_Click_2(sender As Object, e As EventArgs) Handles btnInsuranceSmilesRebut.Click
         getWords(Part, 14)
         clipType = "Objection"
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\HappyWithInsurance.mp3")
@@ -5125,9 +5135,9 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button32_Click_3(sender As Object, e As EventArgs) Handles Button32.Click
+    Private Sub Button32_Click_3(sender As Object, e As EventArgs) Handles btnWhyDoYouNeedThat.Click
         getWords(Part, 10)
-        getWords(Part, 9)
+        'getWords(Part, 9)
         clipType = "Objection"
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\this info.mp3")
 
@@ -5135,7 +5145,7 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button69_Click_1(sender As Object, e As EventArgs) Handles Button69.Click
+    Private Sub Button69_Click_1(sender As Object, e As EventArgs) Handles btnNotGivingThatOutRebut.Click
 
         getWords(s, 1)
         clipType = "Objection"
@@ -5143,7 +5153,7 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button26_Click_2(sender As Object, e As EventArgs) Handles Button26.Click
+    Private Sub Button26_Click_2(sender As Object, e As EventArgs) Handles btnAlreadyHaveRebut.Click
         getWords(Part, 11)
         clipType = "Objection"
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\I Already Have Insurance rebuttal.mp3")
@@ -5151,85 +5161,86 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button25_Click_2(sender As Object, e As EventArgs) Handles Button25.Click
+    Private Sub Button25_Click_2(sender As Object, e As EventArgs) Handles btnNotInterestedRebut.Click
         getWords(s, 0)
         clipType = "Objection"
         BackgroundWorker1.RunWorkerAsync("C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3")
-
+        Part = ""
+        s = ""
 
     End Sub
 
-    Private Sub Button49_Click_2(sender As Object, e As EventArgs) Handles Button49.Click
+    Private Sub Button49_Click_2(sender As Object, e As EventArgs) Handles btnEmailRebut.Click
         getWords(Part, 12)
         clipType = "Objection"
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\EMAIL REBUTTAL.mp3")
 
     End Sub
 
-    Private Sub Button58_Click_2(sender As Object, e As EventArgs) Handles Button58.Click
+    Private Sub Button58_Click_2(sender As Object, e As EventArgs) Handles btnIMovedRebut.Click
         clipType = "Objection"
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\NEW ADDRESS REBUTTAL.mp3")
 
     End Sub
 
-    Private Sub Button56_Click_2(sender As Object, e As EventArgs) Handles Button56.Click
+    Private Sub Button56_Click_2(sender As Object, e As EventArgs) Handles btnPOBoxRebut.Click
         clipType = "Objection"
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\P.O BOX REBUTTAL.mp3")
 
     End Sub
 
-    Private Sub Button31_Click_3(sender As Object, e As EventArgs) Handles Button31.Click
+    Private Sub Button31_Click_3(sender As Object, e As EventArgs) Handles btnAddressRebut.Click
         getWords(Part, 13)
         clipType = "Objection"
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3")
 
     End Sub
 
-    Private Sub Button5_Click_2(sender As Object, e As EventArgs) Handles Button5.Click
+    Private Sub Button5_Click_2(sender As Object, e As EventArgs) Handles btnSpusalDutiesRebut.Click
         clipType = "Objection"
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\My spouse takes care of that.mp3")
 
 
     End Sub
 
-    Private Sub Button68_Click_2(sender As Object, e As EventArgs) Handles Button68.Click
+    Private Sub Button68_Click_2(sender As Object, e As EventArgs) Handles btnAreYouTheSpouse.Click
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\Is this the spouse.mp3")
     End Sub
 
-    Private Sub Button52_Click_2(sender As Object, e As EventArgs) Handles Button52.Click
+    Private Sub Button52_Click_2(sender As Object, e As EventArgs) Handles btnBeMoreSpecific.Click
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\I HAVE A FEW HERE.mp3")
     End Sub
 
-    Private Sub Button48_Click_1(sender As Object, e As EventArgs) Handles Button48.Click
+    Private Sub Button48_Click_1(sender As Object, e As EventArgs) Handles btnOneAtATime.Click
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\ONE AT A TIME PLEASE.mp3")
     End Sub
 
-    Private Sub Make_Click_1(sender As Object, e As EventArgs) Handles Make.Click
+    Private Sub Make_Click_1(sender As Object, e As EventArgs) Handles btnListMakes.Click
         rolltheclip("c:\soundboard\cheryl\PUSHONS\chevyfordgmc.mp3")
     End Sub
 
-    Private Sub insurance_Click_1(sender As Object, e As EventArgs) Handles insurance.Click
+    Private Sub insurance_Click_1(sender As Object, e As EventArgs) Handles btnProvidersList.Click
         rolltheclip("c:\soundboard\cheryl\PUSHONS\allstategeicostatefarm.mp3")
 
     End Sub
 
-    Private Sub Button50_Click_1(sender As Object, e As EventArgs) Handles Button50.Click
+    Private Sub Button50_Click_1(sender As Object, e As EventArgs) Handles btnLittleMonth.Click
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
     End Sub
 
-    Private Sub Button55_Click_3(sender As Object, e As EventArgs) Handles Button55.Click
+    Private Sub Button55_Click_3(sender As Object, e As EventArgs) Handles btnLittleDay.Click
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE DAY.mp3")
     End Sub
 
-    Private Sub Button54_Click(sender As Object, e As EventArgs) Handles Button54.Click
+    Private Sub Button54_Click(sender As Object, e As EventArgs) Handles btnLittleYear.Click
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE YEAR.mp3")
     End Sub
 
-    Private Sub Button14_Click_1(sender As Object, e As EventArgs) Handles Button14.Click
+    Private Sub Button14_Click_1(sender As Object, e As EventArgs) Handles btnLittleEmail.Click
         rolltheclip("C:\SoundBoard\Cheryl\PERSONAL INFO\email.mp3")
     End Sub
 
-    Private Sub Button72_Click_2(sender As Object, e As EventArgs) Handles Button72.Click
+    Private Sub Button72_Click_2(sender As Object, e As EventArgs) Handles btnLittleZip.Click
         rolltheclip("C:\SoundBoard\Cheryl\REACTIONS\zip.mp3")
     End Sub
 
@@ -5241,17 +5252,17 @@ Public Class Form1
         rolltheclip("c:\soundboard\cheryl\VEHICLE INFO\MAKE OF THE FIRST VEHICLE.mp3")
     End Sub
 
-    Private Sub Button45_Click_2(sender As Object, e As EventArgs) Handles Button45.Click
+    Private Sub Button45_Click_2(sender As Object, e As EventArgs) Handles btnFirstCarModel.Click
         rolltheclip("c:\soundboard\cheryl\VEHICLE INFO\MODEL OF THE FIRST VEHICLE.mp3")
     End Sub
 
-    Private Sub Button60_Click_1(sender As Object, e As EventArgs) Handles Button60.Click
+    Private Sub Button60_Click_1(sender As Object, e As EventArgs) Handles btnCuriousRebut.Click
         clipType = "Objection"
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL3.mp3")
 
     End Sub
 
-    Private Sub Button29_Click_5(sender As Object, e As EventArgs) Handles Button29.Click
+    Private Sub Button29_Click_5(sender As Object, e As EventArgs) Handles btnPriceServiceRebut.Click
         clipType = "Objection"
         rolltheclip("C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\Im sure what.mp3")
 
@@ -5259,7 +5270,7 @@ Public Class Form1
 
     End Sub
     Dim NumClicks As Integer = 0
-    Private Sub Button39_Click_2(sender As Object, e As EventArgs) Handles Button39.Click
+    Private Sub Button39_Click_2(sender As Object, e As EventArgs) Handles btnLeadGetCloser.Click
         If NumClicks = 0 Then
             Reset()
             cmbMoreVehicles.SelectedIndex = 0
@@ -5278,7 +5289,7 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button44_Click_2(sender As Object, e As EventArgs) Handles Button44.Click
+    Private Sub Button44_Click_2(sender As Object, e As EventArgs) Handles btnLOWCloser.Click
         If NumClicks = 0 Then
             Reset()
             cmbMoreVehicles.SelectedIndex = 0
@@ -5299,11 +5310,11 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button18_Click_5(sender As Object, e As EventArgs) Handles Button18.Click
+    Private Sub Button18_Click_5(sender As Object, e As EventArgs) Handles btnActuallySorry.Click
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\Sorry to hear that 2.mp3")
     End Sub
 
-    Private Sub Button27_Click_2(sender As Object, e As EventArgs) Handles Button27.Click
+    Private Sub Button27_Click_2(sender As Object, e As EventArgs) Handles btnManiacalLaugh.Click
         If clipnum(9) = 0 Then
             rolltheclip("C:\Soundboard\Cheryl\REACTIONS\Loud-laugh.mp3")
             clipnum(9) += 1
@@ -5455,18 +5466,18 @@ Public Class Form1
                 End Try
                 If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3") Then
                     globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
-                    Button15.BackgroundImage = Nothing
+                    btnLookingForMoo.BackgroundImage = Nothing
                 Else
-                    Button15.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
-                    Button17.BackgroundImageLayout = 2
+                    btnLookingForMoo.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
+                    btnHiQuestionMark.BackgroundImageLayout = 2
 
                 End If
                 If My.Computer.FileSystem.FileExists("C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3") Then
                     globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
-                    Button17.BackgroundImage = Nothing
+                    btnHiQuestionMark.BackgroundImage = Nothing
                 Else
-                    Button17.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
-                    Button17.BackgroundImageLayout = 2
+                    btnHiQuestionMark.BackgroundImage = System.Drawing.Image.FromFile("C:/NoSoundClip.jpg")
+                    btnHiQuestionMark.BackgroundImageLayout = 2
 
 
 
@@ -5658,7 +5669,7 @@ Public Class Form1
     Dim inBetween As Integer = 0
 
     Dim objwriter As System.IO.StreamWriter
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnExport.Click
         For i As Integer = 0 To Scrolls.Length - 1
 
             If System.IO.File.Exists(My.Application.Info.DirectoryPath & "Scroll" & i & ".wzd") = True Then
@@ -5689,8 +5700,34 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button16_Click_1(sender As Object, e As EventArgs) Handles Button16.Click
+    Private Sub Button16_Click_1(sender As Object, e As EventArgs)
         Part = ""
+    End Sub
+
+
+    Delegate Sub thedelegate(elementid As String, valuetouse As String)
+    ' the delegate: in theatres everywhere at the exact moment of the heat death of the universe
+    Private Sub mrdelegate(elementid As String, valuetouse As String)
+        ' this method is basically used to modify the leadform in the background with some *really* hacky begininvoke shit
+        Dim element As IWebElement = local_browser.FindElementById(elementid)
+        If valuetouse.Contains("vehicle") Then
+            selectElement = New SelectElement(element)
+            selectElement.SelectByText(valuetouse)
+            Exit Sub
+        End If
+        element.SendKeys(valuetouse)
+        Console.WriteLine("YOUR ELEMENTS NEW TEXTUAL VALUE IS: " & element.Text)
+    End Sub
+
+    Private Sub BackgroundWorker2_DoWork(sender As Object, e As DoWorkEventArgs) Handles BackgroundWorker2.DoWork
+        Console.WriteLine("I AM THE BATMAN")
+        moo()
+
+        Dim elemdID As String = e.Argument(0)
+        Dim value As String = e.Argument(1)
+
+        Me.BeginInvoke(New thedelegate(AddressOf mrdelegate), {elemdID, value})
+
     End Sub
 End Class
 

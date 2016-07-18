@@ -24,56 +24,56 @@ Partial Class Form1
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.txtEmail = New System.Windows.Forms.TextBox()
-        Me.Button53 = New System.Windows.Forms.Button()
+        Me.btnGetEmailAddr = New System.Windows.Forms.Button()
         Me.txtName = New System.Windows.Forms.TextBox()
         Me.txtAddress = New System.Windows.Forms.TextBox()
-        Me.Button33 = New System.Windows.Forms.Button()
-        Me.Button21 = New System.Windows.Forms.Button()
-        Me.Button20 = New System.Windows.Forms.Button()
-        Me.Button11 = New System.Windows.Forms.Button()
-        Me.HOMETYPE = New System.Windows.Forms.Button()
-        Me.Button13 = New System.Windows.Forms.Button()
+        Me.btnCreditApprox = New System.Windows.Forms.Button()
+        Me.btnVerifyLastName = New System.Windows.Forms.Button()
+        Me.btnPhoneType = New System.Windows.Forms.Button()
+        Me.btnAddress = New System.Windows.Forms.Button()
+        Me.btnHomeType = New System.Windows.Forms.Button()
+        Me.btnOwnOrRent = New System.Windows.Forms.Button()
         Me.txtDOB = New System.Windows.Forms.TextBox()
         Me.txtSPOUSEDOB = New System.Windows.Forms.TextBox()
         Me.txtSPOUSENAME = New System.Windows.Forms.TextBox()
         Me.SpouseDOB = New System.Windows.Forms.Button()
-        Me.SpouseName = New System.Windows.Forms.Button()
-        Me.Button8 = New System.Windows.Forms.Button()
-        Me.Button9 = New System.Windows.Forms.Button()
+        Me.btnSpouseName = New System.Windows.Forms.Button()
+        Me.btnMaritalStatus = New System.Windows.Forms.Button()
+        Me.btnDOB = New System.Windows.Forms.Button()
         Me.btnIntro = New System.Windows.Forms.Button()
         Me.btnTheirName = New System.Windows.Forms.Button()
         Me.btnHello = New System.Windows.Forms.Button()
         Me.Primary = New System.Windows.Forms.ComboBox()
         Me.frReactions = New System.Windows.Forms.GroupBox()
-        Me.Button27 = New System.Windows.Forms.Button()
-        Me.Button18 = New System.Windows.Forms.Button()
-        Me.Button70 = New System.Windows.Forms.Button()
-        Me.Button61 = New System.Windows.Forms.Button()
-        Me.Button22 = New System.Windows.Forms.Button()
-        Me.Button17 = New System.Windows.Forms.Button()
-        Me.Button15 = New System.Windows.Forms.Button()
-        Me.Button7 = New System.Windows.Forms.Button()
-        Me.Button3 = New System.Windows.Forms.Button()
-        Me.Button89 = New System.Windows.Forms.Button()
-        Me.Button93 = New System.Windows.Forms.Button()
-        Me.Button46 = New System.Windows.Forms.Button()
-        Me.Button90 = New System.Windows.Forms.Button()
-        Me.Button36 = New System.Windows.Forms.Button()
+        Me.btnManiacalLaugh = New System.Windows.Forms.Button()
+        Me.btnActuallySorry = New System.Windows.Forms.Button()
+        Me.btnYoureWelcome = New System.Windows.Forms.Button()
+        Me.btnThankYou = New System.Windows.Forms.Button()
+        Me.btnIsOkay = New System.Windows.Forms.Button()
+        Me.btnHiQuestionMark = New System.Windows.Forms.Button()
+        Me.btnLookingForMoo = New System.Windows.Forms.Button()
+        Me.btnNahhh = New System.Windows.Forms.Button()
+        Me.btnYAAAAAS = New System.Windows.Forms.Button()
+        Me.btnHaiThisIsCheryl = New System.Windows.Forms.Button()
+        Me.btnIUnderstandCompletely = New System.Windows.Forms.Button()
+        Me.btnGreatQuestion = New System.Windows.Forms.Button()
+        Me.btnAreYouStillThere = New System.Windows.Forms.Button()
+        Me.btnSpellThatPl0x = New System.Windows.Forms.Button()
         Me.btnRepeatThat = New System.Windows.Forms.Button()
-        Me.Button41 = New System.Windows.Forms.Button()
+        Me.btnHumanReaction = New System.Windows.Forms.Button()
         Me.Button28 = New System.Windows.Forms.Button()
-        Me.Button24 = New System.Windows.Forms.Button()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.Button23 = New System.Windows.Forms.Button()
+        Me.btnWhatIGot = New System.Windows.Forms.Button()
+        Me.btnSorry = New System.Windows.Forms.Button()
+        Me.btnOK = New System.Windows.Forms.Button()
         Me.GroupBox9 = New System.Windows.Forms.GroupBox()
-        Me.Button44 = New System.Windows.Forms.Button()
-        Me.Button39 = New System.Windows.Forms.Button()
-        Me.Button35 = New System.Windows.Forms.Button()
-        Me.Button12 = New System.Windows.Forms.Button()
-        Me.Button10 = New System.Windows.Forms.Button()
-        Me.Button6 = New System.Windows.Forms.Button()
-        Me.Button34 = New System.Windows.Forms.Button()
-        Me.Button43 = New System.Windows.Forms.Button()
+        Me.btnLOWCloser = New System.Windows.Forms.Button()
+        Me.btnLeadGetCloser = New System.Windows.Forms.Button()
+        Me.btnNoEnglishCloser = New System.Windows.Forms.Button()
+        Me.btnNotInterestedCloser = New System.Windows.Forms.Button()
+        Me.btnNoCarCloser = New System.Windows.Forms.Button()
+        Me.btnWrongNumberCloser = New System.Windows.Forms.Button()
+        Me.btnNotAvailableCloser = New System.Windows.Forms.Button()
+        Me.btnDoNotCallCloser = New System.Windows.Forms.Button()
         Me.txtPolicyStart = New System.Windows.Forms.TextBox()
         Me.txtPolicyExpiration = New System.Windows.Forms.TextBox()
         Me.txtInsuranceProvider = New System.Windows.Forms.TextBox()
@@ -85,60 +85,60 @@ Partial Class Form1
         Me.LifeCheck = New System.Windows.Forms.CheckBox()
         Me.HomeCheck = New System.Windows.Forms.CheckBox()
         Me.HealthCheck = New System.Windows.Forms.CheckBox()
-        Me.Button57 = New System.Windows.Forms.Button()
+        Me.btnTCPARepeatPl0x = New System.Windows.Forms.Button()
         Me.txtSqFt = New System.Windows.Forms.TextBox()
         Me.txtYearBuilt = New System.Windows.Forms.TextBox()
-        Me.tcpa = New System.Windows.Forms.Button()
-        Me.SQFT = New System.Windows.Forms.Button()
-        Me.Button65 = New System.Windows.Forms.Button()
-        Me.YEARBUILT = New System.Windows.Forms.Button()
-        Me.Button42 = New System.Windows.Forms.Button()
+        Me.btnTCPA = New System.Windows.Forms.Button()
+        Me.btnSquareFeet = New System.Windows.Forms.Button()
+        Me.btnOtherShtuss = New System.Windows.Forms.Button()
+        Me.btnYearBuilt = New System.Windows.Forms.Button()
+        Me.btnYallAreStalkers = New System.Windows.Forms.Button()
         Me.cmbMoreVehicles = New System.Windows.Forms.ComboBox()
-        Me.Button63 = New System.Windows.Forms.Button()
-        Me.Button64 = New System.Windows.Forms.Button()
-        Me.Button67 = New System.Windows.Forms.Button()
+        Me.btnYearMakeModel = New System.Windows.Forms.Button()
+        Me.btnHowManyVehicles = New System.Windows.Forms.Button()
+        Me.btnWhatsLCN = New System.Windows.Forms.Button()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.lblCalls = New System.Windows.Forms.Label()
         Me.lblQuestion = New System.Windows.Forms.Label()
-        Me.Button92 = New System.Windows.Forms.Button()
-        Me.Button51 = New System.Windows.Forms.Button()
-        Me.Button83 = New System.Windows.Forms.Button()
-        Me.Button85 = New System.Windows.Forms.Button()
-        Me.Button82 = New System.Windows.Forms.Button()
-        Me.Button81 = New System.Windows.Forms.Button()
+        Me.btnWhatDisAbout = New System.Windows.Forms.Button()
+        Me.btnYoureNotIDK = New System.Windows.Forms.Button()
+        Me.btnWhenWillTheyCallMe = New System.Windows.Forms.Button()
+        Me.btnDontYouHaveThis = New System.Windows.Forms.Button()
+        Me.btnEmailMePl0x = New System.Windows.Forms.Button()
+        Me.btnALLTHECALLS = New System.Windows.Forms.Button()
         Me.results = New System.Windows.Forms.TextBox()
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.tbQuestions = New System.Windows.Forms.TabPage()
         Me.Button40 = New System.Windows.Forms.Button()
-        Me.Button29 = New System.Windows.Forms.Button()
-        Me.Button60 = New System.Windows.Forms.Button()
-        Me.Button32 = New System.Windows.Forms.Button()
-        Me.Button45 = New System.Windows.Forms.Button()
-        Me.Button52 = New System.Windows.Forms.Button()
-        Me.insurance = New System.Windows.Forms.Button()
-        Me.Button84 = New System.Windows.Forms.Button()
-        Me.Make = New System.Windows.Forms.Button()
-        Me.Button72 = New System.Windows.Forms.Button()
-        Me.Button48 = New System.Windows.Forms.Button()
-        Me.Button14 = New System.Windows.Forms.Button()
-        Me.Button50 = New System.Windows.Forms.Button()
-        Me.Button54 = New System.Windows.Forms.Button()
-        Me.Button55 = New System.Windows.Forms.Button()
-        Me.Button38 = New System.Windows.Forms.Button()
-        Me.Button56 = New System.Windows.Forms.Button()
-        Me.Button49 = New System.Windows.Forms.Button()
-        Me.Button59 = New System.Windows.Forms.Button()
-        Me.Button58 = New System.Windows.Forms.Button()
-        Me.Button31 = New System.Windows.Forms.Button()
-        Me.Button5 = New System.Windows.Forms.Button()
-        Me.Button68 = New System.Windows.Forms.Button()
-        Me.Button25 = New System.Windows.Forms.Button()
-        Me.Button77 = New System.Windows.Forms.Button()
-        Me.Button26 = New System.Windows.Forms.Button()
-        Me.Button4 = New System.Windows.Forms.Button()
-        Me.Button19 = New System.Windows.Forms.Button()
-        Me.Button69 = New System.Windows.Forms.Button()
+        Me.btnPriceServiceRebut = New System.Windows.Forms.Button()
+        Me.btnCuriousRebut = New System.Windows.Forms.Button()
+        Me.btnWhyDoYouNeedThat = New System.Windows.Forms.Button()
+        Me.btnFirstCarModel = New System.Windows.Forms.Button()
+        Me.btnBeMoreSpecific = New System.Windows.Forms.Button()
+        Me.btnProvidersList = New System.Windows.Forms.Button()
+        Me.btnMonthsList = New System.Windows.Forms.Button()
+        Me.btnListMakes = New System.Windows.Forms.Button()
+        Me.btnLittleZip = New System.Windows.Forms.Button()
+        Me.btnOneAtATime = New System.Windows.Forms.Button()
+        Me.btnLittleEmail = New System.Windows.Forms.Button()
+        Me.btnLittleMonth = New System.Windows.Forms.Button()
+        Me.btnLittleYear = New System.Windows.Forms.Button()
+        Me.btnLittleDay = New System.Windows.Forms.Button()
+        Me.btnBestGuess = New System.Windows.Forms.Button()
+        Me.btnPOBoxRebut = New System.Windows.Forms.Button()
+        Me.btnEmailRebut = New System.Windows.Forms.Button()
+        Me.btnNoEmailRebut = New System.Windows.Forms.Button()
+        Me.btnIMovedRebut = New System.Windows.Forms.Button()
+        Me.btnAddressRebut = New System.Windows.Forms.Button()
+        Me.btnSpusalDutiesRebut = New System.Windows.Forms.Button()
+        Me.btnAreYouTheSpouse = New System.Windows.Forms.Button()
+        Me.btnNotInterestedRebut = New System.Windows.Forms.Button()
+        Me.btnAlmostDone = New System.Windows.Forms.Button()
+        Me.btnAlreadyHaveRebut = New System.Windows.Forms.Button()
+        Me.btnThisWillBeQuickAndPainless = New System.Windows.Forms.Button()
+        Me.btnInsuranceSmilesRebut = New System.Windows.Forms.Button()
+        Me.btnNotGivingThatOutRebut = New System.Windows.Forms.Button()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.lblLeads2 = New System.Windows.Forms.Label()
         Me.lblCalls2 = New System.Windows.Forms.Label()
@@ -179,7 +179,7 @@ Partial Class Form1
         Me.cmbSecondaries = New System.Windows.Forms.ComboBox()
         Me.tbResults = New System.Windows.Forms.TabPage()
         Me.cmbDispo = New System.Windows.Forms.ComboBox()
-        Me.Label30 = New System.Windows.Forms.Label()
+        Me.lblDisposition = New System.Windows.Forms.Label()
         Me.txtVerifierNum = New System.Windows.Forms.TextBox()
         Me.Label32 = New System.Windows.Forms.Label()
         Me.tmrAgentStatus = New System.Windows.Forms.Timer(Me.components)
@@ -189,9 +189,9 @@ Partial Class Form1
         Me.Label1 = New System.Windows.Forms.Label()
         Me.testpagebutton = New System.Windows.Forms.Button()
         Me.calltimer = New System.Windows.Forms.Timer(Me.components)
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.btnExport = New System.Windows.Forms.Button()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
-        Me.Button16 = New System.Windows.Forms.Button()
+        Me.BackgroundWorker2 = New System.ComponentModel.BackgroundWorker()
         Me.frReactions.SuspendLayout()
         Me.GroupBox9.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -217,17 +217,17 @@ Partial Class Form1
         Me.txtEmail.Size = New System.Drawing.Size(109, 53)
         Me.txtEmail.TabIndex = 57
         '
-        'Button53
+        'btnGetEmailAddr
         '
-        Me.Button53.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button53.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button53.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button53.Location = New System.Drawing.Point(279, 13)
-        Me.Button53.Name = "Button53"
-        Me.Button53.Size = New System.Drawing.Size(109, 44)
-        Me.Button53.TabIndex = 56
-        Me.Button53.Text = "Email"
-        Me.Button53.UseVisualStyleBackColor = True
+        Me.btnGetEmailAddr.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnGetEmailAddr.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGetEmailAddr.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnGetEmailAddr.Location = New System.Drawing.Point(279, 13)
+        Me.btnGetEmailAddr.Name = "btnGetEmailAddr"
+        Me.btnGetEmailAddr.Size = New System.Drawing.Size(109, 44)
+        Me.btnGetEmailAddr.TabIndex = 56
+        Me.btnGetEmailAddr.Text = "Email"
+        Me.btnGetEmailAddr.UseVisualStyleBackColor = True
         '
         'txtName
         '
@@ -245,74 +245,74 @@ Partial Class Form1
         Me.txtAddress.Size = New System.Drawing.Size(108, 53)
         Me.txtAddress.TabIndex = 52
         '
-        'Button33
+        'btnCreditApprox
         '
-        Me.Button33.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button33.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button33.Location = New System.Drawing.Point(392, 14)
-        Me.Button33.Name = "Button33"
-        Me.Button33.Size = New System.Drawing.Size(76, 44)
-        Me.Button33.TabIndex = 15
-        Me.Button33.Text = "CREDIT"
-        Me.Button33.UseVisualStyleBackColor = True
+        Me.btnCreditApprox.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCreditApprox.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnCreditApprox.Location = New System.Drawing.Point(392, 14)
+        Me.btnCreditApprox.Name = "btnCreditApprox"
+        Me.btnCreditApprox.Size = New System.Drawing.Size(76, 44)
+        Me.btnCreditApprox.TabIndex = 15
+        Me.btnCreditApprox.Text = "CREDIT"
+        Me.btnCreditApprox.UseVisualStyleBackColor = True
         '
-        'Button21
+        'btnVerifyLastName
         '
-        Me.Button21.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button21.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button21.Location = New System.Drawing.Point(543, 13)
-        Me.Button21.Name = "Button21"
-        Me.Button21.Size = New System.Drawing.Size(80, 44)
-        Me.Button21.TabIndex = 14
-        Me.Button21.Text = " NAME"
-        Me.Button21.UseVisualStyleBackColor = True
+        Me.btnVerifyLastName.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnVerifyLastName.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnVerifyLastName.Location = New System.Drawing.Point(543, 13)
+        Me.btnVerifyLastName.Name = "btnVerifyLastName"
+        Me.btnVerifyLastName.Size = New System.Drawing.Size(80, 44)
+        Me.btnVerifyLastName.TabIndex = 14
+        Me.btnVerifyLastName.Text = " NAME"
+        Me.btnVerifyLastName.UseVisualStyleBackColor = True
         '
-        'Button20
+        'btnPhoneType
         '
-        Me.Button20.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button20.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button20.Location = New System.Drawing.Point(470, 13)
-        Me.Button20.Name = "Button20"
-        Me.Button20.Size = New System.Drawing.Size(72, 44)
-        Me.Button20.TabIndex = 13
-        Me.Button20.Text = "P TYPE"
-        Me.Button20.UseVisualStyleBackColor = True
+        Me.btnPhoneType.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPhoneType.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnPhoneType.Location = New System.Drawing.Point(470, 13)
+        Me.btnPhoneType.Name = "btnPhoneType"
+        Me.btnPhoneType.Size = New System.Drawing.Size(72, 44)
+        Me.btnPhoneType.TabIndex = 13
+        Me.btnPhoneType.Text = "P TYPE"
+        Me.btnPhoneType.UseVisualStyleBackColor = True
         '
-        'Button11
+        'btnAddress
         '
-        Me.Button11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button11.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button11.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button11.Location = New System.Drawing.Point(167, 13)
-        Me.Button11.Name = "Button11"
-        Me.Button11.Size = New System.Drawing.Size(108, 44)
-        Me.Button11.TabIndex = 10
-        Me.Button11.Text = "Address"
-        Me.Button11.UseVisualStyleBackColor = True
+        Me.btnAddress.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnAddress.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddress.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnAddress.Location = New System.Drawing.Point(167, 13)
+        Me.btnAddress.Name = "btnAddress"
+        Me.btnAddress.Size = New System.Drawing.Size(108, 44)
+        Me.btnAddress.TabIndex = 10
+        Me.btnAddress.Text = "Address"
+        Me.btnAddress.UseVisualStyleBackColor = True
         '
-        'HOMETYPE
+        'btnHomeType
         '
-        Me.HOMETYPE.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.HOMETYPE.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.HOMETYPE.ForeColor = System.Drawing.Color.MediumBlue
-        Me.HOMETYPE.Location = New System.Drawing.Point(85, 14)
-        Me.HOMETYPE.Name = "HOMETYPE"
-        Me.HOMETYPE.Size = New System.Drawing.Size(76, 43)
-        Me.HOMETYPE.TabIndex = 9
-        Me.HOMETYPE.Text = "HOME TYPE"
-        Me.HOMETYPE.UseVisualStyleBackColor = True
+        Me.btnHomeType.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnHomeType.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHomeType.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnHomeType.Location = New System.Drawing.Point(85, 14)
+        Me.btnHomeType.Name = "btnHomeType"
+        Me.btnHomeType.Size = New System.Drawing.Size(76, 43)
+        Me.btnHomeType.TabIndex = 9
+        Me.btnHomeType.Text = "HOME TYPE"
+        Me.btnHomeType.UseVisualStyleBackColor = True
         '
-        'Button13
+        'btnOwnOrRent
         '
-        Me.Button13.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button13.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button13.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button13.Location = New System.Drawing.Point(5, 14)
-        Me.Button13.Name = "Button13"
-        Me.Button13.Size = New System.Drawing.Size(74, 43)
-        Me.Button13.TabIndex = 7
-        Me.Button13.Text = "OWN/ RENT"
-        Me.Button13.UseVisualStyleBackColor = True
+        Me.btnOwnOrRent.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnOwnOrRent.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnOwnOrRent.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnOwnOrRent.Location = New System.Drawing.Point(5, 14)
+        Me.btnOwnOrRent.Name = "btnOwnOrRent"
+        Me.btnOwnOrRent.Size = New System.Drawing.Size(74, 43)
+        Me.btnOwnOrRent.TabIndex = 7
+        Me.btnOwnOrRent.Text = "OWN/ RENT"
+        Me.btnOwnOrRent.UseVisualStyleBackColor = True
         '
         'txtDOB
         '
@@ -347,41 +347,41 @@ Partial Class Form1
         Me.SpouseDOB.Text = "Spouse DOB"
         Me.SpouseDOB.UseVisualStyleBackColor = True
         '
-        'SpouseName
+        'btnSpouseName
         '
-        Me.SpouseName.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.SpouseName.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SpouseName.ForeColor = System.Drawing.Color.MediumBlue
-        Me.SpouseName.Location = New System.Drawing.Point(245, 1)
-        Me.SpouseName.Name = "SpouseName"
-        Me.SpouseName.Size = New System.Drawing.Size(89, 61)
-        Me.SpouseName.TabIndex = 10
-        Me.SpouseName.Text = "Spouse Name"
-        Me.SpouseName.UseVisualStyleBackColor = True
+        Me.btnSpouseName.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnSpouseName.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSpouseName.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnSpouseName.Location = New System.Drawing.Point(245, 1)
+        Me.btnSpouseName.Name = "btnSpouseName"
+        Me.btnSpouseName.Size = New System.Drawing.Size(89, 61)
+        Me.btnSpouseName.TabIndex = 10
+        Me.btnSpouseName.Text = "Spouse Name"
+        Me.btnSpouseName.UseVisualStyleBackColor = True
         '
-        'Button8
+        'btnMaritalStatus
         '
-        Me.Button8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button8.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button8.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button8.Location = New System.Drawing.Point(134, 1)
-        Me.Button8.Name = "Button8"
-        Me.Button8.Size = New System.Drawing.Size(88, 61)
-        Me.Button8.TabIndex = 9
-        Me.Button8.Text = "Marital status"
-        Me.Button8.UseVisualStyleBackColor = True
+        Me.btnMaritalStatus.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnMaritalStatus.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMaritalStatus.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnMaritalStatus.Location = New System.Drawing.Point(134, 1)
+        Me.btnMaritalStatus.Name = "btnMaritalStatus"
+        Me.btnMaritalStatus.Size = New System.Drawing.Size(88, 61)
+        Me.btnMaritalStatus.TabIndex = 9
+        Me.btnMaritalStatus.Text = "Marital status"
+        Me.btnMaritalStatus.UseVisualStyleBackColor = True
         '
-        'Button9
+        'btnDOB
         '
-        Me.Button9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button9.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button9.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button9.Location = New System.Drawing.Point(24, 2)
-        Me.Button9.Name = "Button9"
-        Me.Button9.Size = New System.Drawing.Size(91, 61)
-        Me.Button9.TabIndex = 7
-        Me.Button9.Text = "DOB"
-        Me.Button9.UseVisualStyleBackColor = True
+        Me.btnDOB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnDOB.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDOB.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnDOB.Location = New System.Drawing.Point(24, 2)
+        Me.btnDOB.Name = "btnDOB"
+        Me.btnDOB.Size = New System.Drawing.Size(91, 61)
+        Me.btnDOB.TabIndex = 7
+        Me.btnDOB.Text = "DOB"
+        Me.btnDOB.UseVisualStyleBackColor = True
         '
         'btnIntro
         '
@@ -429,26 +429,26 @@ Partial Class Form1
         '
         'frReactions
         '
-        Me.frReactions.Controls.Add(Me.Button27)
-        Me.frReactions.Controls.Add(Me.Button18)
-        Me.frReactions.Controls.Add(Me.Button70)
-        Me.frReactions.Controls.Add(Me.Button61)
-        Me.frReactions.Controls.Add(Me.Button22)
-        Me.frReactions.Controls.Add(Me.Button17)
-        Me.frReactions.Controls.Add(Me.Button15)
-        Me.frReactions.Controls.Add(Me.Button7)
-        Me.frReactions.Controls.Add(Me.Button3)
-        Me.frReactions.Controls.Add(Me.Button89)
-        Me.frReactions.Controls.Add(Me.Button93)
-        Me.frReactions.Controls.Add(Me.Button46)
-        Me.frReactions.Controls.Add(Me.Button90)
-        Me.frReactions.Controls.Add(Me.Button36)
+        Me.frReactions.Controls.Add(Me.btnManiacalLaugh)
+        Me.frReactions.Controls.Add(Me.btnActuallySorry)
+        Me.frReactions.Controls.Add(Me.btnYoureWelcome)
+        Me.frReactions.Controls.Add(Me.btnThankYou)
+        Me.frReactions.Controls.Add(Me.btnIsOkay)
+        Me.frReactions.Controls.Add(Me.btnHiQuestionMark)
+        Me.frReactions.Controls.Add(Me.btnLookingForMoo)
+        Me.frReactions.Controls.Add(Me.btnNahhh)
+        Me.frReactions.Controls.Add(Me.btnYAAAAAS)
+        Me.frReactions.Controls.Add(Me.btnHaiThisIsCheryl)
+        Me.frReactions.Controls.Add(Me.btnIUnderstandCompletely)
+        Me.frReactions.Controls.Add(Me.btnGreatQuestion)
+        Me.frReactions.Controls.Add(Me.btnAreYouStillThere)
+        Me.frReactions.Controls.Add(Me.btnSpellThatPl0x)
         Me.frReactions.Controls.Add(Me.btnRepeatThat)
-        Me.frReactions.Controls.Add(Me.Button41)
+        Me.frReactions.Controls.Add(Me.btnHumanReaction)
         Me.frReactions.Controls.Add(Me.Button28)
-        Me.frReactions.Controls.Add(Me.Button24)
-        Me.frReactions.Controls.Add(Me.Button2)
-        Me.frReactions.Controls.Add(Me.Button23)
+        Me.frReactions.Controls.Add(Me.btnWhatIGot)
+        Me.frReactions.Controls.Add(Me.btnSorry)
+        Me.frReactions.Controls.Add(Me.btnOK)
         Me.frReactions.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.frReactions.Location = New System.Drawing.Point(4, 214)
         Me.frReactions.Name = "frReactions"
@@ -457,193 +457,193 @@ Partial Class Form1
         Me.frReactions.TabStop = False
         Me.frReactions.Text = "REACTIONS "
         '
-        'Button27
+        'btnManiacalLaugh
         '
-        Me.Button27.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button27.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button27.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button27.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button27.Location = New System.Drawing.Point(191, 52)
-        Me.Button27.Name = "Button27"
-        Me.Button27.Size = New System.Drawing.Size(104, 36)
-        Me.Button27.TabIndex = 51
-        Me.Button27.Text = "Laugh"
-        Me.Button27.UseMnemonic = False
-        Me.Button27.UseVisualStyleBackColor = False
+        Me.btnManiacalLaugh.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnManiacalLaugh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnManiacalLaugh.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnManiacalLaugh.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnManiacalLaugh.Location = New System.Drawing.Point(191, 52)
+        Me.btnManiacalLaugh.Name = "btnManiacalLaugh"
+        Me.btnManiacalLaugh.Size = New System.Drawing.Size(104, 36)
+        Me.btnManiacalLaugh.TabIndex = 51
+        Me.btnManiacalLaugh.Text = "Laugh"
+        Me.btnManiacalLaugh.UseMnemonic = False
+        Me.btnManiacalLaugh.UseVisualStyleBackColor = False
         '
-        'Button18
+        'btnActuallySorry
         '
-        Me.Button18.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button18.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button18.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button18.Location = New System.Drawing.Point(390, 91)
-        Me.Button18.Name = "Button18"
-        Me.Button18.Size = New System.Drawing.Size(102, 34)
-        Me.Button18.TabIndex = 50
-        Me.Button18.Text = "Sad Sorry"
-        Me.Button18.UseMnemonic = False
-        Me.Button18.UseVisualStyleBackColor = False
+        Me.btnActuallySorry.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnActuallySorry.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnActuallySorry.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnActuallySorry.Location = New System.Drawing.Point(390, 91)
+        Me.btnActuallySorry.Name = "btnActuallySorry"
+        Me.btnActuallySorry.Size = New System.Drawing.Size(102, 34)
+        Me.btnActuallySorry.TabIndex = 50
+        Me.btnActuallySorry.Text = "Sad Sorry"
+        Me.btnActuallySorry.UseMnemonic = False
+        Me.btnActuallySorry.UseVisualStyleBackColor = False
         '
-        'Button70
+        'btnYoureWelcome
         '
-        Me.Button70.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button70.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button70.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button70.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button70.Location = New System.Drawing.Point(243, 89)
-        Me.Button70.Name = "Button70"
-        Me.Button70.Size = New System.Drawing.Size(52, 37)
-        Me.Button70.TabIndex = 49
-        Me.Button70.Text = "YW"
-        Me.Button70.UseMnemonic = False
-        Me.Button70.UseVisualStyleBackColor = False
+        Me.btnYoureWelcome.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnYoureWelcome.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnYoureWelcome.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnYoureWelcome.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnYoureWelcome.Location = New System.Drawing.Point(243, 89)
+        Me.btnYoureWelcome.Name = "btnYoureWelcome"
+        Me.btnYoureWelcome.Size = New System.Drawing.Size(52, 37)
+        Me.btnYoureWelcome.TabIndex = 49
+        Me.btnYoureWelcome.Text = "YW"
+        Me.btnYoureWelcome.UseMnemonic = False
+        Me.btnYoureWelcome.UseVisualStyleBackColor = False
         '
-        'Button61
+        'btnThankYou
         '
-        Me.Button61.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button61.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button61.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button61.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button61.Location = New System.Drawing.Point(192, 89)
-        Me.Button61.Name = "Button61"
-        Me.Button61.Size = New System.Drawing.Size(52, 37)
-        Me.Button61.TabIndex = 48
-        Me.Button61.Text = "TY"
-        Me.Button61.UseMnemonic = False
-        Me.Button61.UseVisualStyleBackColor = False
+        Me.btnThankYou.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnThankYou.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnThankYou.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnThankYou.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnThankYou.Location = New System.Drawing.Point(192, 89)
+        Me.btnThankYou.Name = "btnThankYou"
+        Me.btnThankYou.Size = New System.Drawing.Size(52, 37)
+        Me.btnThankYou.TabIndex = 48
+        Me.btnThankYou.Text = "TY"
+        Me.btnThankYou.UseMnemonic = False
+        Me.btnThankYou.UseVisualStyleBackColor = False
         '
-        'Button22
+        'btnIsOkay
         '
-        Me.Button22.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button22.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button22.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button22.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button22.Location = New System.Drawing.Point(100, 53)
-        Me.Button22.Name = "Button22"
-        Me.Button22.Size = New System.Drawing.Size(91, 36)
-        Me.Button22.TabIndex = 47
-        Me.Button22.Text = "That's OK"
-        Me.Button22.UseVisualStyleBackColor = False
+        Me.btnIsOkay.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnIsOkay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnIsOkay.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnIsOkay.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnIsOkay.Location = New System.Drawing.Point(100, 53)
+        Me.btnIsOkay.Name = "btnIsOkay"
+        Me.btnIsOkay.Size = New System.Drawing.Size(91, 36)
+        Me.btnIsOkay.TabIndex = 47
+        Me.btnIsOkay.Text = "That's OK"
+        Me.btnIsOkay.UseVisualStyleBackColor = False
         '
-        'Button17
+        'btnHiQuestionMark
         '
-        Me.Button17.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button17.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button17.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button17.Location = New System.Drawing.Point(491, 53)
-        Me.Button17.Name = "Button17"
-        Me.Button17.Size = New System.Drawing.Size(104, 36)
-        Me.Button17.TabIndex = 45
-        Me.Button17.Text = "Hi....?"
-        Me.Button17.UseMnemonic = False
-        Me.Button17.UseVisualStyleBackColor = False
+        Me.btnHiQuestionMark.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnHiQuestionMark.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHiQuestionMark.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnHiQuestionMark.Location = New System.Drawing.Point(491, 53)
+        Me.btnHiQuestionMark.Name = "btnHiQuestionMark"
+        Me.btnHiQuestionMark.Size = New System.Drawing.Size(104, 36)
+        Me.btnHiQuestionMark.TabIndex = 45
+        Me.btnHiQuestionMark.Text = "Hi....?"
+        Me.btnHiQuestionMark.UseMnemonic = False
+        Me.btnHiQuestionMark.UseVisualStyleBackColor = False
         '
-        'Button15
+        'btnLookingForMoo
         '
-        Me.Button15.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button15.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button15.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button15.Location = New System.Drawing.Point(491, 14)
-        Me.Button15.Name = "Button15"
-        Me.Button15.Size = New System.Drawing.Size(104, 38)
-        Me.Button15.TabIndex = 44
-        Me.Button15.Text = "looking for..."
-        Me.Button15.UseMnemonic = False
-        Me.Button15.UseVisualStyleBackColor = False
+        Me.btnLookingForMoo.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnLookingForMoo.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnLookingForMoo.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnLookingForMoo.Location = New System.Drawing.Point(491, 14)
+        Me.btnLookingForMoo.Name = "btnLookingForMoo"
+        Me.btnLookingForMoo.Size = New System.Drawing.Size(104, 38)
+        Me.btnLookingForMoo.TabIndex = 44
+        Me.btnLookingForMoo.Text = "looking for..."
+        Me.btnLookingForMoo.UseMnemonic = False
+        Me.btnLookingForMoo.UseVisualStyleBackColor = False
         '
-        'Button7
+        'btnNahhh
         '
-        Me.Button7.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button7.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button7.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button7.Location = New System.Drawing.Point(295, 53)
-        Me.Button7.Name = "Button7"
-        Me.Button7.Size = New System.Drawing.Size(96, 36)
-        Me.Button7.TabIndex = 22
-        Me.Button7.Text = "NO"
-        Me.Button7.UseMnemonic = False
-        Me.Button7.UseVisualStyleBackColor = False
+        Me.btnNahhh.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnNahhh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnNahhh.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnNahhh.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnNahhh.Location = New System.Drawing.Point(295, 53)
+        Me.btnNahhh.Name = "btnNahhh"
+        Me.btnNahhh.Size = New System.Drawing.Size(96, 36)
+        Me.btnNahhh.TabIndex = 22
+        Me.btnNahhh.Text = "NO"
+        Me.btnNahhh.UseMnemonic = False
+        Me.btnNahhh.UseVisualStyleBackColor = False
         '
-        'Button3
+        'btnYAAAAAS
         '
-        Me.Button3.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button3.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button3.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button3.Location = New System.Drawing.Point(295, 14)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(95, 38)
-        Me.Button3.TabIndex = 21
-        Me.Button3.Text = "YES"
-        Me.Button3.UseMnemonic = False
-        Me.Button3.UseVisualStyleBackColor = False
+        Me.btnYAAAAAS.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnYAAAAAS.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnYAAAAAS.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnYAAAAAS.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnYAAAAAS.Location = New System.Drawing.Point(295, 14)
+        Me.btnYAAAAAS.Name = "btnYAAAAAS"
+        Me.btnYAAAAAS.Size = New System.Drawing.Size(95, 38)
+        Me.btnYAAAAAS.TabIndex = 21
+        Me.btnYAAAAAS.Text = "YES"
+        Me.btnYAAAAAS.UseMnemonic = False
+        Me.btnYAAAAAS.UseVisualStyleBackColor = False
         '
-        'Button89
+        'btnHaiThisIsCheryl
         '
-        Me.Button89.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button89.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button89.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button89.Location = New System.Drawing.Point(491, 89)
-        Me.Button89.Name = "Button89"
-        Me.Button89.Size = New System.Drawing.Size(104, 36)
-        Me.Button89.TabIndex = 42
-        Me.Button89.Text = "This is cheryl"
-        Me.Button89.UseMnemonic = False
-        Me.Button89.UseVisualStyleBackColor = False
+        Me.btnHaiThisIsCheryl.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnHaiThisIsCheryl.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHaiThisIsCheryl.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnHaiThisIsCheryl.Location = New System.Drawing.Point(491, 89)
+        Me.btnHaiThisIsCheryl.Name = "btnHaiThisIsCheryl"
+        Me.btnHaiThisIsCheryl.Size = New System.Drawing.Size(104, 36)
+        Me.btnHaiThisIsCheryl.TabIndex = 42
+        Me.btnHaiThisIsCheryl.Text = "This is cheryl"
+        Me.btnHaiThisIsCheryl.UseMnemonic = False
+        Me.btnHaiThisIsCheryl.UseVisualStyleBackColor = False
         '
-        'Button93
+        'btnIUnderstandCompletely
         '
-        Me.Button93.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button93.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button93.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button93.Location = New System.Drawing.Point(3, 89)
-        Me.Button93.Name = "Button93"
-        Me.Button93.Size = New System.Drawing.Size(97, 37)
-        Me.Button93.TabIndex = 20
-        Me.Button93.Text = "understand"
-        Me.Button93.UseMnemonic = False
-        Me.Button93.UseVisualStyleBackColor = False
+        Me.btnIUnderstandCompletely.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnIUnderstandCompletely.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnIUnderstandCompletely.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnIUnderstandCompletely.Location = New System.Drawing.Point(3, 89)
+        Me.btnIUnderstandCompletely.Name = "btnIUnderstandCompletely"
+        Me.btnIUnderstandCompletely.Size = New System.Drawing.Size(97, 37)
+        Me.btnIUnderstandCompletely.TabIndex = 20
+        Me.btnIUnderstandCompletely.Text = "understand"
+        Me.btnIUnderstandCompletely.UseMnemonic = False
+        Me.btnIUnderstandCompletely.UseVisualStyleBackColor = False
         '
-        'Button46
+        'btnGreatQuestion
         '
-        Me.Button46.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button46.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button46.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button46.Location = New System.Drawing.Point(3, 52)
-        Me.Button46.Name = "Button46"
-        Me.Button46.Size = New System.Drawing.Size(97, 37)
-        Me.Button46.TabIndex = 19
-        Me.Button46.Text = "Great Q"
-        Me.Button46.UseMnemonic = False
-        Me.Button46.UseVisualStyleBackColor = False
+        Me.btnGreatQuestion.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnGreatQuestion.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGreatQuestion.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnGreatQuestion.Location = New System.Drawing.Point(3, 52)
+        Me.btnGreatQuestion.Name = "btnGreatQuestion"
+        Me.btnGreatQuestion.Size = New System.Drawing.Size(97, 37)
+        Me.btnGreatQuestion.TabIndex = 19
+        Me.btnGreatQuestion.Text = "Great Q"
+        Me.btnGreatQuestion.UseMnemonic = False
+        Me.btnGreatQuestion.UseVisualStyleBackColor = False
         '
-        'Button90
+        'btnAreYouStillThere
         '
-        Me.Button90.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button90.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button90.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button90.Location = New System.Drawing.Point(99, 89)
-        Me.Button90.Name = "Button90"
-        Me.Button90.Size = New System.Drawing.Size(95, 37)
-        Me.Button90.TabIndex = 43
-        Me.Button90.Text = "hello?"
-        Me.Button90.UseMnemonic = False
-        Me.Button90.UseVisualStyleBackColor = False
+        Me.btnAreYouStillThere.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnAreYouStillThere.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAreYouStillThere.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnAreYouStillThere.Location = New System.Drawing.Point(99, 89)
+        Me.btnAreYouStillThere.Name = "btnAreYouStillThere"
+        Me.btnAreYouStillThere.Size = New System.Drawing.Size(95, 37)
+        Me.btnAreYouStillThere.TabIndex = 43
+        Me.btnAreYouStillThere.Text = "hello?"
+        Me.btnAreYouStillThere.UseMnemonic = False
+        Me.btnAreYouStillThere.UseVisualStyleBackColor = False
         '
-        'Button36
+        'btnSpellThatPl0x
         '
-        Me.Button36.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button36.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button36.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button36.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button36.Location = New System.Drawing.Point(390, 53)
-        Me.Button36.Name = "Button36"
-        Me.Button36.Size = New System.Drawing.Size(102, 37)
-        Me.Button36.TabIndex = 8
-        Me.Button36.Text = "SPELL THAT"
-        Me.Button36.UseMnemonic = False
-        Me.Button36.UseVisualStyleBackColor = False
+        Me.btnSpellThatPl0x.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnSpellThatPl0x.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnSpellThatPl0x.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSpellThatPl0x.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnSpellThatPl0x.Location = New System.Drawing.Point(390, 53)
+        Me.btnSpellThatPl0x.Name = "btnSpellThatPl0x"
+        Me.btnSpellThatPl0x.Size = New System.Drawing.Size(102, 37)
+        Me.btnSpellThatPl0x.TabIndex = 8
+        Me.btnSpellThatPl0x.Text = "SPELL THAT"
+        Me.btnSpellThatPl0x.UseMnemonic = False
+        Me.btnSpellThatPl0x.UseVisualStyleBackColor = False
         '
         'btnRepeatThat
         '
@@ -659,19 +659,19 @@ Partial Class Form1
         Me.btnRepeatThat.UseMnemonic = False
         Me.btnRepeatThat.UseVisualStyleBackColor = False
         '
-        'Button41
+        'btnHumanReaction
         '
-        Me.Button41.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button41.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button41.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button41.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button41.Location = New System.Drawing.Point(100, 14)
-        Me.Button41.Name = "Button41"
-        Me.Button41.Size = New System.Drawing.Size(91, 38)
-        Me.Button41.TabIndex = 9
-        Me.Button41.Text = "REACTION"
-        Me.Button41.UseMnemonic = False
-        Me.Button41.UseVisualStyleBackColor = False
+        Me.btnHumanReaction.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnHumanReaction.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnHumanReaction.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHumanReaction.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnHumanReaction.Location = New System.Drawing.Point(100, 14)
+        Me.btnHumanReaction.Name = "btnHumanReaction"
+        Me.btnHumanReaction.Size = New System.Drawing.Size(91, 38)
+        Me.btnHumanReaction.TabIndex = 9
+        Me.btnHumanReaction.Text = "REACTION"
+        Me.btnHumanReaction.UseMnemonic = False
+        Me.btnHumanReaction.UseVisualStyleBackColor = False
         '
         'Button28
         '
@@ -682,55 +682,55 @@ Partial Class Form1
         Me.Button28.Text = "SORRY TO HEAR THAT"
         Me.Button28.UseVisualStyleBackColor = True
         '
-        'Button24
+        'btnWhatIGot
         '
-        Me.Button24.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button24.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button24.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button24.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button24.Location = New System.Drawing.Point(191, 14)
-        Me.Button24.Name = "Button24"
-        Me.Button24.Size = New System.Drawing.Size(104, 38)
-        Me.Button24.TabIndex = 2
-        Me.Button24.Text = "What I Got"
-        Me.Button24.UseVisualStyleBackColor = False
+        Me.btnWhatIGot.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnWhatIGot.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnWhatIGot.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnWhatIGot.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnWhatIGot.Location = New System.Drawing.Point(191, 14)
+        Me.btnWhatIGot.Name = "btnWhatIGot"
+        Me.btnWhatIGot.Size = New System.Drawing.Size(104, 38)
+        Me.btnWhatIGot.TabIndex = 2
+        Me.btnWhatIGot.Text = "What I Got"
+        Me.btnWhatIGot.UseVisualStyleBackColor = False
         '
-        'Button2
+        'btnSorry
         '
-        Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button2.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button2.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button2.Location = New System.Drawing.Point(295, 89)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(96, 36)
-        Me.Button2.TabIndex = 18
-        Me.Button2.Text = "Sorry"
-        Me.Button2.UseMnemonic = False
-        Me.Button2.UseVisualStyleBackColor = False
+        Me.btnSorry.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnSorry.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSorry.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnSorry.Location = New System.Drawing.Point(295, 89)
+        Me.btnSorry.Name = "btnSorry"
+        Me.btnSorry.Size = New System.Drawing.Size(96, 36)
+        Me.btnSorry.TabIndex = 18
+        Me.btnSorry.Text = "Sorry"
+        Me.btnSorry.UseMnemonic = False
+        Me.btnSorry.UseVisualStyleBackColor = False
         '
-        'Button23
+        'btnOK
         '
-        Me.Button23.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button23.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button23.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button23.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button23.Location = New System.Drawing.Point(3, 14)
-        Me.Button23.Name = "Button23"
-        Me.Button23.Size = New System.Drawing.Size(97, 38)
-        Me.Button23.TabIndex = 1
-        Me.Button23.Text = "OK"
-        Me.Button23.UseVisualStyleBackColor = False
+        Me.btnOK.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnOK.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnOK.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnOK.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnOK.Location = New System.Drawing.Point(3, 14)
+        Me.btnOK.Name = "btnOK"
+        Me.btnOK.Size = New System.Drawing.Size(97, 38)
+        Me.btnOK.TabIndex = 1
+        Me.btnOK.Text = "OK"
+        Me.btnOK.UseVisualStyleBackColor = False
         '
         'GroupBox9
         '
-        Me.GroupBox9.Controls.Add(Me.Button44)
-        Me.GroupBox9.Controls.Add(Me.Button39)
-        Me.GroupBox9.Controls.Add(Me.Button35)
-        Me.GroupBox9.Controls.Add(Me.Button12)
-        Me.GroupBox9.Controls.Add(Me.Button10)
-        Me.GroupBox9.Controls.Add(Me.Button6)
-        Me.GroupBox9.Controls.Add(Me.Button34)
-        Me.GroupBox9.Controls.Add(Me.Button43)
+        Me.GroupBox9.Controls.Add(Me.btnLOWCloser)
+        Me.GroupBox9.Controls.Add(Me.btnLeadGetCloser)
+        Me.GroupBox9.Controls.Add(Me.btnNoEnglishCloser)
+        Me.GroupBox9.Controls.Add(Me.btnNotInterestedCloser)
+        Me.GroupBox9.Controls.Add(Me.btnNoCarCloser)
+        Me.GroupBox9.Controls.Add(Me.btnWrongNumberCloser)
+        Me.GroupBox9.Controls.Add(Me.btnNotAvailableCloser)
+        Me.GroupBox9.Controls.Add(Me.btnDoNotCallCloser)
         Me.GroupBox9.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox9.Location = New System.Drawing.Point(4, 725)
         Me.GroupBox9.Name = "GroupBox9"
@@ -739,108 +739,108 @@ Partial Class Form1
         Me.GroupBox9.TabStop = False
         Me.GroupBox9.Text = "CLOSING"
         '
-        'Button44
+        'btnLOWCloser
         '
-        Me.Button44.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button44.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button44.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button44.Location = New System.Drawing.Point(435, 15)
-        Me.Button44.Name = "Button44"
-        Me.Button44.Size = New System.Drawing.Size(60, 47)
-        Me.Button44.TabIndex = 39
-        Me.Button44.Text = "LOW"
-        Me.Button44.UseMnemonic = False
-        Me.Button44.UseVisualStyleBackColor = False
+        Me.btnLOWCloser.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnLOWCloser.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnLOWCloser.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnLOWCloser.Location = New System.Drawing.Point(435, 15)
+        Me.btnLOWCloser.Name = "btnLOWCloser"
+        Me.btnLOWCloser.Size = New System.Drawing.Size(60, 47)
+        Me.btnLOWCloser.TabIndex = 39
+        Me.btnLOWCloser.Text = "LOW"
+        Me.btnLOWCloser.UseMnemonic = False
+        Me.btnLOWCloser.UseVisualStyleBackColor = False
         '
-        'Button39
+        'btnLeadGetCloser
         '
-        Me.Button39.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button39.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button39.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button39.Location = New System.Drawing.Point(374, 15)
-        Me.Button39.Name = "Button39"
-        Me.Button39.Size = New System.Drawing.Size(60, 47)
-        Me.Button39.TabIndex = 38
-        Me.Button39.Text = "Lead"
-        Me.Button39.UseMnemonic = False
-        Me.Button39.UseVisualStyleBackColor = False
+        Me.btnLeadGetCloser.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnLeadGetCloser.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnLeadGetCloser.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnLeadGetCloser.Location = New System.Drawing.Point(374, 15)
+        Me.btnLeadGetCloser.Name = "btnLeadGetCloser"
+        Me.btnLeadGetCloser.Size = New System.Drawing.Size(60, 47)
+        Me.btnLeadGetCloser.TabIndex = 38
+        Me.btnLeadGetCloser.Text = "Lead"
+        Me.btnLeadGetCloser.UseMnemonic = False
+        Me.btnLeadGetCloser.UseVisualStyleBackColor = False
         '
-        'Button35
+        'btnNoEnglishCloser
         '
-        Me.Button35.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button35.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button35.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button35.Location = New System.Drawing.Point(312, 14)
-        Me.Button35.Name = "Button35"
-        Me.Button35.Size = New System.Drawing.Size(60, 47)
-        Me.Button35.TabIndex = 37
-        Me.Button35.Text = "No Eng"
-        Me.Button35.UseMnemonic = False
-        Me.Button35.UseVisualStyleBackColor = False
+        Me.btnNoEnglishCloser.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnNoEnglishCloser.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnNoEnglishCloser.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnNoEnglishCloser.Location = New System.Drawing.Point(312, 14)
+        Me.btnNoEnglishCloser.Name = "btnNoEnglishCloser"
+        Me.btnNoEnglishCloser.Size = New System.Drawing.Size(60, 47)
+        Me.btnNoEnglishCloser.TabIndex = 37
+        Me.btnNoEnglishCloser.Text = "No Eng"
+        Me.btnNoEnglishCloser.UseMnemonic = False
+        Me.btnNoEnglishCloser.UseVisualStyleBackColor = False
         '
-        'Button12
+        'btnNotInterestedCloser
         '
-        Me.Button12.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button12.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button12.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button12.Location = New System.Drawing.Point(64, 14)
-        Me.Button12.Name = "Button12"
-        Me.Button12.Size = New System.Drawing.Size(66, 47)
-        Me.Button12.TabIndex = 36
-        Me.Button12.Text = "NI"
-        Me.Button12.UseMnemonic = False
-        Me.Button12.UseVisualStyleBackColor = False
+        Me.btnNotInterestedCloser.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnNotInterestedCloser.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnNotInterestedCloser.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnNotInterestedCloser.Location = New System.Drawing.Point(64, 14)
+        Me.btnNotInterestedCloser.Name = "btnNotInterestedCloser"
+        Me.btnNotInterestedCloser.Size = New System.Drawing.Size(66, 47)
+        Me.btnNotInterestedCloser.TabIndex = 36
+        Me.btnNotInterestedCloser.Text = "NI"
+        Me.btnNotInterestedCloser.UseMnemonic = False
+        Me.btnNotInterestedCloser.UseVisualStyleBackColor = False
         '
-        'Button10
+        'btnNoCarCloser
         '
-        Me.Button10.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button10.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button10.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button10.Location = New System.Drawing.Point(252, 14)
-        Me.Button10.Name = "Button10"
-        Me.Button10.Size = New System.Drawing.Size(60, 47)
-        Me.Button10.TabIndex = 35
-        Me.Button10.Text = "No Car"
-        Me.Button10.UseMnemonic = False
-        Me.Button10.UseVisualStyleBackColor = False
+        Me.btnNoCarCloser.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnNoCarCloser.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnNoCarCloser.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnNoCarCloser.Location = New System.Drawing.Point(252, 14)
+        Me.btnNoCarCloser.Name = "btnNoCarCloser"
+        Me.btnNoCarCloser.Size = New System.Drawing.Size(60, 47)
+        Me.btnNoCarCloser.TabIndex = 35
+        Me.btnNoCarCloser.Text = "No Car"
+        Me.btnNoCarCloser.UseMnemonic = False
+        Me.btnNoCarCloser.UseVisualStyleBackColor = False
         '
-        'Button6
+        'btnWrongNumberCloser
         '
-        Me.Button6.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button6.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button6.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button6.Location = New System.Drawing.Point(191, 14)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(60, 47)
-        Me.Button6.TabIndex = 34
-        Me.Button6.Text = "Wrong Num"
-        Me.Button6.UseMnemonic = False
-        Me.Button6.UseVisualStyleBackColor = False
+        Me.btnWrongNumberCloser.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnWrongNumberCloser.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnWrongNumberCloser.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnWrongNumberCloser.Location = New System.Drawing.Point(191, 14)
+        Me.btnWrongNumberCloser.Name = "btnWrongNumberCloser"
+        Me.btnWrongNumberCloser.Size = New System.Drawing.Size(60, 47)
+        Me.btnWrongNumberCloser.TabIndex = 34
+        Me.btnWrongNumberCloser.Text = "Wrong Num"
+        Me.btnWrongNumberCloser.UseMnemonic = False
+        Me.btnWrongNumberCloser.UseVisualStyleBackColor = False
         '
-        'Button34
+        'btnNotAvailableCloser
         '
-        Me.Button34.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button34.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button34.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button34.Location = New System.Drawing.Point(4, 14)
-        Me.Button34.Name = "Button34"
-        Me.Button34.Size = New System.Drawing.Size(60, 47)
-        Me.Button34.TabIndex = 8
-        Me.Button34.Text = "NA"
-        Me.Button34.UseVisualStyleBackColor = False
+        Me.btnNotAvailableCloser.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnNotAvailableCloser.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnNotAvailableCloser.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnNotAvailableCloser.Location = New System.Drawing.Point(4, 14)
+        Me.btnNotAvailableCloser.Name = "btnNotAvailableCloser"
+        Me.btnNotAvailableCloser.Size = New System.Drawing.Size(60, 47)
+        Me.btnNotAvailableCloser.TabIndex = 8
+        Me.btnNotAvailableCloser.Text = "NA"
+        Me.btnNotAvailableCloser.UseVisualStyleBackColor = False
         '
-        'Button43
+        'btnDoNotCallCloser
         '
-        Me.Button43.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button43.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button43.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button43.Location = New System.Drawing.Point(130, 14)
-        Me.Button43.Name = "Button43"
-        Me.Button43.Size = New System.Drawing.Size(60, 47)
-        Me.Button43.TabIndex = 33
-        Me.Button43.Text = "DNC"
-        Me.Button43.UseMnemonic = False
-        Me.Button43.UseVisualStyleBackColor = False
+        Me.btnDoNotCallCloser.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnDoNotCallCloser.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDoNotCallCloser.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnDoNotCallCloser.Location = New System.Drawing.Point(130, 14)
+        Me.btnDoNotCallCloser.Name = "btnDoNotCallCloser"
+        Me.btnDoNotCallCloser.Size = New System.Drawing.Size(60, 47)
+        Me.btnDoNotCallCloser.TabIndex = 33
+        Me.btnDoNotCallCloser.Text = "DNC"
+        Me.btnDoNotCallCloser.UseMnemonic = False
+        Me.btnDoNotCallCloser.UseVisualStyleBackColor = False
         '
         'txtPolicyStart
         '
@@ -951,17 +951,17 @@ Partial Class Form1
         Me.HealthCheck.Text = "Health"
         Me.HealthCheck.UseVisualStyleBackColor = True
         '
-        'Button57
+        'btnTCPARepeatPl0x
         '
-        Me.Button57.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button57.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button57.Location = New System.Drawing.Point(506, 9)
-        Me.Button57.Name = "Button57"
-        Me.Button57.Size = New System.Drawing.Size(81, 62)
-        Me.Button57.TabIndex = 58
-        Me.Button57.Text = "TCPA Repeat"
-        Me.Button57.UseMnemonic = False
-        Me.Button57.UseVisualStyleBackColor = True
+        Me.btnTCPARepeatPl0x.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnTCPARepeatPl0x.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnTCPARepeatPl0x.Location = New System.Drawing.Point(506, 9)
+        Me.btnTCPARepeatPl0x.Name = "btnTCPARepeatPl0x"
+        Me.btnTCPARepeatPl0x.Size = New System.Drawing.Size(81, 62)
+        Me.btnTCPARepeatPl0x.TabIndex = 58
+        Me.btnTCPARepeatPl0x.Text = "TCPA Repeat"
+        Me.btnTCPARepeatPl0x.UseMnemonic = False
+        Me.btnTCPARepeatPl0x.UseVisualStyleBackColor = True
         '
         'txtSqFt
         '
@@ -977,66 +977,66 @@ Partial Class Form1
         Me.txtYearBuilt.Size = New System.Drawing.Size(99, 24)
         Me.txtYearBuilt.TabIndex = 50
         '
-        'tcpa
+        'btnTCPA
         '
-        Me.tcpa.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tcpa.ForeColor = System.Drawing.Color.MediumBlue
-        Me.tcpa.Location = New System.Drawing.Point(419, 9)
-        Me.tcpa.Name = "tcpa"
-        Me.tcpa.Size = New System.Drawing.Size(81, 31)
-        Me.tcpa.TabIndex = 46
-        Me.tcpa.Text = "TCPA"
-        Me.tcpa.UseMnemonic = False
-        Me.tcpa.UseVisualStyleBackColor = True
+        Me.btnTCPA.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnTCPA.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnTCPA.Location = New System.Drawing.Point(419, 9)
+        Me.btnTCPA.Name = "btnTCPA"
+        Me.btnTCPA.Size = New System.Drawing.Size(81, 31)
+        Me.btnTCPA.TabIndex = 46
+        Me.btnTCPA.Text = "TCPA"
+        Me.btnTCPA.UseMnemonic = False
+        Me.btnTCPA.UseVisualStyleBackColor = True
         '
-        'SQFT
+        'btnSquareFeet
         '
-        Me.SQFT.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SQFT.ForeColor = System.Drawing.Color.MediumBlue
-        Me.SQFT.Location = New System.Drawing.Point(317, 10)
-        Me.SQFT.Name = "SQFT"
-        Me.SQFT.Size = New System.Drawing.Size(96, 30)
-        Me.SQFT.TabIndex = 45
-        Me.SQFT.Text = "SQFT"
-        Me.SQFT.UseMnemonic = False
-        Me.SQFT.UseVisualStyleBackColor = True
+        Me.btnSquareFeet.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSquareFeet.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnSquareFeet.Location = New System.Drawing.Point(317, 10)
+        Me.btnSquareFeet.Name = "btnSquareFeet"
+        Me.btnSquareFeet.Size = New System.Drawing.Size(96, 30)
+        Me.btnSquareFeet.TabIndex = 45
+        Me.btnSquareFeet.Text = "SQFT"
+        Me.btnSquareFeet.UseMnemonic = False
+        Me.btnSquareFeet.UseVisualStyleBackColor = True
         '
-        'Button65
+        'btnOtherShtuss
         '
-        Me.Button65.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button65.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button65.Location = New System.Drawing.Point(4, 9)
-        Me.Button65.Name = "Button65"
-        Me.Button65.Size = New System.Drawing.Size(95, 77)
-        Me.Button65.TabIndex = 13
-        Me.Button65.Text = "SECOND"
-        Me.Button65.UseVisualStyleBackColor = True
+        Me.btnOtherShtuss.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnOtherShtuss.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnOtherShtuss.Location = New System.Drawing.Point(4, 9)
+        Me.btnOtherShtuss.Name = "btnOtherShtuss"
+        Me.btnOtherShtuss.Size = New System.Drawing.Size(95, 77)
+        Me.btnOtherShtuss.TabIndex = 13
+        Me.btnOtherShtuss.Text = "SECOND"
+        Me.btnOtherShtuss.UseVisualStyleBackColor = True
         '
-        'YEARBUILT
+        'btnYearBuilt
         '
-        Me.YEARBUILT.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.YEARBUILT.ForeColor = System.Drawing.Color.MediumBlue
-        Me.YEARBUILT.Location = New System.Drawing.Point(210, 10)
-        Me.YEARBUILT.Name = "YEARBUILT"
-        Me.YEARBUILT.Size = New System.Drawing.Size(101, 30)
-        Me.YEARBUILT.TabIndex = 31
-        Me.YEARBUILT.Text = "YEAR BUILT"
-        Me.YEARBUILT.TextAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.YEARBUILT.UseMnemonic = False
-        Me.YEARBUILT.UseVisualStyleBackColor = True
+        Me.btnYearBuilt.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnYearBuilt.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnYearBuilt.Location = New System.Drawing.Point(210, 10)
+        Me.btnYearBuilt.Name = "btnYearBuilt"
+        Me.btnYearBuilt.Size = New System.Drawing.Size(101, 30)
+        Me.btnYearBuilt.TabIndex = 31
+        Me.btnYearBuilt.Text = "YEAR BUILT"
+        Me.btnYearBuilt.TextAlign = System.Drawing.ContentAlignment.TopLeft
+        Me.btnYearBuilt.UseMnemonic = False
+        Me.btnYearBuilt.UseVisualStyleBackColor = True
         '
-        'Button42
+        'btnYallAreStalkers
         '
-        Me.Button42.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button42.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button42.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button42.Location = New System.Drawing.Point(202, 6)
-        Me.Button42.Name = "Button42"
-        Me.Button42.Size = New System.Drawing.Size(95, 48)
-        Me.Button42.TabIndex = 19
-        Me.Button42.Text = "Where'd you get my info"
-        Me.Button42.UseMnemonic = False
-        Me.Button42.UseVisualStyleBackColor = False
+        Me.btnYallAreStalkers.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnYallAreStalkers.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnYallAreStalkers.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnYallAreStalkers.Location = New System.Drawing.Point(202, 6)
+        Me.btnYallAreStalkers.Name = "btnYallAreStalkers"
+        Me.btnYallAreStalkers.Size = New System.Drawing.Size(95, 48)
+        Me.btnYallAreStalkers.TabIndex = 19
+        Me.btnYallAreStalkers.Text = "Where'd you get my info"
+        Me.btnYallAreStalkers.UseMnemonic = False
+        Me.btnYallAreStalkers.UseVisualStyleBackColor = False
         '
         'cmbMoreVehicles
         '
@@ -1049,42 +1049,42 @@ Partial Class Form1
         Me.cmbMoreVehicles.Size = New System.Drawing.Size(209, 24)
         Me.cmbMoreVehicles.TabIndex = 36
         '
-        'Button63
+        'btnYearMakeModel
         '
-        Me.Button63.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button63.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button63.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button63.Location = New System.Drawing.Point(310, 3)
-        Me.Button63.Name = "Button63"
-        Me.Button63.Size = New System.Drawing.Size(195, 58)
-        Me.Button63.TabIndex = 0
-        Me.Button63.Text = "Year/Make/Model"
-        Me.Button63.UseVisualStyleBackColor = True
+        Me.btnYearMakeModel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnYearMakeModel.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnYearMakeModel.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnYearMakeModel.Location = New System.Drawing.Point(310, 3)
+        Me.btnYearMakeModel.Name = "btnYearMakeModel"
+        Me.btnYearMakeModel.Size = New System.Drawing.Size(195, 58)
+        Me.btnYearMakeModel.TabIndex = 0
+        Me.btnYearMakeModel.Text = "Year/Make/Model"
+        Me.btnYearMakeModel.UseVisualStyleBackColor = True
         '
-        'Button64
+        'btnHowManyVehicles
         '
-        Me.Button64.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button64.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button64.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button64.Location = New System.Drawing.Point(34, 3)
-        Me.Button64.Name = "Button64"
-        Me.Button64.Size = New System.Drawing.Size(210, 58)
-        Me.Button64.TabIndex = 2
-        Me.Button64.Text = "How many Vehicles"
-        Me.Button64.UseVisualStyleBackColor = True
+        Me.btnHowManyVehicles.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnHowManyVehicles.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHowManyVehicles.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnHowManyVehicles.Location = New System.Drawing.Point(34, 3)
+        Me.btnHowManyVehicles.Name = "btnHowManyVehicles"
+        Me.btnHowManyVehicles.Size = New System.Drawing.Size(210, 58)
+        Me.btnHowManyVehicles.TabIndex = 2
+        Me.btnHowManyVehicles.Text = "How many Vehicles"
+        Me.btnHowManyVehicles.UseVisualStyleBackColor = True
         '
-        'Button67
+        'btnWhatsLCN
         '
-        Me.Button67.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button67.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button67.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button67.Location = New System.Drawing.Point(6, 6)
-        Me.Button67.Name = "Button67"
-        Me.Button67.Size = New System.Drawing.Size(95, 48)
-        Me.Button67.TabIndex = 36
-        Me.Button67.Text = "WHAT'S LCN?"
-        Me.Button67.UseMnemonic = False
-        Me.Button67.UseVisualStyleBackColor = False
+        Me.btnWhatsLCN.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnWhatsLCN.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnWhatsLCN.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnWhatsLCN.Location = New System.Drawing.Point(6, 6)
+        Me.btnWhatsLCN.Name = "btnWhatsLCN"
+        Me.btnWhatsLCN.Size = New System.Drawing.Size(95, 48)
+        Me.btnWhatsLCN.TabIndex = 36
+        Me.btnWhatsLCN.Text = "WHAT'S LCN?"
+        Me.btnWhatsLCN.UseMnemonic = False
+        Me.btnWhatsLCN.UseVisualStyleBackColor = False
         '
         'Label4
         '
@@ -1117,83 +1117,83 @@ Partial Class Form1
         Me.lblQuestion.TabIndex = 41
         Me.lblQuestion.Text = "HELLO"
         '
-        'Button92
+        'btnWhatDisAbout
         '
-        Me.Button92.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button92.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button92.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button92.Location = New System.Drawing.Point(105, 6)
-        Me.Button92.Name = "Button92"
-        Me.Button92.Size = New System.Drawing.Size(95, 48)
-        Me.Button92.TabIndex = 41
-        Me.Button92.Text = "What is this regarding?"
-        Me.Button92.UseMnemonic = False
-        Me.Button92.UseVisualStyleBackColor = False
+        Me.btnWhatDisAbout.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnWhatDisAbout.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnWhatDisAbout.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnWhatDisAbout.Location = New System.Drawing.Point(105, 6)
+        Me.btnWhatDisAbout.Name = "btnWhatDisAbout"
+        Me.btnWhatDisAbout.Size = New System.Drawing.Size(95, 48)
+        Me.btnWhatDisAbout.TabIndex = 41
+        Me.btnWhatDisAbout.Text = "What is this regarding?"
+        Me.btnWhatDisAbout.UseMnemonic = False
+        Me.btnWhatDisAbout.UseVisualStyleBackColor = False
         '
-        'Button51
+        'btnYoureNotIDK
         '
-        Me.Button51.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button51.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button51.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button51.Location = New System.Drawing.Point(202, 56)
-        Me.Button51.Name = "Button51"
-        Me.Button51.Size = New System.Drawing.Size(95, 48)
-        Me.Button51.TabIndex = 37
-        Me.Button51.Text = "You're not giving quote?"
-        Me.Button51.UseMnemonic = False
-        Me.Button51.UseVisualStyleBackColor = False
+        Me.btnYoureNotIDK.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnYoureNotIDK.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnYoureNotIDK.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnYoureNotIDK.Location = New System.Drawing.Point(202, 56)
+        Me.btnYoureNotIDK.Name = "btnYoureNotIDK"
+        Me.btnYoureNotIDK.Size = New System.Drawing.Size(95, 48)
+        Me.btnYoureNotIDK.TabIndex = 37
+        Me.btnYoureNotIDK.Text = "You're not giving quote?"
+        Me.btnYoureNotIDK.UseMnemonic = False
+        Me.btnYoureNotIDK.UseVisualStyleBackColor = False
         '
-        'Button83
+        'btnWhenWillTheyCallMe
         '
-        Me.Button83.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button83.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button83.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button83.Location = New System.Drawing.Point(302, 57)
-        Me.Button83.Name = "Button83"
-        Me.Button83.Size = New System.Drawing.Size(95, 48)
-        Me.Button83.TabIndex = 19
-        Me.Button83.Text = "When will they call"
-        Me.Button83.UseMnemonic = False
-        Me.Button83.UseVisualStyleBackColor = False
+        Me.btnWhenWillTheyCallMe.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnWhenWillTheyCallMe.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnWhenWillTheyCallMe.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnWhenWillTheyCallMe.Location = New System.Drawing.Point(302, 57)
+        Me.btnWhenWillTheyCallMe.Name = "btnWhenWillTheyCallMe"
+        Me.btnWhenWillTheyCallMe.Size = New System.Drawing.Size(95, 48)
+        Me.btnWhenWillTheyCallMe.TabIndex = 19
+        Me.btnWhenWillTheyCallMe.Text = "When will they call"
+        Me.btnWhenWillTheyCallMe.UseMnemonic = False
+        Me.btnWhenWillTheyCallMe.UseVisualStyleBackColor = False
         '
-        'Button85
+        'btnDontYouHaveThis
         '
-        Me.Button85.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button85.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button85.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button85.Location = New System.Drawing.Point(302, 6)
-        Me.Button85.Name = "Button85"
-        Me.Button85.Size = New System.Drawing.Size(95, 48)
-        Me.Button85.TabIndex = 39
-        Me.Button85.Text = "Don't you have this?"
-        Me.Button85.UseMnemonic = False
-        Me.Button85.UseVisualStyleBackColor = False
+        Me.btnDontYouHaveThis.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnDontYouHaveThis.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDontYouHaveThis.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnDontYouHaveThis.Location = New System.Drawing.Point(302, 6)
+        Me.btnDontYouHaveThis.Name = "btnDontYouHaveThis"
+        Me.btnDontYouHaveThis.Size = New System.Drawing.Size(95, 48)
+        Me.btnDontYouHaveThis.TabIndex = 39
+        Me.btnDontYouHaveThis.Text = "Don't you have this?"
+        Me.btnDontYouHaveThis.UseMnemonic = False
+        Me.btnDontYouHaveThis.UseVisualStyleBackColor = False
         '
-        'Button82
+        'btnEmailMePl0x
         '
-        Me.Button82.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button82.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button82.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button82.Location = New System.Drawing.Point(105, 57)
-        Me.Button82.Name = "Button82"
-        Me.Button82.Size = New System.Drawing.Size(95, 48)
-        Me.Button82.TabIndex = 19
-        Me.Button82.Text = "Can they just email"
-        Me.Button82.UseMnemonic = False
-        Me.Button82.UseVisualStyleBackColor = False
+        Me.btnEmailMePl0x.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnEmailMePl0x.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnEmailMePl0x.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnEmailMePl0x.Location = New System.Drawing.Point(105, 57)
+        Me.btnEmailMePl0x.Name = "btnEmailMePl0x"
+        Me.btnEmailMePl0x.Size = New System.Drawing.Size(95, 48)
+        Me.btnEmailMePl0x.TabIndex = 19
+        Me.btnEmailMePl0x.Text = "Can they just email"
+        Me.btnEmailMePl0x.UseMnemonic = False
+        Me.btnEmailMePl0x.UseVisualStyleBackColor = False
         '
-        'Button81
+        'btnALLTHECALLS
         '
-        Me.Button81.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button81.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button81.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button81.Location = New System.Drawing.Point(6, 56)
-        Me.Button81.Name = "Button81"
-        Me.Button81.Size = New System.Drawing.Size(95, 48)
-        Me.Button81.TabIndex = 36
-        Me.Button81.Text = "Will I get many calls?"
-        Me.Button81.UseMnemonic = False
-        Me.Button81.UseVisualStyleBackColor = False
+        Me.btnALLTHECALLS.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnALLTHECALLS.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnALLTHECALLS.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnALLTHECALLS.Location = New System.Drawing.Point(6, 56)
+        Me.btnALLTHECALLS.Name = "btnALLTHECALLS"
+        Me.btnALLTHECALLS.Size = New System.Drawing.Size(95, 48)
+        Me.btnALLTHECALLS.TabIndex = 36
+        Me.btnALLTHECALLS.Text = "Will I get many calls?"
+        Me.btnALLTHECALLS.UseMnemonic = False
+        Me.btnALLTHECALLS.UseVisualStyleBackColor = False
         '
         'results
         '
@@ -1224,42 +1224,42 @@ Partial Class Form1
         'tbQuestions
         '
         Me.tbQuestions.Controls.Add(Me.Button40)
-        Me.tbQuestions.Controls.Add(Me.Button29)
-        Me.tbQuestions.Controls.Add(Me.Button60)
-        Me.tbQuestions.Controls.Add(Me.Button32)
-        Me.tbQuestions.Controls.Add(Me.Button45)
-        Me.tbQuestions.Controls.Add(Me.Button52)
-        Me.tbQuestions.Controls.Add(Me.insurance)
-        Me.tbQuestions.Controls.Add(Me.Button84)
-        Me.tbQuestions.Controls.Add(Me.Make)
-        Me.tbQuestions.Controls.Add(Me.Button72)
-        Me.tbQuestions.Controls.Add(Me.Button48)
-        Me.tbQuestions.Controls.Add(Me.Button14)
-        Me.tbQuestions.Controls.Add(Me.Button50)
-        Me.tbQuestions.Controls.Add(Me.Button54)
-        Me.tbQuestions.Controls.Add(Me.Button55)
-        Me.tbQuestions.Controls.Add(Me.Button38)
-        Me.tbQuestions.Controls.Add(Me.Button56)
-        Me.tbQuestions.Controls.Add(Me.Button49)
-        Me.tbQuestions.Controls.Add(Me.Button59)
-        Me.tbQuestions.Controls.Add(Me.Button58)
-        Me.tbQuestions.Controls.Add(Me.Button31)
-        Me.tbQuestions.Controls.Add(Me.Button5)
-        Me.tbQuestions.Controls.Add(Me.Button68)
-        Me.tbQuestions.Controls.Add(Me.Button25)
-        Me.tbQuestions.Controls.Add(Me.Button77)
-        Me.tbQuestions.Controls.Add(Me.Button26)
-        Me.tbQuestions.Controls.Add(Me.Button4)
-        Me.tbQuestions.Controls.Add(Me.Button19)
-        Me.tbQuestions.Controls.Add(Me.Button69)
-        Me.tbQuestions.Controls.Add(Me.Button82)
-        Me.tbQuestions.Controls.Add(Me.Button83)
-        Me.tbQuestions.Controls.Add(Me.Button51)
-        Me.tbQuestions.Controls.Add(Me.Button92)
-        Me.tbQuestions.Controls.Add(Me.Button85)
-        Me.tbQuestions.Controls.Add(Me.Button67)
-        Me.tbQuestions.Controls.Add(Me.Button81)
-        Me.tbQuestions.Controls.Add(Me.Button42)
+        Me.tbQuestions.Controls.Add(Me.btnPriceServiceRebut)
+        Me.tbQuestions.Controls.Add(Me.btnCuriousRebut)
+        Me.tbQuestions.Controls.Add(Me.btnWhyDoYouNeedThat)
+        Me.tbQuestions.Controls.Add(Me.btnFirstCarModel)
+        Me.tbQuestions.Controls.Add(Me.btnBeMoreSpecific)
+        Me.tbQuestions.Controls.Add(Me.btnProvidersList)
+        Me.tbQuestions.Controls.Add(Me.btnMonthsList)
+        Me.tbQuestions.Controls.Add(Me.btnListMakes)
+        Me.tbQuestions.Controls.Add(Me.btnLittleZip)
+        Me.tbQuestions.Controls.Add(Me.btnOneAtATime)
+        Me.tbQuestions.Controls.Add(Me.btnLittleEmail)
+        Me.tbQuestions.Controls.Add(Me.btnLittleMonth)
+        Me.tbQuestions.Controls.Add(Me.btnLittleYear)
+        Me.tbQuestions.Controls.Add(Me.btnLittleDay)
+        Me.tbQuestions.Controls.Add(Me.btnBestGuess)
+        Me.tbQuestions.Controls.Add(Me.btnPOBoxRebut)
+        Me.tbQuestions.Controls.Add(Me.btnEmailRebut)
+        Me.tbQuestions.Controls.Add(Me.btnNoEmailRebut)
+        Me.tbQuestions.Controls.Add(Me.btnIMovedRebut)
+        Me.tbQuestions.Controls.Add(Me.btnAddressRebut)
+        Me.tbQuestions.Controls.Add(Me.btnSpusalDutiesRebut)
+        Me.tbQuestions.Controls.Add(Me.btnAreYouTheSpouse)
+        Me.tbQuestions.Controls.Add(Me.btnNotInterestedRebut)
+        Me.tbQuestions.Controls.Add(Me.btnAlmostDone)
+        Me.tbQuestions.Controls.Add(Me.btnAlreadyHaveRebut)
+        Me.tbQuestions.Controls.Add(Me.btnThisWillBeQuickAndPainless)
+        Me.tbQuestions.Controls.Add(Me.btnInsuranceSmilesRebut)
+        Me.tbQuestions.Controls.Add(Me.btnNotGivingThatOutRebut)
+        Me.tbQuestions.Controls.Add(Me.btnEmailMePl0x)
+        Me.tbQuestions.Controls.Add(Me.btnWhenWillTheyCallMe)
+        Me.tbQuestions.Controls.Add(Me.btnYoureNotIDK)
+        Me.tbQuestions.Controls.Add(Me.btnWhatDisAbout)
+        Me.tbQuestions.Controls.Add(Me.btnDontYouHaveThis)
+        Me.tbQuestions.Controls.Add(Me.btnWhatsLCN)
+        Me.tbQuestions.Controls.Add(Me.btnALLTHECALLS)
+        Me.tbQuestions.Controls.Add(Me.btnYallAreStalkers)
         Me.tbQuestions.Location = New System.Drawing.Point(4, 33)
         Me.tbQuestions.Name = "tbQuestions"
         Me.tbQuestions.Padding = New System.Windows.Forms.Padding(3)
@@ -1281,363 +1281,363 @@ Partial Class Form1
         Me.Button40.UseMnemonic = False
         Me.Button40.UseVisualStyleBackColor = False
         '
-        'Button29
+        'btnPriceServiceRebut
         '
-        Me.Button29.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button29.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button29.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button29.Location = New System.Drawing.Point(500, 107)
-        Me.Button29.Name = "Button29"
-        Me.Button29.Size = New System.Drawing.Size(95, 48)
-        Me.Button29.TabIndex = 139
-        Me.Button29.Text = "Price & Service"
-        Me.Button29.UseMnemonic = False
-        Me.Button29.UseVisualStyleBackColor = False
+        Me.btnPriceServiceRebut.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnPriceServiceRebut.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPriceServiceRebut.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnPriceServiceRebut.Location = New System.Drawing.Point(500, 107)
+        Me.btnPriceServiceRebut.Name = "btnPriceServiceRebut"
+        Me.btnPriceServiceRebut.Size = New System.Drawing.Size(95, 48)
+        Me.btnPriceServiceRebut.TabIndex = 139
+        Me.btnPriceServiceRebut.Text = "Price & Service"
+        Me.btnPriceServiceRebut.UseMnemonic = False
+        Me.btnPriceServiceRebut.UseVisualStyleBackColor = False
         '
-        'Button60
+        'btnCuriousRebut
         '
-        Me.Button60.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button60.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button60.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button60.Location = New System.Drawing.Point(500, 156)
-        Me.Button60.Name = "Button60"
-        Me.Button60.Size = New System.Drawing.Size(95, 48)
-        Me.Button60.TabIndex = 138
-        Me.Button60.Text = "I'd be curious"
-        Me.Button60.UseMnemonic = False
-        Me.Button60.UseVisualStyleBackColor = False
+        Me.btnCuriousRebut.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnCuriousRebut.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCuriousRebut.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnCuriousRebut.Location = New System.Drawing.Point(500, 156)
+        Me.btnCuriousRebut.Name = "btnCuriousRebut"
+        Me.btnCuriousRebut.Size = New System.Drawing.Size(95, 48)
+        Me.btnCuriousRebut.TabIndex = 138
+        Me.btnCuriousRebut.Text = "I'd be curious"
+        Me.btnCuriousRebut.UseMnemonic = False
+        Me.btnCuriousRebut.UseVisualStyleBackColor = False
         '
-        'Button32
+        'btnWhyDoYouNeedThat
         '
-        Me.Button32.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button32.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button32.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button32.Location = New System.Drawing.Point(402, 56)
-        Me.Button32.Name = "Button32"
-        Me.Button32.Size = New System.Drawing.Size(95, 50)
-        Me.Button32.TabIndex = 137
-        Me.Button32.Text = "Why do you need that"
-        Me.Button32.UseMnemonic = False
-        Me.Button32.UseVisualStyleBackColor = False
+        Me.btnWhyDoYouNeedThat.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnWhyDoYouNeedThat.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnWhyDoYouNeedThat.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnWhyDoYouNeedThat.Location = New System.Drawing.Point(402, 56)
+        Me.btnWhyDoYouNeedThat.Name = "btnWhyDoYouNeedThat"
+        Me.btnWhyDoYouNeedThat.Size = New System.Drawing.Size(95, 50)
+        Me.btnWhyDoYouNeedThat.TabIndex = 137
+        Me.btnWhyDoYouNeedThat.Text = "Why do you need that"
+        Me.btnWhyDoYouNeedThat.UseMnemonic = False
+        Me.btnWhyDoYouNeedThat.UseVisualStyleBackColor = False
         '
-        'Button45
+        'btnFirstCarModel
         '
-        Me.Button45.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button45.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button45.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button45.Location = New System.Drawing.Point(505, 282)
-        Me.Button45.Name = "Button45"
-        Me.Button45.Size = New System.Drawing.Size(112, 23)
-        Me.Button45.TabIndex = 136
-        Me.Button45.Text = "1st car model"
-        Me.Button45.UseMnemonic = False
-        Me.Button45.UseVisualStyleBackColor = False
+        Me.btnFirstCarModel.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnFirstCarModel.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnFirstCarModel.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnFirstCarModel.Location = New System.Drawing.Point(505, 282)
+        Me.btnFirstCarModel.Name = "btnFirstCarModel"
+        Me.btnFirstCarModel.Size = New System.Drawing.Size(112, 23)
+        Me.btnFirstCarModel.TabIndex = 136
+        Me.btnFirstCarModel.Text = "1st car model"
+        Me.btnFirstCarModel.UseMnemonic = False
+        Me.btnFirstCarModel.UseVisualStyleBackColor = False
         '
-        'Button52
+        'btnBeMoreSpecific
         '
-        Me.Button52.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button52.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button52.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button52.Location = New System.Drawing.Point(400, 207)
-        Me.Button52.Name = "Button52"
-        Me.Button52.Size = New System.Drawing.Size(95, 48)
-        Me.Button52.TabIndex = 74
-        Me.Button52.Text = "More Specific"
-        Me.Button52.UseMnemonic = False
-        Me.Button52.UseVisualStyleBackColor = False
+        Me.btnBeMoreSpecific.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnBeMoreSpecific.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnBeMoreSpecific.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnBeMoreSpecific.Location = New System.Drawing.Point(400, 207)
+        Me.btnBeMoreSpecific.Name = "btnBeMoreSpecific"
+        Me.btnBeMoreSpecific.Size = New System.Drawing.Size(95, 48)
+        Me.btnBeMoreSpecific.TabIndex = 74
+        Me.btnBeMoreSpecific.Text = "More Specific"
+        Me.btnBeMoreSpecific.UseMnemonic = False
+        Me.btnBeMoreSpecific.UseVisualStyleBackColor = False
         '
-        'insurance
+        'btnProvidersList
         '
-        Me.insurance.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.insurance.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.insurance.ForeColor = System.Drawing.Color.MediumBlue
-        Me.insurance.Location = New System.Drawing.Point(202, 258)
-        Me.insurance.Name = "insurance"
-        Me.insurance.Size = New System.Drawing.Size(95, 48)
-        Me.insurance.TabIndex = 71
-        Me.insurance.Text = "Allstate Geico State Farm..."
-        Me.insurance.UseVisualStyleBackColor = False
+        Me.btnProvidersList.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnProvidersList.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnProvidersList.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnProvidersList.Location = New System.Drawing.Point(202, 258)
+        Me.btnProvidersList.Name = "btnProvidersList"
+        Me.btnProvidersList.Size = New System.Drawing.Size(95, 48)
+        Me.btnProvidersList.TabIndex = 71
+        Me.btnProvidersList.Text = "Allstate Geico State Farm..."
+        Me.btnProvidersList.UseVisualStyleBackColor = False
         '
-        'Button84
+        'btnMonthsList
         '
-        Me.Button84.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button84.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button84.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button84.Location = New System.Drawing.Point(104, 258)
-        Me.Button84.Name = "Button84"
-        Me.Button84.Size = New System.Drawing.Size(95, 48)
-        Me.Button84.TabIndex = 73
-        Me.Button84.Text = "Jan Feb March...?"
-        Me.Button84.UseVisualStyleBackColor = False
+        Me.btnMonthsList.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnMonthsList.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMonthsList.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnMonthsList.Location = New System.Drawing.Point(104, 258)
+        Me.btnMonthsList.Name = "btnMonthsList"
+        Me.btnMonthsList.Size = New System.Drawing.Size(95, 48)
+        Me.btnMonthsList.TabIndex = 73
+        Me.btnMonthsList.Text = "Jan Feb March...?"
+        Me.btnMonthsList.UseVisualStyleBackColor = False
         '
-        'Make
+        'btnListMakes
         '
-        Me.Make.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Make.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Make.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Make.Location = New System.Drawing.Point(6, 258)
-        Me.Make.Name = "Make"
-        Me.Make.Size = New System.Drawing.Size(95, 48)
-        Me.Make.TabIndex = 72
-        Me.Make.Text = "Chevy, Ford, GMC?"
-        Me.Make.UseVisualStyleBackColor = False
+        Me.btnListMakes.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnListMakes.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnListMakes.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnListMakes.Location = New System.Drawing.Point(6, 258)
+        Me.btnListMakes.Name = "btnListMakes"
+        Me.btnListMakes.Size = New System.Drawing.Size(95, 48)
+        Me.btnListMakes.TabIndex = 72
+        Me.btnListMakes.Text = "Chevy, Ford, GMC?"
+        Me.btnListMakes.UseVisualStyleBackColor = False
         '
-        'Button72
+        'btnLittleZip
         '
-        Me.Button72.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button72.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button72.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button72.Location = New System.Drawing.Point(414, 258)
-        Me.Button72.Name = "Button72"
-        Me.Button72.Size = New System.Drawing.Size(54, 23)
-        Me.Button72.TabIndex = 70
-        Me.Button72.Text = "zip"
-        Me.Button72.UseMnemonic = False
-        Me.Button72.UseVisualStyleBackColor = False
+        Me.btnLittleZip.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnLittleZip.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnLittleZip.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnLittleZip.Location = New System.Drawing.Point(414, 258)
+        Me.btnLittleZip.Name = "btnLittleZip"
+        Me.btnLittleZip.Size = New System.Drawing.Size(54, 23)
+        Me.btnLittleZip.TabIndex = 70
+        Me.btnLittleZip.Text = "zip"
+        Me.btnLittleZip.UseMnemonic = False
+        Me.btnLittleZip.UseVisualStyleBackColor = False
         '
-        'Button48
+        'btnOneAtATime
         '
-        Me.Button48.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button48.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button48.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button48.Location = New System.Drawing.Point(500, 206)
-        Me.Button48.Name = "Button48"
-        Me.Button48.Size = New System.Drawing.Size(95, 49)
-        Me.Button48.TabIndex = 68
-        Me.Button48.Text = "One at a time"
-        Me.Button48.UseMnemonic = False
-        Me.Button48.UseVisualStyleBackColor = False
+        Me.btnOneAtATime.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnOneAtATime.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnOneAtATime.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnOneAtATime.Location = New System.Drawing.Point(500, 206)
+        Me.btnOneAtATime.Name = "btnOneAtATime"
+        Me.btnOneAtATime.Size = New System.Drawing.Size(95, 49)
+        Me.btnOneAtATime.TabIndex = 68
+        Me.btnOneAtATime.Text = "One at a time"
+        Me.btnOneAtATime.UseMnemonic = False
+        Me.btnOneAtATime.UseVisualStyleBackColor = False
         '
-        'Button14
+        'btnLittleEmail
         '
-        Me.Button14.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button14.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button14.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button14.Location = New System.Drawing.Point(358, 258)
-        Me.Button14.Name = "Button14"
-        Me.Button14.Size = New System.Drawing.Size(54, 23)
-        Me.Button14.TabIndex = 67
-        Me.Button14.Text = "Email"
-        Me.Button14.UseVisualStyleBackColor = False
+        Me.btnLittleEmail.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnLittleEmail.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnLittleEmail.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnLittleEmail.Location = New System.Drawing.Point(358, 258)
+        Me.btnLittleEmail.Name = "btnLittleEmail"
+        Me.btnLittleEmail.Size = New System.Drawing.Size(54, 23)
+        Me.btnLittleEmail.TabIndex = 67
+        Me.btnLittleEmail.Text = "Email"
+        Me.btnLittleEmail.UseVisualStyleBackColor = False
         '
-        'Button50
+        'btnLittleMonth
         '
-        Me.Button50.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button50.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button50.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button50.Location = New System.Drawing.Point(301, 257)
-        Me.Button50.Name = "Button50"
-        Me.Button50.Size = New System.Drawing.Size(56, 23)
-        Me.Button50.TabIndex = 64
-        Me.Button50.Text = "Month"
-        Me.Button50.UseVisualStyleBackColor = False
+        Me.btnLittleMonth.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnLittleMonth.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnLittleMonth.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnLittleMonth.Location = New System.Drawing.Point(301, 257)
+        Me.btnLittleMonth.Name = "btnLittleMonth"
+        Me.btnLittleMonth.Size = New System.Drawing.Size(56, 23)
+        Me.btnLittleMonth.TabIndex = 64
+        Me.btnLittleMonth.Text = "Month"
+        Me.btnLittleMonth.UseVisualStyleBackColor = False
         '
-        'Button54
+        'btnLittleYear
         '
-        Me.Button54.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button54.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button54.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button54.Location = New System.Drawing.Point(526, 258)
-        Me.Button54.Name = "Button54"
-        Me.Button54.Size = New System.Drawing.Size(69, 23)
-        Me.Button54.TabIndex = 65
-        Me.Button54.Text = "Year"
-        Me.Button54.UseVisualStyleBackColor = False
+        Me.btnLittleYear.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnLittleYear.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnLittleYear.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnLittleYear.Location = New System.Drawing.Point(526, 258)
+        Me.btnLittleYear.Name = "btnLittleYear"
+        Me.btnLittleYear.Size = New System.Drawing.Size(69, 23)
+        Me.btnLittleYear.TabIndex = 65
+        Me.btnLittleYear.Text = "Year"
+        Me.btnLittleYear.UseVisualStyleBackColor = False
         '
-        'Button55
+        'btnLittleDay
         '
-        Me.Button55.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button55.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button55.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button55.Location = New System.Drawing.Point(470, 258)
-        Me.Button55.Name = "Button55"
-        Me.Button55.Size = New System.Drawing.Size(54, 23)
-        Me.Button55.TabIndex = 66
-        Me.Button55.Text = "Day"
-        Me.Button55.UseVisualStyleBackColor = False
+        Me.btnLittleDay.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnLittleDay.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnLittleDay.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnLittleDay.Location = New System.Drawing.Point(470, 258)
+        Me.btnLittleDay.Name = "btnLittleDay"
+        Me.btnLittleDay.Size = New System.Drawing.Size(54, 23)
+        Me.btnLittleDay.TabIndex = 66
+        Me.btnLittleDay.Text = "Day"
+        Me.btnLittleDay.UseVisualStyleBackColor = False
         '
-        'Button38
+        'btnBestGuess
         '
-        Me.Button38.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button38.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button38.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button38.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button38.Location = New System.Drawing.Point(301, 207)
-        Me.Button38.Name = "Button38"
-        Me.Button38.Size = New System.Drawing.Size(95, 48)
-        Me.Button38.TabIndex = 63
-        Me.Button38.Text = "Best Guess"
-        Me.Button38.UseVisualStyleBackColor = False
+        Me.btnBestGuess.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnBestGuess.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnBestGuess.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnBestGuess.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnBestGuess.Location = New System.Drawing.Point(301, 207)
+        Me.btnBestGuess.Name = "btnBestGuess"
+        Me.btnBestGuess.Size = New System.Drawing.Size(95, 48)
+        Me.btnBestGuess.TabIndex = 63
+        Me.btnBestGuess.Text = "Best Guess"
+        Me.btnBestGuess.UseVisualStyleBackColor = False
         '
-        'Button56
+        'btnPOBoxRebut
         '
-        Me.Button56.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button56.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button56.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button56.Location = New System.Drawing.Point(401, 157)
-        Me.Button56.Name = "Button56"
-        Me.Button56.Size = New System.Drawing.Size(95, 48)
-        Me.Button56.TabIndex = 62
-        Me.Button56.Text = "PO Box"
-        Me.Button56.UseMnemonic = False
-        Me.Button56.UseVisualStyleBackColor = False
+        Me.btnPOBoxRebut.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnPOBoxRebut.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPOBoxRebut.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnPOBoxRebut.Location = New System.Drawing.Point(401, 157)
+        Me.btnPOBoxRebut.Name = "btnPOBoxRebut"
+        Me.btnPOBoxRebut.Size = New System.Drawing.Size(95, 48)
+        Me.btnPOBoxRebut.TabIndex = 62
+        Me.btnPOBoxRebut.Text = "PO Box"
+        Me.btnPOBoxRebut.UseMnemonic = False
+        Me.btnPOBoxRebut.UseVisualStyleBackColor = False
         '
-        'Button49
+        'btnEmailRebut
         '
-        Me.Button49.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button49.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button49.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button49.Location = New System.Drawing.Point(402, 109)
-        Me.Button49.Name = "Button49"
-        Me.Button49.Size = New System.Drawing.Size(95, 48)
-        Me.Button49.TabIndex = 61
-        Me.Button49.Text = "Email Rebuttal"
-        Me.Button49.UseMnemonic = False
-        Me.Button49.UseVisualStyleBackColor = False
+        Me.btnEmailRebut.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnEmailRebut.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnEmailRebut.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnEmailRebut.Location = New System.Drawing.Point(402, 109)
+        Me.btnEmailRebut.Name = "btnEmailRebut"
+        Me.btnEmailRebut.Size = New System.Drawing.Size(95, 48)
+        Me.btnEmailRebut.TabIndex = 61
+        Me.btnEmailRebut.Text = "Email Rebuttal"
+        Me.btnEmailRebut.UseMnemonic = False
+        Me.btnEmailRebut.UseVisualStyleBackColor = False
         '
-        'Button59
+        'btnNoEmailRebut
         '
-        Me.Button59.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button59.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button59.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button59.Location = New System.Drawing.Point(104, 157)
-        Me.Button59.Margin = New System.Windows.Forms.Padding(0)
-        Me.Button59.Name = "Button59"
-        Me.Button59.Size = New System.Drawing.Size(95, 48)
-        Me.Button59.TabIndex = 60
-        Me.Button59.Text = "No email"
-        Me.Button59.UseMnemonic = False
-        Me.Button59.UseVisualStyleBackColor = False
+        Me.btnNoEmailRebut.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnNoEmailRebut.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnNoEmailRebut.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnNoEmailRebut.Location = New System.Drawing.Point(104, 157)
+        Me.btnNoEmailRebut.Margin = New System.Windows.Forms.Padding(0)
+        Me.btnNoEmailRebut.Name = "btnNoEmailRebut"
+        Me.btnNoEmailRebut.Size = New System.Drawing.Size(95, 48)
+        Me.btnNoEmailRebut.TabIndex = 60
+        Me.btnNoEmailRebut.Text = "No email"
+        Me.btnNoEmailRebut.UseMnemonic = False
+        Me.btnNoEmailRebut.UseVisualStyleBackColor = False
         '
-        'Button58
+        'btnIMovedRebut
         '
-        Me.Button58.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button58.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button58.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button58.Location = New System.Drawing.Point(202, 157)
-        Me.Button58.Name = "Button58"
-        Me.Button58.Size = New System.Drawing.Size(95, 48)
-        Me.Button58.TabIndex = 59
-        Me.Button58.Text = "I moved"
-        Me.Button58.UseMnemonic = False
-        Me.Button58.UseVisualStyleBackColor = False
+        Me.btnIMovedRebut.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnIMovedRebut.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnIMovedRebut.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnIMovedRebut.Location = New System.Drawing.Point(202, 157)
+        Me.btnIMovedRebut.Name = "btnIMovedRebut"
+        Me.btnIMovedRebut.Size = New System.Drawing.Size(95, 48)
+        Me.btnIMovedRebut.TabIndex = 59
+        Me.btnIMovedRebut.Text = "I moved"
+        Me.btnIMovedRebut.UseMnemonic = False
+        Me.btnIMovedRebut.UseVisualStyleBackColor = False
         '
-        'Button31
+        'btnAddressRebut
         '
-        Me.Button31.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button31.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button31.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button31.Location = New System.Drawing.Point(6, 156)
-        Me.Button31.Name = "Button31"
-        Me.Button31.Size = New System.Drawing.Size(95, 48)
-        Me.Button31.TabIndex = 50
-        Me.Button31.Text = "Address Rebuttal "
-        Me.Button31.UseMnemonic = False
-        Me.Button31.UseVisualStyleBackColor = False
+        Me.btnAddressRebut.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnAddressRebut.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddressRebut.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnAddressRebut.Location = New System.Drawing.Point(6, 156)
+        Me.btnAddressRebut.Name = "btnAddressRebut"
+        Me.btnAddressRebut.Size = New System.Drawing.Size(95, 48)
+        Me.btnAddressRebut.TabIndex = 50
+        Me.btnAddressRebut.Text = "Address Rebuttal "
+        Me.btnAddressRebut.UseMnemonic = False
+        Me.btnAddressRebut.UseVisualStyleBackColor = False
         '
-        'Button5
+        'btnSpusalDutiesRebut
         '
-        Me.Button5.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button5.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button5.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button5.Location = New System.Drawing.Point(302, 157)
-        Me.Button5.Name = "Button5"
-        Me.Button5.Size = New System.Drawing.Size(95, 48)
-        Me.Button5.TabIndex = 49
-        Me.Button5.Text = "My Spouse handles this"
-        Me.Button5.UseMnemonic = False
-        Me.Button5.UseVisualStyleBackColor = False
+        Me.btnSpusalDutiesRebut.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnSpusalDutiesRebut.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSpusalDutiesRebut.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnSpusalDutiesRebut.Location = New System.Drawing.Point(302, 157)
+        Me.btnSpusalDutiesRebut.Name = "btnSpusalDutiesRebut"
+        Me.btnSpusalDutiesRebut.Size = New System.Drawing.Size(95, 48)
+        Me.btnSpusalDutiesRebut.TabIndex = 49
+        Me.btnSpusalDutiesRebut.Text = "My Spouse handles this"
+        Me.btnSpusalDutiesRebut.UseMnemonic = False
+        Me.btnSpusalDutiesRebut.UseVisualStyleBackColor = False
         '
-        'Button68
+        'btnAreYouTheSpouse
         '
-        Me.Button68.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button68.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button68.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button68.Location = New System.Drawing.Point(202, 208)
-        Me.Button68.Name = "Button68"
-        Me.Button68.Size = New System.Drawing.Size(95, 48)
-        Me.Button68.TabIndex = 48
-        Me.Button68.Text = "Is this the Spouse"
-        Me.Button68.UseMnemonic = False
-        Me.Button68.UseVisualStyleBackColor = False
+        Me.btnAreYouTheSpouse.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnAreYouTheSpouse.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAreYouTheSpouse.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnAreYouTheSpouse.Location = New System.Drawing.Point(202, 208)
+        Me.btnAreYouTheSpouse.Name = "btnAreYouTheSpouse"
+        Me.btnAreYouTheSpouse.Size = New System.Drawing.Size(95, 48)
+        Me.btnAreYouTheSpouse.TabIndex = 48
+        Me.btnAreYouTheSpouse.Text = "Is this the Spouse"
+        Me.btnAreYouTheSpouse.UseMnemonic = False
+        Me.btnAreYouTheSpouse.UseVisualStyleBackColor = False
         '
-        'Button25
+        'btnNotInterestedRebut
         '
-        Me.Button25.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button25.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button25.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button25.Location = New System.Drawing.Point(302, 107)
-        Me.Button25.Name = "Button25"
-        Me.Button25.Size = New System.Drawing.Size(95, 48)
-        Me.Button25.TabIndex = 46
-        Me.Button25.Text = "Not Interested"
-        Me.Button25.UseMnemonic = False
-        Me.Button25.UseVisualStyleBackColor = False
+        Me.btnNotInterestedRebut.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnNotInterestedRebut.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnNotInterestedRebut.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnNotInterestedRebut.Location = New System.Drawing.Point(302, 107)
+        Me.btnNotInterestedRebut.Name = "btnNotInterestedRebut"
+        Me.btnNotInterestedRebut.Size = New System.Drawing.Size(95, 48)
+        Me.btnNotInterestedRebut.TabIndex = 46
+        Me.btnNotInterestedRebut.Text = "Not Interested"
+        Me.btnNotInterestedRebut.UseMnemonic = False
+        Me.btnNotInterestedRebut.UseVisualStyleBackColor = False
         '
-        'Button77
+        'btnAlmostDone
         '
-        Me.Button77.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button77.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button77.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button77.Location = New System.Drawing.Point(104, 208)
-        Me.Button77.Name = "Button77"
-        Me.Button77.Size = New System.Drawing.Size(95, 48)
-        Me.Button77.TabIndex = 42
-        Me.Button77.Text = "Almost Done"
-        Me.Button77.UseMnemonic = False
-        Me.Button77.UseVisualStyleBackColor = False
+        Me.btnAlmostDone.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnAlmostDone.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAlmostDone.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnAlmostDone.Location = New System.Drawing.Point(104, 208)
+        Me.btnAlmostDone.Name = "btnAlmostDone"
+        Me.btnAlmostDone.Size = New System.Drawing.Size(95, 48)
+        Me.btnAlmostDone.TabIndex = 42
+        Me.btnAlmostDone.Text = "Almost Done"
+        Me.btnAlmostDone.UseMnemonic = False
+        Me.btnAlmostDone.UseVisualStyleBackColor = False
         '
-        'Button26
+        'btnAlreadyHaveRebut
         '
-        Me.Button26.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button26.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button26.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button26.Location = New System.Drawing.Point(202, 107)
-        Me.Button26.Name = "Button26"
-        Me.Button26.Size = New System.Drawing.Size(95, 48)
-        Me.Button26.TabIndex = 43
-        Me.Button26.Text = "Already have Insurance"
-        Me.Button26.UseMnemonic = False
-        Me.Button26.UseVisualStyleBackColor = False
+        Me.btnAlreadyHaveRebut.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnAlreadyHaveRebut.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAlreadyHaveRebut.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnAlreadyHaveRebut.Location = New System.Drawing.Point(202, 107)
+        Me.btnAlreadyHaveRebut.Name = "btnAlreadyHaveRebut"
+        Me.btnAlreadyHaveRebut.Size = New System.Drawing.Size(95, 48)
+        Me.btnAlreadyHaveRebut.TabIndex = 43
+        Me.btnAlreadyHaveRebut.Text = "Already have Insurance"
+        Me.btnAlreadyHaveRebut.UseMnemonic = False
+        Me.btnAlreadyHaveRebut.UseVisualStyleBackColor = False
         '
-        'Button4
+        'btnThisWillBeQuickAndPainless
         '
-        Me.Button4.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button4.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button4.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button4.Location = New System.Drawing.Point(5, 207)
-        Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(95, 48)
-        Me.Button4.TabIndex = 44
-        Me.Button4.Text = "This will be quick"
-        Me.Button4.UseMnemonic = False
-        Me.Button4.UseVisualStyleBackColor = False
+        Me.btnThisWillBeQuickAndPainless.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnThisWillBeQuickAndPainless.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnThisWillBeQuickAndPainless.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnThisWillBeQuickAndPainless.Location = New System.Drawing.Point(5, 207)
+        Me.btnThisWillBeQuickAndPainless.Name = "btnThisWillBeQuickAndPainless"
+        Me.btnThisWillBeQuickAndPainless.Size = New System.Drawing.Size(95, 48)
+        Me.btnThisWillBeQuickAndPainless.TabIndex = 44
+        Me.btnThisWillBeQuickAndPainless.Text = "This will be quick"
+        Me.btnThisWillBeQuickAndPainless.UseMnemonic = False
+        Me.btnThisWillBeQuickAndPainless.UseVisualStyleBackColor = False
         '
-        'Button19
+        'btnInsuranceSmilesRebut
         '
-        Me.Button19.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button19.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button19.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button19.Location = New System.Drawing.Point(104, 107)
-        Me.Button19.Name = "Button19"
-        Me.Button19.Size = New System.Drawing.Size(95, 48)
-        Me.Button19.TabIndex = 47
-        Me.Button19.Text = "Happy with  insurance"
-        Me.Button19.UseMnemonic = False
-        Me.Button19.UseVisualStyleBackColor = False
+        Me.btnInsuranceSmilesRebut.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnInsuranceSmilesRebut.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnInsuranceSmilesRebut.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnInsuranceSmilesRebut.Location = New System.Drawing.Point(104, 107)
+        Me.btnInsuranceSmilesRebut.Name = "btnInsuranceSmilesRebut"
+        Me.btnInsuranceSmilesRebut.Size = New System.Drawing.Size(95, 48)
+        Me.btnInsuranceSmilesRebut.TabIndex = 47
+        Me.btnInsuranceSmilesRebut.Text = "Happy with  insurance"
+        Me.btnInsuranceSmilesRebut.UseMnemonic = False
+        Me.btnInsuranceSmilesRebut.UseVisualStyleBackColor = False
         '
-        'Button69
+        'btnNotGivingThatOutRebut
         '
-        Me.Button69.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Button69.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button69.ForeColor = System.Drawing.Color.MediumBlue
-        Me.Button69.Location = New System.Drawing.Point(6, 106)
-        Me.Button69.Name = "Button69"
-        Me.Button69.Size = New System.Drawing.Size(95, 48)
-        Me.Button69.TabIndex = 45
-        Me.Button69.Text = "Not giving that out"
-        Me.Button69.UseMnemonic = False
-        Me.Button69.UseVisualStyleBackColor = False
+        Me.btnNotGivingThatOutRebut.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.btnNotGivingThatOutRebut.Font = New System.Drawing.Font("Arial Black", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnNotGivingThatOutRebut.ForeColor = System.Drawing.Color.MediumBlue
+        Me.btnNotGivingThatOutRebut.Location = New System.Drawing.Point(6, 106)
+        Me.btnNotGivingThatOutRebut.Name = "btnNotGivingThatOutRebut"
+        Me.btnNotGivingThatOutRebut.Size = New System.Drawing.Size(95, 48)
+        Me.btnNotGivingThatOutRebut.TabIndex = 45
+        Me.btnNotGivingThatOutRebut.Text = "Not giving that out"
+        Me.btnNotGivingThatOutRebut.UseMnemonic = False
+        Me.btnNotGivingThatOutRebut.UseVisualStyleBackColor = False
         '
         'TabPage2
         '
@@ -1890,8 +1890,8 @@ Partial Class Form1
         '
         Me.tbVehicleInfo.Controls.Add(Me.txtYMM)
         Me.tbVehicleInfo.Controls.Add(Me.cmbMoreVehicles)
-        Me.tbVehicleInfo.Controls.Add(Me.Button63)
-        Me.tbVehicleInfo.Controls.Add(Me.Button64)
+        Me.tbVehicleInfo.Controls.Add(Me.btnYearMakeModel)
+        Me.tbVehicleInfo.Controls.Add(Me.btnHowManyVehicles)
         Me.tbVehicleInfo.Location = New System.Drawing.Point(4, 27)
         Me.tbVehicleInfo.Name = "tbVehicleInfo"
         Me.tbVehicleInfo.Size = New System.Drawing.Size(627, 117)
@@ -1913,10 +1913,10 @@ Partial Class Form1
         Me.tbDriverInfo.Controls.Add(Me.cmbMaritalStatus)
         Me.tbDriverInfo.Controls.Add(Me.txtSPOUSEDOB)
         Me.tbDriverInfo.Controls.Add(Me.txtSPOUSENAME)
-        Me.tbDriverInfo.Controls.Add(Me.Button8)
+        Me.tbDriverInfo.Controls.Add(Me.btnMaritalStatus)
         Me.tbDriverInfo.Controls.Add(Me.txtDOB)
-        Me.tbDriverInfo.Controls.Add(Me.Button9)
-        Me.tbDriverInfo.Controls.Add(Me.SpouseName)
+        Me.tbDriverInfo.Controls.Add(Me.btnDOB)
+        Me.tbDriverInfo.Controls.Add(Me.btnSpouseName)
         Me.tbDriverInfo.Controls.Add(Me.SpouseDOB)
         Me.tbDriverInfo.Location = New System.Drawing.Point(4, 27)
         Me.tbDriverInfo.Name = "tbDriverInfo"
@@ -1965,14 +1965,14 @@ Partial Class Form1
         Me.tbPersonalInfo.Controls.Add(Me.txtEmail)
         Me.tbPersonalInfo.Controls.Add(Me.cmbHomeType)
         Me.tbPersonalInfo.Controls.Add(Me.cmbOwnRent)
-        Me.tbPersonalInfo.Controls.Add(Me.HOMETYPE)
-        Me.tbPersonalInfo.Controls.Add(Me.Button53)
+        Me.tbPersonalInfo.Controls.Add(Me.btnHomeType)
+        Me.tbPersonalInfo.Controls.Add(Me.btnGetEmailAddr)
         Me.tbPersonalInfo.Controls.Add(Me.txtAddress)
-        Me.tbPersonalInfo.Controls.Add(Me.Button13)
-        Me.tbPersonalInfo.Controls.Add(Me.Button11)
-        Me.tbPersonalInfo.Controls.Add(Me.Button20)
-        Me.tbPersonalInfo.Controls.Add(Me.Button21)
-        Me.tbPersonalInfo.Controls.Add(Me.Button33)
+        Me.tbPersonalInfo.Controls.Add(Me.btnOwnOrRent)
+        Me.tbPersonalInfo.Controls.Add(Me.btnAddress)
+        Me.tbPersonalInfo.Controls.Add(Me.btnPhoneType)
+        Me.tbPersonalInfo.Controls.Add(Me.btnVerifyLastName)
+        Me.tbPersonalInfo.Controls.Add(Me.btnCreditApprox)
         Me.tbPersonalInfo.Location = New System.Drawing.Point(4, 27)
         Me.tbPersonalInfo.Name = "tbPersonalInfo"
         Me.tbPersonalInfo.Size = New System.Drawing.Size(627, 117)
@@ -2036,19 +2036,19 @@ Partial Class Form1
         'tbWrapup
         '
         Me.tbWrapup.Controls.Add(Me.cmbTCPA)
-        Me.tbWrapup.Controls.Add(Me.Button57)
+        Me.tbWrapup.Controls.Add(Me.btnTCPARepeatPl0x)
         Me.tbWrapup.Controls.Add(Me.cmbSecondaries)
         Me.tbWrapup.Controls.Add(Me.LifeCheck)
-        Me.tbWrapup.Controls.Add(Me.tcpa)
+        Me.tbWrapup.Controls.Add(Me.btnTCPA)
         Me.tbWrapup.Controls.Add(Me.txtSqFt)
         Me.tbWrapup.Controls.Add(Me.MedicareCheck)
         Me.tbWrapup.Controls.Add(Me.RenterCheck)
-        Me.tbWrapup.Controls.Add(Me.Button65)
-        Me.tbWrapup.Controls.Add(Me.YEARBUILT)
+        Me.tbWrapup.Controls.Add(Me.btnOtherShtuss)
+        Me.tbWrapup.Controls.Add(Me.btnYearBuilt)
         Me.tbWrapup.Controls.Add(Me.txtYearBuilt)
         Me.tbWrapup.Controls.Add(Me.HealthCheck)
         Me.tbWrapup.Controls.Add(Me.HomeCheck)
-        Me.tbWrapup.Controls.Add(Me.SQFT)
+        Me.tbWrapup.Controls.Add(Me.btnSquareFeet)
         Me.tbWrapup.Location = New System.Drawing.Point(4, 27)
         Me.tbWrapup.Name = "tbWrapup"
         Me.tbWrapup.Size = New System.Drawing.Size(627, 117)
@@ -2096,15 +2096,15 @@ Partial Class Form1
         Me.cmbDispo.Size = New System.Drawing.Size(229, 21)
         Me.cmbDispo.TabIndex = 120
         '
-        'Label30
+        'lblDisposition
         '
-        Me.Label30.AutoSize = True
-        Me.Label30.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label30.Location = New System.Drawing.Point(6, 352)
-        Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(133, 20)
-        Me.Label30.TabIndex = 121
-        Me.Label30.Text = "DISPOSITION: "
+        Me.lblDisposition.AutoSize = True
+        Me.lblDisposition.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDisposition.Location = New System.Drawing.Point(6, 352)
+        Me.lblDisposition.Name = "lblDisposition"
+        Me.lblDisposition.Size = New System.Drawing.Size(133, 20)
+        Me.lblDisposition.TabIndex = 121
+        Me.lblDisposition.Text = "DISPOSITION: "
         '
         'txtVerifierNum
         '
@@ -2183,26 +2183,20 @@ Partial Class Form1
         '
         Me.calltimer.Interval = 1000
         '
-        'Button1
+        'btnExport
         '
-        Me.Button1.Location = New System.Drawing.Point(621, 374)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(49, 23)
-        Me.Button1.TabIndex = 148
-        Me.Button1.Text = "export Scrolls"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.btnExport.Location = New System.Drawing.Point(621, 374)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(49, 23)
+        Me.btnExport.TabIndex = 148
+        Me.btnExport.Text = "export Scrolls"
+        Me.btnExport.UseVisualStyleBackColor = True
         '
         'BackgroundWorker1
         '
         '
-        'Button16
+        'BackgroundWorker2
         '
-        Me.Button16.Location = New System.Drawing.Point(230, 183)
-        Me.Button16.Name = "Button16"
-        Me.Button16.Size = New System.Drawing.Size(164, 23)
-        Me.Button16.TabIndex = 149
-        Me.Button16.Text = "Colonic (clear the butthole)"
-        Me.Button16.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -2210,14 +2204,13 @@ Partial Class Form1
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(672, 866)
-        Me.Controls.Add(Me.Button16)
-        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.btnExport)
         Me.Controls.Add(Me.testpagebutton)
         Me.Controls.Add(Me.txtVerifierNum)
         Me.Controls.Add(Me.btnPause)
         Me.Controls.Add(Me.lblName)
         Me.Controls.Add(Me.Label32)
-        Me.Controls.Add(Me.Label30)
+        Me.Controls.Add(Me.lblDisposition)
         Me.Controls.Add(Me.cmbDispo)
         Me.Controls.Add(Me.tbCallOrder)
         Me.Controls.Add(Me.TabControl1)
@@ -2258,62 +2251,62 @@ Partial Class Form1
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents Button11 As Button
-    Friend WithEvents HOMETYPE As Button
-    Friend WithEvents Button13 As Button
-    Friend WithEvents SpouseName As Button
-    Friend WithEvents Button8 As Button
-    Friend WithEvents Button9 As Button
+    Friend WithEvents btnAddress As Button
+    Friend WithEvents btnHomeType As Button
+    Friend WithEvents btnOwnOrRent As Button
+    Friend WithEvents btnSpouseName As Button
+    Friend WithEvents btnMaritalStatus As Button
+    Friend WithEvents btnDOB As Button
     Friend WithEvents btnTheirName As Button
     Friend WithEvents btnHello As Button
     Friend WithEvents Primary As ComboBox
     Friend WithEvents SpouseDOB As Button
-    Friend WithEvents Button21 As Button
-    Friend WithEvents Button20 As Button
+    Friend WithEvents btnVerifyLastName As Button
+    Friend WithEvents btnPhoneType As Button
     Friend WithEvents frReactions As GroupBox
     Friend WithEvents Button28 As Button
-    Friend WithEvents Button24 As Button
-    Friend WithEvents Button23 As Button
-    Friend WithEvents Button33 As Button
+    Friend WithEvents btnWhatIGot As Button
+    Friend WithEvents btnOK As Button
+    Friend WithEvents btnCreditApprox As Button
     Friend WithEvents GroupBox9 As GroupBox
-    Friend WithEvents Button34 As Button
+    Friend WithEvents btnNotAvailableCloser As Button
     Friend WithEvents btnIntro As Button
-    Friend WithEvents Button41 As Button
+    Friend WithEvents btnHumanReaction As Button
     Friend WithEvents btnRepeatThat As Button
-    Friend WithEvents Button36 As Button
+    Friend WithEvents btnSpellThatPl0x As Button
     Friend WithEvents btnExpiration As Button
     Friend WithEvents btnWhoDoYouHave As Button
     Friend WithEvents btnPolicyStart As Button
-    Friend WithEvents Button63 As Button
-    Friend WithEvents Button64 As Button
-    Friend WithEvents Button2 As Button
-    Friend WithEvents YEARBUILT As Button
-    Friend WithEvents Button42 As Button
-    Friend WithEvents Button43 As Button
-    Friend WithEvents Button65 As Button
+    Friend WithEvents btnYearMakeModel As Button
+    Friend WithEvents btnHowManyVehicles As Button
+    Friend WithEvents btnSorry As Button
+    Friend WithEvents btnYearBuilt As Button
+    Friend WithEvents btnYallAreStalkers As Button
+    Friend WithEvents btnDoNotCallCloser As Button
+    Friend WithEvents btnOtherShtuss As Button
     Friend WithEvents cmbMoreVehicles As ComboBox
-    Friend WithEvents Button67 As Button
+    Friend WithEvents btnWhatsLCN As Button
     Friend WithEvents Label4 As Label
     Friend WithEvents lblCalls As Label
     Friend WithEvents lblQuestion As Label
-    Friend WithEvents tcpa As Button
-    Friend WithEvents SQFT As Button
+    Friend WithEvents btnTCPA As Button
+    Friend WithEvents btnSquareFeet As Button
     Friend WithEvents results As TextBox
     Friend WithEvents txtDOB As TextBox
     Friend WithEvents txtSPOUSEDOB As TextBox
     Friend WithEvents txtSPOUSENAME As TextBox
-    Friend WithEvents Button51 As Button
-    Friend WithEvents Button81 As Button
-    Friend WithEvents Button82 As Button
-    Friend WithEvents Button83 As Button
-    Friend WithEvents Button85 As Button
-    Friend WithEvents Button89 As Button
-    Friend WithEvents Button90 As Button
-    Friend WithEvents Button92 As Button
-    Friend WithEvents Button46 As Button
-    Friend WithEvents Button93 As Button
-    Friend WithEvents Button7 As Button
-    Friend WithEvents Button3 As Button
+    Friend WithEvents btnYoureNotIDK As Button
+    Friend WithEvents btnALLTHECALLS As Button
+    Friend WithEvents btnEmailMePl0x As Button
+    Friend WithEvents btnWhenWillTheyCallMe As Button
+    Friend WithEvents btnDontYouHaveThis As Button
+    Friend WithEvents btnHaiThisIsCheryl As Button
+    Friend WithEvents btnAreYouStillThere As Button
+    Friend WithEvents btnWhatDisAbout As Button
+    Friend WithEvents btnGreatQuestion As Button
+    Friend WithEvents btnIUnderstandCompletely As Button
+    Friend WithEvents btnNahhh As Button
+    Friend WithEvents btnYAAAAAS As Button
     Friend WithEvents txtAddress As TextBox
     Friend WithEvents txtPolicyStart As TextBox
     Friend WithEvents txtPolicyExpiration As TextBox
@@ -2321,20 +2314,20 @@ Partial Class Form1
     Friend WithEvents txtName As TextBox
     Friend WithEvents txtSqFt As TextBox
     Friend WithEvents txtYearBuilt As TextBox
-    Friend WithEvents Button15 As Button
-    Friend WithEvents Button17 As Button
+    Friend WithEvents btnLookingForMoo As Button
+    Friend WithEvents btnHiQuestionMark As Button
     Friend WithEvents Timer2 As Timer
-    Friend WithEvents Button22 As Button
+    Friend WithEvents btnIsOkay As Button
     Friend WithEvents txtEmail As TextBox
-    Friend WithEvents Button53 As Button
-    Friend WithEvents Button57 As Button
+    Friend WithEvents btnGetEmailAddr As Button
+    Friend WithEvents btnTCPARepeatPl0x As Button
     Friend WithEvents LifeCheck As CheckBox
     Friend WithEvents HomeCheck As CheckBox
     Friend WithEvents HealthCheck As CheckBox
     Friend WithEvents MedicareCheck As CheckBox
     Friend WithEvents RenterCheck As CheckBox
-    Friend WithEvents Button70 As Button
-    Friend WithEvents Button61 As Button
+    Friend WithEvents btnYoureWelcome As Button
+    Friend WithEvents btnThankYou As Button
     Friend WithEvents TabControl1 As TabControl
     Friend WithEvents tbQuestions As TabPage
     Friend WithEvents tbCallOrder As TabControl
@@ -2358,42 +2351,42 @@ Partial Class Form1
     Friend WithEvents Label18 As Label
     Friend WithEvents Label20 As Label
     Friend WithEvents cmbDispo As ComboBox
-    Friend WithEvents Label30 As Label
-    Friend WithEvents Button6 As Button
-    Friend WithEvents Button12 As Button
-    Friend WithEvents Button10 As Button
-    Friend WithEvents Button35 As Button
-    Friend WithEvents Button59 As Button
-    Friend WithEvents Button58 As Button
-    Friend WithEvents Button31 As Button
-    Friend WithEvents Button5 As Button
-    Friend WithEvents Button68 As Button
-    Friend WithEvents Button25 As Button
-    Friend WithEvents Button77 As Button
-    Friend WithEvents Button26 As Button
-    Friend WithEvents Button4 As Button
-    Friend WithEvents Button19 As Button
-    Friend WithEvents Button69 As Button
-    Friend WithEvents Button50 As Button
-    Friend WithEvents Button54 As Button
-    Friend WithEvents Button55 As Button
-    Friend WithEvents Button38 As Button
-    Friend WithEvents Button56 As Button
-    Friend WithEvents Button49 As Button
-    Friend WithEvents Button14 As Button
-    Friend WithEvents insurance As Button
-    Friend WithEvents Button84 As Button
-    Friend WithEvents Make As Button
-    Friend WithEvents Button72 As Button
-    Friend WithEvents Button48 As Button
-    Friend WithEvents Button52 As Button
-    Friend WithEvents Button45 As Button
-    Friend WithEvents Button32 As Button
-    Friend WithEvents Button44 As Button
-    Friend WithEvents Button39 As Button
-    Friend WithEvents Button29 As Button
-    Friend WithEvents Button18 As Button
-    Friend WithEvents Button27 As Button
+    Friend WithEvents lblDisposition As Label
+    Friend WithEvents btnWrongNumberCloser As Button
+    Friend WithEvents btnNotInterestedCloser As Button
+    Friend WithEvents btnNoCarCloser As Button
+    Friend WithEvents btnNoEnglishCloser As Button
+    Friend WithEvents btnNoEmailRebut As Button
+    Friend WithEvents btnIMovedRebut As Button
+    Friend WithEvents btnAddressRebut As Button
+    Friend WithEvents btnSpusalDutiesRebut As Button
+    Friend WithEvents btnAreYouTheSpouse As Button
+    Friend WithEvents btnNotInterestedRebut As Button
+    Friend WithEvents btnAlmostDone As Button
+    Friend WithEvents btnAlreadyHaveRebut As Button
+    Friend WithEvents btnThisWillBeQuickAndPainless As Button
+    Friend WithEvents btnInsuranceSmilesRebut As Button
+    Friend WithEvents btnNotGivingThatOutRebut As Button
+    Friend WithEvents btnLittleMonth As Button
+    Friend WithEvents btnLittleYear As Button
+    Friend WithEvents btnLittleDay As Button
+    Friend WithEvents btnBestGuess As Button
+    Friend WithEvents btnPOBoxRebut As Button
+    Friend WithEvents btnEmailRebut As Button
+    Friend WithEvents btnLittleEmail As Button
+    Friend WithEvents btnProvidersList As Button
+    Friend WithEvents btnMonthsList As Button
+    Friend WithEvents btnListMakes As Button
+    Friend WithEvents btnLittleZip As Button
+    Friend WithEvents btnOneAtATime As Button
+    Friend WithEvents btnBeMoreSpecific As Button
+    Friend WithEvents btnFirstCarModel As Button
+    Friend WithEvents btnWhyDoYouNeedThat As Button
+    Friend WithEvents btnLOWCloser As Button
+    Friend WithEvents btnLeadGetCloser As Button
+    Friend WithEvents btnPriceServiceRebut As Button
+    Friend WithEvents btnActuallySorry As Button
+    Friend WithEvents btnManiacalLaugh As Button
     Friend WithEvents Button40 As Button
     Friend WithEvents txtVerifierNum As TextBox
     Friend WithEvents Label32 As Label
@@ -2419,12 +2412,12 @@ Partial Class Form1
     Friend WithEvents TabPage1 As TabPage
     Friend WithEvents txtSpeech As TextBox
     Friend WithEvents lblRecording As Label
-    Friend WithEvents Button60 As Button
+    Friend WithEvents btnCuriousRebut As Button
     Friend WithEvents lblLeadInfo As Label
     Friend WithEvents Label1 As Label
     Friend WithEvents testpagebutton As Button
     Friend WithEvents calltimer As Timer
-    Friend WithEvents Button1 As Button
+    Friend WithEvents btnExport As Button
     Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
-    Friend WithEvents Button16 As Button
+    Friend WithEvents BackgroundWorker2 As System.ComponentModel.BackgroundWorker
 End Class
