@@ -189,9 +189,13 @@ Partial Class Form1
         Me.Label1 = New System.Windows.Forms.Label()
         Me.testpagebutton = New System.Windows.Forms.Button()
         Me.calltimer = New System.Windows.Forms.Timer(Me.components)
-        Me.btnExport = New System.Windows.Forms.Button()
+        Me.scribethescrolls = New System.Windows.Forms.Button()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.BackgroundWorker2 = New System.ComponentModel.BackgroundWorker()
+        Me.btnExpunge = New System.Windows.Forms.Button()
+        Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.studythescrolls = New System.Windows.Forms.Button()
+        Me.readthescrolls = New System.Windows.Forms.Button()
         Me.frReactions.SuspendLayout()
         Me.GroupBox9.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -206,6 +210,7 @@ Partial Class Form1
         Me.tbPersonalInfo.SuspendLayout()
         Me.tbWrapup.SuspendLayout()
         Me.tbResults.SuspendLayout()
+        Me.TabPage3.SuspendLayout()
         Me.SuspendLayout()
         '
         'txtEmail
@@ -1214,6 +1219,7 @@ Partial Class Form1
         Me.TabControl1.Controls.Add(Me.tbQuestions)
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Controls.Add(Me.TabPage1)
+        Me.TabControl1.Controls.Add(Me.TabPage3)
         Me.TabControl1.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TabControl1.Location = New System.Drawing.Point(4, 374)
         Me.TabControl1.Name = "TabControl1"
@@ -2183,20 +2189,58 @@ Partial Class Form1
         '
         Me.calltimer.Interval = 1000
         '
-        'btnExport
+        'scribethescrolls
         '
-        Me.btnExport.Location = New System.Drawing.Point(621, 374)
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Size = New System.Drawing.Size(49, 23)
-        Me.btnExport.TabIndex = 148
-        Me.btnExport.Text = "export Scrolls"
-        Me.btnExport.UseVisualStyleBackColor = True
+        Me.scribethescrolls.Location = New System.Drawing.Point(149, 22)
+        Me.scribethescrolls.Name = "scribethescrolls"
+        Me.scribethescrolls.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.scribethescrolls.Size = New System.Drawing.Size(121, 72)
+        Me.scribethescrolls.TabIndex = 148
+        Me.scribethescrolls.Text = "scribe the scrolls"
+        Me.scribethescrolls.UseVisualStyleBackColor = True
         '
         'BackgroundWorker1
         '
         '
-        'BackgroundWorker2
+        'btnExpunge
         '
+        Me.btnExpunge.Location = New System.Drawing.Point(21, 22)
+        Me.btnExpunge.Name = "btnExpunge"
+        Me.btnExpunge.Size = New System.Drawing.Size(122, 72)
+        Me.btnExpunge.TabIndex = 149
+        Me.btnExpunge.Text = "expunge the scrolls"
+        Me.btnExpunge.UseVisualStyleBackColor = True
+        '
+        'TabPage3
+        '
+        Me.TabPage3.Controls.Add(Me.readthescrolls)
+        Me.TabPage3.Controls.Add(Me.studythescrolls)
+        Me.TabPage3.Controls.Add(Me.scribethescrolls)
+        Me.TabPage3.Controls.Add(Me.btnExpunge)
+        Me.TabPage3.Location = New System.Drawing.Point(4, 33)
+        Me.TabPage3.Name = "TabPage3"
+        Me.TabPage3.Size = New System.Drawing.Size(619, 308)
+        Me.TabPage3.TabIndex = 4
+        Me.TabPage3.Text = "Scrolls"
+        Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'studythescrolls
+        '
+        Me.studythescrolls.Location = New System.Drawing.Point(275, 22)
+        Me.studythescrolls.Name = "studythescrolls"
+        Me.studythescrolls.Size = New System.Drawing.Size(129, 72)
+        Me.studythescrolls.TabIndex = 150
+        Me.studythescrolls.Text = "study the scrolls"
+        Me.studythescrolls.UseVisualStyleBackColor = True
+        '
+        'readthescrolls
+        '
+        Me.readthescrolls.Location = New System.Drawing.Point(410, 22)
+        Me.readthescrolls.Name = "readthescrolls"
+        Me.readthescrolls.Size = New System.Drawing.Size(121, 72)
+        Me.readthescrolls.TabIndex = 151
+        Me.readthescrolls.Text = "read the scrolls"
+        Me.readthescrolls.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -2204,7 +2248,6 @@ Partial Class Form1
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(672, 866)
-        Me.Controls.Add(Me.btnExport)
         Me.Controls.Add(Me.testpagebutton)
         Me.Controls.Add(Me.txtVerifierNum)
         Me.Controls.Add(Me.btnPause)
@@ -2247,6 +2290,7 @@ Partial Class Form1
         Me.tbWrapup.PerformLayout()
         Me.tbResults.ResumeLayout(False)
         Me.tbResults.PerformLayout()
+        Me.TabPage3.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -2417,7 +2461,11 @@ Partial Class Form1
     Friend WithEvents Label1 As Label
     Friend WithEvents testpagebutton As Button
     Friend WithEvents calltimer As Timer
-    Friend WithEvents btnExport As Button
+    Friend WithEvents scribethescrolls As Button
     Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
     Friend WithEvents BackgroundWorker2 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents btnExpunge As Button
+    Friend WithEvents TabPage3 As TabPage
+    Friend WithEvents studythescrolls As Button
+    Friend WithEvents readthescrolls As Button
 End Class

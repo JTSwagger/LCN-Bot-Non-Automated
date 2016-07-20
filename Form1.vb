@@ -12,6 +12,7 @@ Imports System.Collections.Generic
 Imports OpenQA.Selenium.Support.UI
 Imports Newtonsoft.Json
 Imports System
+Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class Form1
     Dim VehicleList(0) As Vehicle
@@ -152,7 +153,7 @@ Public Class Form1
         SilenceCap = (totalInbetween / NumWords) + 1.5
         theSilence = 0
         Part = e.PartialResult
-        Me.BeginInvoke(New Action(AddressOf ConsultTheScrolls))
+        Me.BeginInvoke(New Action(AddressOf consult_the_scrolls))
     End Sub
     Dim Currently_Rebuttaling As Boolean = False
     Public Sub handlePartialObjection()
@@ -288,24 +289,21 @@ Public Class Form1
         If vMake(vehiclenum) <> "" Then
             If vehiclenum = 1 Then
                 Try
-                    'selectElement = New SelectElement(local_browser.FindElementById("vehicle-make"))
-                    'selectElement.SelectByText(vMake(vehiclenum))
-                    BackgroundWorker2.RunWorkerAsync({"vehicle-make", vMake(vehiclenum)})
+                    selectElement = New SelectElement(local_browser.FindElementById("vehicle-make"))
+                    selectElement.SelectByText(vMake(vehiclenum))
                     Return True
                 Catch ex As Exception
                     Do Until local_browser.FindElementById("vehicle-make").GetAttribute("class").Contains("hide") = False
                         Console.WriteLine("whoopwhoopwhoop shoopdawhoop")
                     Loop
-                    'selectElement = New SelectElement(local_browser.FindElementById("vehicle-make"))
-                    'selectElement.SelectByText(vMake(vehiclenum))
-                    BackgroundWorker2.RunWorkerAsync({"vehicle-make", vMake(vehiclenum)})
+                    selectElement = New SelectElement(local_browser.FindElementById("vehicle-make"))
+                    selectElement.SelectByText(vMake(vehiclenum))
                     Return True
                 End Try
             Else
                 Try
-                    'selectElement = New SelectElement(local_browser.FindElementById("vehicle" & vehiclenum & "-make"))
-                    'selectElement.SelectByText(vMake(vehiclenum))
-                    BackgroundWorker2.RunWorkerAsync({"vehicle" & vehiclenum & "-make", vMake(vehiclenum)})
+                    selectElement = New SelectElement(local_browser.FindElementById("vehicle" & vehiclenum & "-make"))
+                    selectElement.SelectByText(vMake(vehiclenum))
                     Return True
                 Catch
                 End Try
@@ -392,6 +390,7 @@ Public Class Form1
                         clipType = ""
                         callPos = Insurance_Provider
                         s = ""
+                        CurrentQ = 0
 
                     Case Insurance_Provider
                         Console.WriteLine("Checking Insurance Provider")
@@ -782,19 +781,15 @@ Public Class Form1
     Public Function getModel() As Boolean
         Thread.Sleep(300)
         If local_browser.FindElementById("vehicle-make").Text <> vMake(VehicleNum) Then
-            'local_browser.FindElementById("vehicle-make").SendKeys(vMake(VehicleNum))
-            BackgroundWorker2.RunWorkerAsync({"vehicle-make", vMake(VehicleNum)})
+            local_browser.FindElementById("vehicle-make").SendKeys(vMake(VehicleNum))
 
         End If
         Console.WriteLine("Getting model: ")
-        Dim der_Elem As String
         Try
             If VehicleNum = 1 Then
                 selectElement = New SelectElement(local_browser.FindElementById("vehicle-model"))
-                der_Elem = "vehicle-model"
             Else
                 selectElement = New SelectElement(local_browser.FindElementById("vehicle" & VehicleNum & "-model"))
-                der_Elem = "vehicle" & VehicleNum & "-model"
             End If
 
         Catch
@@ -803,10 +798,8 @@ Public Class Form1
             End While
             If VehicleNum = 1 Then
                 selectElement = New SelectElement(local_browser.FindElementById("vehicle-model"))
-                der_Elem = "vehicle-model"
             Else
                 selectElement = New SelectElement(local_browser.FindElementById("vehicle" & VehicleNum & "-model"))
-                der_Elem = "vehicle" & VehicleNum & "-model"
             End If
 
         End Try
@@ -825,7 +818,7 @@ Public Class Form1
                 Console.WriteLine(Model_List.Item(x) & ">>>>" & split_speech(Y))
                 If Model_List.Item(x).Contains(split_speech(Y)) And split_speech(Y).Length > 2 Then
                     Console.WriteLine("Found it bitch!")
-                    BackgroundWorker2.RunWorkerAsync({der_Elem, Model_List.Item(x)})
+                    selectElement.SelectByText(Model_List.Item(x))
                     Return True
                 End If
             Next
@@ -891,106 +884,110 @@ Public Class Form1
 
         Return tempArray
     End Function
-    Dim objReader As System.IO.StreamReader
 
-    Dim THE_REFERENCE_SECTION(10) As Dictionary(Of String, Integer)
-    Sub FilltheShelves()
-        For i As Integer = 0 To Scrolls.Length - 1
-            Console.WriteLine("Adding  ")
-            Scrolls(i) = New List(Of String)
-        Next
-        For i As Integer = 0 To Scrolls.Length - 1
-
-            If System.IO.File.Exists(My.Application.Info.DirectoryPath & "Scroll" & i & ".wzd") = True Then
-                Dim Lines() As String = IO.File.ReadAllLines(My.Application.Info.DirectoryPath & "Scroll" & i & ".wzd")
-                For Each item As String In Lines
-                    Scrolls(i).Add(item)
-                Next
-            End If
-        Next
-    End Sub
     Dim currentButton As Integer = 0
     Dim LO As KeyValuePair(Of String, Integer) = New KeyValuePair(Of String, Integer)
     Dim buttonindex As Integer = -1
     Dim BestMatch As Integer = 100
-    Sub ConsultTheScrolls()
-        Dim d As New Dictionary(Of String, Integer)
-        Dim match As Boolean = False
-        Dim Buttonindex As Integer = -1
-        Dim NumMatches(10) As Integer
-        txtSpeech.Text = "The bot heard:  " & Part
-        If Part IsNot Nothing And Part <> "" Then
-            For x As Integer = 0 To Scrolls.Length - 1
-                For i As Integer = 0 To Scrolls(x).Count - 1
-                    Console.WriteLine("CONSULTING SCROLL.... " & x)
-                    If Scrolls(i).Contains(Part) Then
-                        Console.WriteLine("************************************")
-                        Console.WriteLine("FOUND " & Part & " IN SCROLL " & x)
-                        Console.WriteLine("*************************************")
-                        rebuttalYoFace(x + 1)
-                        match = True
-                    Else
-                        Console.WriteLine(Part & " is similar to " & Scrolls(x)(i) & " at " & levenshtein(Part, Scrolls(x)(i)))
-                        d.Add(Scrolls(x)(i), levenshtein(Part, Scrolls(x)(i)))
-                    End If
 
+    Public Sub consult_the_scrolls()
+        Dim matches As New Dictionary(Of String, Integer)
+        Dim rebuttal_type As String = ""
+
+        txtSpeech.Text = "The bot heard: " & Part
+
+        If Part IsNot Nothing And Part <> "" Then
+            If callPos = Email_Address Then
+                Console.WriteLine("email rebuttals take priority here")
+                If scrolls.Keys.Contains("email rebuttal") Then
+                    For Each phrase As String In scrolls("email rebuttal")
+                        Dim fuzzy_percentage As Integer = levenshtein(phrase, Part)
+                        If fuzzy_percentage <= 5 Then
+                            Console.WriteLine(phrase & " and " & Part & "have a levenshtein percentage of: " & fuzzy_percentage)
+                            matches(phrase) = fuzzy_percentage
+                        End If
+                    Next
+                End If
+            End If
+            For Each key As String In scrolls.Keys
+                For Each phrase As String In scrolls(key)
+                    Dim fuzzy_percentage As Integer = levenshtein(phrase, Part)
+                    If fuzzy_percentage <= 5 Then
+                        Console.WriteLine(phrase & " and " & Part & "have a levenshtein percentage of: " & fuzzy_percentage)
+                        matches(phrase) = fuzzy_percentage
+                    End If
                 Next
             Next
-        End If
-        Dim strArray() As KeyValuePair(Of String, Integer) = d.ToArray
+            Dim highest As Integer = 0
 
+            For Each key As String In matches.Keys
+                If matches(key) > highest Then
+                    highest = matches(key)
+                    rebuttal_type = key
+                End If
+            Next
 
-        For z As Integer = 0 To d.Count - 1
-            Console.WriteLine("MATCH " & z & " " & strArray(z).Key & "   " & strArray(z).Value)
-            If strArray(z).Value < BestMatch Then
-                BestMatch = strArray(z).Value
-                Buttonindex = z + 1
-
+            If rebuttal_type <> "" AndAlso matches.Count > 0 Then
+                rebuttalYoFace(rebuttal_type)
             End If
-        Next
-        If BestMatch < 7 Then
-            rebuttalYoFace(Buttonindex)
 
         End If
-
     End Sub
-    Sub rebuttalYoFace(index As Integer)
-        Console.WriteLine("Rebuttaling YO FACE with button: " & index)
+    Sub rebuttalYoFace(rebuttaltype As String)
+        Console.WriteLine("Rebuttaling YO FACE with rebuttal: " & rebuttaltype)
 
-        Select Case index
-            Case 1
+        Select Case rebuttaltype
+            Case "Not interested"
                 Currently_Rebuttaling = True
                 rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3")
-            Case 2
+            Case "merf?"
                 Currently_Rebuttaling = True
                 rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\I actually have this information.mp3")
-            Case 3
+            Case "email rebuttal"
+                Currently_Rebuttaling = True
 
-            Case 4
+            Case "whats lcn"
                 Currently_Rebuttaling = True
                 rolltheclip("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
         End Select
 
     End Sub
-    Dim Scrolls(20) As List(Of String)
+    Dim scrolls As New Dictionary(Of String, List(Of String))
 
 
-    Sub getWords(phrase As String, numdic As Integer)
-        Console.WriteLine("PANDA PANDA PANDA: " & phrase & "NO MORE PANDA PANDA PANDA")
-        For Each item As String In phrase.Split(".")
-            Console.WriteLine("SPLIT ITEM " & item)
-            If Not Scrolls(numdic).Contains(item) And Not item = "" Then
-                Console.WriteLine("I AM THE WALRUS")
-                Scrolls(numdic).Add(item)
-                Console.WriteLine("Added item")
+    Sub get_words(phrase As String, buttonType As String)
+        ' have to split phrase by "." due to how the partial dictation returns stuff
+        For Each part As String In phrase.Split(".")
+            Console.WriteLine("I am the carbs")
+            If scrolls.Keys.Contains(buttonType) Then
+
+                If scrolls(buttonType).Contains(part) Then
+                    Continue For
+                Else
+                    scrolls(buttonType).Add(part)
+                End If
+            Else
+                Dim the_list As New List(Of String)
+                the_list.Add(part)
+                scrolls.Add(buttonType, the_list)
             End If
-        Next
-        For Each item As String In Scrolls(numdic)
-            Console.WriteLine(item)
         Next
     End Sub
 
+    Sub scribe_the_scrolls()
+        Dim binary_formatter As New BinaryFormatter()
+        Dim written_scrolls As New IO.FileStream("the_scrolls.txt", IO.FileMode.OpenOrCreate, IO.FileAccess.Write, IO.FileShare.None)
+        binary_formatter.Serialize(written_scrolls, scrolls)
+        written_scrolls.Close()
+        Console.WriteLine("The scrolls have been scribed...")
+    End Sub
 
+    Sub study_the_scrolls()
+        Dim written_scrolls As New IO.FileStream("the_scrolls.txt", IO.FileMode.Open, IO.FileAccess.Read, IO.FileShare.None)
+        Dim binary_formatter As New BinaryFormatter()
+        scrolls = binary_formatter.Deserialize(written_scrolls)
+        Console.WriteLine("the scrolls have been studied...")
+    End Sub
 
     Sub returnMCS(stringlist As List(Of String))
         Dim whereami As Integer = 0
@@ -1032,7 +1029,7 @@ Public Class Form1
         End If
     End Sub
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        FilltheShelves()
+        'FilltheShelves()
 
         Try
             Dim i As Integer = 0
@@ -1742,16 +1739,14 @@ Public Class Form1
         Next
         If VYear(VehicleNum) <> "" Then
             If VehicleNum = 1 Then
-                'local_browser.FindElementById("vehicle-year").SendKeys(VYear(VehicleNum))
-                'local_browser.Keyboard.PressKey(Keys.Return)
-                BackgroundWorker2.RunWorkerAsync({"vehicle-year", VYear(VehicleNum)})
+                local_browser.FindElementById("vehicle-year").SendKeys(VYear(VehicleNum))
+                local_browser.Keyboard.PressKey(Keys.Return)
 
                 CurrentQ += 1
                 Return True
             Else
-                'local_browser.FindElementById("vehicle" & VehicleNum & "-year").SendKeys(VYear(VehicleNum))
-                'local_browser.Keyboard.PressKey(Keys.Return)
-                BackgroundWorker2.RunWorkerAsync({"vehicle" & VehicleNum & "-year", VYear(VehicleNum)})
+                local_browser.FindElementById("vehicle" & VehicleNum & "-year").SendKeys(VYear(VehicleNum))
+                local_browser.Keyboard.PressKey(Keys.Return)
                 CurrentQ += 1
                 Return True
             End If
@@ -1771,7 +1766,7 @@ Public Class Form1
             Case s.Contains("leave a message"), s.Contains("unable to take your call"), s.Contains("after the beep"), s.Contains("after the tone"), s.Contains("at the tone"), s.Contains("leave your Name"), s.Contains("mailbox is full")
                 cmbDispo.Text = "Not Available"
                 CurrentQ = 31
-                DispositionCall()
+                DispositionCall("Not Available")
                 Return True
             Case Else
                 Return False
@@ -3682,18 +3677,20 @@ Public Class Form1
 
     Private Sub Button12_Click(sender As Object, e As EventArgs) Handles btnHomeType.Click
         isQuestion = True
-
-        rolltheclip("c:\soundboard\cheryl\PERSONAL INFO\HOMETYPE.mp3")
         callPos = Home_Type
+        CurrentQ = 16
+        rolltheclip("c:\soundboard\cheryl\PERSONAL INFO\HOMETYPE.mp3")
+
 
     End Sub
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles btnOwnOrRent.Click
         StopThatClip()
-        rolltheclip("c:\soundboard\cheryl\PERSONAL INFO\DO YOU OWN Or RENT THE HOME.mp3")
+        callPos = Own_Rent
         CurrentQ = 15
+        rolltheclip("c:\soundboard\cheryl\PERSONAL INFO\DO YOU OWN Or RENT THE HOME.mp3")
         isQuestion = True
         clipType = "Question"
-        callPos = Own_Rent
+
 
 
     End Sub
@@ -3779,24 +3776,26 @@ Public Class Form1
     End Sub
     Private Sub Button17_Click(sender As Object, e As EventArgs) Handles SpouseDOB.Click
         StopThatClip()
+        callPos = Spouse_DOB
+        CurrentQ = 13
         rolltheclip("c:\soundboard\cheryl\DRIVER INFO\SPOUSES DATE OF BIRTH.mp3")
         isQuestion = True
         clipType = "Question"
-        callPos = Spouse_DOB
+
 
     End Sub
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles btnDOB.Click
         isQuestion = True
+        callPos = Driver_Birthday
+        CurrentQ = 10
+
         If getBirthdaWAV() = True Then
             tbCallOrder.SelectedTab = tbDriverInfo
             clipType = "Question"
-            callPos = Driver_Birthday
             'LeadForm.Document.GetElementById("frmDOB_Month").Focus()
-            CurrentQ = 10
             rolltheclip("C:\Soundboard\Cheryl\Birthday\" & bmonth1 & bday1 & ".mp3")
         Else
             clipType = "Question"
-            callPos = Driver_Birthday
             rolltheclip("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
         End If
 
@@ -3828,34 +3827,42 @@ Public Class Form1
     End Sub
     Private Sub Button8_Click(sender As Object, e As EventArgs) Handles btnMaritalStatus.Click
         StopThatClip()
+        callPos = Marital_Status
+        CurrentQ = 11
         rolltheclip("c:\soundboard\cheryl\DRIVER INFO\MaritalStatus2.mp3")
         clipType = "Question"
-        callPos = Marital_Status
+
         isQuestion = True
 
     End Sub
     Private Sub Button20_Click(sender As Object, e As EventArgs) Handles btnPhoneType.Click
         isQuestion = True
-
-        rolltheclip("C:/Soundboard/Cheryl/PERSONAL INFO/phoneType.mp3")
         callPos = Phone_Type
+        CurrentQ = 22
         clipType = "Question"
+        rolltheclip("C:/Soundboard/Cheryl/PERSONAL INFO/phoneType.mp3")
+
+
 
 
     End Sub
     Private Sub Button21_Click(sender As Object, e As EventArgs) Handles btnVerifyLastName.Click
         isQuestion = True
-        rolltheclip("C:/Soundboard/Cheryl/PERSONAL INFO/Last Name.mp3")
         clipType = "Question"
         callPos = Last_Name
+        CurrentQ = 23
+        rolltheclip("C:/Soundboard/Cheryl/PERSONAL INFO/Last Name.mp3")
+
 
     End Sub
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles btnSpouseName.Click
         StopThatClip()
+        callPos = Spouse_Name
+        CurrentQ = 12
         rolltheclip("c:\soundboard\cheryl\DRIVER INFO\SPOUSES FIRST NAME.mp3")
         isQuestion = True
         clipType = "Question"
-        callPos = Spouse_Name
+
 
     End Sub
     Private Sub Button23_Click(sender As Object, e As EventArgs) Handles btnOK.Click
@@ -3893,10 +3900,11 @@ Public Class Form1
         rolltheclip("C:/Soundboard/Cheryl/REbuttal3.mp3")
     End Sub
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles btnAddress.Click
-
+        callPos = Their_Address
+        CurrentQ = 17
         isQuestion = True
         rolltheclip("c:\soundboard\cheryl\REACTIONS\Could you please verify your address.mp3")
-        callPos = Their_Address
+
         clipType = "Question"
 
 
@@ -3970,6 +3978,7 @@ Public Class Form1
         isQuestion = True
         clipType = "Question"
         callPos = Credit
+        CurrentQ = 21
         rolltheclip("C:/Soundboard/Cheryl/PERSONAL INFO/Credit.mp3")
 
     End Sub
@@ -3978,7 +3987,7 @@ Public Class Form1
 
         BackgroundWorker1.RunWorkerAsync("c:\soundboard\cheryl\INTRO\INTRO2.MP3")
         clipType = "Question"
-        callPos = Insurance_Provider
+        callPos = Intro
         SilenceCap = 3
         m.StartMicAndRecognition()
     End Sub
@@ -4027,6 +4036,8 @@ Public Class Form1
         rolltheclip("c:\soundboard\cheryl\Rebuttals\Rebuttal3.mp3")
     End Sub
     Private Sub Button63_Click(sender As Object, e As EventArgs) Handles btnYearMakeModel.Click
+        callPos = Year_Make_Model
+        CurrentQ = 7
         Select Case VehicleNum
             Case 1
                 Select Case NumberOfVehicles
@@ -4043,42 +4054,36 @@ Public Class Form1
                 rolltheclip("C:\SoundBoard\Cheryl\VEHICLE INFO\Fourth Vehicle.mp3")
         End Select
         clipType = "Question"
-        callPos = Year_Make_Model
-
-
     End Sub
     Private Sub Button64_Click(sender As Object, e As EventArgs) Handles btnHowManyVehicles.Click
+        callPos = Number_Of_Vehicles
+        CurrentQ = 6
         rolltheclip("C:/SOUNDBOARD/CHERYL/VEHICLE INFO/HOW MANY VEHICLES DO YOU HAVE.MP3")
         isQuestion = True
         clipType = "Question"
-        callPos = Number_Of_Vehicles
-
     End Sub
     Private Sub Button50_Click(sender As Object, e As EventArgs) Handles btnWhoDoYouHave.Click
+        callPos = Insurance_Provider
+        CurrentQ = 0
         StopThatClip()
         rolltheclip("c:\soundboard\cheryl\INSURANCE INFO\Who Is The Current Auto INsurance Company that you're with.mp3")
-        CurrentQ = 3
         isQuestion = True
         clipType = "Question"
-        callPos = Insurance_Provider
-
     End Sub
     Private Sub Button51_Click(sender As Object, e As EventArgs) Handles btnPolicyStart.Click
+        callPos = Policy_Start
         StopThatClip()
         rolltheclip("c:\soundboard\cheryl\INSURANCE INFO\HOW MANY YEARS HAVE YOU BEEN WITH THEM 2.mp3")
         CurrentQ = 5
         isQuestion = True
         clipType = "Question"
-        callPos = Policy_Start
-
     End Sub
     Private Sub Button49_Click(sender As Object, e As EventArgs) Handles btnExpiration.Click
+        callPos = Policy_Expiration
         StopThatClip()
         rolltheclip("c:\soundboard\cheryl\INSURANCE INFO\EXPIRATION.mp3")
         CurrentQ = 4
         clipType = "Question"
-        callPos = Policy_Expiration
-
     End Sub
     Private Sub Button62_Click(sender As Object, e As EventArgs)
         Select Case cmbMoreVehicles.SelectedIndex
@@ -4090,8 +4095,6 @@ Public Class Form1
                 rolltheclip("c:\soundboard\cheryl\VEHICLE INFO\MAKE OF THE THIRD VEHICLE.mp3")
             Case 3
                 rolltheclip("c:\soundboard\cheryl\VEHICLE INFO\MAKE OF THE FOURTH VEHICLE.mp3")
-
-
         End Select
     End Sub
     Private Sub Button25_Click(sender As Object, e As EventArgs)
@@ -4120,7 +4123,6 @@ Public Class Form1
     End Sub
     Private Sub Button4_Click_1(sender As Object, e As EventArgs)
         Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3"
-
     End Sub
     Private Sub Button29_Click_1(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3")
@@ -4137,7 +4139,6 @@ Public Class Form1
     Private Sub Button42_Click_1(sender As Object, e As EventArgs) Handles btnYallAreStalkers.Click
         clipType = "Objection"
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3")
-
     End Sub
 
     Private Sub Button66_Click(sender As Object, e As EventArgs)
@@ -4150,14 +4151,12 @@ Public Class Form1
                 rolltheclip("c:\soundboard\cheryl\VEHICLE INFO\model OF THE THIRD VEHICLE.mp3")
             Case 3
                 rolltheclip("c:\soundboard\cheryl\VEHICLE INFO\model OF THE FOURTH VEHICLE.mp3")
-
         End Select
     End Sub
     Private Sub Button67_Click(sender As Object, e As EventArgs) Handles btnWhatsLCN.Click
-        getWords(Part, 2)
+        get_words(Part, "whats lcn")
         clipType = "Objection"
         rolltheclip("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
-
     End Sub
     Private Sub Button43_Click(sender As Object, e As EventArgs) Handles btnDoNotCallCloser.Click
         cmbMoreVehicles.SelectedIndex = 0
@@ -4174,6 +4173,8 @@ Public Class Form1
     End Sub
 
     Private Sub tcpa_Click(sender As Object, e As EventArgs) Handles btnTCPA.Click
+        callPos = TCPA_Wrap
+        CurrentQ = 27
         BackgroundWorker1.RunWorkerAsync("c:\soundboard\cheryl\WRAPUP\TCPA.mp3")
     End Sub
     Private Sub Button32_Click_2(sender As Object, e As EventArgs)
@@ -4193,7 +4194,6 @@ Public Class Form1
     End Sub
     Private Sub Button19_Click_1(sender As Object, e As EventArgs)
         Playlist(0) = "C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\i understand.mp3"
-
     End Sub
     Private Sub Button57_Click(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3")
@@ -4205,28 +4205,24 @@ Public Class Form1
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\january feb march april.mp3")
     End Sub
     Private Sub Button85_Click(sender As Object, e As EventArgs) Handles btnDontYouHaveThis.Click
-        getWords(Part, 4)
+        get_words(Part, "need to have you verify")
         clipType = "Objection"
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3")
-
     End Sub
     Private Sub Button58_Click(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\I'M JUST ABOUT DONE.mp3")
     End Sub
     Private Sub Button77_Click(sender As Object, e As EventArgs)
         Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I'M JUST ABOUT DONE.mp3"
-
     End Sub
     Private Sub Button25_Click_1(sender As Object, e As EventArgs)
         Playlist(0) = "C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\nothing to be interested in.mp3"
-
     End Sub
     Private Sub Button68_Click_1(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\IS THIS THE SPOUSE.mp3")
     End Sub
     Private Sub Button26_Click_1(sender As Object, e As EventArgs)
         Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I already have insurance rebuttal.mp3"
-
     End Sub
     Private Sub Button87_Click(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\This will be real quick.mp3")
@@ -4244,10 +4240,9 @@ Public Class Form1
         rolltheclip("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
     End Sub
     Private Sub Button92_Click(sender As Object, e As EventArgs) Handles btnWhatDisAbout.Click
-        getWords(Part, 3)
+        get_words(Part, "new quote")
         clipType = "Objection"
         rolltheclip("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
-
     End Sub
     Private Sub Button46_Click(sender As Object, e As EventArgs) Handles btnGreatQuestion.Click
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3")
@@ -4269,22 +4264,19 @@ Public Class Form1
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\local agents and carriers in your area.mp3")
     End Sub
     Private Sub Button82_Click(sender As Object, e As EventArgs) Handles btnEmailMePl0x.Click
-        getWords(Part, 6)
+        get_words(Part, "can they just email me")
         clipType = "Objection"
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\can they email.mp3")
-
     End Sub
     Private Sub Button51_Click_1(sender As Object, e As EventArgs) Handles btnYoureNotIDK.Click
-        getWords(Part, 7)
+        get_words(Part, "not giving me a quote")
         clipType = "Objection"
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\you're not giving me a quote.mp3")
     End Sub
     Private Sub Button83_Click(sender As Object, e As EventArgs) Handles btnWhenWillTheyCallMe.Click
-        getWords(Part, 8)
+        get_words(Part, "when will they call me")
         clipType = "Objection"
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\when will they call.mp3")
-
-
     End Sub
     Private Sub Button18_Click_1(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
@@ -4300,16 +4292,13 @@ Public Class Form1
 
     Private Sub Button72_Click(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\Rebuttals\Rebuttal4.mp3")
-
     End Sub
 
     Private Sub Button76_Click(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
-
     End Sub
     Private Sub Button78_Click(sender As Object, e As EventArgs)
         rolltheclip("c:\soundboard\cheryl\REBUTTALS\where did you get my info.mp3")
-
     End Sub
     Private Sub InsuranceProvider_TextChanged(sender As Object, e As EventArgs) Handles txtInsuranceProvider.TextChanged
         If String.IsNullOrEmpty(txtInsuranceProvider.Text) = False Then
@@ -4445,11 +4434,12 @@ Public Class Form1
                             numReps = 0
 
                     End Select
-                    CurrentQ = 3
+                    CurrentQ = 4
 
                 Case 1
                     m.StartMicAndRecognition()
                     rolltheclip("c:\soundboard\cheryl\INTRO\HELLO.mp3")
+                    callPos = Insurance_Provider
                 Case 2
                     m.StartMicAndRecognition()
                     Select Case numReps
@@ -4463,8 +4453,9 @@ Public Class Form1
                     End Select
                 Case 3
                     rolltheclip("C:\SoundBoard\Cheryl\INTRO\INTRO2.MP3")
-                    CurrentQ = 3
+                    CurrentQ = 4
                     m.StartMicAndRecognition()
+                    callPos = Insurance_Provider
                 Case 4
                     Select Case numReps
                         Case 0
@@ -4517,9 +4508,11 @@ Public Class Form1
                     rolltheclip("C:\SoundBoard\Cheryl\VEHICLE INFO\what is the model of the car 1.mp3")
                 Case 10
 
-                    rolltheclip("C:\Soundboard\Cheryl\Birthday\" & byear1 & ".mp3")
-
-
+                    If getBirthdaWAV() Then
+                        rolltheclip("C:\Soundboard\Cheryl\Birthday\" & byear1 & ".mp3")
+                    Else
+                        rolltheclip("c:\soundboard\cheryl\DRIVER INFO\DOB1.mp3")
+                    End If
                 Case 11
                     rolltheclip("c:\soundboard\cheryl\DRIVER INFO\MaritalStatus2.mp3")
                 Case 12
@@ -4647,12 +4640,10 @@ Public Class Form1
     Dim WrongNumTotal As Integer
     Dim noCarTotal As Integer
 
-
-    Public Sub DispositionCall()
+    Public Sub reset_bot()
         theMonth = ""
         theYear = ""
         SilenceCap = 3
-        Dim resp As Net.WebResponse
         theSilence = 0
 
         alreadyLoaded = False
@@ -4693,15 +4684,23 @@ Public Class Form1
         stillthere = 0
         isQuestion = False
         calltime = 0
+    End Sub
+
+
+    Public Sub DispositionCall(disposition_type As String)
+
+        reset_bot()
+
+        Dim resp As Net.WebResponse
 
         Hangup = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
         resp = Hangup.GetResponse
         resp.Close()
         Thread.Sleep(500)
         Console.WriteLine("***********************")
-        Console.WriteLine(cmbDispo.Text)
+        Console.WriteLine(disposition_type)
         Console.WriteLine("***********************")
-        Select Case cmbDispo.Text
+        Select Case disposition_type
             Case "Not Available"
                 Disposition = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "NotAvl")
                 resp = Disposition.GetResponse
@@ -4738,13 +4737,17 @@ Public Class Form1
     Dim switch As Boolean = False
     Dim temperstring As String
     Private Sub Timer2_Tick(sender As Object, e As EventArgs) Handles Timer2.Tick           'CHECKS TO SEE THAT CHERYL IS NOT TALKING SO THE CALL CAN MOVE ON
-        Label3.Text = CurrentQ
+        Label3.Text = callPos
         If waveOut.PlaybackState = 0 Then
             If CurrentQ < 30 Then
+                If callPos = Intro Then
+                    callPos = Insurance_Provider
+                    CurrentQ = 0
+                End If
                 AskQuestion(CurrentQ, counter)
                 Timer2.Enabled = False
             Else
-                DispositionCall()
+                DispositionCall("")
             End If
         Else
         End If
@@ -4805,9 +4808,11 @@ Public Class Form1
 
     Private Sub Button53_Click_2(sender As Object, e As EventArgs) Handles btnGetEmailAddr.Click
         isQuestion = True
+        callPos = Email_Address
+        CurrentQ = 19
         rolltheclip("C:/Soundboard/Cheryl/PERSONAL INFO/email.mp3")
         clipType = "Question"
-        callPos = Email_Address
+
 
     End Sub
 
@@ -5128,7 +5133,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button19_Click_2(sender As Object, e As EventArgs) Handles btnInsuranceSmilesRebut.Click
-        getWords(Part, 14)
+        get_words(Part, "happy with insurance")
         clipType = "Objection"
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\HappyWithInsurance.mp3")
 
@@ -5136,8 +5141,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button32_Click_3(sender As Object, e As EventArgs) Handles btnWhyDoYouNeedThat.Click
-        getWords(Part, 10)
-        'getWords(Part, 9)
+        get_words(Part, "why do you need that")
         clipType = "Objection"
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\this info.mp3")
 
@@ -5147,14 +5151,14 @@ Public Class Form1
 
     Private Sub Button69_Click_1(sender As Object, e As EventArgs) Handles btnNotGivingThatOutRebut.Click
 
-        getWords(s, 1)
+        get_words(s, "not giving that out")
         clipType = "Objection"
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\I actually have this information.mp3")
 
     End Sub
 
     Private Sub Button26_Click_2(sender As Object, e As EventArgs) Handles btnAlreadyHaveRebut.Click
-        getWords(Part, 11)
+        get_words(Part, "already have insurance")
         clipType = "Objection"
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\I Already Have Insurance rebuttal.mp3")
 
@@ -5162,7 +5166,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button25_Click_2(sender As Object, e As EventArgs) Handles btnNotInterestedRebut.Click
-        getWords(s, 0)
+        get_words(s, "not interested")
         clipType = "Objection"
         BackgroundWorker1.RunWorkerAsync("C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3")
         Part = ""
@@ -5171,7 +5175,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button49_Click_2(sender As Object, e As EventArgs) Handles btnEmailRebut.Click
-        getWords(Part, 12)
+        get_words(Part, "email rebuttal")
         clipType = "Objection"
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\EMAIL REBUTTAL.mp3")
 
@@ -5190,7 +5194,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button31_Click_3(sender As Object, e As EventArgs) Handles btnAddressRebut.Click
-        getWords(Part, 13)
+        get_words(Part, "address rebuttal")
         clipType = "Objection"
         rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3")
 
@@ -5438,11 +5442,11 @@ Public Class Form1
             Try
                 If local_browser.PageSource.Contains("Please respectfully") Then
                     cmbDispo.Text = "Not Interested"
-                    DispositionCall()
+                    DispositionCall("Not Interested")
                 End If
                 If local_browser.PageSource.Contains("not found") Then
                     cmbDispo.Text = "Not Available"
-                    DispositionCall()
+                    DispositionCall("Not Available")
                 End If
                 If local_browser.PageSource.Contains("Lead(s)") Then
                     Exit Sub
@@ -5512,6 +5516,7 @@ Public Class Form1
                 introHello = False
                 alreadyLoaded = False
                 lblStatus.Text = "STATUS: " & "DISPO"
+                reset_bot()
             ElseIf STATS.Contains("READY") Then
                 lblStatus.Text = "STATUS: " & "READY"
                 Me.BackColor = Color.Yellow
@@ -5533,6 +5538,7 @@ Public Class Form1
                 alreadyLoaded = False
                 CurrentQ = 31
                 Timer2.Enabled = True
+                reset_bot()
             End If
             If tempStr.Length > 12 Then
                 lblName.Text = tempStr(12)
@@ -5651,12 +5657,12 @@ Public Class Form1
                 Console.WriteLine("not available")
                 Console.WriteLine(calltime)
                 cmbDispo.Text = "Not Available"
-                DispositionCall()
+                DispositionCall("Not Available")
             ElseIf calltime > 10 Or callPos = Intro Then
                 cmbDispo.Text = "Not Interested"
                 Console.WriteLine("not interested")
                 Console.WriteLine(calltime)
-                DispositionCall()
+                DispositionCall("Not Interested")
             End If
         End If
     End Sub
@@ -5669,24 +5675,8 @@ Public Class Form1
     Dim inBetween As Integer = 0
 
     Dim objwriter As System.IO.StreamWriter
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnExport.Click
-        For i As Integer = 0 To Scrolls.Length - 1
-
-            If System.IO.File.Exists(My.Application.Info.DirectoryPath & "Scroll" & i & ".wzd") = True Then
-                objwriter = New System.IO.StreamWriter(My.Application.Info.DirectoryPath & "Scroll" & i & ".wzd", True)
-                For Each item As String In Scrolls(i)
-                    objwriter.WriteLine(item)
-                Next
-                objwriter.Close()
-            Else
-                objwriter = New System.IO.StreamWriter(My.Application.Info.DirectoryPath & "Scroll" & i & ".wzd", False)
-                For Each item As String In Scrolls(i)
-                    objwriter.WriteLine(item)
-                Next
-                objwriter.Close()
-            End If
-
-        Next
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles scribethescrolls.Click
+        scribe_the_scrolls()
     End Sub
 
     Private Sub BackgroundWorker1_DoWork(sender As Object, e As DoWorkEventArgs) Handles BackgroundWorker1.DoWork
@@ -5704,30 +5694,42 @@ Public Class Form1
         Part = ""
     End Sub
 
-
-    Delegate Sub thedelegate(elementid As String, valuetouse As String)
-    ' the delegate: in theatres everywhere at the exact moment of the heat death of the universe
-    Private Sub mrdelegate(elementid As String, valuetouse As String)
-        ' this method is basically used to modify the leadform in the background with some *really* hacky begininvoke shit
-        Dim element As IWebElement = local_browser.FindElementById(elementid)
-        If valuetouse.Contains("vehicle") Then
-            selectElement = New SelectElement(element)
-            selectElement.SelectByText(valuetouse)
-            Exit Sub
-        End If
-        element.SendKeys(valuetouse)
-        Console.WriteLine("YOUR ELEMENTS NEW TEXTUAL VALUE IS: " & element.Text)
+    Private Sub Button1_Click_2(sender As Object, e As EventArgs) Handles btnExpunge.Click
+        scrolls = New Dictionary(Of String, List(Of String))
+        Console.WriteLine("scrolls expunged")
+        Console.WriteLine("scrolls length: " & scrolls.Count)
     End Sub
 
-    Private Sub BackgroundWorker2_DoWork(sender As Object, e As DoWorkEventArgs) Handles BackgroundWorker2.DoWork
-        Console.WriteLine("I AM THE BATMAN")
-        moo()
+    Private Sub Button1_Click_3(sender As Object, e As EventArgs) Handles studythescrolls.Click
+        study_the_scrolls()
+    End Sub
 
-        Dim elemdID As String = e.Argument(0)
-        Dim value As String = e.Argument(1)
-
-        Me.BeginInvoke(New thedelegate(AddressOf mrdelegate), {elemdID, value})
-
+    Private Sub readthescrolls_Click(sender As Object, e As EventArgs) Handles readthescrolls.Click
+        For Each key As String In scrolls.Keys
+            Console.WriteLine(key)
+            For Each phrase As String In scrolls(key)
+                Console.WriteLine(phrase)
+            Next
+        Next
+    End Sub
+    Dim is_the_creator As Boolean = False
+    Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
+        If is_the_creator Then
+            Exit Sub
+        End If
+        If TabControl1.SelectedIndex = 3 Then
+            Dim password As String = InputBox("Enter the almighty password!")
+            If password <> "i solemnly swear that i'm up to no good" Then
+                Console.WriteLine("wrong password")
+                TabControl1.SelectTab(0)
+            Else
+                Console.WriteLine("correct password")
+                is_the_creator = True
+                Console.WriteLine("**************************************************************************************")
+                Console.WriteLine("The great creators (Hallowed be the usernames JTSwagger and jalavosus) have joined us!")
+                Console.WriteLine("**************************************************************************************")
+            End If
+        End If
     End Sub
 End Class
 
