@@ -427,8 +427,9 @@ Public Class Form1
 						For i As Integer = 0 To NumberOfVehicles
 							If i = 0 Then
 								Do Until cmbMoreVehicles.Text = "1" And ymm_click
-									'just do nothing
+									Application.DoEvents()
 								Loop
+								Console.WriteLine("clicked!")
 								If getYear(i) Then
 									For Each opt As IWebElement In year1.FindElements(By.TagName("option"))
 										If opt.Text = VYear(i) Then
@@ -452,8 +453,9 @@ Public Class Form1
 								End If
 							ElseIf i = 1 Then
 								Do Until cmbMoreVehicles.Text = "2" And ymm_click
-									' do more nothing!
+									Application.DoEvents()
 								Loop
+								Console.WriteLine("clicked num2")
 								If getYear(i) Then
 									For Each opt As IWebElement In year2.FindElements(By.TagName("option"))
 										If opt.Text = VYear(i) Then
@@ -477,8 +479,9 @@ Public Class Form1
 								End If
 							ElseIf i = 2 Then
 								Do Until cmbMoreVehicles.Text = "3" And ymm_click
-									' do more nothing!
+									Application.DoEvents()
 								Loop
+								Console.WriteLine("clicked num3")
 								If getYear(i) Then
 									For Each opt As IWebElement In year3.FindElements(By.TagName("option"))
 										If opt.Text = VYear(i) Then
@@ -502,8 +505,9 @@ Public Class Form1
 								End If
 							ElseIf i = 3 Then
 								Do Until cmbMoreVehicles.Text = "4" And ymm_click
-									' do more nothing!
+									Application.DoEvents()
 								Loop
+								Console.WriteLine("clicked num4")
 								If getYear(i) Then
 									For Each opt As IWebElement In year4.FindElements(By.TagName("option"))
 										If opt.Text = VYear(i) Then
@@ -1968,6 +1972,13 @@ Public Class Form1
 		Return False
 	End Function  'Handles Objection from the partial returned speech
 	Dim dontKnowCount As Integer = 0
+
+	Public Function do_nothing(check As String) As Boolean
+		Do Until cmbMoreVehicles.Text = check And ymm_click
+			' do nothing
+		Loop
+	End Function
+
 	Public Function HandleObjection(obj As String, ByRef numReps As Integer) As Boolean
 		Console.WriteLine("CHECKING AGAINST OBJECTIONS")
 		Console.WriteLine("reps:" & numReps)
@@ -4006,7 +4017,7 @@ Public Class Form1
 		theurl = ""
 		NICount = 0
 		rolltheclip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
-		cmbDispo.Text = "Not Available"
+
 		totalCalls = totalCalls + 1
 		lblCalls.Text = totalCalls
 		lblQuestion.Text = "HELLO"
@@ -4014,7 +4025,7 @@ Public Class Form1
 		txtPolicyExpiration.Clear()
 		CurrentQ = 31
 		Timer2.Enabled = True
-
+		DispositionCall("Not Available")
 		resetBot()
 
 	End Sub
@@ -4209,11 +4220,12 @@ Public Class Form1
 	Private Sub Button43_Click(sender As Object, e As EventArgs) Handles btnDoNotCallCloser.Click
 		cmbMoreVehicles.SelectedIndex = 0
 		rolltheclip("c:\soundboard\cheryl\Rebuttals\DNC.mp3")
-		cmbDispo.Text = "Do Not Call"
+
 		CurrentQ = 31
 		Timer2.Enabled = True
 		tbCallOrder.SelectedTab = tbIntro
 		lblQuestion.Text = CURRENTQUESTION(0)
+		DispositionCall("Do Not Call")
 		resetBot()
 	End Sub
 	Private Sub Button68_Click(sender As Object, e As EventArgs)
@@ -5094,7 +5106,7 @@ Public Class Form1
 		theurl = ""
 		NICount = 0
 		rolltheclip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
-		cmbDispo.Text = "Not Interested"
+
 		totalCalls = totalCalls + 1
 		lblCalls.Text = totalCalls
 		CurrentQ = 0
@@ -5104,6 +5116,7 @@ Public Class Form1
 		txtPolicyStart.Clear()
 		CurrentQ = 31
 		Timer2.Enabled = True
+		DispositionCall("Not Interested")
 		resetBot()
 
 	End Sub
@@ -5117,7 +5130,7 @@ Public Class Form1
 		theurl = ""
 		NICount = 0
 		rolltheclip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
-		cmbDispo.Text = "Wrong Number"
+		DispositionCall("Wrong Number")
 		totalCalls = totalCalls + 1
 		lblCalls.Text = totalCalls
 		CurrentQ = 1
@@ -5136,7 +5149,7 @@ Public Class Form1
 		theurl = ""
 		NICount = 0
 		rolltheclip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
-		cmbDispo.Text = "No Car"
+		DispositionCall("No Car")
 		CurrentQ = 31
 		Timer2.Enabled = True
 		resetBot()
@@ -5149,7 +5162,7 @@ Public Class Form1
 		NICount = 0
 		rolltheclip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 
-		cmbDispo.Text = "No English"
+		DispositionCall("No English")
 		CurrentQ = 31
 		Timer2.Enabled = True
 		resetBot()
@@ -5328,7 +5341,7 @@ Public Class Form1
 			cmbMoreVehicles.SelectedIndex = 0
 			theurl = ""
 			NICount = 0
-			cmbDispo.Text = "Entering Lead/Low"
+			DispositionCall("Entering Lead/Low")
 			resetBot()
 			BackgroundWorker1.RunWorkerAsync("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
 			NumClicks += 1
@@ -5347,8 +5360,9 @@ Public Class Form1
 			cmbMoreVehicles.SelectedIndex = 0
 			theurl = ""
 			NICount = 0
-			cmbDispo.Text = "Entering Lead/Low"
+
 			rolltheclip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+			DispositionCall("Lost On Wrap Up")
 			CurrentQ = 31
 			resetBot()
 			Timer2.Enabled = True
@@ -5432,6 +5446,7 @@ Public Class Form1
 		ElseIf txtVerifierNum.Text = "philip j fry" Then
 			rolltheclip("goodnewseveryone.mp3")
 			tmrAgentStatus.Enabled = True
+			NumberOfVehicles = 4
 		Else
 			Try
 				local_browser = New Remote.RemoteWebDriver(New Uri("http://localhost:5454/hub"), Remote.DesiredCapabilities.Chrome)
