@@ -407,130 +407,102 @@ Public Class Form1
 							s = ""
 						End If
 
-						'		Case Year_Make_Model
-						'		Dim year1 As IWebElement = local_browser.FindElementById("vehicle-year")
-						'Dim make1 As IWebElement = local_browser.FindElementById("vehicle-make")
-						'Dim model1 As IWebElement = local_browser.FindElementById("vehicle-model")
+					Case Year_Make_Model
+						Dim year1 As IWebElement = local_browser.FindElementById("vehicle-year")
+						Dim make1 As IWebElement = local_browser.FindElementById("vehicle-make")
 
-						'Dim year2 As IWebElement = local_browser.FindElementById("vehicle2-year")
-						'Dim make2 As IWebElement = local_browser.FindElementById("vehicle2-make")
-						'Dim model2 As IWebElement = local_browser.FindElementById("vehicle2-model")
+						Dim year2 As IWebElement = local_browser.FindElementById("vehicle2-year")
+						Dim make2 As IWebElement = local_browser.FindElementById("vehicle2-make")
 
-						'Dim year3 As IWebElement = local_browser.FindElementById("vehicle3-year")
-						'Dim make3 As IWebElement = local_browser.FindElementById("vehicle3-make")
-						'Dim model3 As IWebElement = local_browser.FindElementById("vehicle3-model")
+						Dim year3 As IWebElement = local_browser.FindElementById("vehicle3-year")
+						Dim make3 As IWebElement = local_browser.FindElementById("vehicle3-make")
 
-						'Dim year4 As IWebElement = local_browser.FindElementById("vehicle4-year")
-						'Dim make4 As IWebElement = local_browser.FindElementById("vehicle4-make")
-						'Dim model4 As IWebElement = local_browser.FindElementById("vehicle4-model")
+						Dim year4 As IWebElement = local_browser.FindElementById("vehicle4-year")
+						Dim make4 As IWebElement = local_browser.FindElementById("vehicle4-make")
 
-						'For i As Integer = 0 To NumberOfVehicles
-						'	If i = 0 Then
-						'		Do Until cmbMoreVehicles.Text = "1" And ymm_click
-						'			Application.DoEvents()
-						'		Loop
-						'		Console.WriteLine("clicked!")
-						'		If getYear(i) Then
-						'			For Each opt As IWebElement In year1.FindElements(By.TagName("option"))
-						'				If opt.Text = VYear(i) Then
-						'					opt.Click()
-						'				End If
-						'			Next
-						'		End If
-						'		If getMake(i) Then
-						'			For Each opt As IWebElement In make1.FindElements(By.TagName("option"))
-						'				If opt.Text = vMake(i) Then
-						'					opt.Click()
-						'				End If
-						'			Next
-						'		End If
-						'		If getModel(i) Then
-						'			For Each opt As IWebElement In model1.FindElements(By.TagName("option"))
-						'				If opt.Text.Contains(vmodel(i)) Then
-						'					opt.Click()
-						'				End If
-						'			Next
-						'		End If
-						'	ElseIf i = 1 Then
-						'		Do Until cmbMoreVehicles.Text = "2" And ymm_click
-						'			Application.DoEvents()
-						'		Loop
-						'		Console.WriteLine("clicked num2")
-						'		If getYear(i) Then
-						'			For Each opt As IWebElement In year2.FindElements(By.TagName("option"))
-						'				If opt.Text = VYear(i) Then
-						'					opt.Click()
-						'				End If
-						'			Next
-						'		End If
-						'		If getMake(i) Then
-						'			For Each opt As IWebElement In make2.FindElements(By.TagName("option"))
-						'				If opt.Text = vMake(i) Then
-						'					opt.Click()
-						'				End If
-						'			Next
-						'		End If
-						'		If getModel(i) Then
-						'			For Each opt As IWebElement In model2.FindElements(By.TagName("option"))
-						'				If opt.Text.Contains(vmodel(i)) Then
-						'					opt.Click()
-						'				End If
-						'			Next
-						'		End If
-						'	ElseIf i = 2 Then
-						'		Do Until cmbMoreVehicles.Text = "3" And ymm_click
-						'			Application.DoEvents()
-						'		Loop
-						'		Console.WriteLine("clicked num3")
-						'		If getYear(i) Then
-						'			For Each opt As IWebElement In year3.FindElements(By.TagName("option"))
-						'				If opt.Text = VYear(i) Then
-						'					opt.Click()
-						'				End If
-						'			Next
-						'		End If
-						'		If getMake(i) Then
-						'			For Each opt As IWebElement In make3.FindElements(By.TagName("option"))
-						'				If opt.Text = vMake(i) Then
-						'					opt.Click()
-						'				End If
-						'			Next
-						'		End If
-						'		If getModel(i) Then
-						'			For Each opt As IWebElement In model3.FindElements(By.TagName("option"))
-						'				If opt.Text.Contains(vmodel(i)) Then
-						'					opt.Click()
-						'				End If
-						'			Next
-						'		End If
-						'	ElseIf i = 3 Then
-						'		Do Until cmbMoreVehicles.Text = "4" And ymm_click
-						'			Application.DoEvents()
-						'		Loop
-						'		Console.WriteLine("clicked num4")
-						'		If getYear(i) Then
-						'			For Each opt As IWebElement In year4.FindElements(By.TagName("option"))
-						'				If opt.Text = VYear(i) Then
-						'					opt.Click()
-						'				End If
-						'			Next
-						'		End If
-						'		If getMake(i) Then
-						'			For Each opt As IWebElement In make4.FindElements(By.TagName("option"))
-						'				If opt.Text = vMake(i) Then
-						'					opt.Click()
-						'				End If
-						'			Next
-						'		End If
-						'		If getModel(i) Then
-						'			For Each opt As IWebElement In model4.FindElements(By.TagName("option"))
-						'				If opt.Text.Contains(vmodel(i)) Then
-						'					opt.Click()
-						'				End If
-						'			Next
-						'		End If
-						'	End If
-						'Next
+						For i As Integer = 0 To NumberOfVehicles
+							If i = 0 Then
+								Do Until cmbMoreVehicles.Text = "1" And ymm_click
+									Application.DoEvents()
+								Loop
+								Console.WriteLine("clicked!")
+								If getYear(i) Then
+									For Each opt As IWebElement In year1.FindElements(By.TagName("option"))
+										If opt.Text = VYear(i) Then
+											opt.Click()
+										End If
+									Next
+								End If
+								If getMake(i) Then
+									For Each opt As IWebElement In make1.FindElements(By.TagName("option"))
+										If opt.Text = vMake(i) Then
+											opt.Click()
+										End If
+									Next
+								End If
+
+							ElseIf i = 1 Then
+								Do Until cmbMoreVehicles.Text = "2" And ymm_click
+									Application.DoEvents()
+								Loop
+								Console.WriteLine("clicked num2")
+								If getYear(i) Then
+									For Each opt As IWebElement In year2.FindElements(By.TagName("option"))
+										If opt.Text = VYear(i) Then
+											opt.Click()
+										End If
+									Next
+								End If
+								If getMake(i) Then
+									For Each opt As IWebElement In make2.FindElements(By.TagName("option"))
+										If opt.Text = vMake(i) Then
+											opt.Click()
+										End If
+									Next
+								End If
+
+							ElseIf i = 2 Then
+								Do Until cmbMoreVehicles.Text = "3" And ymm_click
+									Application.DoEvents()
+								Loop
+								Console.WriteLine("clicked num3")
+								If getYear(i) Then
+									For Each opt As IWebElement In year3.FindElements(By.TagName("option"))
+										If opt.Text = VYear(i) Then
+											opt.Click()
+										End If
+									Next
+								End If
+								If getMake(i) Then
+									For Each opt As IWebElement In make3.FindElements(By.TagName("option"))
+										If opt.Text = vMake(i) Then
+											opt.Click()
+										End If
+									Next
+								End If
+
+							ElseIf i = 3 Then
+								Do Until cmbMoreVehicles.Text = "4" And ymm_click
+									Application.DoEvents()
+								Loop
+								Console.WriteLine("clicked num4")
+								If getYear(i) Then
+									For Each opt As IWebElement In year4.FindElements(By.TagName("option"))
+										If opt.Text = VYear(i) Then
+											opt.Click()
+										End If
+									Next
+								End If
+								If getMake(i) Then
+									For Each opt As IWebElement In make4.FindElements(By.TagName("option"))
+										If opt.Text = vMake(i) Then
+											opt.Click()
+										End If
+									Next
+								End If
+
+							End If
+						Next
 
 					Case Driver_Birthday
 						If getBirthdaWAV() Then
