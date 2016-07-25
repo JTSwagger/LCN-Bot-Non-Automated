@@ -327,10 +327,10 @@ Public Class Form1
 	Const Policy_Start As String = "Policy Start"
 	Const Number_Of_Vehicles As String = "Number of Vehicles"
 	Const Year_Make_Model As String = "Year Make Model"                             ' This Block of constants are used to check
-    Const Driver_Birthday As String = "Driver Birthday"                             ' what should be done with the recognized speech
-    Const Finalize_BDAY As String = "Finalize BDAY"                                 ' after it is checked against objections & questions
-    Const Marital_Status As String = "Marital Status"                               ' They are assigned to CallPos
-    Const Spouse_Name As String = "Spouse Name"
+  Const Driver_Birthday As String = "Driver Birthday"                             ' what should be done with the recognized speech
+  Const Finalize_BDAY As String = "Finalize BDAY"                                 ' after it is checked against objections & questions
+  Const Marital_Status As String = "Marital Status"                               ' They are assigned to CallPos
+  Const Spouse_Name As String = "Spouse Name"
 	Const Spouse_DOB As String = "Spouse DOB"
 	Const Own_Rent As String = "Own or Rent"
 	Const Home_Type As String = "Residence Type"
@@ -428,7 +428,8 @@ Public Class Form1
 						End If
 
 					Case Year_Make_Model
-
+						CurrentQ = 10
+						callPos = Driver_Birthday
 
 					Case Driver_Birthday
 						If getBirthdaWAV() Then
@@ -1614,7 +1615,7 @@ Public Class Form1
 			Case s.Contains("leave a message"), s.Contains("unable to take your call"), s.Contains("after the beep"), s.Contains("after the tone"), s.Contains("at the tone"), s.Contains("leave your Name"), s.Contains("mailbox is full")
 				cmbDispo.Text = "Not Available"
 				CurrentQ = 31
-				DispositionCall()
+				DispositionCall("Not Available")
 				Return True
 			Case Else
 				Return False
@@ -3101,11 +3102,16 @@ Public Class Form1
 		If theYear <> "" Then
 			numRepeats = 0
 			local_browser.FindElementById("frmPolicyExpires_Month").SendKeys(NumtoMonth(theMonth))
-            'For i As Integer = 0 To 1000
-            '    i += 1
-            'Next
-            selectElement = New SelectElement(local_browser.FindElementById("frmPolicyExpires_Year"))
-			selectElement.SelectByText(CStr(theYear))
+			'For i As Integer = 0 To 1000
+			'    i += 1
+			'Next
+			selectElement = New SelectElement(local_browser.FindElementById("frmPolicyExpires_Year"))
+			Try
+				selectElement.SelectByText(CStr(theYear))
+			Catch
+				' do nothing 
+
+			End Try
 			theYear = ""
 			Return True
 		Else
@@ -3825,7 +3831,8 @@ Public Class Form1
 		theurl = ""
 		NICount = 0
 		rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
-		cmbDispo.Text = "Not Available"
+
+		DispositionCall("Not Available")
 		totalCalls = totalCalls + 1
 		lblCalls.Text = totalCalls
 		lblQuestion.Text = "HELLO"
@@ -4033,7 +4040,7 @@ Public Class Form1
 	Private Sub Button43_Click(sender As Object, e As EventArgs) Handles Button43.Click
 		cmbMoreVehicles.SelectedIndex = 0
 		rolltheclipThread("c:\soundboard\cheryl\Rebuttals\DNC.mp3")
-		cmbDispo.Text = "Do Not Call"
+		DispositionCall("Do Not Call")
 		CurrentQ = 31
 		Timer2.Enabled = True
 		tbCallOrder.SelectedTab = tbIntro
@@ -4500,7 +4507,7 @@ Public Class Form1
 	Dim noCarTotal As Integer
 
 
-	Public Sub DispositionCall()
+	Public Sub DispositionCall(dispoText As String)
 		theMonth = ""
 		theYear = ""
 		SilenceCap = 3
@@ -4546,14 +4553,20 @@ Public Class Form1
 		isQuestion = False
 		calltime = 0
 
+		Do Until waveOut.PlaybackState <> NAudio.Wave.PlaybackState.Playing
+			Console.WriteLine("Shoop")
+		Loop
+
+		Thread.Sleep(2500)
+
 		Hangup = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
 		resp = Hangup.GetResponse
 		resp.Close()
 		Thread.Sleep(500)
 		Console.WriteLine("***********************")
-		Console.WriteLine(cmbDispo.Text)
+		Console.WriteLine(dispoText)
 		Console.WriteLine("***********************")
-		Select Case cmbDispo.Text
+		Select Case dispoText
 			Case "Not Available"
 				Disposition = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_status&value=" & "NotAvl")
 				resp = Disposition.GetResponse
@@ -4587,7 +4600,7 @@ Public Class Form1
 		End Select
 		resp.Close()
 	End Sub                                                 ' DISPOSITIONS THE CALL 
-    Dim switch As Boolean = False
+	Dim switch As Boolean = False
 	Dim temperstring As String
 	Private Sub Timer2_Tick(sender As Object, e As EventArgs) Handles Timer2.Tick           'CHECKS TO SEE THAT CHERYL IS NOT TALKING SO THE CALL CAN MOVE ON
         Label3.Text = CurrentQ
@@ -4596,7 +4609,7 @@ Public Class Form1
 				AskQuestion(CurrentQ, counter)
 				Timer2.Enabled = False
 			Else
-				DispositionCall()
+				DispositionCall("Not Available")
 			End If
 		Else
 		End If
@@ -4632,7 +4645,7 @@ Public Class Form1
 	End Function
 
 	Private Sub Button29_Click_3(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\YEAR OF THE FIRST VEHICLE.mp3")
+		rolltheclipThread("c: \soundboard\cheryl\VEHICLE INFO\YEAR OF THE FIRST VEHICLE.mp3")
 	End Sub
 
 	Private Sub Button30_Click_3(sender As Object, e As EventArgs)
@@ -4645,7 +4658,7 @@ Public Class Form1
 
 	Private Sub Button22_Click_1(sender As Object, e As EventArgs) Handles Button22.Click
 		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\That's okay.mp3")
-	End Sub
+  End Sub
 
 	Private Sub Button18_Click_4(sender As Object, e As EventArgs)
 		rolltheclipThread("c:\soundboard\cheryl\REACTIONS\Wonderful.mp3")
@@ -4893,7 +4906,7 @@ Public Class Form1
 		theurl = ""
 		NICount = 0
 		rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
-		cmbDispo.Text = "Not Interested"
+		DispositionCall("Not Interested")
 		totalCalls = totalCalls + 1
 		lblCalls.Text = totalCalls
 		CurrentQ = 0
@@ -4916,7 +4929,7 @@ Public Class Form1
 		theurl = ""
 		NICount = 0
 		rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
-		cmbDispo.Text = "Wrong Number"
+		DispositionCall("Wrong Number")
 		totalCalls = totalCalls + 1
 		lblCalls.Text = totalCalls
 		CurrentQ = 1
@@ -4935,7 +4948,7 @@ Public Class Form1
 		theurl = ""
 		NICount = 0
 		rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
-		cmbDispo.Text = "No Car"
+		DispositionCall("No Car")
 		CurrentQ = 31
 		Timer2.Enabled = True
 		resetBot()
@@ -4948,7 +4961,7 @@ Public Class Form1
 		NICount = 0
 		rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 
-		cmbDispo.Text = "No English"
+		DispositionCall("No English")
 		CurrentQ = 31
 		Timer2.Enabled = True
 		resetBot()
@@ -5118,10 +5131,10 @@ Public Class Form1
 			cmbMoreVehicles.SelectedIndex = 0
 			theurl = ""
 			NICount = 0
-			cmbDispo.Text = "Entering Lead/Low"
 			resetBot()
 			rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
 			NumClicks += 1
+			DispositionCall("Entering Lead/Low")
 			CurrentQ = 31
 			Timer2.Enabled = True
 		Else
@@ -5137,7 +5150,7 @@ Public Class Form1
 			cmbMoreVehicles.SelectedIndex = 0
 			theurl = ""
 			NICount = 0
-			cmbDispo.Text = "Entering Lead/Low"
+			DispositionCall("Entering Lead/Low")
 			rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 			CurrentQ = 31
 			resetBot()
@@ -5280,11 +5293,11 @@ Public Class Form1
 			Try
 				If local_browser.PageSource.Contains("Please respectfully") Then
 					cmbDispo.Text = "Not Interested"
-					DispositionCall()
+					DispositionCall("Not Interested")
 				End If
 				If local_browser.PageSource.Contains("not found") Then
 					cmbDispo.Text = "Not Available"
-					DispositionCall()
+					DispositionCall("Not Available")
 				End If
 				If local_browser.PageSource.Contains("Lead(s)") Then
 					Exit Sub
@@ -5492,12 +5505,12 @@ Public Class Form1
 				Console.WriteLine("not available")
 				Console.WriteLine(calltime)
 				cmbDispo.Text = "Not Available"
-				DispositionCall()
+				DispositionCall("Not Available")
 			ElseIf calltime > 10 Or callPos = Intro Then
 				cmbDispo.Text = "Not Interested"
 				Console.WriteLine("not interested")
 				Console.WriteLine(calltime)
-				DispositionCall()
+				DispositionCall("Not Interested")
 			End If
 		End If
 	End Sub
@@ -5525,6 +5538,13 @@ Public Class Form1
 	End Sub
 	Dim inBetween As Integer = 0
 
+	Private Sub btnHaveaNiceDay_Click(sender As Object, e As EventArgs) Handles btnHaveaNiceDay.Click
+		rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+	End Sub
+
+	Private Sub GroupBox9_Enter(sender As Object, e As EventArgs) Handles GroupBox9.Enter
+
+	End Sub
 End Class
 
 Public Class responser

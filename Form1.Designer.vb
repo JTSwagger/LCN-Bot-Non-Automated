@@ -190,6 +190,7 @@ Partial Class Form1
 		Me.testpagebutton = New System.Windows.Forms.Button()
 		Me.calltimer = New System.Windows.Forms.Timer(Me.components)
 		Me.tmrSilence = New System.Windows.Forms.Timer(Me.components)
+		Me.btnHaveaNiceDay = New System.Windows.Forms.Button()
 		Me.frReactions.SuspendLayout()
 		Me.GroupBox9.SuspendLayout()
 		Me.TabControl1.SuspendLayout()
@@ -2184,12 +2185,22 @@ Partial Class Form1
 		'tmrSilence
 		'
 		'
+		'btnHaveaNiceDay
+		'
+		Me.btnHaveaNiceDay.Location = New System.Drawing.Point(195, 792)
+		Me.btnHaveaNiceDay.Name = "btnHaveaNiceDay"
+		Me.btnHaveaNiceDay.Size = New System.Drawing.Size(60, 40)
+		Me.btnHaveaNiceDay.TabIndex = 148
+		Me.btnHaveaNiceDay.Text = "Have a Nice Day"
+		Me.btnHaveaNiceDay.UseVisualStyleBackColor = True
+		'
 		'Form1
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
 		Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
 		Me.ClientSize = New System.Drawing.Size(672, 866)
+		Me.Controls.Add(Me.btnHaveaNiceDay)
 		Me.Controls.Add(Me.testpagebutton)
 		Me.Controls.Add(Me.txtVerifierNum)
 		Me.Controls.Add(Me.btnPause)
@@ -2403,4 +2414,5 @@ Partial Class Form1
 	Friend WithEvents testpagebutton As Button
     Friend WithEvents calltimer As Timer
     Public WithEvents tmrSilence As Timer
+	Friend WithEvents btnHaveaNiceDay As Button
 End Class
