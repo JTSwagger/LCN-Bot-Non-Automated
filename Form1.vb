@@ -1118,7 +1118,7 @@ Public Class Form1
 	End Sub
 
 
-	Public local_browser As Remote.RemoteWebDriver
+	Public local_browser As ChromeDriver
 
 
 	Public Sub Unregister()
@@ -5421,14 +5421,8 @@ Public Class Form1
 			NumberOfVehicles = 4
 		Else
 			Try
-				local_browser = New Remote.RemoteWebDriver(New Uri("http://localhost:5454/hub"), Remote.DesiredCapabilities.Chrome)
-
-			Catch ex As Exception
-				Console.WriteLine(ex)
-				Shell("chromedriver.exe -port=5454")
+				local_browser = New ChromeDriver()
 				Thread.Sleep(1000)
-				local_browser = New Remote.RemoteWebDriver(New Uri("http://localhost:5454/"), Remote.DesiredCapabilities.Chrome)
-				local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
 				local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
 				local_browser.SwitchTo().Frame("top")
 				Thread.Sleep(550)
@@ -5443,6 +5437,9 @@ Public Class Form1
 				local_browser.FindElementById("select-campaign").FindElements(By.TagName("option")).Last.Click()
 				Thread.Sleep(250)
 				local_browser.FindElementById("btn-submit").Click()
+			Catch ex As Exception
+				Console.WriteLine(ex)
+
 			End Try
 			tmrAgentStatus.Enabled = True
 
@@ -5666,14 +5663,11 @@ Public Class Form1
 
 		newcall = False
 		Try
-			local_browser = New Remote.RemoteWebDriver(New Uri("http://127.0.0.1:5454"), Remote.DesiredCapabilities.Chrome)
+			local_browser = New ChromeDriver()
 			local_browser.Url = ("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
 		Catch
-			Dim opt As New Chrome.ChromeOptions
-			opt.AddArgument("--port=5454")
-			Shell("chromedriver.exe -port=5454")
 			Thread.Sleep(1000)
-			local_browser = New Remote.RemoteWebDriver(New Uri("http://127.0.0.1:5454"), Remote.DesiredCapabilities.Chrome)
+			local_browser = New ChromeDriver()
 			local_browser.Navigate.GoToUrl("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
 		End Try
 	End Sub
