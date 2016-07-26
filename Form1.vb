@@ -155,7 +155,7 @@ Public Class Form1
 		Console.WriteLine("looking through partial objections for: " & Part)
 		txtSpeech.Text = "The bot heard:  " & Part
 		inBetween = False
-		If Currently_Rebuttaling = False Then
+		If Currently_Rebuttaling = False And chkbxAutoRebuttal.Checked Then
 			Select Case True
 				Case Part.Contains("is this a real person"), Part.Contains("is this a recording"), s.Contains("robot"), s.Contains("automated")
 					Currently_Rebuttaling = True
@@ -175,7 +175,7 @@ Public Class Form1
 					Timer2.Enabled = True
 					counter2 = 0
 				Case Part.Contains("not interested"), Part.Contains("don't need a quote"), Part.Contains("i'm fine"), Part.Contains("not really interested"), Part.Contains("not in arrested"), Part.Contains("that's okay thank you"), Part.Contains("no interest"), Part.Contains("stop calling"), Part.Contains("i'm good"), Part.Contains("all set"), Part.Contains("don't want it"), Part.Contains("not changing"), Part.Contains("i'm happy with"), Part.Contains("very happy"), Part.Contains("no thank you"), Part.Contains("not looking"), Part.Contains("don't wanna change"), Part.Contains("no thank you"), Part.Contains("don't need insurance"), Part.Contains("won't change") 'NI
-                    Currently_Rebuttaling = True
+					Currently_Rebuttaling = True
 					Part = ""
 
 					clipType = "Objection"
@@ -1649,146 +1649,148 @@ Public Class Form1
 			Console.WriteLine("CHECKING AGAINST PARTIAL OBJECTIONS")
 			Console.WriteLine(Part)
 
-			Try
+			If chkbxAutoRebuttal.Checked Then
+				Try
 
-				Select Case True
-					Case Part.Contains("is this a real person"), Part.Contains("is this a recording"), s.Contains("robot"), s.Contains("automated")
+					Select Case True
+						Case Part.Contains("is this a real person"), Part.Contains("is this a recording"), s.Contains("robot"), s.Contains("automated")
 
-						rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\Loud-laugh.mp3")
-						Timer2.Enabled = True
-						NICount += 1
-						Return True
-					Case Part.Contains("no vehicle"), Part.Contains("sold the car"), Part.Contains("sold my car"), Part.Contains("no car"), Part.Contains("don't have a vehicle"), Part.Contains("don't") And Part.Contains("have a car"), Part.Contains("don't have an automobile"), Part.Contains("dont't have my own car"), Part.Contains("doesn't have a car"),
+							rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\Loud-laugh.mp3")
+							Timer2.Enabled = True
+							NICount += 1
+							Return True
+						Case Part.Contains("no vehicle"), Part.Contains("sold the car"), Part.Contains("sold my car"), Part.Contains("no car"), Part.Contains("don't have a vehicle"), Part.Contains("don't") And Part.Contains("have a car"), Part.Contains("don't have an automobile"), Part.Contains("dont't have my own car"), Part.Contains("doesn't have a car"),
 						newobjection = False
 
-						Console.WriteLine("THEY DON'T HAVE A CAR")
-						rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
-						cmbDispo.Text = "No Car"
-						CurrentQ = 31
-						Timer2.Enabled = True
-						counter2 = 0
-						Return True
-					Case Part.Contains("not interested"), Part.Contains("don't need a quote"), Part.Contains("i'm fine"), Part.Contains("not really interested"), Part.Contains("not in arrested"), Part.Contains("that's okay thank you"), Part.Contains("no interest"), Part.Contains("stop calling"), Part.Contains("i'm good"), Part.Contains("all set"), Part.Contains("don't want it"), Part.Contains("not changing"), Part.Contains("i'm happy with"), Part.Contains("very happy"), Part.Contains("no thank you"), Part.Contains("not looking"), Part.Contains("don't wanna change"), Part.Contains("no thank you"), Part.Contains("don't need insurance") 'NI
+							Console.WriteLine("THEY DON'T HAVE A CAR")
+							rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+							cmbDispo.Text = "No Car"
+							CurrentQ = 31
+							Timer2.Enabled = True
+							counter2 = 0
+							Return True
+						Case Part.Contains("not interested"), Part.Contains("don't need a quote"), Part.Contains("i'm fine"), Part.Contains("not really interested"), Part.Contains("not in arrested"), Part.Contains("that's okay thank you"), Part.Contains("no interest"), Part.Contains("stop calling"), Part.Contains("i'm good"), Part.Contains("all set"), Part.Contains("don't want it"), Part.Contains("not changing"), Part.Contains("i'm happy with"), Part.Contains("very happy"), Part.Contains("no thank you"), Part.Contains("not looking"), Part.Contains("don't wanna change"), Part.Contains("no thank you"), Part.Contains("don't need insurance") 'NI
 
-                        newobjection = False
-						Console.WriteLine("NOT INTERESTED")
-						If CurrentQ = 3 Then
-							CurrentQ = 0
-						End If
+							newobjection = False
+							Console.WriteLine("NOT INTERESTED")
+							If CurrentQ = 3 Then
+								CurrentQ = 0
+							End If
 
-						Select Case NICount
-							Case 0
-								If counter2 < 2 Then
-									Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I COMPLETELY UNDERSTAND.mp3"
-									Playlist(1) = ("C:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
-									NICount += 1
-									counter2 += 1
-									If CurrentQ = 3 Then
-										CurrentQ = 0
+							Select Case NICount
+								Case 0
+									If counter2 < 2 Then
+										Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I COMPLETELY UNDERSTAND.mp3"
+										Playlist(1) = ("C:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
+										NICount += 1
+										counter2 += 1
+										If CurrentQ = 3 Then
+											CurrentQ = 0
+										End If
+										Timer2.Enabled = True
+										Return True
+									Else
+										rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+										cmbDispo.Text = "Not Interested"
+										CurrentQ = 31
+										Timer2.Enabled = True
 									End If
-									Timer2.Enabled = True
-									Return True
-								Else
-									rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
-									cmbDispo.Text = "Not Interested"
-									CurrentQ = 31
-									Timer2.Enabled = True
-								End If
 
-							Case 1
+								Case 1
 
-								If counter2 < 2 Then
+									If counter2 < 2 Then
 
-									Playlist(0) = ("C:\SoundBoard\Cheryl\reactions\I get that 3.mp3 ")
-									Playlist(1) = ("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL1.mp3")
-									numbreps += 1
-									If CurrentQ = 3 Then
-										CurrentQ = 0
+										Playlist(0) = ("C:\SoundBoard\Cheryl\reactions\I get that 3.mp3 ")
+										Playlist(1) = ("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL1.mp3")
+										numbreps += 1
+										If CurrentQ = 3 Then
+											CurrentQ = 0
+										End If
+										counter2 += 1
+
+
+										Return True
+									Else
+										rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+										cmbDispo.Text = "Not Interested"
+										CurrentQ = 31
+										Timer2.Enabled = True
+										counter2 = 0
 									End If
-									counter2 += 1
-
-
-									Return True
-								Else
+								Case Else
 									rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 									cmbDispo.Text = "Not Interested"
 									CurrentQ = 31
 									Timer2.Enabled = True
 									counter2 = 0
-								End If
-							Case Else
-								rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
-								cmbDispo.Text = "Not Interested"
-								CurrentQ = 31
-								Timer2.Enabled = True
-								counter2 = 0
-						End Select
+							End Select
 
-					Case Part.Contains("busy"), Part.Contains("at work"), Part.Contains("driving"), Part.Contains("can't talk"), Part.Contains("call me back"), Part.Contains("could you call back"), Part.Contains("call back another time"), Part.Contains("call later"), Part.Contains("working right now")
-						newobjection = False
+						Case Part.Contains("busy"), Part.Contains("at work"), Part.Contains("driving"), Part.Contains("can't talk"), Part.Contains("call me back"), Part.Contains("could you call back"), Part.Contains("call back another time"), Part.Contains("call later"), Part.Contains("working right now")
+							newobjection = False
 
-						If CurrentQ = 3 Then
-							CurrentQ = 0
+							If CurrentQ = 3 Then
+								CurrentQ = 0
+							End If
+
+							Select Case counter
+								Case 0
+									rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
+									Timer2.Enabled = True
+									NICount += 1
+									Return True
+								Case Else
+									rolltheclipThread("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\Im busy.MP3")
+									Timer2.Enabled = True
+									NICount += 1
+									counter = 0
+									Return True
+
+							End Select
+						Case Part.Contains("wrong number"), Part.Contains("by that name"), Part.Contains("wrong phone number")
+							newobjection = False
+
+							rolltheclipThread("c:\soundboard\cheryl\Rebuttals\SORRY.mp3")
+							cmbDispo.Text = "Wrong Number"
+							CurrentQ = 31
+							Timer2.Enabled = True
+							Return True
+
+						Case Part.Contains("already have"), Part.Contains("already have insurance"), Part.Contains("already got insurance"), Part.Contains("happy with"), Part.Contains("i have insurance"), Part.Contains("i got insurance")
+
+							rolltheclipThread("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\i have insurance.mp3")
+							Timer2.Enabled = True
+							NICount += 1
+							Return True
+
+
+						Case Part.Contains("take me off your list"), Part.Contains("name off your list"), Part.Contains("number off your list"), Part.Contains("take me off"), Part.Contains("take me off your call list"), Part.Contains("no call list"), Part.Contains("take this number off the list"), Part.Contains("do not call list"), Part.Contains("remove me from the list"), Part.Contains("taken off his collar"), Part.Contains("remove me from your calling list"), Part.Contains("call list"), Part.Contains("calling list")
+							newobjection = False
+
+							rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\DNC.mp3")
+							cmbDispo.Text = "Do Not Call"
+							CurrentQ = 31
+							Timer2.Enabled = True
+						Case Else
+
+
+
+					End Select
+
+					If CurrentQ = 2 Then
+						If CheckWhoseTalking2() Then
+							CurrentQ = 3
+
+							Timer2.Enabled = True
 						End If
-
-						Select Case counter
-							Case 0
-								rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
-								Timer2.Enabled = True
-								NICount += 1
-								Return True
-							Case Else
-								rolltheclipThread("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\Im busy.MP3")
-								Timer2.Enabled = True
-								NICount += 1
-								counter = 0
-								Return True
-
-						End Select
-					Case Part.Contains("wrong number"), Part.Contains("by that name"), Part.Contains("wrong phone number")
-						newobjection = False
-
-						rolltheclipThread("c:\soundboard\cheryl\Rebuttals\SORRY.mp3")
-						cmbDispo.Text = "Wrong Number"
-						CurrentQ = 31
-						Timer2.Enabled = True
-						Return True
-
-					Case Part.Contains("already have"), Part.Contains("already have insurance"), Part.Contains("already got insurance"), Part.Contains("happy with"), Part.Contains("i have insurance"), Part.Contains("i got insurance")
-
-						rolltheclipThread("C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\i have insurance.mp3")
-						Timer2.Enabled = True
-						NICount += 1
-						Return True
-
-
-					Case Part.Contains("take me off your list"), Part.Contains("name off your list"), Part.Contains("number off your list"), Part.Contains("take me off"), Part.Contains("take me off your call list"), Part.Contains("no call list"), Part.Contains("take this number off the list"), Part.Contains("do not call list"), Part.Contains("remove me from the list"), Part.Contains("taken off his collar"), Part.Contains("remove me from your calling list"), Part.Contains("call list"), Part.Contains("calling list")
-						newobjection = False
-
-						rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\DNC.mp3")
-						cmbDispo.Text = "Do Not Call"
-						CurrentQ = 31
-						Timer2.Enabled = True
-					Case Else
-
-
-
-				End Select
-
-				If CurrentQ = 2 Then
-					If CheckWhoseTalking2() Then
-						CurrentQ = 3
-
-						Timer2.Enabled = True
 					End If
-				End If
 
-			Catch EX As Exception
-				Console.WriteLine("error with objection")
+				Catch EX As Exception
+					Console.WriteLine("error with objection")
 
-			End Try
+				End Try
+			End If
 		End If
-		Return False
+			Return False
 	End Function  'Handles Objection from the partial returned speech
     Dim dontKnowCount As Integer = 0
 	Public Function HandleObjection(obj As String, ByRef numReps As Integer) As Boolean
@@ -1796,120 +1798,122 @@ Public Class Form1
 		Console.WriteLine("reps:" & numReps)
 		clipType = "Objection"
 
-		Select Case True
+		If chkbxAutoRebuttal.Checked Then
+			Select Case True
 
-			Case obj.Contains("no vehicle"), obj.Contains("no car"), obj.Contains("don't have a vehicle"), obj.Contains("don't have a car")
+				Case obj.Contains("no vehicle"), obj.Contains("no car"), obj.Contains("don't have a vehicle"), obj.Contains("don't have a car")
 
-				Console.WriteLine("THEY DON'T HAVE A CAR")
-				rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
-				cmbDispo.Text = "No Car"
-				Return True
-				CurrentQ = 31
-				Timer2.Enabled = True
-				counter2 = 0
+					Console.WriteLine("THEY DON'T HAVE A CAR")
+					rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+					cmbDispo.Text = "No Car"
+					Return True
+					CurrentQ = 31
+					Timer2.Enabled = True
+					counter2 = 0
 
 
 
-			Case obj.Contains("not interested"), obj.Contains("no interest"), obj.Contains("stop calling me"), obj.Contains("i'm good"), obj.Contains("all set"), obj.Contains("don't want it") 'NI
-                Console.WriteLine("NOT INTERESTED")
-				If CurrentQ = 3 Then
-					CurrentQ = 0
-				End If
-				Select Case numReps
-					Case 0
-						If counter2 < 2 Then
-							Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I COMPLETELY UNDERSTAND.mp3"
-							Playlist(1) = ("C:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
-							numReps += 1
-							counter2 += 1
-							If CurrentQ = 3 Then
-								CurrentQ = 0
+				Case obj.Contains("not interested"), obj.Contains("no interest"), obj.Contains("stop calling me"), obj.Contains("i'm good"), obj.Contains("all set"), obj.Contains("don't want it") 'NI
+					Console.WriteLine("NOT INTERESTED")
+					If CurrentQ = 3 Then
+						CurrentQ = 0
+					End If
+					Select Case numReps
+						Case 0
+							If counter2 < 2 Then
+								Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I COMPLETELY UNDERSTAND.mp3"
+								Playlist(1) = ("C:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
+								numReps += 1
+								counter2 += 1
+								If CurrentQ = 3 Then
+									CurrentQ = 0
+								End If
+								Timer2.Enabled = True
+
+								Return True
+							Else
+								rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+								cmbDispo.Text = "Not Interested"
+								CurrentQ = 31
+								Timer2.Enabled = True
 							End If
-							Timer2.Enabled = True
 
-							Return True
-						Else
-							rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
-							cmbDispo.Text = "Not Interested"
-							CurrentQ = 31
-							Timer2.Enabled = True
-						End If
+						Case 1
 
-					Case 1
+							If counter2 < 2 Then
 
-						If counter2 < 2 Then
+								Playlist(0) = ("C:\soundboard\cheryl\reactions\I Get that 1.mp3")
+								Playlist(1) = ("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL1.mp3")
+								numReps += 1
+								If CurrentQ = 3 Then
+									CurrentQ = 0
+								End If
+								counter2 += 1
+								Timer2.Enabled = True
 
-							Playlist(0) = ("C:\soundboard\cheryl\reactions\I Get that 1.mp3")
-							Playlist(1) = ("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL1.mp3")
-							numReps += 1
-							If CurrentQ = 3 Then
-								CurrentQ = 0
+								Return True
+							Else
+								rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+								cmbDispo.Text = "Not Interested"
+								CurrentQ = 31
+								Timer2.Enabled = True
+								counter2 = 0
 							End If
-							counter2 += 1
-							Timer2.Enabled = True
-
-							Return True
-						Else
+						Case Else
 							rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 							cmbDispo.Text = "Not Interested"
 							CurrentQ = 31
 							Timer2.Enabled = True
 							counter2 = 0
-						End If
-					Case Else
-						rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
-						cmbDispo.Text = "Not Interested"
-						CurrentQ = 31
-						Timer2.Enabled = True
-						counter2 = 0
-				End Select
-			Case obj.Contains("don't know"), obj.Contains("no idea"), obj.Contains("no clue"), obj.Contains("not sure"), obj.Contains("couldn't tell you"), Part.Contains("you'd have to talk to")
-				Console.WriteLine("THEY DON'T KNOW")
-				tmrSilence.Enabled = True
-				If CurrentQ = 3 Then
-					isQuestion = True
-					rolltheclipThread("c:\soundboard\cheryl\PUSHONS\allstategeicostatefarm.mp3")
-					Return True
-				ElseIf CurrentQ = 4 Then
-					rolltheclipThread("C:/SOUNDBOARD/CHERYL/REBUTTALS/JANUARY FEB MARCH APRIL.mp3")
-					Return True
-				ElseIf CurrentQ = 7 Then
-					rolltheclipThread("c:\soundboard\cheryl\PUSHONS\chevyfordgmc.mp3")
-					Return True
-				Else
-					rolltheclipThread("C:\SoundBoard\Cheryl\TIE INS\Great What's Your Best Guess.mp3")
-					Return True
-				End If
-				If CurrentQ = 3 Then
-					CurrentQ = 0
-				End If
-			Case obj.Contains("busy"), obj.Contains("at work"), obj.Contains("driving"), obj.Contains("can't talk"), obj.Contains("no time"), obj.Contains("don't have time")
-				If CurrentQ = 3 Then
-					CurrentQ = 0
-				End If
-				Select Case counter
-					Case >= 0
-						rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
-						Timer2.Enabled = True
-						numReps += 1
+					End Select
+				Case obj.Contains("don't know"), obj.Contains("no idea"), obj.Contains("no clue"), obj.Contains("not sure"), obj.Contains("couldn't tell you"), Part.Contains("you'd have to talk to")
+					Console.WriteLine("THEY DON'T KNOW")
+					tmrSilence.Enabled = True
+					If CurrentQ = 3 Then
+						isQuestion = True
+						rolltheclipThread("c:\soundboard\cheryl\PUSHONS\allstategeicostatefarm.mp3")
 						Return True
-
-
-					Case Else
+					ElseIf CurrentQ = 4 Then
+						rolltheclipThread("C:/SOUNDBOARD/CHERYL/REBUTTALS/JANUARY FEB MARCH APRIL.mp3")
 						Return True
+					ElseIf CurrentQ = 7 Then
+						rolltheclipThread("c:\soundboard\cheryl\PUSHONS\chevyfordgmc.mp3")
+						Return True
+					Else
+						rolltheclipThread("C:\SoundBoard\Cheryl\TIE INS\Great What's Your Best Guess.mp3")
+						Return True
+					End If
+					If CurrentQ = 3 Then
+						CurrentQ = 0
+					End If
+				Case obj.Contains("busy"), obj.Contains("at work"), obj.Contains("driving"), obj.Contains("can't talk"), obj.Contains("no time"), obj.Contains("don't have time")
+					If CurrentQ = 3 Then
+						CurrentQ = 0
+					End If
+					Select Case counter
+						Case >= 0
+							rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\THIS WILL BE REAL QUICK.mp3")
+							Timer2.Enabled = True
+							numReps += 1
+							Return True
 
-				End Select
-			Case obj.Contains("wrong number"), obj.Contains("by that name"), obj.Contains("wrong phone number")
-				rolltheclipThread("c:\soundboard\cheryl\Rebuttals\SORRY.mp3")
-				cmbDispo.Text = "Wrong Number"
-				CurrentQ = 31
-				Timer2.Enabled = True
-				Return True
 
-			Case Else
-				Return False
+						Case Else
+							Return True
 
-		End Select
+					End Select
+				Case obj.Contains("wrong number"), obj.Contains("by that name"), obj.Contains("wrong phone number")
+					rolltheclipThread("c:\soundboard\cheryl\Rebuttals\SORRY.mp3")
+					cmbDispo.Text = "Wrong Number"
+					CurrentQ = 31
+					Timer2.Enabled = True
+					Return True
+
+				Case Else
+					Return False
+
+			End Select
+		End If
 		Return False
 	End Function  'Handles Objection based on full returned result
     Dim quest As Integer = 1
@@ -1917,52 +1921,53 @@ Public Class Form1
 		Console.WriteLine("CHECKING AGAINST QUESTIONS")
 		Console.WriteLine("reps:" & quest)
 
-		Select Case quest
-			Case 1
-				Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3"
-				quest += 1
-			Case 2
-				Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
-				quest = 1
-		End Select
+		If chkbxAutoRebuttal.Checked Then
+			Select Case quest
+				Case 1
+					Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3"
+					quest += 1
+				Case 2
+					Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
+					quest = 1
+			End Select
 
-		Select Case True
-			Case obj.Contains("who is this"), obj.Contains("who are you"), obj.Contains("who is calling"), obj.Contains("who's this"), obj.Contains("who's calling"), obj.Contains("who do you represent")
-				If CurrentQ = 3 Then
-					CurrentQ = 0
-				End If
-				Playlist(1) = "c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3"
-				Timer2.Enabled = True
-				Return True
-			Case obj.Contains("who makes it")
-				rolltheclipThread("c:\soundboard\cheryl\REACTIONS\YES.mp3")
-				Return True
-			Case obj.Contains("what is this"), obj.Contains("what's this"), obj.Contains("what is the nature of this call"), obj.Contains("what are you calling about"), obj.Contains("what is purpose of this call")
-				If CurrentQ = 3 Then
-					CurrentQ = 0
-				End If
-				Playlist(1) = "c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3"
-				Timer2.Enabled = True
-				Return True
-			Case obj.Contains("what is lcn"), obj.Contains("what is elsieanne")
-				If CurrentQ = 3 Then
-					CurrentQ = 0
-				End If
-				Playlist(1) = "c:\soundboard\cheryl\Rebuttals\What's LCN.mp3"
-				Timer2.Enabled = True
-				Return True
-			Case obj.Contains("why are you calling")
-				Playlist(1) = "c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3"
-				Timer2.Enabled = True
-				Return True
-			Case obj.Contains("how did you get my information")
-				Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3"
-				Timer2.Enabled = True
-				Return True
-			Case Else
-				Return False
-		End Select
-
+			Select Case True
+				Case obj.Contains("who is this"), obj.Contains("who are you"), obj.Contains("who is calling"), obj.Contains("who's this"), obj.Contains("who's calling"), obj.Contains("who do you represent")
+					If CurrentQ = 3 Then
+						CurrentQ = 0
+					End If
+					Playlist(1) = "c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3"
+					Timer2.Enabled = True
+					Return True
+				Case obj.Contains("who makes it")
+					rolltheclipThread("c:\soundboard\cheryl\REACTIONS\YES.mp3")
+					Return True
+				Case obj.Contains("what is this"), obj.Contains("what's this"), obj.Contains("what is the nature of this call"), obj.Contains("what are you calling about"), obj.Contains("what is purpose of this call")
+					If CurrentQ = 3 Then
+						CurrentQ = 0
+					End If
+					Playlist(1) = "c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3"
+					Timer2.Enabled = True
+					Return True
+				Case obj.Contains("what is lcn"), obj.Contains("what is elsieanne")
+					If CurrentQ = 3 Then
+						CurrentQ = 0
+					End If
+					Playlist(1) = "c:\soundboard\cheryl\Rebuttals\What's LCN.mp3"
+					Timer2.Enabled = True
+					Return True
+				Case obj.Contains("why are you calling")
+					Playlist(1) = "c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3"
+					Timer2.Enabled = True
+					Return True
+				Case obj.Contains("how did you get my information")
+					Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3"
+					Timer2.Enabled = True
+					Return True
+				Case Else
+					Return False
+			End Select
+		End If
 	End Function 'Handles Question
     Public Function CheckWhoseTalking() As Boolean
 		Select Case True
@@ -3207,89 +3212,91 @@ Public Class Form1
 	Sub handlepartquestion()
 		Console.WriteLine("CHECKING AGAINST PARTIAL QUESTIONS")
 		Console.WriteLine("reps: " & quest)
-		Try
-			Select Case True
-				Case Part.Contains("who is this"), Part.Contains("who are you"), Part.Contains("who is calling"), Part.Contains("who's this"), Part.Contains("who's calling"), Part.Contains("who do you represent")
-					Select Case quest
-						Case 1
-							Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3"
-							quest += 1
-						Case 2
-							Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
-							quest = 1
-					End Select
-					If CurrentQ = 3 Then
-						CurrentQ = 0
-					End If
-					Playlist(1) = "c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3"
-					Timer2.Enabled = True
-				Case Part.Contains("who makes it")
-					Select Case quest
-						Case 1
-							Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3"
-							quest += 1
-						Case 2
-							Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
-							quest = 1
-					End Select
-					rolltheclipThread("c:\soundboard\cheryl\REACTIONS\YES.mp3")
-				Case Part.Contains("what is this"), Part.Contains("what's this"), Part.Contains("what is the nature of this call"), Part.Contains("what are you calling about"), Part.Contains("what is purpose of this call")
-					Select Case quest
-						Case 1
-							Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3"
-							quest += 1
-						Case 2
-							Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
-							quest = 1
-					End Select
-					If CurrentQ = 3 Then
-						CurrentQ = 0
-					End If
-					Playlist(1) = "c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3"
-					Timer2.Enabled = True
-				Case Part.Contains("what is lcn"), Part.Contains("what is elsieanne"), Part.Contains("about your company"), s.Contains("lcn")
-					Select Case quest
-						Case 1
-							Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3"
-							quest += 1
-						Case 2
-							Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
-							quest = 1
-					End Select
-					If CurrentQ = 3 Then
-						CurrentQ = 0
-					End If
-					Playlist(1) = "c:\soundboard\cheryl\Rebuttals\What's LCN.mp3"
-					Timer2.Enabled = True
-				Case Part.Contains("why are you calling")
-					Select Case quest
-						Case 1
-							Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3"
-							quest += 1
-						Case 2
-							Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
-							quest = 1
-					End Select
-					Playlist(1) = "c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3"
+		If chkbxAutoRebuttal.Checked Then
+			Try
+				Select Case True
+					Case Part.Contains("who is this"), Part.Contains("who are you"), Part.Contains("who is calling"), Part.Contains("who's this"), Part.Contains("who's calling"), Part.Contains("who do you represent")
+						Select Case quest
+							Case 1
+								Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3"
+								quest += 1
+							Case 2
+								Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
+								quest = 1
+						End Select
+						If CurrentQ = 3 Then
+							CurrentQ = 0
+						End If
+						Playlist(1) = "c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3"
+						Timer2.Enabled = True
+					Case Part.Contains("who makes it")
+						Select Case quest
+							Case 1
+								Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3"
+								quest += 1
+							Case 2
+								Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
+								quest = 1
+						End Select
+						rolltheclipThread("c:\soundboard\cheryl\REACTIONS\YES.mp3")
+					Case Part.Contains("what is this"), Part.Contains("what's this"), Part.Contains("what is the nature of this call"), Part.Contains("what are you calling about"), Part.Contains("what is purpose of this call")
+						Select Case quest
+							Case 1
+								Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3"
+								quest += 1
+							Case 2
+								Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
+								quest = 1
+						End Select
+						If CurrentQ = 3 Then
+							CurrentQ = 0
+						End If
+						Playlist(1) = "c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3"
+						Timer2.Enabled = True
+					Case Part.Contains("what is lcn"), Part.Contains("what is elsieanne"), Part.Contains("about your company"), s.Contains("lcn")
+						Select Case quest
+							Case 1
+								Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3"
+								quest += 1
+							Case 2
+								Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
+								quest = 1
+						End Select
+						If CurrentQ = 3 Then
+							CurrentQ = 0
+						End If
+						Playlist(1) = "c:\soundboard\cheryl\Rebuttals\What's LCN.mp3"
+						Timer2.Enabled = True
+					Case Part.Contains("why are you calling")
+						Select Case quest
+							Case 1
+								Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3"
+								quest += 1
+							Case 2
+								Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
+								quest = 1
+						End Select
+						Playlist(1) = "c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3"
 
-					Timer2.Enabled = True
+						Timer2.Enabled = True
 
-				Case Part.Contains("how did you get my info"), Part.Contains("where did you get my info")
-					Select Case quest
-						Case 1
-							Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3"
-							quest += 1
-						Case 2
-							Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
-							quest = 1
-					End Select
-					Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3"
+					Case Part.Contains("how did you get my info"), Part.Contains("where did you get my info")
+						Select Case quest
+							Case 1
+								Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3"
+								quest += 1
+							Case 2
+								Playlist(0) = "C:\SoundBoard\Cheryl\Birthday\questions 5-4-16\questions 5-4-16\whatta great question.mp3"
+								quest = 1
+						End Select
+						Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3"
 
-					Timer2.Enabled = True
-			End Select
-		Catch ex As Exception
-			Console.WriteLine("problem with part question")
-		End Try
+						Timer2.Enabled = True
+				End Select
+			Catch ex As Exception
+				Console.WriteLine("problem with part question")
+			End Try
+		End If
 	End Sub 'Checks for questions in the partial speech variable (part) handles them if found
 
     Public Function doaddressstuff() As Boolean
@@ -4391,7 +4398,7 @@ Public Class Form1
 				Case 10
 					If getBirthdaWAV() = True Then
 						tbCallOrder.SelectedTab = tbDriverInfo
-						rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & bmonth1 & bday1 & ".mp3")
+
 						Timer2.Enabled = True
 					Else
 						rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & byear1 & ".mp3")
@@ -4946,7 +4953,7 @@ Public Class Form1
 
 		theurl = ""
 		NICount = 0
-		Thread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+		rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 		DispositionCall("Wrong Number")
 		totalCalls = totalCalls + 1
 		lblCalls.Text = totalCalls
@@ -5559,6 +5566,10 @@ Public Class Form1
 	End Sub
 
 	Private Sub GroupBox9_Enter(sender As Object, e As EventArgs) Handles GroupBox9.Enter
+
+	End Sub
+
+	Private Sub chkbxAutoRebuttal_CheckedChanged(sender As Object, e As EventArgs) Handles chkbxAutoRebuttal.CheckedChanged
 
 	End Sub
 End Class
