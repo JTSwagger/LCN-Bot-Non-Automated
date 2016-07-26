@@ -4923,7 +4923,7 @@ Public Class Form1
 		cmbMoreVehicles.SelectedIndex = 0
 		theurl = ""
 		NICount = 0
-		rolltheclip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+		rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 		DispositionCall("Not Interested")
 		totalCalls = totalCalls + 1
 		lblCalls.Text = totalCalls
@@ -4946,7 +4946,7 @@ Public Class Form1
 
 		theurl = ""
 		NICount = 0
-		rolltheclip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+		Thread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 		DispositionCall("Wrong Number")
 		totalCalls = totalCalls + 1
 		lblCalls.Text = totalCalls
@@ -4965,7 +4965,7 @@ Public Class Form1
 		cmbMoreVehicles.SelectedIndex = 0
 		theurl = ""
 		NICount = 0
-		rolltheclip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+		rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 		DispositionCall("No Car")
 		CurrentQ = 31
 		Timer2.Enabled = True
@@ -4977,7 +4977,7 @@ Public Class Form1
 		cmbMoreVehicles.SelectedIndex = 0
 		theurl = ""
 		NICount = 0
-		rolltheclip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+		rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 
 		DispositionCall("No English")
 		CurrentQ = 31
