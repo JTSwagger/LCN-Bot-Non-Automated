@@ -971,7 +971,7 @@ Public Class Form1
 		UnregisterHotKey(Me.Handle, 173)
 
 	End Sub                      'Unregisters global hotkeys
-    Public Sub rolltheclip()
+	Public Sub rolltheclip()
 
 		StopThatClip()
 		waveOut = New NAudio.Wave.WaveOut()
@@ -985,11 +985,29 @@ Public Class Form1
 			End Try
 
 			waveOut.Play()
-				Else
+		Else
 			Console.WriteLine(clipname & " not available")
 		End If
 	End Sub        'Plays sound clips through whatever audio outs are selected
-    Sub SpeechtoVar(speech As String) 'to break up month/year'
+	Public Sub rolltheclip(filename As String)
+
+		StopThatClip()
+		waveOut = New NAudio.Wave.WaveOut()
+		If My.Computer.FileSystem.FileExists(filename) Then
+			Dim mp3File As New NAudio.Wave.Mp3FileReader(filename)
+			waveOut.DeviceNumber = deviceNum1
+			Try
+				waveOut.Init(mp3File)
+			Catch
+				Console.WriteLine("merfity merf")
+			End Try
+
+			waveOut.Play()
+		Else
+			Console.WriteLine(filename & " not available")
+		End If
+	End Sub        'Plays sound clips through whatever audio outs are selected
+	Sub SpeechtoVar(speech As String) 'to break up month/year'
         Select Case speech
 			Case "January", "Next January", "This January"
 				theMonth = 1
@@ -3534,13 +3552,13 @@ Public Class Form1
 	Private Sub Button12_Click(sender As Object, e As EventArgs) Handles HOMETYPE.Click
 		isQuestion = True
 
-		rolltheclipThread("c:\soundboard\cheryl\PERSONAL INFO\HOMETYPE.mp3")
+		rolltheclip("c:\soundboard\cheryl\PERSONAL INFO\HOMETYPE.mp3")
 		callPos = Home_Type
 		tmrSilence.Enabled = True
 	End Sub
 	Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
 		StopThatClip()
-		rolltheclipThread("c:\soundboard\cheryl\PERSONAL INFO\DO YOU OWN Or RENT THE HOME.mp3")
+		rolltheclip("c:\soundboard\cheryl\PERSONAL INFO\DO YOU OWN Or RENT THE HOME.mp3")
 		CurrentQ = 15
 		isQuestion = True
 		clipType = "Question"
@@ -3628,7 +3646,7 @@ Public Class Form1
 	End Sub
 	Private Sub Button17_Click(sender As Object, e As EventArgs) Handles SpouseDOB.Click
 		StopThatClip()
-		rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\SPOUSES DATE OF BIRTH.mp3")
+		rolltheclip("c:\soundboard\cheryl\DRIVER INFO\SPOUSES DATE OF BIRTH.mp3")
 		isQuestion = True
 		clipType = "Question"
 		callPos = Spouse_DOB
@@ -3689,7 +3707,7 @@ Public Class Form1
 	End Sub
 	Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
 		StopThatClip()
-		rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\MaritalStatus2.mp3")
+		rolltheclip("c:\soundboard\cheryl\DRIVER INFO\MaritalStatus2.mp3")
 		clipType = "Question"
 		callPos = Marital_Status
 		isQuestion = True
@@ -3698,7 +3716,7 @@ Public Class Form1
 	Private Sub Button20_Click(sender As Object, e As EventArgs) Handles Button20.Click
 		isQuestion = True
 
-		rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/phoneType.mp3")
+		rolltheclip("C:/Soundboard/Cheryl/PERSONAL INFO/phoneType.mp3")
 		callPos = Phone_Type
 		clipType = "Question"
 		tmrSilence.Enabled = True
@@ -3706,14 +3724,14 @@ Public Class Form1
 	End Sub
 	Private Sub Button21_Click(sender As Object, e As EventArgs) Handles Button21.Click
 		isQuestion = True
-		rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/Last Name.mp3")
+		rolltheclip("C:/Soundboard/Cheryl/PERSONAL INFO/Last Name.mp3")
 		clipType = "Question"
 		callPos = Last_Name
 		tmrSilence.Enabled = True
 	End Sub
 	Private Sub Button10_Click(sender As Object, e As EventArgs) Handles SpouseName.Click
 		StopThatClip()
-		rolltheclipThread("c:\soundboard\cheryl\DRIVER INFO\SPOUSES FIRST NAME.mp3")
+		rolltheclip("c:\soundboard\cheryl\DRIVER INFO\SPOUSES FIRST NAME.mp3")
 		isQuestion = True
 		clipType = "Question"
 		callPos = Spouse_Name
@@ -3755,7 +3773,7 @@ Public Class Form1
 	End Sub
 	Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
 		isQuestion = True
-		rolltheclipThread("c:\soundboard\cheryl\REACTIONS\Could you please verify your address.mp3")
+		rolltheclip("c:\soundboard\cheryl\REACTIONS\Could you please verify your address.mp3")
 		callPos = Their_Address
 		clipType = "Question"
 		tmrSilence.Enabled = True
@@ -3848,7 +3866,7 @@ Public Class Form1
 		isQuestion = True
 		clipType = "Question"
 		callPos = Credit
-		rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/Credit.mp3")
+		rolltheclip("C:/Soundboard/Cheryl/PERSONAL INFO/Credit.mp3")
 		tmrSilence.Enabled = True
 	End Sub
 	Private Sub Button35_Click(sender As Object, e As EventArgs) Handles btnIntro.Click
@@ -4015,7 +4033,7 @@ Public Class Form1
 	End Sub
 	Private Sub Button42_Click_1(sender As Object, e As EventArgs) Handles Button42.Click
 		clipType = "Objection"
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\Where Did You get My info.mp3")
 
 	End Sub
 
@@ -4034,7 +4052,7 @@ Public Class Form1
 	End Sub
 	Private Sub Button67_Click(sender As Object, e As EventArgs) Handles Button67.Click
 		clipType = "Objection"
-		rolltheclipThread("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
+		rolltheclip("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
 
 	End Sub
 	Private Sub Button43_Click(sender As Object, e As EventArgs) Handles Button43.Click
@@ -4055,40 +4073,40 @@ Public Class Form1
 		rolltheclipThread("c:\soundboard\cheryl\WRAPUP\TCPA.mp3")
 	End Sub
 	Private Sub Button32_Click_2(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
 	End Sub
 	Private Sub Button39_Click_1(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE YEAR.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE YEAR.mp3")
 	End Sub
 	Private Sub Button44_Click_1(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE DAY.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE DAY.mp3")
 	End Sub
 	Private Sub Button29_Click_2(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\WHERE DID YOU GET MY INFO.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\WHERE DID YOU GET MY INFO.mp3")
 	End Sub
 	Private Sub Button5_Click_1(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
 	End Sub
 	Private Sub Button19_Click_1(sender As Object, e As EventArgs)
 		Playlist(0) = "C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\i understand.mp3"
 
 	End Sub
 	Private Sub Button57_Click(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3")
 	End Sub
 	Private Sub Button60_Click(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\why do you need my info.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\why do you need my info.mp3")
 	End Sub
 	Private Sub Button84_Click(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\january feb march april.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\january feb march april.mp3")
 	End Sub
 	Private Sub Button85_Click(sender As Object, e As EventArgs) Handles Button85.Click
 		clipType = "Objection"
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\I'm REQUIRED TO HAVE YOU VERIFY IT FIRST.mp3")
 
 	End Sub
 	Private Sub Button58_Click(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I'M JUST ABOUT DONE.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\I'M JUST ABOUT DONE.mp3")
 	End Sub
 	Private Sub Button77_Click(sender As Object, e As EventArgs)
 		Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I'M JUST ABOUT DONE.mp3"
@@ -4099,20 +4117,20 @@ Public Class Form1
 
 	End Sub
 	Private Sub Button68_Click_1(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\IS THIS THE SPOUSE.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\IS THIS THE SPOUSE.mp3")
 	End Sub
 	Private Sub Button26_Click_1(sender As Object, e As EventArgs)
 		Playlist(0) = "c:\soundboard\cheryl\REBUTTALS\I already have insurance rebuttal.mp3"
 
 	End Sub
 	Private Sub Button87_Click(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\This will be real quick.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\This will be real quick.mp3")
 	End Sub
 	Private Sub Button88_Click(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\what's LCN.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\what's LCN.mp3")
 	End Sub
 	Private Sub Button89_Click(sender As Object, e As EventArgs) Handles Button89.Click
-		rolltheclipThread("c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3")
+		rolltheclip("c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3")
 	End Sub
 	Private Sub Button90_Click(sender As Object, e As EventArgs) Handles Button90.Click
 		rolltheclipThread("c:\soundboard\cheryl\INTRO\HELLO.mp3")
@@ -4122,50 +4140,50 @@ Public Class Form1
 	End Sub
 	Private Sub Button92_Click(sender As Object, e As EventArgs) Handles Button92.Click
 		clipType = "Objection"
-		rolltheclipThread("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
+		rolltheclip("c:\soundboard\cheryl\INTRO\THISISTOGIVENEWQUOTE.mp3")
 
 	End Sub
 	Private Sub Button46_Click(sender As Object, e As EventArgs) Handles Button46.Click
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\THAT'S A GREAT QUESTION.mp3")
 	End Sub
 	Private Sub Button93_Click(sender As Object, e As EventArgs) Handles Button93.Click
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I COMPLETELY UNDERSTAND.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\I COMPLETELY UNDERSTAND.mp3")
 	End Sub
 	Private Sub Button53_Click_1(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\where did you get my info.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\where did you get my info.mp3")
 	End Sub
 	Private Sub Button45_Click(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
 	End Sub
 
 	Private Sub Button3_Click_2(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
 	End Sub
 	Private Sub Button81_Click(sender As Object, e As EventArgs) Handles Button81.Click
 		clipType = "Objection"
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\local agents and carriers in your area.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\local agents and carriers in your area.mp3")
 	End Sub
 	Private Sub Button82_Click(sender As Object, e As EventArgs) Handles Button82.Click
 		clipType = "Objection"
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\can they email.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\can they email.mp3")
 
 	End Sub
 	Private Sub Button51_Click_1(sender As Object, e As EventArgs) Handles Button51.Click
 		clipType = "Objection"
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\you're not giving me a quote.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\you're not giving me a quote.mp3")
 	End Sub
 	Private Sub Button83_Click(sender As Object, e As EventArgs) Handles Button83.Click
 		clipType = "Objection"
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\when will they call.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\when will they call.mp3")
 
 
 	End Sub
 	Private Sub Button18_Click_1(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\my spouse takes care of that.mp3")
 	End Sub
 
 	Private Sub Button86_Click(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I'M JUST ABOUT DONE.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\I'M JUST ABOUT DONE.mp3")
 	End Sub
 
 	Private Sub Button74_Click(sender As Object, e As EventArgs)
@@ -4173,16 +4191,16 @@ Public Class Form1
 	End Sub
 
 	Private Sub Button72_Click(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\Rebuttals\Rebuttal4.mp3")
+		rolltheclip("c:\soundboard\cheryl\Rebuttals\Rebuttal4.mp3")
 
 	End Sub
 
 	Private Sub Button76_Click(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
+		rolltheclip("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
 
 	End Sub
 	Private Sub Button78_Click(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\where did you get my info.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\where did you get my info.mp3")
 
 	End Sub
 	Private Sub InsuranceProvider_TextChanged(sender As Object, e As EventArgs) Handles txtInsuranceProvider.TextChanged
@@ -4670,7 +4688,7 @@ Public Class Form1
 
 	Private Sub Button53_Click_2(sender As Object, e As EventArgs) Handles Button53.Click
 		isQuestion = True
-		rolltheclipThread("C:/Soundboard/Cheryl/PERSONAL INFO/email.mp3")
+		rolltheclip("C:/Soundboard/Cheryl/PERSONAL INFO/email.mp3")
 		clipType = "Question"
 		callPos = Email_Address
 		tmrSilence.Enabled = True
@@ -4905,7 +4923,7 @@ Public Class Form1
 		cmbMoreVehicles.SelectedIndex = 0
 		theurl = ""
 		NICount = 0
-		rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+		rolltheclip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 		DispositionCall("Not Interested")
 		totalCalls = totalCalls + 1
 		lblCalls.Text = totalCalls
@@ -4928,7 +4946,7 @@ Public Class Form1
 
 		theurl = ""
 		NICount = 0
-		rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+		rolltheclip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 		DispositionCall("Wrong Number")
 		totalCalls = totalCalls + 1
 		lblCalls.Text = totalCalls
@@ -4947,7 +4965,7 @@ Public Class Form1
 		cmbMoreVehicles.SelectedIndex = 0
 		theurl = ""
 		NICount = 0
-		rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+		rolltheclip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 		DispositionCall("No Car")
 		CurrentQ = 31
 		Timer2.Enabled = True
@@ -4959,7 +4977,7 @@ Public Class Form1
 		cmbMoreVehicles.SelectedIndex = 0
 		theurl = ""
 		NICount = 0
-		rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+		rolltheclip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 
 		DispositionCall("No English")
 		CurrentQ = 31
@@ -4971,11 +4989,11 @@ Public Class Form1
 	Dim spot2 As Integer
 
 	Private Sub Button84_Click_1(sender As Object, e As EventArgs) Handles Button84.Click
-		rolltheclipThread("C:/SOUNDBOARD/CHERYL/REBUTTALS/JANUARY FEB MARCH APRIL.mp3")
+		rolltheclip("C:/SOUNDBOARD/CHERYL/REBUTTALS/JANUARY FEB MARCH APRIL.mp3")
 	End Sub
 
 	Private Sub Button38_Click_1(sender As Object, e As EventArgs) Handles Button38.Click
-		rolltheclipThread("C:\SoundBoard\Cheryl\TIE INS\Great What's Your Best Guess.mp3")
+		rolltheclip("C:\SoundBoard\Cheryl\TIE INS\Great What's Your Best Guess.mp3")
 	End Sub
 
 	Private Sub Button4_Click_2(sender As Object, e As EventArgs) Handles Button4.Click
@@ -4985,23 +5003,23 @@ Public Class Form1
 	End Sub
 
 	Private Sub Button77_Click_1(sender As Object, e As EventArgs) Handles Button77.Click
-		rolltheclipThread("C:\Users\Insurance Express\Desktop\Cheryl MP3\Old Sounds\JUSTABOUTDONE.mp3")
+		rolltheclip("C:\Users\Insurance Express\Desktop\Cheryl MP3\Old Sounds\JUSTABOUTDONE.mp3")
 	End Sub
 
 	Private Sub Button59_Click_1(sender As Object, e As EventArgs) Handles Button59.Click
-		rolltheclipThread("C:\SoundBoard\Cheryl\PERSONAL INFO\I would just need an email address that you have access to.mp3")
+		rolltheclip("C:\SoundBoard\Cheryl\PERSONAL INFO\I would just need an email address that you have access to.mp3")
 	End Sub
 
 	Private Sub Button19_Click_2(sender As Object, e As EventArgs) Handles Button19.Click
 		clipType = "Objection"
-		rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\HappyWithInsurance.mp3")
+		rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\HappyWithInsurance.mp3")
 
 
 	End Sub
 
 	Private Sub Button32_Click_3(sender As Object, e As EventArgs) Handles Button32.Click
 		clipType = "Objection"
-		rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\this info.mp3")
+		rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\this info.mp3")
 
 
 
@@ -5009,119 +5027,117 @@ Public Class Form1
 
 	Private Sub Button69_Click_1(sender As Object, e As EventArgs) Handles Button69.Click
 		clipType = "Objection"
-		rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\I actually have this information.mp3")
+		rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\I actually have this information.mp3")
 
 	End Sub
 
 	Private Sub Button26_Click_2(sender As Object, e As EventArgs) Handles Button26.Click
 		clipType = "Objection"
-		rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\I Already Have Insurance rebuttal.mp3")
+		rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\I Already Have Insurance rebuttal.mp3")
 
 
 	End Sub
 
 	Private Sub Button25_Click_2(sender As Object, e As EventArgs) Handles Button25.Click
 		clipType = "Objection"
-		rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3")
+		rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\nothing to be interested in.mp3")
 
 
 	End Sub
 
 	Private Sub Button49_Click_2(sender As Object, e As EventArgs) Handles Button49.Click
 		clipType = "Objection"
-		rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\EMAIL REBUTTAL.mp3")
+		rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\EMAIL REBUTTAL.mp3")
 
 	End Sub
 
 	Private Sub Button58_Click_2(sender As Object, e As EventArgs) Handles Button58.Click
 		clipType = "Objection"
-		rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\NEW ADDRESS REBUTTAL.mp3")
+		rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\NEW ADDRESS REBUTTAL.mp3")
 
 	End Sub
 
 	Private Sub Button56_Click_2(sender As Object, e As EventArgs) Handles Button56.Click
 		clipType = "Objection"
-		rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\P.O BOX REBUTTAL.mp3")
+		rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\P.O BOX REBUTTAL.mp3")
 
 	End Sub
 
 	Private Sub Button31_Click_3(sender As Object, e As EventArgs) Handles Button31.Click
 		clipType = "Objection"
-		rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3")
+		rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\ADDRESS REBUTTAL.mp3")
 
 	End Sub
 
 	Private Sub Button5_Click_2(sender As Object, e As EventArgs) Handles Button5.Click
 		clipType = "Objection"
-		rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\My spouse takes care of that.mp3")
+		rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\My spouse takes care of that.mp3")
 
 
 	End Sub
 
 	Private Sub Button68_Click_2(sender As Object, e As EventArgs) Handles Button68.Click
-		rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\Is this the spouse.mp3")
+		rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\Is this the spouse.mp3")
 	End Sub
 
 	Private Sub Button52_Click_2(sender As Object, e As EventArgs) Handles Button52.Click
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\I HAVE A FEW HERE.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\I HAVE A FEW HERE.mp3")
 	End Sub
 
 	Private Sub Button48_Click_1(sender As Object, e As EventArgs) Handles Button48.Click
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\ONE AT A TIME PLEASE.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\ONE AT A TIME PLEASE.mp3")
 	End Sub
 
 	Private Sub Make_Click_1(sender As Object, e As EventArgs) Handles Make.Click
-		rolltheclipThread("c:\soundboard\cheryl\PUSHONS\chevyfordgmc.mp3")
+		rolltheclip("c:\soundboard\cheryl\PUSHONS\chevyfordgmc.mp3")
 	End Sub
 
 	Private Sub insurance_Click_1(sender As Object, e As EventArgs) Handles insurance.Click
-		rolltheclipThread("c:\soundboard\cheryl\PUSHONS\allstategeicostatefarm.mp3")
+		rolltheclip("c:\soundboard\cheryl\PUSHONS\allstategeicostatefarm.mp3")
 
 	End Sub
 
 	Private Sub Button50_Click_1(sender As Object, e As EventArgs) Handles Button50.Click
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
 	End Sub
 
 	Private Sub Button55_Click_3(sender As Object, e As EventArgs) Handles Button55.Click
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE DAY.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE DAY.mp3")
 	End Sub
 
 	Private Sub Button54_Click(sender As Object, e As EventArgs) Handles Button54.Click
-		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE YEAR.mp3")
+		rolltheclip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE YEAR.mp3")
 	End Sub
 
 	Private Sub Button14_Click_1(sender As Object, e As EventArgs) Handles Button14.Click
-		rolltheclipThread("C:\SoundBoard\Cheryl\PERSONAL INFO\email.mp3")
+		rolltheclip("C:\SoundBoard\Cheryl\PERSONAL INFO\email.mp3")
 	End Sub
 
 	Private Sub Button72_Click_2(sender As Object, e As EventArgs) Handles Button72.Click
-		rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\zip.mp3")
+		rolltheclip("C:\SoundBoard\Cheryl\REACTIONS\zip.mp3")
 	End Sub
 
 	Private Sub Button29_Click_4(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\YEAR OF THE FIRST VEHICLE.mp3")
+		rolltheclip("c:\soundboard\cheryl\VEHICLE INFO\YEAR OF THE FIRST VEHICLE.mp3")
 	End Sub
 
 	Private Sub Button30_Click_4(sender As Object, e As EventArgs)
-		rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\MAKE OF THE FIRST VEHICLE.mp3")
+		rolltheclip("c:\soundboard\cheryl\VEHICLE INFO\MAKE OF THE FIRST VEHICLE.mp3")
 	End Sub
 
 	Private Sub Button45_Click_2(sender As Object, e As EventArgs) Handles Button45.Click
-		rolltheclipThread("c:\soundboard\cheryl\VEHICLE INFO\MODEL OF THE FIRST VEHICLE.mp3")
+		rolltheclip("c:\soundboard\cheryl\VEHICLE INFO\MODEL OF THE FIRST VEHICLE.mp3")
 	End Sub
 
 	Private Sub Button60_Click_1(sender As Object, e As EventArgs) Handles Button60.Click
 		clipType = "Objection"
-		rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL3.mp3")
+		rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\REBUTTAL3.mp3")
 
 	End Sub
 
 	Private Sub Button29_Click_5(sender As Object, e As EventArgs) Handles Button29.Click
 		clipType = "Objection"
-		rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\Im sure what.mp3")
-
-
+		rolltheclip("C:\SoundBoard\Cheryl\REACTIONS\BEST NI REBUTTALS ZIP\BEST NI REBUTTALS\Im sure what.mp3")
 
 	End Sub
 	Dim NumClicks As Integer = 0
@@ -5151,7 +5167,7 @@ Public Class Form1
 			theurl = ""
 			NICount = 0
 			DispositionCall("Entering Lead/Low")
-			rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
+			rolltheclip("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 			CurrentQ = 31
 			resetBot()
 			Timer2.Enabled = True
@@ -5166,15 +5182,15 @@ Public Class Form1
 	End Sub
 
 	Private Sub Button18_Click_5(sender As Object, e As EventArgs) Handles Button18.Click
-		rolltheclipThread("C:\SoundBoard\Cheryl\REBUTTALS\Sorry to hear that 2.mp3")
+		rolltheclip("C:\SoundBoard\Cheryl\REBUTTALS\Sorry to hear that 2.mp3")
 	End Sub
 
 	Private Sub Button27_Click_2(sender As Object, e As EventArgs) Handles Button27.Click
 		If clipnum(9) = 0 Then
-			rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\Loud-laugh.mp3")
+			rolltheclip("C:\Soundboard\Cheryl\REACTIONS\Loud-laugh.mp3")
 			clipnum(9) += 1
 		Else
-			rolltheclipThread("C:\Soundboard\Cheryl\REACTIONS\softer-Laugh.mp3")
+			rolltheclip("C:\Soundboard\Cheryl\REACTIONS\softer-Laugh.mp3")
 			clipnum(9) = 0
 
 		End If
@@ -5191,7 +5207,7 @@ Public Class Form1
 
 	Private Sub Button40_Click_1(sender As Object, e As EventArgs) Handles Button40.Click
 		clipType = "Objection"
-		rolltheclipThread("C:/Soundboard/Cheryl/Rebuttals/NotThatCheap.mp3")
+		rolltheclip("C:/Soundboard/Cheryl/Rebuttals/NotThatCheap.mp3")
 
 
 	End Sub
