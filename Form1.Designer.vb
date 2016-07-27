@@ -192,6 +192,7 @@ Partial Class Form1
 		Me.tmrSilence = New System.Windows.Forms.Timer(Me.components)
 		Me.btnHaveaNiceDay = New System.Windows.Forms.Button()
 		Me.chkbxAutoRebuttal = New System.Windows.Forms.CheckBox()
+		Me.chkFullAuto = New System.Windows.Forms.CheckBox()
 		Me.frReactions.SuspendLayout()
 		Me.GroupBox9.SuspendLayout()
 		Me.TabControl1.SuspendLayout()
@@ -2205,12 +2206,23 @@ Partial Class Form1
 		Me.chkbxAutoRebuttal.Text = "Auto Rebuttal"
 		Me.chkbxAutoRebuttal.UseVisualStyleBackColor = True
 		'
+		'chkFullAuto
+		'
+		Me.chkFullAuto.AutoSize = True
+		Me.chkFullAuto.Location = New System.Drawing.Point(508, 821)
+		Me.chkFullAuto.Name = "chkFullAuto"
+		Me.chkFullAuto.Size = New System.Drawing.Size(67, 17)
+		Me.chkFullAuto.TabIndex = 150
+		Me.chkFullAuto.Text = "Full Auto"
+		Me.chkFullAuto.UseVisualStyleBackColor = True
+		'
 		'Form1
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
 		Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
 		Me.ClientSize = New System.Drawing.Size(672, 866)
+		Me.Controls.Add(Me.chkFullAuto)
 		Me.Controls.Add(Me.chkbxAutoRebuttal)
 		Me.Controls.Add(Me.btnHaveaNiceDay)
 		Me.Controls.Add(Me.testpagebutton)
@@ -2428,4 +2440,5 @@ Partial Class Form1
     Public WithEvents tmrSilence As Timer
 	Friend WithEvents btnHaveaNiceDay As Button
 	Friend WithEvents chkbxAutoRebuttal As CheckBox
+	Friend WithEvents chkFullAuto As CheckBox
 End Class

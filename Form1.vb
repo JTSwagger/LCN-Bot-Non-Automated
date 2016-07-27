@@ -397,6 +397,9 @@ Public Class Form1
 							callPos = Policy_Expiration
 							s = ""
 							CurrentQ = 4
+							If chkFullAuto.Checked Then
+								Timer2.Enabled=True
+							End If
 						Else
 							clipType = "Question"
 						End If
@@ -407,6 +410,9 @@ Public Class Form1
 							callPos = Policy_Start
 							s = ""
 							CurrentQ = 5
+							If chkFullAuto.Checked Then
+								Timer2.Enabled = True
+							End If
 						Else
 							s = ""
 						End If
@@ -417,6 +423,9 @@ Public Class Form1
 							callPos = Number_Of_Vehicles
 							s = ""
 							CurrentQ = 6
+							If chkFullAuto.Checked Then
+								Timer2.Enabled = True
+							End If
 						End If
 					Case Number_Of_Vehicles
 						Console.WriteLine("Checking Number of Vehicles")
@@ -425,10 +434,33 @@ Public Class Form1
 							callPos = Year_Make_Model
 							s = ""
 							CurrentQ = 7
+							If chkFullAuto.Checked Then
+								Timer2.Enabled = True
+							End If
 						End If
 
 					Case Year_Make_Model
-						CurrentQ = 10
+
+
+						If getYear(VehicleNum) Then
+							If getMake(VehicleNum) Then
+								If getModel(VehicleNum) Then
+									CurrentQ = 10
+									callPos = Driver_Birthday
+								Else
+									rolltheclip("C:/Soundboard/Cheryl/Vehicle Info/What is the model of the car 1.mp3")
+								End If
+							Else
+								rolltheclip("C:/Soundboard/Cheryl/Vehicle Info/What kind of vehicle is that 1.mp3")
+							End If
+						Else
+
+						End If
+
+
+						If chkFullAuto.Checked Then
+							Timer2.Enabled = True
+						End If
 						callPos = Driver_Birthday
 
 					Case Driver_Birthday
@@ -453,10 +485,16 @@ Public Class Form1
 							clipType = ""
 							callPos = Marital_Status
 							CurrentQ = 11
+							If chkFullAuto.Checked Then
+								Timer2.Enabled = True
+							End If
 						ElseIf finalizeSpouseBDay(True) Then
 							clipType = ""
 							callPos = Own_Rent
 							CurrentQ = 15
+							If chkFullAuto.Checked Then
+								Timer2.Enabled = True
+							End If
 						End If
 					Case Marital_Status
 						If checkMaritalStatus() Then
@@ -464,10 +502,16 @@ Public Class Form1
 								callPos = Spouse_Name
 								clipType = ""
 								CurrentQ = 12
+								If chkFullAuto.Checked Then
+									Timer2.Enabled = True
+								End If
 							Else
 								callPos = Own_Rent
 								clipType = ""
 								CurrentQ = 15
+								If chkFullAuto.Checked Then
+									Timer2.Enabled = True
+								End If
 							End If
 						End If
 					Case Spouse_Name
@@ -475,36 +519,54 @@ Public Class Form1
 							clipType = ""
 							callPos = Spouse_DOB
 							CurrentQ = 13
+							If chkFullAuto.Checked Then
+								Timer2.Enabled = True
+							End If
 						End If
 					Case Spouse_DOB
 						If getSpouseBDAY(True) Then
 							clipType = ""
 							callPos = Finalize_BDAY
 							CurrentQ = 14
+							If chkFullAuto.Checked Then
+								Timer2.Enabled = True
+							End If
 						End If
 					Case Own_Rent
 						If getHomeType() Then
 							clipType = ""
 							callPos = Home_Type
 							CurrentQ = 16
+							If chkFullAuto.Checked Then
+								Timer2.Enabled = True
+							End If
 						End If
 					Case Home_Type
 						If getResType() Then
 							clipType = ""
 							callPos = Their_Address
 							CurrentQ = 17
+							If chkFullAuto.Checked Then
+								Timer2.Enabled = True
+							End If
 						End If
 					Case Their_Address
 						If doaddressstuff() Then
 							clipType = ""
 							callPos = Finalize_Address
 							CurrentQ = 18
+							If chkFullAuto.Checked Then
+								Timer2.Enabled = True
+							End If
 						End If
 					Case Finalize_Address
 						If finalizeAddress() Then
 							clipType = ""
 							callPos = Email_Address
 							CurrentQ = 19
+							If chkFullAuto.Checked Then
+								Timer2.Enabled = True
+							End If
 						End If
 
 					Case Email_Address
@@ -512,24 +574,36 @@ Public Class Form1
 							clipType = ""
 							callPos = Credit
 							CurrentQ = 21
+							If chkFullAuto.Checked Then
+								Timer2.Enabled = True
+							End If
 						End If
 					Case Credit
 						If getCredit() Then
 							clipType = ""
 							callPos = Phone_Type
 							CurrentQ = 22
+							If chkFullAuto.Checked Then
+								Timer2.Enabled = True
+							End If
 						End If
 					Case Phone_Type
 						If getPhoneType() Then
 							clipType = ""
 							callPos = Last_Name
 							CurrentQ = 23
+							If chkFullAuto.Checked Then
+								Timer2.Enabled = True
+							End If
 						End If
 					Case Last_Name
 						If getLastName() Then
 							clipType = ""
 							callPos = TCPA_Wrap
 							CurrentQ = 27
+							If chkFullAuto.Checked Then
+								Timer2.Enabled = True
+							End If
 						End If
 					Case TCPA_Wrap
 						If handleTCPA() Then
@@ -3549,7 +3623,7 @@ Public Class Form1
 			Console.WriteLine(ex.StackTrace)
 			Console.WriteLine("****** END EXCEPTION PANDA ********")
 		End Try
-		tmrSilence.Enabled = True
+
 	End Sub
 
 	Private Sub Button1_Click_1(sender As Object, e As EventArgs)
@@ -5501,14 +5575,14 @@ Public Class Form1
 
 		newcall = False
 		Try
-			local_browser = New Remote.RemoteWebDriver(New Uri("http://127.0.0.1:5454"), Remote.DesiredCapabilities.Chrome)
+			local_browser = New ChromeDriver
 			local_browser.Url = ("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
 		Catch
 			Dim opt As New Chrome.ChromeOptions
 			opt.AddArgument("--port=5454")
-			Shell("C:\chromedriver_win32\chromedriver.exe -port=5454")
+			Shell("chromedriver.exe -port=5454")
 			Thread.Sleep(1000)
-			local_browser = New Remote.RemoteWebDriver(New Uri("http://127.0.0.1:5454"), Remote.DesiredCapabilities.Chrome)
+			local_browser = New ChromeDriver
 			local_browser.Navigate.GoToUrl("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
 		End Try
 	End Sub
@@ -5544,7 +5618,7 @@ Public Class Form1
 	Private Sub tmrSilence_Tick(sender As Object, e As EventArgs) Handles tmrSilence.Tick
 		If waveOut.PlaybackState = 0 Then
 			Dim temp As Integer = 0
-			theSilence += 200
+			theSilence += 100
 			Console.WriteLine("*******************")
 			Console.WriteLine("Customer has gone " & theSilence / 2000 & " second(s) without responding.")
 			Console.WriteLine("Silence Buffer is currently " & SilenceCap & " seconds.")
