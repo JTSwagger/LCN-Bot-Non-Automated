@@ -873,7 +873,9 @@ Public Class Form1
 	Sub updateLabel()
 		lblRecording.Text = callPos & ":       RECORDING: " & Recording_status
 		If Recording_status = False And newcall = False Then
-			m.StartMicAndRecognition()
+			If TypeOf m Is MicrophoneRecognitionClient Then
+				m.StartMicAndRecognition()
+			End If
 		End If
 	End Sub
 	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -3116,7 +3118,9 @@ Public Class Form1
 					'rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
 					numRepeats += 1
 					isQuestion = True
-					m.StartMicAndRecognition()
+					If TypeOf m Is MicrophoneRecognitionClient Then
+						m.StartMicAndRecognition()
+					End If
 				Else
 					theMonth = Now.Month
 					theYear = Now.Year
@@ -3883,7 +3887,9 @@ Public Class Form1
 		clipType = "Question"
 		callPos = Insurance_Provider
 		SilenceCap = 3
-		m.StartMicAndRecognition()
+		If TypeOf m Is MicrophoneRecognitionClient Then
+			m.StartMicAndRecognition()
+		End If
 	End Sub
 
 	Private Sub Button38_Click(sender As Object, e As EventArgs)
@@ -4311,7 +4317,9 @@ Public Class Form1
 			lblQuestion.Text = CURRENTQUESTION(Pos)
 			Select Case Pos
 				Case 0
-					m.StartMicAndRecognition()
+					If TypeOf m Is MicrophoneRecognitionClient Then
+						m.StartMicAndRecognition()
+					End If
 					Select Case numReps
 						Case 0
 							rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\Ins provider 1.mp3")
@@ -4328,10 +4336,14 @@ Public Class Form1
 					CurrentQ = 3
 
 				Case 1
-					m.StartMicAndRecognition()
+					If TypeOf m Is MicrophoneRecognitionClient Then
+						m.StartMicAndRecognition()
+					End If
 					rolltheclipThread("c:\soundboard\cheryl\INTRO\HELLO.mp3")
 				Case 2
-					m.StartMicAndRecognition()
+					If TypeOf m Is MicrophoneRecognitionClient Then
+						m.StartMicAndRecognition()
+					End If
 					Select Case numReps
 						Case 0
 							rolltheclipThread(globalFile)
@@ -4344,7 +4356,9 @@ Public Class Form1
 				Case 3
 					rolltheclipThread("C:\SoundBoard\Cheryl\INTRO\INTRO2.MP3")
 					CurrentQ = 3
-					m.StartMicAndRecognition()
+					If TypeOf m Is MicrophoneRecognitionClient Then
+						m.StartMicAndRecognition()
+					End If
 				Case 4
 					Select Case numReps
 						Case 0
@@ -4357,7 +4371,9 @@ Public Class Form1
 							rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\policy exp 3.mp3")
 					End Select
 				Case 5
-					m.StartMicAndRecognition()
+					If TypeOf m Is MicrophoneRecognitionClient Then
+						m.StartMicAndRecognition()
+					End If
 					Console.WriteLine("*** PANDA PANDA PANDA NUMREPS = {0}", numReps)
 					Select Case numReps
 						Case 0
@@ -4371,9 +4387,13 @@ Public Class Form1
 					End Select
 				Case 6
 					rolltheclipThread("C:/SOUNDBOARD/CHERYL/VEHICLE INFO/HOW MANY VEHICLES DO YOU HAVE.MP3")
-					m.StartMicAndRecognition()
+					If TypeOf m Is MicrophoneRecognitionClient Then
+						m.StartMicAndRecognition()
+					End If
 				Case 7
-					m.StartMicAndRecognition()
+					If TypeOf m Is MicrophoneRecognitionClient Then
+						m.StartMicAndRecognition()
+					End If
 					Console.WriteLine("on vehicle: " & VehicleNum)
 					Select Case VehicleNum
 						Case 1
@@ -5474,7 +5494,9 @@ Public Class Form1
 		Select Case clipType
 			Case "Question"
 				introHello = False
-				m.StartMicAndRecognition()
+				If TypeOf m Is MicrophoneRecognitionClient Then
+					m.StartMicAndRecognition()
+				End If
 			Case "Objection"
 				Currently_Rebuttaling = False
 				Timer2.Enabled = True
@@ -5487,8 +5509,6 @@ Public Class Form1
 	Private Sub txtVerifierNum_MouseCaptureChanged(sender As Object, e As EventArgs) Handles txtVerifierNum.MouseCaptureChanged
 
 	End Sub
-
-
 
 	Private Sub tbIntro_Click(sender As Object, e As EventArgs) Handles tbIntro.Click
 
@@ -5539,10 +5559,10 @@ Public Class Form1
 		If waveOut.PlaybackState = 0 Then
 			Dim temp As Integer = 0
 			theSilence += 200
-			Console.WriteLine("*******************")
-			Console.WriteLine("Customer has gone " & theSilence / 2000 & " second(s) without responding.")
-			Console.WriteLine("Silence Buffer is currently " & SilenceCap & " seconds.")
-			Console.WriteLine("*******************")
+			'Console.WriteLine("*******************")
+			'Console.WriteLine("Customer has gone " & theSilence / 2000 & " second(s) without responding.")
+			'Console.WriteLine("Silence Buffer is currently " & SilenceCap & " seconds.")
+			'Console.WriteLine("*******************")
 			If (theSilence / 1000) > SilenceCap Then
 				HandleSilence()
 			End If
@@ -5563,14 +5583,24 @@ Public Class Form1
 
 	End Sub
 
+	Dim checked_counter As Integer = 0
+
 	Private Sub chkbxAutoRebuttal_CheckedChanged(sender As Object, e As EventArgs) Handles chkbxAutoRebuttal.CheckedChanged
+		If checked_counter = 6 Then
+			MsgBox("Stop doing that, you savage!! Checking the box now does NOTHING!")
+			Exit Sub
+		End If
 		If chkbxAutoRebuttal.Checked Then
 			Const Key As String = "ce43e8a4d7a844b1be7950b260d6b8bd"
 			Const Key2 As String = "0d2797650c8648d18474399744512f17"
 			m = SpeechRecognitionServiceFactory.CreateMicrophoneClient(SpeechRecognitionMode.LongDictation, "en-us", Key, Key2)
+			checked_counter += 1
+			Console.WriteLine("checked and initialized")
 		Else
 			m.EndMicAndRecognition()
 			m = Nothing
+			checked_counter += 1
+			Console.WriteLine("unchecked and nerfed")
 		End If
 	End Sub
 End Class
