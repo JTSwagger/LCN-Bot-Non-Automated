@@ -5308,8 +5308,7 @@ Public Class Form1
 			Try
 				local_browser = New ChromeDriver()
 				local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
-			Catch ex As Exception
-				Console.WriteLine(ex)
+
 				Thread.Sleep(1000)
 				local_browser = New ChromeDriver()
 				local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
@@ -5327,6 +5326,8 @@ Public Class Form1
 				local_browser.FindElementById("select-campaign").FindElements(By.TagName("option")).Last.Click()
 				Thread.Sleep(250)
 				local_browser.FindElementById("btn-submit").Click()
+			Catch ex As Exception
+				Console.WriteLine("sorry")
 			End Try
 
 			tmrAgentStatus.Enabled = True
