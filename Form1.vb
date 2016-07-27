@@ -544,7 +544,7 @@ Public Class Form1
 		End If
 	End Sub                                                 ' Handles calling data parsing functions based on CallPos
 
-    Public Sub GotSpeech(ByVal sender As Object, ByVal e As Microsoft.ProjectOxford.SpeechRecognition.SpeechResponseEventArgs) Handles m.OnResponseReceived
+	Public Sub GotSpeech(ByVal sender As Object, ByVal e As Microsoft.ProjectOxford.SpeechRecognition.SpeechResponseEventArgs) Handles m.OnResponseReceived
 		Console.WriteLine(e.PhraseResponse.RecognitionStatus)
 		If e.PhraseResponse.Results.Length > 0 Then
 			s += LCase(e.PhraseResponse.Results(0).DisplayText)
@@ -631,8 +631,8 @@ Public Class Form1
 	Dim HealthQual As Boolean = False
 	Dim renterQual As Boolean = False
 	Dim Mediqual As Boolean = False
-    'FORM VARIABLES
-    Dim TempV(2) As String
+	'FORM VARIABLES
+	Dim TempV(2) As String
 	Dim VehicleNum As Integer = 1
 	Dim InsuranceCarrier As String
 	Dim Expiration(1) As String
@@ -644,7 +644,7 @@ Public Class Form1
 	Dim spouseGender As String
 	Dim spouseBDAY As String
 	Dim Address As String                   'USED TO AUTO ENTER AT THE END OF THE CALL
-    Dim zipcode As String
+	Dim zipcode As String
 	Dim residence As String
 	Dim residenceType As String
 	Dim creditRating As String
@@ -697,7 +697,7 @@ Public Class Form1
 	Dim INSCO As String
 	Dim POLSTART As String
 	Dim POLEnd As String    ' hehe, Poland.
-    Dim CurrentQ As Integer
+	Dim CurrentQ As Integer
 	Dim LastCustomer
 	Dim CustomerName As String
 	Dim globalFile As String
@@ -714,7 +714,7 @@ Public Class Form1
 	Public selectedIndex As Integer
 	Private ActiveWindows As New System.Collections.ObjectModel.Collection(Of IntPtr)
 	Public Const MOD_ALT As Integer = &H1 'Alt key
-    Public Const MOD_CONTROL As Integer = &H2
+	Public Const MOD_CONTROL As Integer = &H2
 	Public Const WM_HOTKEY As Integer = &H312
 	Dim deviceNum1 As Integer = 0
 	Dim DeviceNum2 As Integer = 0
@@ -809,7 +809,7 @@ Public Class Form1
 		Return False
 	End Function  '
 
-    Function getBirthdaWAV() As Boolean
+	Function getBirthdaWAV() As Boolean
 		Try
 			If local_browser.FindElementById("frmDOB_Month").GetAttribute("value") <> "" And local_browser.FindElementById("frmDOB_Day").GetAttribute("value") <> "" And local_browser.FindElementById("frmDOB_Year").GetAttribute("value") <> "" Then
 				bmonth1 = local_browser.FindElementById("frmDOB_Month").GetAttribute("value")
@@ -830,7 +830,7 @@ Public Class Form1
 
 		End Try
 	End Function 'Checks to see if the birthday exists in the autoform so it can verify, if not it returns false to ask
-    Function getBDayValues(text As String) As String()
+	Function getBDayValues(text As String) As String()
 		Dim tempArray() As String = text.Split("/")
 		Select Case tempArray(0)
 			Case "1", "01"
@@ -913,12 +913,12 @@ Public Class Form1
 
 
 			Dim DeviceCount As Integer = NAudio.Wave.WaveOut.DeviceCount()              'Gets The number of audio devices on the machine
-            Dim SDevice As String = Nothing
+			Dim SDevice As String = Nothing
 			Dim RDevice As String = Nothing
 			cmbMoreVehicles.SelectedIndex = 0
 			CurrentQ = 1
 			For i = 0 To DeviceCount - 1                                            'This loop fills the audiodevices into the primary and secondary audio comboboxes
-                SDevice = NAudio.Wave.WaveOut.GetCapabilities(i).ProductName
+				SDevice = NAudio.Wave.WaveOut.GetCapabilities(i).ProductName
 				Primary.Items.Add(SDevice)
 			Next
 			Primary.SelectedIndex() = 0
@@ -946,8 +946,8 @@ Public Class Form1
 		UnregisterHotKey(Me.Handle, 103)
 		UnregisterHotKey(Me.Handle, 104)
 
-        'Register TIE INSystem.Windows.Forms.Keys.
-        UnregisterHotKey(Me.Handle, 105)
+		'Register TIE INSystem.Windows.Forms.Keys.
+		UnregisterHotKey(Me.Handle, 105)
 		UnregisterHotKey(Me.Handle, 106)
 		UnregisterHotKey(Me.Handle, 206)
 		UnregisterHotKey(Me.Handle, 306)
@@ -958,8 +958,8 @@ Public Class Form1
 		UnregisterHotKey(Me.Handle, 208)
 		UnregisterHotKey(Me.Handle, 308)
 
-        'Register REBUTTALSystem.Windows.Forms.Keys.
-        UnregisterHotKey(Me.Handle, 109)
+		'Register REBUTTALSystem.Windows.Forms.Keys.
+		UnregisterHotKey(Me.Handle, 109)
 		UnregisterHotKey(Me.Handle, 110)
 		UnregisterHotKey(Me.Handle, 111)
 		UnregisterHotKey(Me.Handle, 112)
@@ -1008,7 +1008,7 @@ Public Class Form1
 		End If
 	End Sub        'Plays sound clips through whatever audio outs are selected
 	Sub SpeechtoVar(speech As String) 'to break up month/year'
-        Select Case speech
+		Select Case speech
 			Case "January", "Next January", "This January"
 				theMonth = 1
 				writtenMonth = "Jan"
@@ -1506,7 +1506,7 @@ Public Class Form1
 		Dim Y As Integer
 		Dim Bdays() As String = speech.Split(" ")
 		If speech.Contains("January") Or speech.Contains("February") Or speech.Contains("March") Or speech.Contains("April") Or speech.Contains("May") Or speech.Contains("June") Or speech.Contains("July") Or
-							   speech.Contains("August") Or speech.Contains("September") Or speech.Contains("October") Or speech.Contains("November") Or speech.Contains("December") Then
+								 speech.Contains("August") Or speech.Contains("September") Or speech.Contains("October") Or speech.Contains("November") Or speech.Contains("December") Then
 			BMonth = getMonth(Bdays(0))
 			Console.WriteLine(BMonth)
 			If Bdays(1).Contains(", ") Then
@@ -1577,16 +1577,16 @@ Public Class Form1
 			VehicleID = "vehicle" & CStr(vehicleNum) & "-model"
 		End If
 		Dim v As Integer = 0
-        '    For v = 0 To 'LeadForm.Document.GetElementById(VehicleID).GetAttribute("length")
-        ''LeadForm.Document.GetElementById(VehicleID).SetAttribute("selectedIndex", v)
+		'    For v = 0 To 'LeadForm.Document.GetElementById(VehicleID).GetAttribute("length")
+		''LeadForm.Document.GetElementById(VehicleID).SetAttribute("selectedIndex", v)
 
-        ' If speech = 'LeadForm.Document.GetElementById(VehicleID).GetAttribute("value") Then
-        '  isoption = True
+		' If speech = 'LeadForm.Document.GetElementById(VehicleID).GetAttribute("value") Then
+		'  isoption = True
 
-        '   Exit For
-        '       End If
-        '   Next
-    End Sub
+		'   Exit For
+		'       End If
+		'   Next
+	End Sub
 	Public Function getYear(VehicleNum As Integer) As Boolean
 		temperstring = s
 		Dim X As Integer
@@ -1622,7 +1622,7 @@ Public Class Form1
 			Return False
 		End If
 	End Function 'GETS THE VEHICLE YEAR
-    Dim BADINFOCOUNTER As Integer = 0
+	Dim BADINFOCOUNTER As Integer = 0
 
 
 	Dim ModelHolder As String = ""
@@ -1641,7 +1641,7 @@ Public Class Form1
 		End Select
 
 	End Function                       'checks to see if the initial speech received can confirm an answering machine
-    Dim clipType As String = ""
+	Dim clipType As String = ""
 	Public Function HandlePartObjection() As Boolean
 		isQuestion = True
 		Part = LCase(Part)
@@ -1790,9 +1790,9 @@ Public Class Form1
 				End Try
 			End If
 		End If
-			Return False
+		Return False
 	End Function  'Handles Objection from the partial returned speech
-    Dim dontKnowCount As Integer = 0
+	Dim dontKnowCount As Integer = 0
 	Public Function HandleObjection(obj As String, ByRef numReps As Integer) As Boolean
 		Console.WriteLine("CHECKING AGAINST OBJECTIONS")
 		Console.WriteLine("reps:" & numReps)
@@ -1916,7 +1916,7 @@ Public Class Form1
 		End If
 		Return False
 	End Function  'Handles Objection based on full returned result
-    Dim quest As Integer = 1
+	Dim quest As Integer = 1
 	Public Function HandleQuestion(obj As String) As Boolean
 		Console.WriteLine("CHECKING AGAINST QUESTIONS")
 		Console.WriteLine("reps:" & quest)
@@ -1969,7 +1969,7 @@ Public Class Form1
 			End Select
 		End If
 	End Function 'Handles Question
-    Public Function CheckWhoseTalking() As Boolean
+	Public Function CheckWhoseTalking() As Boolean
 		Select Case True
 			Case s.Contains("this is"), s.Contains("speaking"), s.Contains("you've got him"), s.Contains("you've got her"), s.Contains("yes"), s.Contains("yeah"), s.Contains("what's up?"), s.Contains("how can i help you"), s.Contains("hey"), s.Contains("what do you want"), s.Contains("hello"), s.Contains("hi"), s.Contains("his spouse"), s.Contains("her spouse"), s.Contains("his wife"), s.Contains("her husband")
 				Return True
@@ -2044,15 +2044,15 @@ Public Class Form1
 				cmbDispo.Text = "Auto Lead"
 				CurrentQ = 31
 				rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
-                'Timer2.Enabled = True
-                Return True
+				'Timer2.Enabled = True
+				Return True
 			Case Else
 				rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/have a great day.mp3")
 				cmbDispo.Text = "Lost On Wrap Up"
 				CurrentQ = 31
 				rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
-                'Timer2.Enabled = True
-                Return False
+				'Timer2.Enabled = True
+				Return False
 		End Select
 	End Function
 	Public Function getLastName() As Boolean
@@ -2395,7 +2395,7 @@ Public Class Form1
 		txtSpeech.Text += "::SPEECH ENDED::" & vbNewLine
 	End Sub 'so speech text can be done crossthreaded
 
-    Dim UnsureAboutCompany As Integer = 0
+	Dim UnsureAboutCompany As Integer = 0
 	Public Function CheckForCompany() As Boolean
 		If s.Contains("don't know") Or s.Contains("not sure") Or s.Contains("not certain") Then
 			Select Case UnsureAboutCompany
@@ -2505,7 +2505,7 @@ Public Class Form1
 				IProvider = "Farm Bureau/Farm Family/Rural"
 			Case s.Contains("farmers")
 				moo() ' okay, this one's actually funny
-                IProvider = "Farmers Insurance"
+				IProvider = "Farmers Insurance"
 			Case s.Contains("finance box")
 				IProvider = "FinanceBox.com"
 			Case s.Contains("fire and casualty")
@@ -2565,7 +2565,7 @@ Public Class Form1
 			Case s.Contains("integon"), s.Contains("pentagon")
 				IProvider = "Integon"
 			Case s.Contains("hancock"), s.Contains("john hancock")  ' i should really make it match 'John Footpenis', but like... we'd get sued
-                IProvider = "John Hancock"
+				IProvider = "John Hancock"
 			Case s.Contains("kaiser"), s.Contains("kayser"), s.Contains("permanent")
 				IProvider = "Kaiser Permanente"
 			Case s.Contains("kemper"), s.Contains("camper"), s.Contains("lloyd")
@@ -2703,7 +2703,7 @@ Public Class Form1
 				IProvider = "TransAmerica"
 			Case s.Contains("travelers")
 				IProvider = "Travelers Insurance Company" ' pandas are cool
-            Case s.Contains("tri-state"), s.Contains("tri state")
+			Case s.Contains("tri-state"), s.Contains("tri state")
 				IProvider = "Tri-State Consumer Insurance"
 			Case s.Contains("twin city")
 				IProvider = "Twin City Fire Insurance"
@@ -2757,8 +2757,8 @@ Public Class Form1
 		Console.WriteLine("Detected " & IProvider & " as insurance")
 		If IProvider <> "" Then
 			Try
-                'local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?agent_name=Justin+Theriault&lead_id=421&lead_guid=7af28e93-bfdf-43d0-8e81-742cbdf34ad2&import_id=13395")
-                selectElement = New SelectElement(local_browser.FindElementById("frmInsuranceCarrier"))
+				'local_browser.Navigate.GoToUrl("https://forms.lead.co/auto/?agent_name=Justin+Theriault&lead_id=421&lead_guid=7af28e93-bfdf-43d0-8e81-742cbdf34ad2&import_id=13395")
+				selectElement = New SelectElement(local_browser.FindElementById("frmInsuranceCarrier"))
 				selectElement.SelectByText(IProvider)
 			Catch ex As Exception
 				Console.WriteLine(ex.Message)
@@ -2798,8 +2798,8 @@ Public Class Form1
 				Timer2.Enabled = True
 			Case 6
 				HumanCounter += 1
-                ' rolltheclipThread("C:\SoundBoard\Cheryl\reactions\doing an excellent job.wav")
-                rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\OK.mp3")
+				' rolltheclipThread("C:\SoundBoard\Cheryl\reactions\doing an excellent job.wav")
+				rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\OK.mp3")
 				Timer2.Enabled = True
 			Case 7
 				rolltheclipThread("C:\SoundBoard\Cheryl\REACTIONS\okGreat.mp3")
@@ -3113,8 +3113,8 @@ Public Class Form1
 
 			Case Else
 				If numRepeats = 0 Then
-                    'rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
-                    numRepeats += 1
+					'rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
+					numRepeats += 1
 					isQuestion = True
 					m.StartMicAndRecognition()
 				Else
@@ -3161,7 +3161,7 @@ Public Class Form1
 			Case s.Contains("3"), s.Contains("three years"), s.Contains("three")
 				theYear = CStr(Date.Now.Year - 3)
 			Case s.Contains("4"), s.Contains("four years"), s.Contains("for years"), s.Contains("four") ' for years might break some stuff. Could ask for a possible year verification here.
-                theYear = CStr(Date.Now.Year - 4)
+				theYear = CStr(Date.Now.Year - 4)
 			Case s.Contains("5"), s.Contains("five years"), s.Contains("five")
 				theYear = CStr(Date.Now.Year - 5)
 			Case s.Contains("6"), s.Contains("six years"), s.Contains("six")
@@ -3299,7 +3299,7 @@ Public Class Form1
 		End If
 	End Sub 'Checks for questions in the partial speech variable (part) handles them if found
 
-    Public Function doaddressstuff() As Boolean
+	Public Function doaddressstuff() As Boolean
 		ParseAddress(s)
 		If getAddressNum() Then
 			Return True
@@ -3337,20 +3337,20 @@ Public Class Form1
 
 	End Sub 'Stops clip and listens
 
-    <DllImport("User32")> Private Shared Function ShowWindow(ByVal hwnd As Integer, ByVal nCmdShow As Integer) As Integer
+	<DllImport("User32")> Private Shared Function ShowWindow(ByVal hwnd As Integer, ByVal nCmdShow As Integer) As Integer
 
 	End Function
 	Public Sub Register()
-        'Register REACTIONSystem.Windows.Forms.Keys.
-        RegisterHotKey(Me.Handle, 101, System.Windows.Forms.Keys.None, System.Windows.Forms.Keys.F1)
+		'Register REACTIONSystem.Windows.Forms.Keys.
+		RegisterHotKey(Me.Handle, 101, System.Windows.Forms.Keys.None, System.Windows.Forms.Keys.F1)
 		RegisterHotKey(Me.Handle, 201, MOD_CONTROL, System.Windows.Forms.Keys.F1)
 		RegisterHotKey(Me.Handle, 301, MOD_ALT, System.Windows.Forms.Keys.F1)
 		RegisterHotKey(Me.Handle, 102, System.Windows.Forms.Keys.None, System.Windows.Forms.Keys.F2)
 		RegisterHotKey(Me.Handle, 103, System.Windows.Forms.Keys.None, System.Windows.Forms.Keys.F3)
 		RegisterHotKey(Me.Handle, 104, System.Windows.Forms.Keys.None, System.Windows.Forms.Keys.F4)
 
-        'Register TIE INSystem.Windows.Forms.Keys.
-        RegisterHotKey(Me.Handle, 105, System.Windows.Forms.Keys.None, System.Windows.Forms.Keys.F5)
+		'Register TIE INSystem.Windows.Forms.Keys.
+		RegisterHotKey(Me.Handle, 105, System.Windows.Forms.Keys.None, System.Windows.Forms.Keys.F5)
 		RegisterHotKey(Me.Handle, 106, System.Windows.Forms.Keys.None, System.Windows.Forms.Keys.F6)
 		RegisterHotKey(Me.Handle, 206, MOD_CONTROL, System.Windows.Forms.Keys.F6)
 		RegisterHotKey(Me.Handle, 306, MOD_ALT, System.Windows.Forms.Keys.F6)
@@ -3361,8 +3361,8 @@ Public Class Form1
 		RegisterHotKey(Me.Handle, 208, MOD_ALT, System.Windows.Forms.Keys.F8)
 		RegisterHotKey(Me.Handle, 308, MOD_CONTROL, System.Windows.Forms.Keys.F8)
 
-        'Register REBUTTALSystem.Windows.Forms.Keys.
-        RegisterHotKey(Me.Handle, 109, System.Windows.Forms.Keys.None, System.Windows.Forms.Keys.F9)
+		'Register REBUTTALSystem.Windows.Forms.Keys.
+		RegisterHotKey(Me.Handle, 109, System.Windows.Forms.Keys.None, System.Windows.Forms.Keys.F9)
 		RegisterHotKey(Me.Handle, 110, System.Windows.Forms.Keys.None, System.Windows.Forms.Keys.F10)
 		RegisterHotKey(Me.Handle, 111, System.Windows.Forms.Keys.None, System.Windows.Forms.Keys.F11)
 		RegisterHotKey(Me.Handle, 112, System.Windows.Forms.Keys.None, System.Windows.Forms.Keys.F12)
@@ -3375,22 +3375,22 @@ Public Class Form1
 
 		RegisterHotKey(Me.Handle, 172, System.Windows.Forms.Keys.None, System.Windows.Forms.Keys.Left)
 
-        'Register END CALLSystem.Windows.Forms.Keys.
+		'Register END CALLSystem.Windows.Forms.Keys.
 
-        'Register Entry Key
-        RegisterHotKey(Me.Handle, 173, MOD_CONTROL, System.Windows.Forms.Keys.E)
+		'Register Entry Key
+		RegisterHotKey(Me.Handle, 173, MOD_CONTROL, System.Windows.Forms.Keys.E)
 
 
 	End Sub      'Registers hotkeys
-    Public Sub AgeFromProg()
+	Public Sub AgeFromProg()
 		Try
 
 			Dim dates(2) As String
-            'LeadForm.Document.GetElementById("frmDOB_Month").GetAttribute("value")
-            'LeadForm.Document.GetElementById("frmDOB_Day").GetAttribute("value")
-            'LeadForm.Document.GetElementById("frmDOB_Year").GetAttribute("value")
+			'LeadForm.Document.GetElementById("frmDOB_Month").GetAttribute("value")
+			'LeadForm.Document.GetElementById("frmDOB_Day").GetAttribute("value")
+			'LeadForm.Document.GetElementById("frmDOB_Year").GetAttribute("value")
 
-            Dim theMonth As Integer = dates(0)
+			Dim theMonth As Integer = dates(0)
 
 			Dim theDay As Integer = dates(1)
 			Dim theYear As Integer = dates(2)
@@ -3484,12 +3484,12 @@ Public Class Form1
 				Case "105"
 
 				Case "106"
-                    'or
-                Case "206"
-                    'or2
-                Case "306"
-                    'or3
-                Case "107"
+										'or
+				Case "206"
+										'or2
+				Case "306"
+										'or3
+				Case "107"
 					rolltheclipThread("C:\Soundboard\Cheryl\TIE INS\SPELLTHAT.mp3")
 				Case "207"
 					rolltheclipThread("C:\Soundboard\Cheryl\TIE INS\Could You Please Spell That Out.mp3")
@@ -3515,11 +3515,11 @@ Public Class Form1
 					StopThatClip()
 				Case "170"                   'RIGHT ARROW
 
-                    CurrentQ += 1
+					CurrentQ += 1
 					AskQuestion(CurrentQ, counter)
 
 				Case "171" 'right arrow key SKIP
-                    CurrentQ = CurrentQ + 1
+					CurrentQ = CurrentQ + 1
 					Reset()
 
 					If CurrentQ > 28 Then
@@ -3665,8 +3665,8 @@ Public Class Form1
 			tbCallOrder.SelectedTab = tbDriverInfo
 			clipType = "Question"
 			callPos = Driver_Birthday
-            'LeadForm.Document.GetElementById("frmDOB_Month").Focus()
-            CurrentQ = 10
+			'LeadForm.Document.GetElementById("frmDOB_Month").Focus()
+			CurrentQ = 10
 			rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & bmonth1 & bday1 & ".mp3")
 		Else
 			clipType = "Question"
@@ -4432,10 +4432,10 @@ Public Class Form1
 					rolltheclipThread("c:\soundboard\cheryl\PERSONAL INFO\LAST NAME.mp3")
 				Case 24
 					If True Then 'LeadForm.Document.GetElementById("frmResidenceType").GetAttribute("value") = "Own" Then
-                        HomeQual = True
+						HomeQual = True
 						rentQual = False
 					ElseIf True Then 'LeadForm.Document.GetElementById("frmResidenceType").GetAttribute("value") = "Rent" Then
-                        rentQual = True
+						rentQual = True
 						HomeQual = False
 					End If
 					If HomeQual = True And LifeQual = True And Mediqual = True Then
@@ -4525,7 +4525,7 @@ Public Class Form1
 		isQuestion = True
 		counter += 1
 	End Sub     'ASKS THE NEXT QUESTION TO KEEP THE CALL MOVING
-    Dim NATotal As Integer
+	Dim NATotal As Integer
 	Dim NITotal As Integer
 	Dim DNCTotal As Integer
 	Dim WrongNumTotal As Integer
@@ -4628,7 +4628,7 @@ Public Class Form1
 	Dim switch As Boolean = False
 	Dim temperstring As String
 	Private Sub Timer2_Tick(sender As Object, e As EventArgs) Handles Timer2.Tick           'CHECKS TO SEE THAT CHERYL IS NOT TALKING SO THE CALL CAN MOVE ON
-        Label3.Text = CurrentQ
+		Label3.Text = CurrentQ
 		If waveOut.PlaybackState = 0 Then
 			If CurrentQ < 30 Then
 				AskQuestion(CurrentQ, counter)
@@ -4683,7 +4683,7 @@ Public Class Form1
 
 	Private Sub Button22_Click_1(sender As Object, e As EventArgs) Handles Button22.Click
 		rolltheclipThread("c:\soundboard\cheryl\REBUTTALS\That's okay.mp3")
-  End Sub
+	End Sub
 
 	Private Sub Button18_Click_4(sender As Object, e As EventArgs)
 		rolltheclipThread("c:\soundboard\cheryl\REACTIONS\Wonderful.mp3")
@@ -5292,13 +5292,13 @@ Public Class Form1
 	Dim Hangup As Net.WebRequest
 	Dim Disposition As Net.WebRequest
 
-    'CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
-    '                CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
-    '                btnTheirName.Text = CustName(0)
-    '                globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
-    '                globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
-    '                globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
-    Dim alreadyLoaded As Boolean = False
+	'CustName(0) = local_browser.FindElementById("frmFirstName").GetAttribute("value")
+	'                CustName(1) = local_browser.FindElementById("frmLastName").GetAttribute("value")
+	'                btnTheirName.Text = CustName(0)
+	'                globalFile = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 1.mp3"
+	'                globalFile2 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 3.mp3"
+	'                globalfile3 = "C:\Soundboard\Cheryl\Names\" & CustName(0) & " 2.mp3"
+	Dim alreadyLoaded As Boolean = False
 	Public Sub getLeadWindow()
 
 		If alreadyLoaded = False Then
@@ -5425,13 +5425,13 @@ Public Class Form1
 	End Sub 'Sends API Call to get agent report
 
 
-    Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs)
+	Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs)
 		moo()
 	End Sub 'WebBrowser Object reserved for Dispositioning calls
 
 
 
-    Private Sub Form1_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+	Private Sub Form1_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
 		Unregister()
 		If local_browser IsNot Nothing Then
 			local_browser.Dispose()
@@ -5454,7 +5454,7 @@ Public Class Form1
 		End If
 	End Sub 'pause button
 
-    Private Sub moo()
+	Private Sub moo()
 		Console.WriteLine("moo")
 	End Sub
 
@@ -5480,7 +5480,7 @@ Public Class Form1
 				Timer2.Enabled = True
 		End Select
 	End Sub 'checks to see if clip is stopped 
-    Private Sub cmbMoreVehicles_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbMoreVehicles.SelectedIndexChanged
+	Private Sub cmbMoreVehicles_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbMoreVehicles.SelectedIndexChanged
 		VehicleNum = cmbMoreVehicles.Text
 	End Sub
 
@@ -5493,22 +5493,16 @@ Public Class Form1
 	Private Sub tbIntro_Click(sender As Object, e As EventArgs) Handles tbIntro.Click
 
 	End Sub
-    'Dim cds As ChromeDriverService = New ChromeDriverService()
+	'Dim cds As ChromeDriverService = New ChromeDriverService()
 
-    Private Sub testpagebutton_Click(sender As Object, e As EventArgs) Handles testpagebutton.Click
-
-
-
+	Private Sub testpagebutton_Click(sender As Object, e As EventArgs) Handles testpagebutton.Click
 		newcall = False
 		Try
-			local_browser = New Remote.RemoteWebDriver(New Uri("http://127.0.0.1:5454"), Remote.DesiredCapabilities.Chrome)
+			local_browser = New ChromeDriver()
 			local_browser.Url = ("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
 		Catch
-			Dim opt As New Chrome.ChromeOptions
-			opt.AddArgument("--port=5454")
-			Shell("C:\chromedriver_win32\chromedriver.exe -port=5454")
 			Thread.Sleep(1000)
-			local_browser = New Remote.RemoteWebDriver(New Uri("http://127.0.0.1:5454"), Remote.DesiredCapabilities.Chrome)
+			local_browser = New ChromeDriver()
 			local_browser.Navigate.GoToUrl("https://forms.leadco.com/api/forms/auto/?key=e2869270-7c7a-11e1-b0c4-0800200c9a66")
 		End Try
 	End Sub
@@ -5570,7 +5564,14 @@ Public Class Form1
 	End Sub
 
 	Private Sub chkbxAutoRebuttal_CheckedChanged(sender As Object, e As EventArgs) Handles chkbxAutoRebuttal.CheckedChanged
-
+		If chkbxAutoRebuttal.Checked Then
+			Const Key As String = "ce43e8a4d7a844b1be7950b260d6b8bd"
+			Const Key2 As String = "0d2797650c8648d18474399744512f17"
+			m = SpeechRecognitionServiceFactory.CreateMicrophoneClient(SpeechRecognitionMode.LongDictation, "en-us", Key, Key2)
+		Else
+			m.EndMicAndRecognition()
+			m = Nothing
+		End If
 	End Sub
 End Class
 
