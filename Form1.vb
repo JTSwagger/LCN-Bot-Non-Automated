@@ -934,10 +934,7 @@ Public Class Form1
 		m = SpeechRecognitionServiceFactory.CreateMicrophoneClient(SpeechRecognitionMode.LongDictation, "en-us", Key, Key2)
 	End Sub
 
-
-
 	Public local_browser As ChromeDriver
-
 
 	Public Sub Unregister()
 
@@ -5629,6 +5626,7 @@ Public Class Form1
 	End Sub
 
 	Private Sub Form1_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+		local_browser.Close()
 		m.EndMicAndRecognition()
 		Application.Exit()
 	End Sub
