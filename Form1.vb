@@ -60,8 +60,8 @@ Public Class Form1
 
 	<DllImport("User32.dll")>
 	Public Shared Function RegisterHotKey(ByVal hwnd As IntPtr,
-				  ByVal id As Integer, ByVal fsModifiers As Integer,
-				  ByVal vk As Integer) As Integer
+					ByVal id As Integer, ByVal fsModifiers As Integer,
+					ByVal vk As Integer) As Integer
 	End Function
 	Dim push As Boolean = False
 
@@ -140,7 +140,7 @@ Public Class Form1
 
 
 	End Sub 'Checks for questions in the p
-    Dim NumWords As Integer = 0
+	Dim NumWords As Integer = 0
 	Dim totalInbetween As Integer = 0
 	Public Sub SomeSpeech(ByVal sender As Object, ByVal e As Microsoft.ProjectOxford.SpeechRecognition.PartialSpeechResponseEventArgs) Handles m.OnPartialResponseReceived
 		NumWords += 1
@@ -251,7 +251,7 @@ Public Class Form1
 		handlepartialquestion()
 	End Sub                         ' Checks for Objections from partial speech received.
 
-    Public Function getVehicleInfo(vehiclenum As Integer) As Boolean
+	Public Function getVehicleInfo(vehiclenum As Integer) As Boolean
 		Dim cont As Boolean = False
 		If getYear(vehiclenum) Then
 			cont = True
@@ -262,7 +262,7 @@ Public Class Form1
 
 
 	Public Function getMake(vehiclenum As Integer) As Boolean 'currentq for this is 8
-        If secondPass = False Then
+		If secondPass = False Then
 			ModelHolder = s
 		End If
 		Timer2.Enabled = False
@@ -320,17 +320,17 @@ Public Class Form1
 		End If
 		Return False
 	End Function 'GETS THE MAKE OF THE VEHICLE
-    Dim callPos As String = ""
+	Dim callPos As String = ""
 	Const Intro As String = "Intro"
 	Const Insurance_Provider As String = "Insurance Provider"
 	Const Policy_Expiration As String = "Policy Expiration"
 	Const Policy_Start As String = "Policy Start"
 	Const Number_Of_Vehicles As String = "Number of Vehicles"
 	Const Year_Make_Model As String = "Year Make Model"                             ' This Block of constants are used to check
-  Const Driver_Birthday As String = "Driver Birthday"                             ' what should be done with the recognized speech
-  Const Finalize_BDAY As String = "Finalize BDAY"                                 ' after it is checked against objections & questions
-  Const Marital_Status As String = "Marital Status"                               ' They are assigned to CallPos
-  Const Spouse_Name As String = "Spouse Name"
+	Const Driver_Birthday As String = "Driver Birthday"                             ' what should be done with the recognized speech
+	Const Finalize_BDAY As String = "Finalize BDAY"                                 ' after it is checked against objections & questions
+	Const Marital_Status As String = "Marital Status"                               ' They are assigned to CallPos
+	Const Spouse_Name As String = "Spouse Name"
 	Const Spouse_DOB As String = "Spouse DOB"
 	Const Own_Rent As String = "Own or Rent"
 	Const Home_Type As String = "Residence Type"
@@ -495,11 +495,11 @@ Public Class Form1
 							CurrentQ = 17
 						End If
 					Case Their_Address
-						If doaddressstuff() Then
-							clipType = ""
-							callPos = Finalize_Address
-							CurrentQ = 18
-						End If
+						'If doaddressstuff() Then
+						'	clipType = ""
+						'	callPos = Finalize_Address
+						'	CurrentQ = 18
+						'End If
 					Case Finalize_Address
 						If finalizeAddress() Then
 							clipType = ""
@@ -1938,7 +1938,9 @@ Public Class Form1
 					If CurrentQ = 3 Then
 						CurrentQ = 0
 					End If
-					Playlist(1) = "c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3"
+					If callPos <> Intro Then
+						Playlist(1) = "c:\soundboard\cheryl\INTRO\CHERYLCALLING.mp3"
+					End If
 					Timer2.Enabled = True
 					Return True
 				Case obj.Contains("who makes it")
@@ -3303,16 +3305,16 @@ Public Class Form1
 		End If
 	End Sub 'Checks for questions in the partial speech variable (part) handles them if found
 
-	Public Function doaddressstuff() As Boolean
-		ParseAddress(s)
-		If getAddressNum() Then
-			Return True
-		Else
-			Return False
-		End If
+	'Public Function doaddressstuff() As Boolean
+	'	ParseAddress(s)
+	'	If getAddressNum() Then
+	'		Return True
+	'	Else
+	'		Return False
+	'	End If
 
-		Return False
-	End Function
+	'	Return False
+	'End Function
 
 	Public Function ParseAddress(speech As String) As Boolean
 		NewAddress = ""
@@ -3562,7 +3564,7 @@ Public Class Form1
 
 	Private Sub Button12_Click(sender As Object, e As EventArgs) Handles HOMETYPE.Click
 		isQuestion = True
-
+		CurrentQ = 16
 		rolltheclip("c:\soundboard\cheryl\PERSONAL INFO\HOMETYPE.mp3")
 		callPos = Home_Type
 		tmrSilence.Enabled = True
@@ -3660,6 +3662,7 @@ Public Class Form1
 		rolltheclip("c:\soundboard\cheryl\DRIVER INFO\SPOUSES DATE OF BIRTH.mp3")
 		isQuestion = True
 		clipType = "Question"
+		CurrentQ = 13
 		callPos = Spouse_DOB
 		tmrSilence.Enabled = True
 	End Sub
@@ -3721,12 +3724,13 @@ Public Class Form1
 		rolltheclip("c:\soundboard\cheryl\DRIVER INFO\MaritalStatus2.mp3")
 		clipType = "Question"
 		callPos = Marital_Status
+		CurrentQ = 11
 		isQuestion = True
 		tmrSilence.Enabled = True
 	End Sub
 	Private Sub Button20_Click(sender As Object, e As EventArgs) Handles Button20.Click
 		isQuestion = True
-
+		CurrentQ = 22
 		rolltheclip("C:/Soundboard/Cheryl/PERSONAL INFO/phoneType.mp3")
 		callPos = Phone_Type
 		clipType = "Question"
@@ -3737,6 +3741,7 @@ Public Class Form1
 		isQuestion = True
 		rolltheclip("C:/Soundboard/Cheryl/PERSONAL INFO/Last Name.mp3")
 		clipType = "Question"
+		CurrentQ = 23
 		callPos = Last_Name
 		tmrSilence.Enabled = True
 	End Sub
@@ -3745,6 +3750,7 @@ Public Class Form1
 		rolltheclip("c:\soundboard\cheryl\DRIVER INFO\SPOUSES FIRST NAME.mp3")
 		isQuestion = True
 		clipType = "Question"
+		CurrentQ = 12
 		callPos = Spouse_Name
 		tmrSilence.Enabled = True
 	End Sub
@@ -3786,6 +3792,7 @@ Public Class Form1
 		isQuestion = True
 		rolltheclip("c:\soundboard\cheryl\REACTIONS\Could you please verify your address.mp3")
 		callPos = Their_Address
+		CurrentQ = 17
 		clipType = "Question"
 		tmrSilence.Enabled = True
 	End Sub
@@ -3873,19 +3880,28 @@ Public Class Form1
 		resetBot()
 
 	End Sub
+
+	Sub special_intro_thing() Handles waveOut.PlaybackStopped
+		If callPos = Intro Then
+			callPos = Insurance_Provider
+			CurrentQ = 0
+		End If
+	End Sub
+
 	Private Sub Button33_Click(sender As Object, e As EventArgs) Handles Button33.Click
 		isQuestion = True
 		clipType = "Question"
 		callPos = Credit
+		CurrentQ = 21
 		rolltheclip("C:/Soundboard/Cheryl/PERSONAL INFO/Credit.mp3")
 		tmrSilence.Enabled = True
 	End Sub
 	Private Sub Button35_Click(sender As Object, e As EventArgs) Handles btnIntro.Click
 		CurrentQ = 3
+		callPos = Intro
 		tmrSilence.Enabled = True
 		rolltheclipThread("c:\soundboard\cheryl\INTRO\INTRO2.MP3")
 		clipType = "Question"
-		callPos = Insurance_Provider
 		SilenceCap = 3
 		If TypeOf m Is MicrophoneRecognitionClient Then
 			m.StartMicAndRecognition()
@@ -3952,6 +3968,7 @@ Public Class Form1
 				rolltheclipThread("C:\SoundBoard\Cheryl\VEHICLE INFO\Fourth Vehicle.mp3")
 		End Select
 		clipType = "Question"
+		CurrentQ = 7
 		callPos = Year_Make_Model
 		tmrSilence.Enabled = True
 
@@ -3967,7 +3984,7 @@ Public Class Form1
 	Private Sub Button50_Click(sender As Object, e As EventArgs) Handles btnWhoDoYouHave.Click
 		StopThatClip()
 		rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\Who Is The Current Auto INsurance Company that you're with.mp3")
-		CurrentQ = 3
+		CurrentQ = 0
 		isQuestion = True
 		clipType = "Question"
 		callPos = Insurance_Provider
@@ -4084,6 +4101,8 @@ Public Class Form1
 
 	Private Sub tcpa_Click(sender As Object, e As EventArgs) Handles tcpa.Click
 		rolltheclipThread("c:\soundboard\cheryl\WRAPUP\TCPA.mp3")
+		CurrentQ = 27
+		callPos = TCPA_Wrap
 	End Sub
 	Private Sub Button32_Click_2(sender As Object, e As EventArgs)
 		rolltheclip("c:\soundboard\cheryl\REBUTTALS\CAN YOU JUST VERIFY THE MONTH.mp3")
@@ -4323,17 +4342,17 @@ Public Class Form1
 					Select Case numReps
 						Case 0
 							rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\Ins provider 1.mp3")
-							CurrentQ = 3
+							CurrentQ = 4
 						Case 1
 							rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\Ins provider 2.mp3")
-							CurrentQ = 3
+							CurrentQ = 4
 						Case Else
 							rolltheclipThread("c:\soundboard\cheryl\INSURANCE INFO\Ins provider 3.mp3")
-							CurrentQ = 3
+							CurrentQ = 4
 							numReps = 0
 
 					End Select
-					CurrentQ = 3
+					CurrentQ = 4
 
 				Case 1
 					If TypeOf m Is MicrophoneRecognitionClient Then
@@ -4421,7 +4440,7 @@ Public Class Form1
 
 						Timer2.Enabled = True
 					Else
-						rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & byear1 & ".mp3")
+						'rolltheclipThread("C:\Soundboard\Cheryl\Birthday\" & byear1 & ".mp3")
 					End If
 
 				Case 11
@@ -4563,7 +4582,7 @@ Public Class Form1
 		callPos = ""
 		clipType = ""
 		m.EndMicAndRecognition()
-		StopThatClip()
+
 		NumberOfVehicles = 1
 		VehicleNum = 1
 		For i As Integer = 0 To 3
@@ -4598,11 +4617,18 @@ Public Class Form1
 		isQuestion = False
 		calltime = 0
 
-		Do Until waveOut.PlaybackState <> NAudio.Wave.PlaybackState.Playing
-			Console.WriteLine("Shoop")
-		Loop
+		If callPos <> Intro Then
+			Do Until waveOut.PlaybackState <> NAudio.Wave.PlaybackState.Playing
+				Console.WriteLine("Shoop")
+			Loop
 
-		Thread.Sleep(2500)
+			Thread.Sleep(2500)
+		End If
+
+		StopThatClip()
+		StopThatClip()
+		Thread.Sleep(1000)
+
 
 		Hangup = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
 		resp = Hangup.GetResponse
@@ -4717,6 +4743,7 @@ Public Class Form1
 		isQuestion = True
 		rolltheclip("C:/Soundboard/Cheryl/PERSONAL INFO/email.mp3")
 		clipType = "Question"
+		CurrentQ = 19
 		callPos = Email_Address
 		tmrSilence.Enabled = True
 	End Sub
@@ -5279,11 +5306,10 @@ Public Class Form1
 			tmrAgentStatus.Enabled = True
 		Else
 			Try
-				local_browser = New Remote.RemoteWebDriver(New Uri("http://localhost:5454/hub"), Remote.DesiredCapabilities.Chrome)
-
+				local_browser = New ChromeDriver()
+				local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
 			Catch ex As Exception
 				Console.WriteLine(ex)
-				Shell("chromedriver.exe -portchro=5454")
 				Thread.Sleep(1000)
 				local_browser = New ChromeDriver()
 				local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
