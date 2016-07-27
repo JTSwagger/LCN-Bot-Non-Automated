@@ -5306,9 +5306,6 @@ Public Class Form1
 			tmrAgentStatus.Enabled = True
 		Else
 			Try
-				local_browser = New ChromeDriver()
-				local_browser.Navigate.GoToUrl("https://loudcloud9.ytel.com")
-
 				Thread.Sleep(1000)
 				local_browser = New ChromeDriver()
 				local_browser.Manage.Timeouts.ImplicitlyWait(TimeSpan.FromSeconds(10))
@@ -5629,6 +5626,11 @@ Public Class Form1
 			checked_counter += 1
 			Console.WriteLine("unchecked and nerfed")
 		End If
+	End Sub
+
+	Private Sub Form1_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+		m.EndMicAndRecognition()
+		Application.Exit()
 	End Sub
 End Class
 
