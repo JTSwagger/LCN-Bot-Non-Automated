@@ -445,7 +445,6 @@ Public Class Form1
 							If getSpouseBDAY(False) Then
 								clipType = ""
 								callPos = Finalize_BDAY
-								CurrentQ = 14
 							End If
 						End If
 					Case Finalize_BDAY
@@ -508,11 +507,13 @@ Public Class Form1
 						End If
 
 					Case Email_Address
-						If getEmail() Then
-							clipType = ""
-							callPos = Credit
-							CurrentQ = 21
-						End If
+						'If getEmail() Then
+						'	clipType = ""
+						'	callPos = Credit
+						'	CurrentQ = 21
+						'End If
+						callPos = Credit
+						CurrentQ = 21
 					Case Credit
 						If getCredit() Then
 							clipType = ""
@@ -526,19 +527,11 @@ Public Class Form1
 							CurrentQ = 23
 						End If
 					Case Last_Name
-						If getLastName() Then
-							clipType = ""
-							callPos = TCPA_Wrap
-							CurrentQ = 27
-						End If
+						clipType = ""
+						callPos = TCPA_Wrap
+						CurrentQ = 27
 					Case TCPA_Wrap
-						If handleTCPA() Then
-							Console.WriteLine("we haz lead yay")
-							moo()
-						Else
-							Console.WriteLine(":(")
-							Console.WriteLine("sad panda")
-						End If
+						Console.WriteLine("tcpa")
 				End Select
 			End If
 		End If
@@ -881,6 +874,17 @@ Public Class Form1
 	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		Try
 			Dim i As Integer = 0
+
+			Dim procName As String = Process.GetCurrentProcess.ProcessName
+
+			For Each proc As Process In Process.GetProcessesByName(procName)
+				If proc.Id = Process.GetCurrentProcess.Id Then
+					Continue For
+				Else
+					proc.Kill()
+				End If
+			Next
+
 			cmbDispo.Text = "Not Available"
 			CURRENTQUESTION(0) = "Hello"
 			CURRENTQUESTION(1) = "Hello"
@@ -2220,7 +2224,7 @@ Public Class Form1
 		If Not isspouse Then
 			custBday = True
 		End If
-		CurrentQ = 14
+		CurrentQ = 11
 		spouseBDAY = str
 		If spouseBDAY.Length >= 4 Then
 			Return True
@@ -3626,7 +3630,7 @@ Public Class Form1
 									 ByVal windowTitle As String) As IntPtr
 	End Function
 	Private Sub HelloButton_Click(sender As Object, e As EventArgs) Handles btnHello.Click
-		rolltheclipThread("c:\soundboard\cheryl\INTRO\HELLO.mp3")
+		rolltheclipThread("C:\Soundboard\cheryl\INTRO\HELLO.mp3")
 		isQuestion = True
 	End Sub
 	Private Sub Label1_Click_1(sender As Object, e As EventArgs) Handles Label1.Click
@@ -4579,7 +4583,7 @@ Public Class Form1
 		callPos = ""
 		clipType = ""
 		m.EndMicAndRecognition()
-
+		clipnum(5) = 0
 		NumberOfVehicles = 1
 		VehicleNum = 1
 		For i As Integer = 0 To 3
@@ -4619,12 +4623,12 @@ Public Class Form1
 				Console.WriteLine("Shoop")
 			Loop
 
-			Thread.Sleep(2500)
+			Thread.Sleep(1000)
 		End If
 
 		StopThatClip()
 		StopThatClip()
-		Thread.Sleep(1000)
+		Thread.Sleep(500)
 
 
 		Hangup = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
@@ -5423,6 +5427,7 @@ Public Class Form1
 					alreadyLoaded = False
 					lblStatus.Text = "STATUS: " & "INCALL"
 					Me.BackColor = Color.Green
+					rolltheclipThread("C:\Soundboard\cheryl\INTRO\HELLO.mp3")
 					introHello = True
 					calltimer.Enabled = True
 				End If
@@ -5626,8 +5631,8 @@ Public Class Form1
 	End Sub
 
 	Private Sub Form1_Closed(sender As Object, e As EventArgs) Handles Me.Closed
-		local_browser.Close()
 		m.EndMicAndRecognition()
+		Process.GetCurrentProcess.Kill()
 		Application.Exit()
 	End Sub
 End Class
