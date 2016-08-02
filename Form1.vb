@@ -4084,7 +4084,6 @@ Public Class Form1
 	Private Sub Button67_Click(sender As Object, e As EventArgs) Handles Button67.Click
 		clipType = "Objection"
 		rolltheclip("c:\soundboard\cheryl\Rebuttals\What's LCN.mp3")
-
 	End Sub
 	Private Sub Button43_Click(sender As Object, e As EventArgs) Handles Button43.Click
 		cmbMoreVehicles.SelectedIndex = 0
