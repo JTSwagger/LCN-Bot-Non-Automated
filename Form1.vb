@@ -4618,17 +4618,7 @@ Public Class Form1
 		isQuestion = False
 		calltime = 0
 
-		If callPos <> Intro Then
-			Do Until waveOut.PlaybackState <> NAudio.Wave.PlaybackState.Playing
-				Console.WriteLine("Shoop")
-			Loop
-
-			Thread.Sleep(1000)
-		End If
-
-		StopThatClip()
-		StopThatClip()
-		Thread.Sleep(500)
+		Dim kosher_beef_jerky As Boolean = is_done_playing()
 
 
 		Hangup = Net.WebRequest.Create("http://loudcloud9.ytel.com/x5/api/agent.php?source=test&user=101&pass=API101IEpost&agent_user=" & txtVerifierNum.Text & "&function=external_hangup&value=1")
@@ -5196,13 +5186,22 @@ Public Class Form1
 
 	End Sub
 	Dim NumClicks As Integer = 0
+
+	Private Function is_done_playing() As Boolean
+		While waveOut.PlaybackState = PlaybackState.Playing
+			Console.WriteLine("shoop")
+		End While
+
+		Return True
+	End Function
+
 	Private Sub Button39_Click_2(sender As Object, e As EventArgs) Handles Button39.Click
 		If NumClicks = 0 Then
 			Reset()
 			cmbMoreVehicles.SelectedIndex = 0
 			theurl = ""
 			NICount = 0
-			resetBot()
+			'resetBot()
 			rolltheclipThread("C:/Soundboard/Cheryl/WRAPUP/ENDCALL.mp3")
 			NumClicks += 1
 			DispositionCall("Entering Lead/Low")
