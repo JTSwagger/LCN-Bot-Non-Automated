@@ -5297,13 +5297,15 @@ Public Class Form1
 	Private Sub txtVerifierNum_Click(sender As Object, e As EventArgs) Handles txtVerifierNum.Click
 		Dim opt As New ChromeOptions
 		txtVerifierNum.Text = InputBox("enter agent #: ")
-		If txtVerifierNum.Text.ToLower() = "moo" Then
-			Form3.Show()
-			rolltheclipThread("cow-moo.mp3")
-		ElseIf txtVerifierNum.Text = "philip j fry" Then
-			rolltheclipThread("goodnewseveryone.mp3")
-			tmrAgentStatus.Enabled = True
-		Else
+        If txtVerifierNum.Text.ToLower() = "moo" Then
+            Form3.Show()
+            rolltheclipThread("cow-moo.mp3")
+        ElseIf txtVerifierNum.Text = "philip j fry" Then
+            rolltheclipThread("goodnewseveryone.mp3")
+            tmrAgentStatus.Enabled = True
+        ElseIf txtVerifierNum.Text = "" Then
+            MsgBox("Okey.", Title:="Well then.")
+        Else
 			Try
 				Thread.Sleep(1000)
 				local_browser = New ChromeDriver()
@@ -5477,10 +5479,12 @@ Public Class Form1
 
 	Private Sub Form1_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
 		Unregister()
-		If local_browser IsNot Nothing Then
-			local_browser.Dispose()
-		End If
-	End Sub
+        Try
+            local_browser.Quit()
+        Catch ex As Exception
+            ' meh
+        End Try
+    End Sub
 
 	Private Sub Button1_Click_4(sender As Object, e As EventArgs) Handles btnPause.Click
 		Dim Pause As Net.WebRequest
